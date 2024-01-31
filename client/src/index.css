@@ -1,8 +1,6 @@
-<<<<<<< HEAD
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap");
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&family=Kanit:wght@400;500&family=Kodchasan:wght@300&family=Noto+Serif:wght@500&family=Outfit:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&family=Inter:wght@400;500;600&family=Kanit:wght@400;500&family=Kodchasan:wght@300&display=swap");
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -16,9 +14,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-=======
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&family=Kanit:wght@400;500&family=Kodchasan:wght@300&family=Noto+Serif:wght@500&family=Outfit:wght@700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&family=Inter:wght@400;500;600&family=Kanit:wght@400;500&family=Kodchasan:wght@300&display=swap");
 
 .headline1 {
   @apply font-noto-serif text-headline1;
@@ -55,4 +50,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
->>>>>>> b62b711 (feat: add login form component, tailwind color&text set, add register page)

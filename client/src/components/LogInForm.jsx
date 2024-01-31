@@ -21,7 +21,7 @@ export function UserLoginForm() {
 
         {/* login container div */}
         <div className="flex justify-center items-center w-2/4 pl-12 pr-40 pt-15 pb-30">
-          <div className="flex-col bg-utilBG w-screen h-fit">
+          <div className="flex-col bg-utilBG w-screen h-fit text-left">
             <h1 className="headline2 w-full mb-60 text-green800">Log In</h1>
             <div className="w-full">
               {/* form start here */}
@@ -104,7 +104,7 @@ export function AdminLoginForm() {
 
         {/* login container div */}
         <div className="flex justify-center items-center w-2/4 pl-12 pr-40 pt-15 pb-30">
-          <div className="flex-col bg-utilBG w-screen h-fit">
+          <div className="flex-col bg-utilBG w-screen h-fit text-left">
             <h1 className="headline2 w-full mb-60 text-green800">Log In</h1>
             <div className="w-full">
               {/* form start here */}
