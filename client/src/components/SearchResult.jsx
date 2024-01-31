@@ -1,4 +1,3 @@
-import seeImage from "../assets/images/searchResult/seeImage.svg";
 import { rooms as roomData } from "../data/rooms.js";
 
 let rooms = [...roomData];
@@ -8,13 +7,23 @@ function SearchResult() {
       {rooms.map((room) => {
         return (
           <div
-            className="result-container flex-col justify-center items-center bg-gray-300"
+            className="result-container flex-col justify-center items-center bg-gray-300 w-[1440px]"
             key={room.id}
           >
             <div className="card-container flex w-[1120px] h-[400px] justify-between items-center py-[20px] gap-[40px] border-b-1 border-gray-300">
-              <div className="image-container relative">
-                <img src={room.photo} alt="" className="w-[453px] h-[320px]" />
-                <img src={seeImage} alt="" className="absolute z-10" />
+              <div className="image-container">
+                <img
+                  src={room.photo}
+                  alt=""
+                  className="relative w-[453px] h-[320px]"
+                />
+                <button>
+                  <img
+                    src={room.icon}
+                    alt=""
+                    className="absolute z-10 bottom-0 left-0"
+                  />
+                </button>
               </div>
               <div className="card-description flex-col w-[619px] h-[320px]">
                 <div className="card-text flex justify-between w-[602px] h-[186px]">

@@ -4,6 +4,7 @@ import seaview from "../assets/images/searchResult/seaview.jpg";
 import suit from "../assets/images/searchResult/suit.jpg";
 import superior from "../assets/images/searchResult/superior.jpg";
 import supreme from "../assets/images/searchResult/supreme.jpeg";
+import seeImage from "../assets/images/searchResult/seeImage.svg";
 
 export const rooms = [
   {
@@ -14,8 +15,9 @@ export const rooms = [
       "Rooms (36sqm) with full garden views, 1 single bed, bathroom with bathtub & shower.",
     discount: 3100,
     price: 2500,
-    priceDetails: "Per Night (Including Taxes & Fees)",
+    priceDetails: `Per Night (Including Taxes & Fees)`,
     photo: gardenview,
+    icon: seeImage,
   },
   {
     id: 2,
@@ -27,6 +29,7 @@ export const rooms = [
     price: 2500,
     priceDetails: "Per Night (Including Taxes & Fees)",
     photo: delux,
+    icon: seeImage,
   },
   {
     id: 3,
@@ -38,6 +41,7 @@ export const rooms = [
     price: 2500,
     priceDetails: "Per Night (Including Taxes & Fees)",
     photo: superior,
+    icon: seeImage,
   },
   {
     id: 4,
@@ -49,6 +53,7 @@ export const rooms = [
     price: 2500,
     priceDetails: "Per Night (Including Taxes & Fees)",
     photo: supreme,
+    icon: seeImage,
   },
   {
     id: 5,
@@ -60,6 +65,7 @@ export const rooms = [
     price: 2500,
     priceDetails: "Per Night (Including Taxes & Fees)",
     photo: seaview,
+    icon: seeImage,
   },
   {
     id: 6,
@@ -71,6 +77,7 @@ export const rooms = [
     price: 2500,
     priceDetails: "Per Night (Including Taxes & Fees)",
     photo: suit,
+    icon: seeImage,
   },
 ];
 
