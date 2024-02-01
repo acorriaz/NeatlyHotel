@@ -1,5 +1,8 @@
 import { useForm, Controller } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import { IoAlertCircle, IoAdd } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import NavigationBar from "../components/NavigationBar";
 
 function RegisterPage() {
   const {
@@ -9,37 +12,63 @@ function RegisterPage() {
     watch,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const [selectedFileState, setSelectedFileState] = useState(null);
 
+  const onSubmit = (data) => console.log(data);
+  const handleFileChange = (file) => {
+    setSelectedFileState(file);
+  };
+
+  const fileInputRef = useRef(null);
+
+  // กำหนดไม่ให้เลือกวันนี้กับหลังจากนี้
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
   const maxDate = yesterday.toISOString().split("T")[0];
 
-  const selectedFile = watch("avatar");
+  const inputErrorBorder = (id) => {
+    return `w-full bg-utilWhite border rounded py-3 pr-4 pl-3 relative ${
+      errors[id]
+        ? "border-utilRed"
+        : "border-gray400 focus:border-orange500 disabled:bg-gray200 disabled:border-gray400"
+    }`;
+  };
+
+  const inputErrorIcon = (id) => {
+    return (
+      errors[id] && (
+        <div className="absolute inset-y-0 right-2 top-6 pr-3 flex items-center pointer-events-none text-utilRed">
+          <IoAlertCircle />
+        </div>
+      )
+    );
+  };
 
   useEffect(() => {
     return () => {
-      if (selectedFile && selectedFile[0]) {
+      if (selectedFileState) {
         // เอาไฟล์ที่อัปโหลดก่อนหน้านี้ออก เป็นขั้นตอนสำคัญในการบริหารทรัพยากรให้มีประสิทธิภาพ
-        URL.revokeObjectURL(selectedFile[0]);
+        URL.revokeObjectURL(selectedFileState);
       }
     };
-  });
+  }, [selectedFileState]);
 
   return (
     <>
+      <NavigationBar />
       <section className="bg-register-bg flex justify-center items-center min-h-screen">
-        <div className="bg-utilBG max-w-fit px-20 py-10">
+        <div className="bg-utilBG max-w-fit px-20 py-10 my-20 text-left">
           <form
-            className="flex flex-col justify-center items-center"
+            className="flex flex-col items-start justify-start"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <h1 className="headline2">Register</h1>
-            <div className="flex flex-col">
+            <h1 className="headline2 text-green800">Register</h1>
+            <div className="flex flex-col mt-10">
+              {/* --- Basic Information start --- */}
               <p className="justify-start headline5 text-gray600">
                 Basic Information
               </p>
-              <div className="mt-5">
+              <div className="mt-5 relative">
                 <label htmlFor="fullname">Full Name</label>
                 <br></br>
                 <input
@@ -50,15 +79,12 @@ function RegisterPage() {
                   name="fullname"
                   type="text"
                   placeholder="Enter your name and last name"
-                  className={`w-full bg-utilWhite focus:border-orange500 disabled:bg-gray600 border rounded border-gray400 py-3 pr-4 pl-3 ${
-                    errors.fullname
-                      ? "border-utilRed"
-                      : "border-gray400 focus:border-orange500 disabled:bg-gray600"
-                  }`}
+                  className={inputErrorBorder("fullname")}
                 />
+                {inputErrorIcon("fullname")}
               </div>
               <div className="grid grid-cols-2 gap-10 mt-5">
-                <div>
+                <div className="relative">
                   <label htmlFor="username" className="body2">
                     username
                   </label>
@@ -71,14 +97,11 @@ function RegisterPage() {
                     name="username"
                     type="text"
                     placeholder="Enter your username"
-                    className={`w-full bg-utilWhite focus:border-orange500 disabled:bg-gray600 border rounded border-gray400 py-3 pr-4 pl-3 ${
-                      errors.username
-                        ? "border-utilRed"
-                        : "border-gray400 focus:border-orange500 disabled:bg-gray600"
-                    }`}
+                    className={inputErrorBorder("username")}
                   />
+                  {inputErrorIcon("username")}
                 </div>
-                <div>
+                <div className="relative">
                   <label htmlFor="email">email</label>
                   <br></br>
                   <input
@@ -90,16 +113,13 @@ function RegisterPage() {
                     name="email"
                     type="email"
                     placeholder="Enter your email"
-                    className={`w-full bg-utilWhite focus:border-orange500 disabled:bg-gray600 border rounded border-gray400 py-3 pr-4 pl-3 ${
-                      errors.email
-                        ? "border-utilRed"
-                        : "border-gray400 focus:border-orange500 disabled:bg-gray600"
-                    }`}
+                    className={inputErrorBorder("email")}
                   />
+                  {inputErrorIcon("email")}
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-10 mt-5">
-                <div>
+                <div className="relative">
                   <label htmlFor="password" className="body2">
                     password
                   </label>
@@ -112,14 +132,11 @@ function RegisterPage() {
                     name="password"
                     type="password"
                     placeholder="Enter your password"
-                    className={`w-full bg-utilWhite focus:border-orange500 disabled:bg-gray600 border rounded border-gray400 py-3 pr-4 pl-3 ${
-                      errors.password
-                        ? "border-utilRed"
-                        : "border-gray400 focus:border-orange500 disabled:bg-gray600"
-                    }`}
+                    className={inputErrorBorder("password")}
                   />
+                  {inputErrorIcon("password")}
                 </div>
-                <div>
+                <div className="relative">
                   <label htmlFor="idNumber" className="body2">
                     ID Number
                   </label>
@@ -139,16 +156,13 @@ function RegisterPage() {
                     inputMode="numeric"
                     maxLength={13}
                     minLength={13}
-                    className={`w-full bg-utilWhite focus:border-orange500 disabled:bg-gray600 border rounded border-gray400 py-3 pr-4 pl-3 ${
-                      errors.idNumber
-                        ? "border-utilRed"
-                        : "border-gray400 focus:border-orange500 disabled:bg-gray600"
-                    }`}
+                    className={inputErrorBorder("idNumber")}
                   />
+                  {inputErrorIcon("idNumber")}
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-10 mt-5">
-                <div>
+                <div className="relative">
                   <label htmlFor="dateOfBirth" className="body2">
                     Date of Birth
                   </label>
@@ -161,15 +175,12 @@ function RegisterPage() {
                     name="dateOfBirth"
                     type="date"
                     placeholder="Pick your date of birth"
-                    className={`w-full bg-utilWhite focus:border-orange500 disabled:bg-gray600 border rounded border-gray400 py-3 pr-4 pl-3 ${
-                      errors.dateOfBirth
-                        ? "border-utilRed"
-                        : "border-gray400 focus:border-orange500 disabled:bg-gray600"
-                    }`}
+                    className={inputErrorBorder("dateOfBirth")}
                     max={maxDate}
                   />
+                  {inputErrorIcon("dateOfBirth")}
                 </div>
-                <div>
+                <div className="relative">
                   <label htmlFor="country" className="body2">
                     Country
                   </label>
@@ -180,11 +191,7 @@ function RegisterPage() {
                     })}
                     id="country"
                     name="country"
-                    className={`w-full bg-utilWhite focus:border-orange500 disabled:bg-gray600 border rounded border-gray400 py-3 pr-4 pl-3 ${
-                      errors.country
-                        ? "border-utilRed"
-                        : "border-gray400 focus:border-orange500 disabled:bg-gray600"
-                    }`}
+                    className={inputErrorBorder("country")}
                   >
                     <option>select country</option>
                     <option value="AF">Afghanistan</option>
@@ -452,10 +459,11 @@ function RegisterPage() {
                     <option value="ZM">Zambia</option>
                     <option value="ZW">Zimbabwe</option>
                   </select>
+                  {inputErrorIcon("country")}
                 </div>
               </div>
-              <hr className="mt-5"></hr>
-              <div className="mt-5">
+              <hr className="mt-10"></hr>
+              <div className="mt-10">
                 <label
                   htmlFor="profilePicture"
                   className="headline5 text-gray600"
@@ -463,6 +471,24 @@ function RegisterPage() {
                   Profile Picture
                 </label>
                 <br></br>
+                {selectedFileState ? (
+                  <img
+                    src={URL.createObjectURL(selectedFileState)}
+                    alt="Profile Picture"
+                    className="size-40 object-cover mt-5"
+                    onClick={() => fileInputRef.current.click()}
+                  />
+                ) : (
+                  <div className="size-40 bg-gray200 text-orange500 mt-5 relative">
+                    <div
+                      className="body2 flex flex-col justify-center items-center absolute right-9 top-12"
+                      onClick={() => fileInputRef.current.click()}
+                    >
+                      <IoAdd className="text-2xl transform scale-110" />
+                      <p>Upload Photo</p>
+                    </div>
+                  </div>
+                )}
                 <Controller
                   name="avatar"
                   control={control}
@@ -471,27 +497,144 @@ function RegisterPage() {
                     <input
                       type="file"
                       id="profilePicture"
+                      className="hidden"
                       name={name}
-                      ref={ref}
+                      ref={(e) => {
+                        ref(e);
+                        fileInputRef.current = e;
+                      }}
                       onBlur={onBlur}
-                      onChange={(e) => onChange(e.target.files)}
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                          handleFileChange(file);
+                          onChange(file);
+                        }
+                      }}
                     />
                   )}
                 />
-                {selectedFile && selectedFile[0] && (
-                  <div>
-                    <p>Preview:</p>
-                    <img
-                      src={URL.createObjectURL(selectedFile[0])}
-                      alt="Avatar Preview"
-                      style={{ width: "100px", height: "100px" }}
-                    />
-                  </div>
-                )}
+                <hr className="mt-10"></hr>
               </div>
-              <button className="btn btn-wide bg-orange600" type="submit">
-                Register
-              </button>
+              {/* --- Basic Information end --- */}
+              {/* --- Credit Card 2 start --- */}
+              <div className="flex flex-col pt-10 mt-5">
+                <p className="justify-start headline5 text-gray600">
+                  Credit Card
+                </p>
+                <div className="grid grid-cols-2 gap-10 mt-5">
+                  <div className="relative">
+                    <label htmlFor="creditCardNo" className="body2">
+                      Card Number
+                    </label>
+                    <br></br>
+                    <input
+                      {...register("creditCardNo", {
+                        required: true,
+                        pattern: {
+                          value: /^\d{16}$/,
+                          message: "Card number must be 16 digits",
+                        },
+                      })}
+                      id="creditCardNo"
+                      name="creditCardNo"
+                      type="text"
+                      maxLength={16}
+                      minLength={16}
+                      inputMode="numeric"
+                      placeholder="Enter your card number"
+                      className={inputErrorBorder("creditCardNo")}
+                    />
+                    {inputErrorIcon("creditCardNo")}
+                  </div>
+                  <div className="relative">
+                    <label htmlFor="cardOwner" className="body2">
+                      Card Owner
+                    </label>
+                    <br></br>
+                    <input
+                      {...register("cardOwner", {
+                        required: true,
+                      })}
+                      id="cardOwner"
+                      name="cardOwner"
+                      type="text"
+                      placeholder="Enter your card name"
+                      className={inputErrorBorder("cardOwner")}
+                    />
+                    {inputErrorIcon("cardOwner")}
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-10 mt-5">
+                  <div className="relative">
+                    <label htmlFor="cardExpiry" className="body2">
+                      Expiry Date
+                    </label>
+                    <br></br>
+                    <input
+                      {...register("cardExpiry", {
+                        required: true,
+                        pattern: {
+                          value: /^(0[1-9]|1[0-2])\/([0-9]{2})$/,
+                          message: "Expiry date must be in MM/YY format",
+                        },
+                      })}
+                      id="cardExpiry"
+                      name="cardExpiry"
+                      type="tel"
+                      maxLength={5}
+                      inputMode="numeric"
+                      placeholder="MM / YY"
+                      className={inputErrorBorder("cardExpiry")}
+                    />
+                    {inputErrorIcon("cardExpiry")}
+                  </div>
+                  <div className="relative">
+                    <label htmlFor="cvcCvv" className="body2">
+                      CVC/CVV
+                    </label>
+                    <br></br>
+                    <input
+                      {...register("cvcCvv", {
+                        required: true,
+                        pattern: {
+                          value: /^\d{3}$/,
+                          message: "CVV/CVC must be 3 digits",
+                        },
+                      })}
+                      id="cvcCvv"
+                      name="cvcCvv"
+                      type="tel"
+                      inputMode="numeric"
+                      placeholder="CVC/CVV"
+                      maxLength={3}
+                      minLength={3}
+                      className={inputErrorBorder("cvcCvv")}
+                    />
+                    {inputErrorIcon("cvcCvv")}
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-10 mt-5">
+                <button
+                  className="btn w-full bg-orange600 hover:bg-orange500 active:bg-orange700 text-body1 text-utilWhite font-fontWeight6 mb-4"
+                  type="submit"
+                >
+                  Register
+                </button>
+              </div>
+              <div>
+                <span className="text-body1 text-gray700">
+                  Already have an account?
+                </span>{" "}
+                <Link
+                  to="/hotel/user-login"
+                  className=" font-sans font-fontWeight6 text-orange500"
+                >
+                  Login
+                </Link>
+              </div>
+              <div></div>
             </div>
           </form>
         </div>
