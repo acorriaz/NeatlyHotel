@@ -7,6 +7,7 @@ export default {
         sans: ["Open Sans", "sans-serif"],
         "noto-serif": ["Noto Serif", "serif"],
         inter: ["Inter", "sans-serif"],
+        ibm: ["IBM Plex Sans Thai", "sans-serif"],
       },
       fontSize: {
         headline1: "88px",
