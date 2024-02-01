@@ -15,7 +15,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.headline1 {
+/* .headline1 {
   @apply font-noto-serif text-headline1;
 }
 
@@ -46,7 +46,7 @@
 .body3 {
   @apply font-inter text-body3 font-fontWeight5;
 }
-
+*/
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
