@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserLoginPage from "./pages/UserLoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import SearchResultPage from "./pages/searchResultPage";
+import PaymentPage from "./pages/PaymentPage";
 
 function App() {
 <<<<<<< HEAD
@@ -31,6 +32,7 @@ function App() {
           <Route path="/hotel/user-login" element={<UserLoginPage />} />
           <Route path="/hotel/user-register" element={<RegisterPage />} />
           <Route path="/hotel/result" element={<SearchResultPage />} />
+          <Route path="/hotel/payment" element={<PaymentPage />} />
         </Routes>
       </BrowserRouter>
     </>
