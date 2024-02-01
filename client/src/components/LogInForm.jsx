@@ -9,7 +9,11 @@ export function UserLoginForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    //login auth area ...
+    let data = {
+      userUsernameOrEmail,
+      userPassword,
+    };
+    console.log(data);
   };
 
   return (
