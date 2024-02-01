@@ -1,7 +1,27 @@
-import NavBar from "../components/Navbar.jsx";
 import InputStyle from "../components/InputStyle.jsx";
 
-const Login = () => {
+const AgentLogin = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      const { user, error } = await supabase.auth.signIn({
+        email,
+        password,
+      });
+
+      if (error) {
+        console.error("Login error:", error.message);
+      } else {
+        console.log("Login successful:", user);
+        // Redirect or perform any additional actions after successful login
+      }
+    } catch (error) {
+      console.error("Unexpected error during login:", error.message);
+    }
+  };
+
   return (
     <div className="w-full relative bg-green-700 overflow-hidden flex flex-col items-start justify-start tracking-[normal]">
       <main className="self-stretch flex flex-row items-start justify-center [row-gap:20px] max-w-full text-left text-49xl text-green-800 font-headline2 mq1125:flex-wrap">
@@ -20,10 +40,13 @@ const Login = () => {
               <InputStyle
                 email="Username or Email"
                 containerInputPlaceholder="Enter your username or email"
+                onChange={(e) => setEmail(e.target.value)}
               />
               <InputStyle
                 email="Password"
                 containerInputPlaceholder="Enter your password"
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
               />
               <div className="self-stretch flex flex-col items-start justify-start gap-[16px]">
                 <button className="cursor-pointer [border:none] py-4 px-8 bg-orange-600 self-stretch rounded flex flex-row items-center justify-center whitespace-nowrap hover:bg-chocolate">
@@ -53,4 +76,4 @@ const Login = () => {
     </div>
   );
 };
-export default Login;
+export default AgentLogin;
