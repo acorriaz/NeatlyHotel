@@ -22,7 +22,7 @@ function RoomCategories() {
             </div>
             <div className="w-2/5 flex flex-col items-end gap-14 mt-20 text-gray700">
               <div>
-                <p> THB 3,100.00 </p>
+                <p className="line-through"> THB 3,100.00 </p>
                 <p> THB 2,500.00 </p>
               </div>
               <button
