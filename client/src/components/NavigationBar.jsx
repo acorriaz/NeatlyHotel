@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function NavigationBar() {
   return (
-    <div className="max-w-[1120px] h-[100px] p-0 navbar bg-base-100 m-0 m-auto">
+    <div className="m-auto max-w-[1120px] h-[100px] p-0 navbar bg-base-100">
       <div className="flex flex-1 gap-12">
         <img src={neatlyLogo} alt="Neatly Logo" />
         <ul className="flex flex-1 gap-12">
