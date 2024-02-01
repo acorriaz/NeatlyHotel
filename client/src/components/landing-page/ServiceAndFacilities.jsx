@@ -1,6 +1,9 @@
 export default function ServiceAndFacilities() {
   return (
-    <div className="m-auto w-screen pt-[100px] pb-[120px] bg-green700 text-white text-center">
+    <div
+      id="services"
+      className="m-auto w-screen pt-[100px] pb-[120px] bg-green700 text-white text-center"
+    >
       <h1 className="mb-[72px] text-[4.25rem] font-noto-serif">
         Service & Facilities
       </h1>

@@ -1,6 +1,9 @@
 export default function AboutHotel() {
   return (
-    <div className="pt-[115px] pb-[132px] max-w-[1120px] m-auto flex flex-col gap-12">
+    <div
+      id="about"
+      className="pt-[115px] pb-[132px] max-w-[1120px] m-auto flex flex-col gap-12"
+    >
       <h1 className="text-[4.25rem] text-green800 font-medium font-noto-serif tracking-[-0.085rem]">
         Neatly Hotel
       </h1>
