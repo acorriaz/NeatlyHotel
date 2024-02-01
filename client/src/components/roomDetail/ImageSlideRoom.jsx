@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState , useEffect} from "react";
 
 function ImageSlideRoom() {
-  const [page,setPage] = useState(1);
+  const [page,setPage] = useState(0);
 
   const imageRoom = [
     {
@@ -31,56 +31,81 @@ function ImageSlideRoom() {
     },
   ];
 
+  const handlePrev = () => {
+    setPage((prevPage) => (prevPage > 0 ? prevPage - 1 : imageRoom.length - 1));
+  };
+
+  const handleNext = () => {
+    setPage((prevPage) => (prevPage < imageRoom.length - 1 ? prevPage + 1 : 0));
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      handleNext();
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [page]); 
+
+
   return (
-    <header className="relative w-full h-fit mt-44">
+    <header className="relative w-full h-fit mt-24">
+      {/* Carousel content */}
       <div className="carousel carousel-center w-full p-4 space-x-4">
-        {imageRoom.map((item, index) => {
-          return (
-            <div key={index} className="carousel-item w-4/5" id={item.id}>
-              <img
-                src={item.image}
-                className="w-full h-[580px]"
-              />
-            </div>
-          );
-        })}
+        {imageRoom.map((item, index) => (
+
+          <div
+            id={item.id}
+            key={index}
+            className="carousel-item w-4/5"
+          >
+            <img
+              src={item.image}
+              className="w-full h-[580px]"
+              alt={`Image ${item.id}`}
+            />
+          </div>
+        ))}
       </div>
+
+      {/* Navigation buttons */}
       <div className="absolute flex justify-between transform -translate-y-1/2 left-20 right-20 top-1/2">
-        {page > 1 ? (
-          <a
-            href={"#" + imageRoom[page - 1].id} onClick={() => setPage(page - 1)}
-            className="btn btn-circle"
-          > ❮ </a>
-        ) : (
-          <a href={"#" + imageRoom[page - 1].id} className="btn btn-circle"
-          > ❮ </a>
-        )}
-        {page !== imageRoom.length ? (
-          <a
-            href={"#" + imageRoom[page - 1].id} onClick={() => setPage(page + 1)}
-            className="btn btn-circle"
-          > ❯ </a>
-        ) : (
-          <a
-            href={"#" + imageRoom[page - 1].id}
-            className="btn btn-circle"
-          > ❯ </a>
-        )}
+        <a
+          href={"#" + (page + 1)}
+          onClick={(e) => {
+            // e.preventDefault();
+            handlePrev();
+          }}
+          className="btn btn-ghost rounded-full text-utilWhite border border-utilWhite bg-none"
+        >
+          &#129120;
+        </a>
+        <a
+          href={"#" + (page + 1)}
+          onClick={(e) => {
+            // e.preventDefault();
+            handleNext();
+          }}
+          className="btn btn-ghost rounded-full text-utilWhite border border-utilWhite bg-none"
+        >
+          &#129122;
+        </a>
       </div>
+
+      {/* Navigation dots */}
       <div className="absolute flex justify-center w-full py-2 gap-2 bottom-7">
-        {imageRoom.map((item, index) => {
-          let background = "gray-500"
-          if (page === index + 1) {
-            background = "white"
-          }
-          return (
-            <a
-              href={"#" + item.id}
-              key={index}
-              className= {`w-2 h-2 border rounded-full bg-${background}`}
-            ></a>
-          );
-        })}
+        {imageRoom.map((item, index) => (
+          <a
+            href={"#" + (page + 1)}
+            key={index}
+            className={`w-2 h-2 border rounded-full ${
+              page === index ? "bg-utilWhite" : "bg-gray500"
+            }`}
+            onClick={(e) => {
+              // e.preventDefault();
+              setPage(index);
+            }}
+          ></a>
+        ))}
       </div>
     </header>
   );
