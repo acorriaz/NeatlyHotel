@@ -38,7 +38,6 @@ const AgentLoginPage = ({ setToken }) => {
 
       if (error) throw error;
       console.log(data);
-      localStorage.setItem("token", JSON.stringify(data));
       setToken(data);
       navigate("/agent-customer-booking");
 
