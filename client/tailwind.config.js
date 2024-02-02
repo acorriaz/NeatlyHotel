@@ -66,8 +66,7 @@ export default {
         60: "60px",
       },
       backgroundImage: {
-        "hero-pattern":
-          "url('./src/assets/landing-page-images/superior-garden-view.jpg')",
+        "register-bg": "url('/src/assets/loginPageImage/chairBesidePool2.jpg')",
       },
     },
   },

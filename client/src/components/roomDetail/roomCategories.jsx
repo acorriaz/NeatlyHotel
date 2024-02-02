@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function RoomCategories() {
   const [roomDetail, setRoomDetail] = useState();
 
   return (
-    <main className="w-full h-[935px] flex justify-center content-center mt-20">
+    <main className="w-full h-[900px] flex justify-center content-center mt-20">
       <div className="w-3/5 h-[630px] flex flex-col justify-between">
         <div>
           <h1 className="headline2 text-green800">Superior Garden View</h1>
@@ -25,14 +26,16 @@ function RoomCategories() {
                 <p className="line-through"> THB 3,100.00 </p>
                 <p> THB 2,500.00 </p>
               </div>
-              <button
-                className="w-[143px] h-[48px] btn btn-active text-utilWhite bg-orange600 
+              <Link to="/hotel/payment">
+                <button
+                  className="w-[143px] h-[48px] btn btn-active text-utilWhite bg-orange600 
                 hover:text-orange500
                 hover:border-orange500
                 hover:bg-utilWhite"
-              >
-                Book Now
-              </button>
+                >
+                  Book Now
+                </button>
+              </Link>
             </div>
           </div>
         </div>
