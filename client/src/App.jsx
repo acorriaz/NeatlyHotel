@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import RoomDetail from "./pages/RoomDetailPage";
 import UserLoginPage from "./pages/UserLoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import SearchResultPage from "./pages/searchResultPage";
+import PaymentPage from "./pages/PaymentPage";
 
 function App() {
     return (
@@ -12,6 +14,8 @@ function App() {
             <Route path="/hotel/user-login" element={<UserLoginPage />} />
             <Route path="/hotel/user-register" element={<RegisterPage />} />
             <Route path="/hotel/detail" element={<RoomDetail />} />
+            <Route path="/hotel/result" element={<SearchResultPage />} />
+            <Route path="/hotel/payment" element={<PaymentPage />} />
           </Routes>
         </BrowserRouter>
       </div>
