@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import chairBesidePool from "../assets/loginPageImage/chairBesidePool.jpg";
 
 // --login ของ user--
@@ -8,7 +9,11 @@ export function UserLoginForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    //login auth area ...
+    let data = {
+      userUsernameOrEmail,
+      userPassword,
+    };
+    console.log(data);
   };
 
   return (
@@ -70,12 +75,12 @@ export function UserLoginForm() {
               <span className="text-gray700 text-body1">
                 Don’t have an account yet?
               </span>{" "}
-              <a
-                href=""
+              <Link
+                to="#"
                 className="text-body1 font-fontWeight6 text-orange-500"
               >
                 Register
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -153,12 +158,12 @@ export function AdminLoginForm() {
               <span className="text-gray700 text-body1">
                 Don’t have an account yet?
               </span>{" "}
-              <a
-                href=""
+              <Link
+                to="#"
                 className="text-body1 font-fontWeight6 text-orange-500"
               >
                 Register
-              </a>
+              </Link>
             </div>
           </div>
         </div>
