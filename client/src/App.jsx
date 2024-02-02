@@ -7,6 +7,7 @@ import SearchResultPage from "./pages/searchResultPage";
 import PaymentPage from "./pages/PaymentPage";
 import AgentRegisterPage from "./pages/AgentRegisterPage";
 import AgentLoginPage from "./pages/AgentLoginPage";
+import Homepage from "./pages/BookingPage";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
           <Route path="/hotel/result" element={<SearchResultPage />} />
           <Route path="/hotel/payment" element={<PaymentPage />} />
           <Route path="/agent-register" element={<AgentRegisterPage />} />
-          <Route path="/" element={<AgentLoginPage />} />
+          <Route path="/agent-login" element={<AgentLoginPage />} />
         </Routes>
       </BrowserRouter>
     </div>

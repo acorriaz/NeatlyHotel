@@ -1,11 +1,55 @@
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = "https://aqbgthzlroeplhhywlst.supabase.co";
+const supabaseKey =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxYmd0aHpscm9lcGxoaHl3bHN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDY1OTU5MjUsImV4cCI6MjAyMjE3MTkyNX0.opkphl2pLEzLW2C7piUj9AzkOM14XrZGy9CgEH63R-4";
+export const supabase = createClient(supabaseUrl, supabaseKey);
 
 const AgentLoginPage = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  function handleChange(event) {
+    setFormData((prevFormData) => {
+      return {
+        ...prevFormData,
+        [event.target.name]: event.target.value,
+      };
+    });
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (error) throw error;
+      console.log(data);
+      setToken(data);
+      navigate("/homepage");
+
+      //   alert('Check your email for verification link')
+    } catch (error) {
+      alert(error);
+    }
+  }
+
   return (
     <div className="w-full relative bg-green-700 overflow-hidden flex flex-col items-start justify-start tracking-[normal]">
-      <main className="self-stretch overflow-hidden flex flex-row items-center justify-center p-[60px] box-border bg-[url('/public/label@3x.png')] bg-cover bg-no-repeat bg-[top] max-w-full lg:py-[39px] lg:px-[30px] lg:box-border mq450:pt-5 mq450:pb-5 mq450:box-border mq1050:pt-[25px] mq1050:pb-[25px] mq1050:box-border">
-        <form className="m-0 w-[1092px] rounded bg-utility-bg shadow-[4px_4px_16px_rgba(0,_0,_0,_0.08)] flex flex-col items-center justify-start p-20 box-border gap-[60px] max-w-full lg:gap-[60px] lg:py-[52px] lg:px-10 lg:box-border mq450:pt-[22px] mq450:pb-[22px] mq450:box-border mq750:gap-[60px] mq1050:pt-[34px] mq1050:pb-[34px] mq1050:box-border">
-          <h1 className="m-0 self-stretch relative text-49xl tracking-[-0.02em] leading-[125%] font-medium font-headline2 text-green-800 text-left mq450:text-[41px] mq450:leading-[51px] mq1050:text-[54px] mq1050:leading-[68px]">
+      <main className="self-stretch overflow-hidden flex flex-row items-center justify-center p-[60px] box-border bg-[url('src/assets/loginPageImage/chairBesidePool.jpg')] bg-cover bg-no-repeat bg-[top] max-w-full lg:py-[39px] lg:px-[30px] lg:box-border mq450:pt-5 mq450:pb-5 mq450:box-border mq1050:pt-[25px] mq1050:pb-[25px] mq1050:box-border">
+        <form
+          onSubmit={handleSubmit}
+          className="m-0 w-[1092px] rounded bg-white shadow-[4px_4px_16px_rgba(0,_0,_0,_0.08)] flex flex-col items-center justify-start p-20 box-border gap-[60px] max-w-full lg:gap-[60px] lg:py-[52px] lg:px-10 lg:box-border mq450:pt-[22px] mq450:pb-[22px] mq450:box-border mq750:gap-[60px] mq1050:pt-[34px] mq1050:pb-[34px] mq1050:box-border"
+        >
+          <h1 className="m-0 self-stretch relative text-5xl  tracking-[-0.02em] leading-[125%] font-medium font-headline2 text-green-800 text-left mq450:text-[41px] mq450:leading-[51px] mq1050:text-[54px] mq1050:leading-[68px]">
             Agent Login
           </h1>
 
@@ -24,6 +68,8 @@ const AgentLoginPage = () => {
                         className="w-full [border:none] [outline:none] bg-[transparent] h-6 flex-1 flex flex-row items-start justify-start font-body1 text-base text-lightslategray min-w-[250px] max-w-full"
                         placeholder="Enter your Email"
                         type="email"
+                        name="email"
+                        onChange={handleChange}
                       />
                     </div>
                   </div>
@@ -41,6 +87,8 @@ const AgentLoginPage = () => {
                         className="w-full [border:none] [outline:none] bg-[transparent] h-6 flex-1 flex flex-row items-start justify-start font-body1 text-base text-lightslategray min-w-[250px] max-w-full"
                         placeholder="Enter your password"
                         type="password"
+                        name="password"
+                        onChange={handleChange}
                       />
                     </div>
                   </div>
@@ -51,7 +99,10 @@ const AgentLoginPage = () => {
 
           <div className="self-stretch flex flex-row items-start justify-start max-w-full">
             <div className="w-[446px] flex flex-col items-start justify-start gap-[16px] max-w-full">
-              <button className="cursor-pointer [border:none] py-4 px-8 bg-orange-600 self-stretch rounded flex flex-row items-center justify-center hover:bg-chocolate">
+              <button
+                type="submit"
+                className="cursor-pointer [border:none] py-4 px-8 bg-orange-600 self-stretch rounded flex flex-row items-center justify-center hover:bg-chocolate"
+              >
                 <div className="relative text-base leading-[16px] font-semibold font-open-sans text-utility-white text-center">
                   Login
                 </div>
@@ -62,7 +113,7 @@ const AgentLoginPage = () => {
                 </div>
                 <button className="cursor-pointer [border:none] py-1 px-2 bg-[transparent] flex flex-row items-start justify-start gap-[8px]">
                   <div className="relative text-base leading-[16px] font-semibold font-open-sans text-orange-500 text-center">
-                    <Link to="agent-register">Register</Link>
+                    <Link to="/agent-register">Register</Link>
                   </div>
                   <img
                     className="h-4 w-4 relative overflow-hidden shrink-0 hidden min-h-[16px]"
