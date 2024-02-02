@@ -46,7 +46,6 @@ function ImageSlideRoom() {
     return () => clearInterval(interval);
   }, [page]); 
 
-
   return (
     <header className="relative w-full h-fit mt-24">
       {/* Carousel content */}
