@@ -1,10 +1,11 @@
 export default function Rooms({ src, alt, title, height, width }) {
   return (
-    <div className="relative max-w-full h-full" style={{ overflow: "hidden" }}>
+    <div className={`relative w-full h-full overflow-hidden`}>
       <img
         src={src}
         alt={alt}
-        className={`m-auto w-full h-full relative object-cover object-bottom`}
+        style={{ height: height ? height : "100%" }}
+        className={`m-auto w-full relative object-cover`}
       />
       <div className="absolute bottom-20 left-16">
         <h2 className="text-[2.75rem] text-white font-noto-serif">{title}</h2>
