@@ -1,6 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const SideBarAdmin = () => {
+const SideBarAdmin = ({ token }) => {
+  let navigate = useNavigate();
+
+  function handleLogout() {
+    localStorage.removeItem("token");
+    navigate("/agent-login");
+  }
+
   return (
     <div className="h-[1024px] w-60 bg-green-800 box-border overflow-hidden shrink-0 flex flex-col items-start justify-start gap-[40px] text-center text-base text-green-400 font-body1 border-r-[1px] border-solid border-gray-300 mq1050:hidden">
       <div className="self-stretch flex flex-col items-center justify-end py-10 px-6 gap-[16px]">
@@ -74,11 +81,12 @@ const SideBarAdmin = () => {
           alt=""
           src="/iconlogout.svg"
         />
-        <input
+        <button
           className="w-[calc(100%_-_72px)] [border:none] [outline:none] font-medium font-body1 text-base bg-[transparent] h-6 flex-1 relative tracking-[-0.02em] leading-[150%] text-green-300 text-left inline-block min-w-[91px]"
-          placeholder="Log Out"
-          type="text"
-        />
+          onClick={handleLogout}
+        >
+          Log Out
+        </button>
       </div>
     </div>
   );

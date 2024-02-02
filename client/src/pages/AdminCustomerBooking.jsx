@@ -4,8 +4,16 @@ import TopBar from "../components/TopBar";
 import HeadTableContainer from "../components/HeadTableContainer";
 import Table from "../components/Table";
 import SideBarAdmin from "../components/SideBarAdmin";
+import { Link, useNavigate } from "react-router-dom";
 
-const AdminCustomerBooking = () => {
+const AdminCustomerBooking = ({ token }) => {
+  let navigate = useNavigate();
+
+  function handleLogout() {
+    localStorage.removeItem("token");
+    navigate("/agent-login");
+  }
+
   const onTableContainerClick = useCallback(() => {
     // Please sync "(admin) customer booking" to the project
   }, []);

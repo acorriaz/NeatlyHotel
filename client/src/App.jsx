@@ -49,20 +49,23 @@ function App() {
         <Route path="/room-and-property" element={<RoomAndPropertyPage />} />
 
         <Route
-          path="/admin-customer-booking"
-          element={<AdminCustomerBooking />}
-        />
-        <Route
           path="/agent-login"
           element={<AgentLoginPage setToken={setToken} />}
         />
         <Route path="/hotel" element={<LandingPage />} />
 
         {token && (
-          <Route
-            path="/agent-customer-booking"
-            element={<AgentCustomerBooking token={token} />}
-          />
+          <>
+            <Route
+              path="/agent-customer-booking"
+              element={<AgentCustomerBooking token={token} />}
+            />
+            ) (
+            <Route
+              path="/admin-customer-booking"
+              element={<AdminCustomerBooking token={token} />}
+            />
+          </>
         )}
       </Routes>
     </div>

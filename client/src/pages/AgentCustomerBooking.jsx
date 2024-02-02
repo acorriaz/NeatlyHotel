@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 
 const AgentCustomerBooking = ({ token }) => {
   let navigate = useNavigate();
-  const [state, setState] = useState(); // Added state variable
+  /*const [state, setState] = useState(); */
 
   function handleLogout() {
     localStorage.removeItem("token");
