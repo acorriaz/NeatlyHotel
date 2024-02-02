@@ -1,10 +1,55 @@
 import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = "https://aqbgthzlroeplhhywlst.supabase.co";
+const supabaseKey =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxYmd0aHpscm9lcGxoaHl3bHN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDY1OTU5MjUsImV4cCI6MjAyMjE3MTkyNX0.opkphl2pLEzLW2C7piUj9AzkOM14XrZGy9CgEH63R-4";
+export const supabase = createClient(supabaseUrl, supabaseKey);
 
 const AgentRegisterPage = () => {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+  });
+
+  function handleChange(event) {
+    setFormData((prevFormData) => {
+      return {
+        ...prevFormData,
+        [event.target.name]: event.target.value,
+      };
+    });
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            full_name: formData.fullName,
+          },
+        },
+      });
+      if (error) throw error;
+      alert("Check your email for verification link");
+    } catch (error) {
+      alert(error);
+    }
+  }
+
   return (
     <div className="w-full relative bg-green-700 overflow-hidden flex flex-col items-start justify-start tracking-[normal]">
       <main className="self-stretch overflow-hidden flex flex-row items-center justify-center p-[60px] box-border bg-[url('/public/label@3x.png')] bg-cover bg-no-repeat bg-[top] max-w-full lg:py-[39px] lg:px-[30px] lg:box-border mq450:pt-5 mq450:pb-5 mq450:box-border mq1050:pt-[25px] mq1050:pb-[25px] mq1050:box-border">
-        <form className="m-0 w-[1092px] rounded bg-utility-bg shadow-[4px_4px_16px_rgba(0,_0,_0,_0.08)] flex flex-col items-center justify-start p-20 box-border gap-[60px] max-w-full lg:gap-[60px] lg:py-[52px] lg:px-10 lg:box-border mq450:pt-[22px] mq450:pb-[22px] mq450:box-border mq750:gap-[60px] mq1050:pt-[34px] mq1050:pb-[34px] mq1050:box-border">
+        <form
+          onSubmit={handleSubmit}
+          className="m-0 w-[1092px] rounded bg-utility-bg shadow-[4px_4px_16px_rgba(0,_0,_0,_0.08)] flex flex-col items-center justify-start p-20 box-border gap-[60px] max-w-full lg:gap-[60px] lg:py-[52px] lg:px-10 lg:box-border mq450:pt-[22px] mq450:pb-[22px] mq450:box-border mq750:gap-[60px] mq1050:pt-[34px] mq1050:pb-[34px] mq1050:box-border"
+        >
           <h1 className="m-0 self-stretch relative text-49xl tracking-[-0.02em] leading-[125%] font-medium font-headline2 text-green-800 text-left mq450:text-[41px] mq450:leading-[51px] mq1050:text-[54px] mq1050:leading-[68px]">
             Agent Register
           </h1>
@@ -23,7 +68,9 @@ const AgentRegisterPage = () => {
                   <input
                     className="w-full [border:none] [outline:none] bg-[transparent] h-6 flex-1 flex flex-row items-start justify-start font-body1 text-base text-lightslategray min-w-[250px] max-w-full"
                     placeholder="Enter your name and last name"
+                    name="fullName"
                     type="text"
+                    onChange={handleChange}
                   />
                 </div>
 
@@ -38,7 +85,9 @@ const AgentRegisterPage = () => {
                       <input
                         className="w-full [border:none] [outline:none] bg-[transparent] h-6 flex-1 flex flex-row items-start justify-start font-body1 text-base text-lightslategray min-w-[250px] max-w-full"
                         placeholder="Enter your Email"
+                        name="email"
                         type="email"
+                        onChange={handleChange}
                       />
                     </div>
                   </div>
@@ -55,7 +104,9 @@ const AgentRegisterPage = () => {
                       <input
                         className="w-full [border:none] [outline:none] bg-[transparent] h-6 flex-1 flex flex-row items-start justify-start font-body1 text-base text-lightslategray min-w-[250px] max-w-full"
                         placeholder="Enter your password"
+                        name="password"
                         type="password"
+                        onChange={handleChange}
                       />
                     </div>
                   </div>
@@ -75,7 +126,10 @@ const AgentRegisterPage = () => {
                 <div className="relative text-base tracking-[-0.02em] leading-[150%] font-body1 text-gray-700 text-left">
                   Already have an account?
                 </div>
-                <button className="cursor-pointer [border:none] py-1 px-2 bg-[transparent] flex flex-row items-start justify-start gap-[8px]">
+                <button
+                  type="submit"
+                  className="cursor-pointer [border:none] py-1 px-2 bg-[transparent] flex flex-row items-start justify-start gap-[8px]"
+                >
                   <div className="relative text-base leading-[16px] font-semibold font-open-sans text-orange-500 text-center">
                     <Link to="/">Login</Link>
                   </div>
