@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react"; // Added useState import
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 
 const AgentCustomerBooking = ({ token }) => {
@@ -46,6 +46,16 @@ const AgentCustomerBooking = ({ token }) => {
                     Logout
                   </div>
                 </button>
+
+                <button className="cursor-pointer [border:none] py-4 px-8 bg-orange-600 self-stretch rounded flex flex-row items-center justify-center hover:bg-chocolate">
+                  <Link
+                    to="/admin-customer-booking"
+                    className="relative text-base leading-[16px] font-semibold font-open-sans text-utility-white text-center"
+                  >
+                    Admin Dashboard
+                  </Link>
+                </button>
+
                 <div className="flex flex-row items-start justify-center [row-gap:20px] mq450:flex-wrap">
                   <button className="cursor-pointer [border:none] py-1 px-2 bg-[transparent] flex flex-row items-start justify-start gap-[8px]"></button>
                 </div>
