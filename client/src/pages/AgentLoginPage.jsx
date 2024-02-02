@@ -3,17 +3,20 @@ import { Link } from "react-router-dom";
 import { createClient } from "@supabase/supabase-js";
 import NavigationBar from "../components/NavigationBar";
 import Footer from "../components/Footer";
+import { useNavigate } from "react-router-dom";
 
 const supabaseUrl = "https://aqbgthzlroeplhhywlst.supabase.co";
 const supabaseKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxYmd0aHpscm9lcGxoaHl3bHN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDY1OTU5MjUsImV4cCI6MjAyMjE3MTkyNX0.opkphl2pLEzLW2C7piUj9AzkOM14XrZGy9CgEH63R-4";
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
-const AgentLoginPage = () => {
+const AgentLoginPage = ({ setToken }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   function handleChange(event) {
     setFormData((prevFormData) => {
@@ -35,8 +38,9 @@ const AgentLoginPage = () => {
 
       if (error) throw error;
       console.log(data);
+      localStorage.setItem("token", JSON.stringify(data));
       setToken(data);
-      navigate("/homepage");
+      navigate("/agent-customer-booking");
 
       //   alert('Check your email for verification link')
     } catch (error) {
