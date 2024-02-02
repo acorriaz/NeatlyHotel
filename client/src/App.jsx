@@ -14,6 +14,10 @@ import AgentRegisterPage from "./pages/AgentRegisterPage";
 import AgentLoginPage from "./pages/AgentLoginPage";
 import LandingPage from "./pages/LandingPage";
 import AgentCustomerBooking from "./pages/AgentCustomerBooking";
+import AdminCustomerBooking from "./pages/AdminCustomerBooking";
+import RoomManagementPage from "./pages/RoomManagementPage";
+import RoomAndPropertyPage from "./pages/RoomAndPropertyPage";
+import HotelInfoPage from "./pages/HotelInfoPage";
 
 function App() {
   const [token, setToken] = useState(false);
@@ -40,6 +44,14 @@ function App() {
         <Route path="/hotel/result" element={<SearchResultPage />} />
         <Route path="/hotel/payment" element={<PaymentPage />} />
         <Route path="/agent-register" element={<AgentRegisterPage />} />
+        <Route path="/room-management" element={<RoomManagementPage />} />
+        <Route path="/hotel-information" element={<HotelInfoPage />} />
+        <Route path="/room-and-property" element={<RoomAndPropertyPage />} />
+
+        <Route
+          path="/admin-customer-booking"
+          element={<AdminCustomerBooking />}
+        />
         <Route
           path="/agent-login"
           element={<AgentLoginPage setToken={setToken} />}
