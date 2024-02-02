@@ -9,7 +9,7 @@ import LandingBooking from "../components/landing-page/LandingBooking";
 export default function LandingPage() {
   return (
     <div className="w-screen">
-      <NavigationBar />;
+      <NavigationBar />
       <LandingBooking />
       <AboutHotel />
       <ServiceAndFacilities />
