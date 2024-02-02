@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 
 export default function NavigationBar() {
   return (
-    <div className="fixed top-0 z-10 m-auto w-screen h-[100px] p-0 navbar bg-base-100">
+    <div className="fixed top-0 z-10 m-auto w-screen p-0 navbar bg-base-100">
       <div className="w-[1200px] m-auto">
         <div className="w-full m-auto flex flex-1 justify-between items-center gap-12">
           <Link to="/hotel">
             <img src={neatlyLogo} alt="Neatly Logo" />
           </Link>
           <ul className="flex flex-1 gap-12">
-            <Link to="#">
+            <Link to="#about">
               <li className="font-sans">About Neatly</li>
             </Link>
             <Link to="#">
@@ -27,7 +27,7 @@ export default function NavigationBar() {
               Log in
             </p>
           </Link>
-          <Link to="#">
+          <Link to="/hotel/result">
             <button className="py-3 px-8 rounded font-sans text-sm font-semibold text-white bg-orange-600">
               Book Now
             </button>

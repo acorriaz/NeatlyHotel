@@ -14,9 +14,8 @@ export default function RoomsAndSuits() {
         Rooms & Suits
       </h1>
       <div className="flex flex-col gap-6">
-        {/* TODO : Route to another page */}
         <div className="relative">
-          <Link to="#">
+          <Link to="/hotel/detail">
             <Rooms
               src={superiorGardenImg}
               alt="Superior Garden View"
@@ -26,10 +25,9 @@ export default function RoomsAndSuits() {
           </Link>
         </div>
 
-        {/* TODO : Add relative and absolute position */}
         <div className="flex gap-6">
           <div className="flex flex-grow relative" style={{ flex: 3 }}>
-            <Link to="#">
+            <Link to="/hotel/detail">
               <Rooms src={deluxeImg} alt="Deluxe Rooms" title="Deluxe" />
             </Link>
           </div>
@@ -37,7 +35,7 @@ export default function RoomsAndSuits() {
             className="flex flex-grow relative max-h-full"
             style={{ flex: 2 }}
           >
-            <Link to="#">
+            <Link to="/hotel/detail">
               <Rooms src={superior} alt="Superior" title="Superior" />
             </Link>
           </div>
@@ -45,7 +43,7 @@ export default function RoomsAndSuits() {
 
         <div className="h-[700px] flex relative gap-6">
           <div className="h-full flex" style={{ flex: 2 }}>
-            <Link to="#">
+            <Link to="/hotel/detail">
               <Rooms
                 src={premierImg}
                 alt="Premier Sea View"
@@ -58,12 +56,12 @@ export default function RoomsAndSuits() {
             style={{ flex: 3 }}
           >
             <div className="h-[338px] flex-1">
-              <Link to="#">
+              <Link to="/hotel/detail">
                 <Rooms src={supremeImg} alt="Supreme room" title="Supreme" />
               </Link>
             </div>
             <div className="h-[338px] flex-1">
-              <Link to="#">
+              <Link to="/hotel/detail">
                 <Rooms src={suiteImg} alt="Suite room" title="Suite" />
               </Link>
             </div>
