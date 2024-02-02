@@ -65,6 +65,10 @@ export default {
       margin: {
         60: "60px",
       },
+      backgroundImage: {
+        "hero-pattern":
+          "url('./src/assets/landing-page-images/superior-garden-view.jpg')",
+      },
     },
   },
   plugins: [require("daisyui")],
