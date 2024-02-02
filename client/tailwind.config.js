@@ -65,6 +65,9 @@ export default {
       margin: {
         60: "60px",
       },
+      backgroundImage: {
+        "register-bg": "url('/src/assets/loginPageImage/chairBesidePool2.jpg')",
+      },
     },
   },
   plugins: [require("daisyui")],
