@@ -47,7 +47,7 @@ function ImageSlideRoom() {
   }, [page]); 
 
   return (
-    <header className="relative w-full h-fit mt-24">
+    <header className="relative w-full h-fit mt-20">
       {/* Carousel content */}
       <div className="carousel carousel-center w-full p-4 space-x-4">
         {imageRoom.map((item, index) => (

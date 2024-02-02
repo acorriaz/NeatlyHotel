@@ -26,7 +26,7 @@ function RoomCategories() {
                 <p className="line-through"> THB 3,100.00 </p>
                 <p> THB 2,500.00 </p>
               </div>
-              <Link to="/">
+              <Link to="/hotel/payment">
                 <button
                   className="w-[143px] h-[48px] btn btn-active text-utilWhite bg-orange600 
                 hover:text-orange500
