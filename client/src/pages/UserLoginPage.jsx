@@ -1,9 +1,10 @@
 import { UserLoginForm } from "../components/LogInForm";
+import NavigationBar from "../components/NavigationBar";
 
 function UserLoginPage() {
   return (
     <>
-      {/* navbar area */}
+      <NavigationBar />
       <UserLoginForm />
     </>
   );

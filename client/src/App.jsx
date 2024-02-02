@@ -8,6 +8,8 @@ import PaymentPage from "./pages/PaymentPage";
 import AgentRegisterPage from "./pages/AgentRegisterPage";
 import AgentLoginPage from "./pages/AgentLoginPage";
 import AgentCustomerBooking from "./pages/AdminCustomerBooking";
+import LandingPage from "./pages/LandingPage";
+
 
 function App() {
   return (
@@ -22,6 +24,7 @@ function App() {
           <Route path="/agent-register" element={<AgentRegisterPage />} />
           <Route path="/agent-login" element={<AgentLoginPage />} />
           <Route path="/agent-booking" element={<AgentCustomerBooking />} />
+          <Route path="/hotel" element={<LandingPage />} />
         </Routes>
       </BrowserRouter>
     </div>
