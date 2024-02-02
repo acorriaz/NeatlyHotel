@@ -1,4 +1,4 @@
-
+import { Link } from "react-router-dom";
 
 function OtherRoom () {
   const imageRoom = [
@@ -17,9 +17,9 @@ function OtherRoom () {
             />
             <div className="absolute bottom-10 left-12 text-utilWhite">
               <p className="headline3 text-utilWhite mb-6">Deluxe </p>
-              <a href="#" className="sans">
+              <Link to="/" className="sans">
                 Explore Rooms &#129122;
-              </a>
+              </Link>
             </div>
           </div>
           <div className="relative w-2/4 h-[340px]">
@@ -30,9 +30,9 @@ function OtherRoom () {
             />
             <div className="absolute bottom-10 left-12 text-utilWhite">
               <p className="headline3 text-utilWhite mb-6">Superior </p>
-              <a href="#" className="sans">
+              <Link to="/" className="sans">
                 Explore Room &#129122;
-              </a>
+              </Link>
             </div>
           </div>
         </div>
