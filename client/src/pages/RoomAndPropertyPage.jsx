@@ -1,62 +1,130 @@
-import { useCallback } from "react";
-import React, { useState } from "react";
-import TopBar from "../components/TopBar";
-import HeadTableContainer from "../components/HeadTableContainer";
-import Table from "../components/Table";
+import React, { useEffect, useState } from "react";
 import SideBarAdmin from "../components/SideBarAdmin";
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = "https://aqbgthzlroeplhhywlst.supabase.co";
+const supabaseKey =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxYmd0aHpscm9lcGxoaHl3bHN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDY1OTU5MjUsImV4cCI6MjAyMjE3MTkyNX0.opkphl2pLEzLW2C7piUj9AzkOM14XrZGy9CgEH63R-4";
+export const supabase = createClient(supabaseUrl, supabaseKey);
 
 const RoomAndPropertyPage = () => {
-  const onTableContainerClick = useCallback(() => {
-    // Please sync "(admin) customer booking" to the project
+  const [rooms, setRooms] = useState([]);
+
+  const TopBar = ({ searchKeyword, setSearchKeyword }) => {
+    return (
+      <div
+        className="top-bar"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "1rem",
+          backgroundColor: "white",
+        }}
+      >
+        <h1 style={{ fontSize: "1.5rem" }}>Room & Property</h1>
+        <div style={{ display: "flex", gap: "0.5rem" }}>
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+            style={{
+              padding: "0.5rem",
+              borderRadius: "4px",
+              border: "1px solid #ccc",
+            }}
+          />
+          <button
+            onClick={() => {
+              /* Implement room creation logic here */
+            }}
+            style={{
+              padding: "0.5rem 1rem",
+              borderRadius: "4px",
+              border: "none",
+              backgroundColor: "orange",
+              color: "white",
+              cursor: "pointer",
+            }}
+          >
+            + Create Room
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  // Function to fetch room data
+  const fetchRooms = async () => {
+    const { data, error } = await supabase
+      .from("rooms") // Replace 'rooms' with your Supabase table name
+      .select("*"); // Retrieves all columns
+
+    if (error) {
+      console.error("Error fetching rooms:", error);
+    } else {
+      setRooms(data);
+    }
+  };
+
+  // Fetch rooms when the component mounts
+  useEffect(() => {
+    fetchRooms();
   }, []);
 
-  const onTableContainer1Click = useCallback(() => {
-    // Please sync "(admin) customer booking" to the project
-  }, []);
-
-  const onTableContainer2Click = useCallback(() => {
-    // Please sync "(admin) customer booking" to the project
-  }, []);
-
-  const onTableContainer3Click = useCallback(() => {
-    // Please sync "(admin) customer booking" to the project
-  }, []);
-
-  const onTableContainer4Click = useCallback(() => {
-    // Please sync "(admin) customer booking" to the project
-  }, []);
-
-  const onTableContainer5Click = useCallback(() => {
-    // Please sync "(admin) customer booking" to the project
-  }, []);
-
-  const onTableContainer6Click = useCallback(() => {
-    // Please sync "(admin) customer booking" to the project
-  }, []);
-
-  const onTableContainer7Click = useCallback(() => {
-    // Please sync "(admin) customer booking" to the project
-  }, []);
-
-  const onTableContainer8Click = useCallback(() => {
-    // Please sync "(admin) customer booking" to the project
-  }, []);
-
-  const onTableContainer9Click = useCallback(() => {
-    // Please sync "(admin) customer booking" to the project
-  }, []);
+  // Handler functions for click events can be defined here
+  // ...
 
   return (
-    <div className="w-full relative bg-utility-white overflow-hidden flex flex-row items-start justify-start tracking-[normal] mq1050:pl-5 mq1050:pr-5 mq1050:box-border">
+    <div className="room-and-property-page flex flex-row">
       <SideBarAdmin />
-      <main className="flex-1 flex flex-col items-start justify-start max-w-[calc(100%_-_240px)] mq1050:max-w-full">
+      <main className="main-content flex-1 bg-utility-white font-noto-serif">
         <TopBar />
-        <section className="self-stretch h-[944px] bg-gray-100 overflow-hidden shrink-0 flex flex-row items-start justify-center p-12 box-border max-w-full lg:pl-6 lg:pr-6 lg:box-border mq450:pt-5 mq450:pb-5 mq450:box-border mq1050:pt-[31px] mq1050:pb-[31px] mq1050:box-border">
-          <div className="flex-1 rounded overflow-x-auto flex flex-col items-start justify-start py-0 px-3 box-border max-w-full">
-            <HeadTableContainer />
-            <Table onTableContainerClick={onTableContainerClick} />
-            <Table onTableContainerClick={onTableContainer1Click} />
-          </div>
+
+        <section className="room-listing p-8">
+          <table className="w-full text-left bg-white">
+            <thead className="bg-gray-200">
+              <tr>
+                <th className="p-4">Image</th>
+                <th className="p-4">Room Type</th>
+                <th className="p-4">Price</th>
+                <th className="p-4">Promotion Price</th>
+                <th className="p-4">Guest(s)</th>
+                <th className="p-4">Bed Type</th>
+                <th className="p-4">Room Size</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rooms.map((room) => (
+                <tr className="border-b" key={room.id}>
+                  <td className="p-4">
+                    <img
+                      src={room.image_url}
+                      alt={room.room_type}
+                      className="w-20 h-20 object-cover"
+                    />
+                  </td>
+                  <td className="p-4">{room.room_type}</td>
+                  <td className="p-4">
+                    {room.price.toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    })}
+                  </td>
+                  <td className="p-4">
+                    {room.promotion_price.toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    })}
+                  </td>
+                  <td className="p-4">{room.guest_capacity}</td>
+                  <td className="p-4">{room.bed_type}</td>
+                  <td className="p-4">{room.room_size}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </section>
       </main>
     </div>
