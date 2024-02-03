@@ -9,6 +9,7 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
 
 const RoomAndPropertyPage = () => {
   const [rooms, setRooms] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   const TopBar = ({ searchKeyword, setSearchKeyword }) => {
     return (
@@ -55,11 +56,8 @@ const RoomAndPropertyPage = () => {
     );
   };
 
-  // Function to fetch room data
   const fetchRooms = async () => {
-    const { data, error } = await supabase
-      .from("rooms") // Replace 'rooms' with your Supabase table name
-      .select("*"); // Retrieves all columns
+    const { data, error } = await supabase.from("rooms").select("*");
 
     if (error) {
       console.error("Error fetching rooms:", error);
@@ -68,19 +66,26 @@ const RoomAndPropertyPage = () => {
     }
   };
 
-  // Fetch rooms when the component mounts
   useEffect(() => {
     fetchRooms();
   }, []);
 
-  // Handler functions for click events can be defined here
-  // ...
+  // Filter rooms based on search keyword before rendering
+  const filteredRooms = rooms.filter(
+    (room) =>
+      room.room_type.toLowerCase().includes(searchKeyword.toLowerCase()) ||
+      room.bed_type.toLowerCase().includes(searchKeyword.toLowerCase())
+    // You can add more fields to filter by here
+  );
 
   return (
     <div className="room-and-property-page flex flex-row">
       <SideBarAdmin />
       <main className="main-content flex-1 bg-utility-white font-noto-serif">
-        <TopBar />
+        <TopBar
+          searchKeyword={searchKeyword}
+          setSearchKeyword={setSearchKeyword}
+        />
 
         <section className="room-listing p-8">
           <table className="w-full text-left bg-white">
@@ -96,7 +101,7 @@ const RoomAndPropertyPage = () => {
               </tr>
             </thead>
             <tbody>
-              {rooms.map((room) => (
+              {filteredRooms.map((room) => (
                 <tr className="border-b" key={room.id}>
                   <td className="p-4">
                     <img
