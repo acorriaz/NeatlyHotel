@@ -22,7 +22,7 @@ const SideBarAdmin = ({ token }) => {
         </div>
       </div>
       <div className="self-stretch h-[540px] flex flex-col items-start justify-start text-left text-green-300 mq450:h-[540px]">
-        <div className="self-stretch bg-green-600 flex flex-row items-start justify-start p-6 gap-[16px] whitespace-nowrap text-green-100">
+        <div className="self-stretch bg-green-800 flex flex-row items-start justify-start p-6 gap-[16px] whitespace-nowrap text-green-100">
           <img
             className="h-6 w-6 relative overflow-hidden shrink-0 min-h-[24px]"
             alt=""
