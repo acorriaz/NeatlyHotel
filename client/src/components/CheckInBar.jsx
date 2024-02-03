@@ -21,8 +21,8 @@ export default function CheckInBar() {
   };
 
   return (
-    <div className="h-[156px] bg-base-100 w-full flex justify-center items-center">
-      <div className="h-[76px] w-[1000px] flex justify-between items-center">
+    <div className="h-[170px] bg-base-100 w-full flex justify-center items-center border-t-2 border-t-gray-200">
+      <div className="h-[90px] w-[1000px] flex justify-between items-end">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DemoContainer components={["DatePicker", "DatePicker"]}>
             <DemoItem label="Check In">
@@ -37,7 +37,7 @@ export default function CheckInBar() {
             </DemoItem>
           </DemoContainer>
         </LocalizationProvider>
-        <div className=" flex flex-col w-[240px]">
+        <div className=" flex flex-col w-[240px] gap-5">
           <DemoItem label="Rooms & Guests">
             <Box sx={{ minWidth: 120 }}>
               <FormControl fullWidth>
@@ -63,7 +63,7 @@ export default function CheckInBar() {
             </Box>
           </DemoItem>
         </div>
-        <div>
+        <div className="flex h-[76px] items-end ">
           <button
             type="button"
             className="w-[144px] h-max px-8 py-3 rounded font-sans font-semibold text-orange-500 bg-base-100 border border-orange-500"

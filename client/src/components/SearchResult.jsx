@@ -11,20 +11,24 @@ function SearchResult() {
 
   return (
     <>
-      <div className="search-result-container flex-col justify-start items-center mb-[200px] bg-gray-100">
+      {/* search result main container */}
+      <div className=" flex flex-col justify-start items-center mb-[200px] bg-gray-100">
         {rooms.map((room) => {
           return (
+            // result content
             <div
-              className="result-container flex flex-col justify-center items-center bg-gray-100"
+              className=" flex flex-col justify-center items-center bg-gray-100"
               key={room.id}
             >
-              <div className="card-container flex w-[1120px] h-[400px] justify-between items-center py-[20px] gap-[40px] border-b-2 border-b-gray-200">
+              {/* card-container */}
+              <div className=" flex w-[1120px] h-[400px] justify-between items-center py-[20px] gap-[40px] border-b-2 border-b-gray-200">
                 <div className="image-container relative w-[453px] h-[320px]">
                   <img
                     src={room.photo}
                     alt=""
                     className=" w-[453px] h-[320px]"
                   />
+                  {/* full image view button */}
                   <button
                     className="btn absolute z-0 bottom-0 left-0 w-[40px] h-[40px] bg-transparent border-transparent"
                     onClick={() =>
@@ -167,15 +171,20 @@ function SearchResult() {
                       </div>
                     </div>
                   </dialog>
+                  {/* end of full image view button */}
                 </div>
-                <div className="card-description flex flex-col items-end w-[619px] h-[320px]">
-                  <div className="card-text flex justify-between w-[602px] h-[186px]">
-                    <div className="card-content flex flex-col justify-between w-[314px] h-[178px]">
+                {/* card-description */}
+                <div className=" flex flex-col items-end w-[619px] h-[320px]">
+                  {/* card text */}
+                  <div className=" flex justify-between w-[602px] h-[186px]">
+                    {/* card content */}
+                    <div className="flex flex-col justify-between w-[314px] h-[178px]">
                       <div className="w-[314px] h-[74px] flex-col justify-between items-start">
                         <p className="text-headline4 font-semibold">
                           {room.title}
                         </p>
-                        <div className="room-description flex w-[289px] h-[24px] gap-[16px] font-fontWeight4 text-gray700 text-body1">
+                        {/* room detail */}
+                        <div className="flex w-[289px] h-[24px] gap-[16px] font-fontWeight4 text-gray700 text-body1">
                           {room.detail.map((detail) => {
                             return <p>{detail}</p>;
                           })}
@@ -185,7 +194,8 @@ function SearchResult() {
                         {room.description}
                       </p>
                     </div>
-                    <div className="card-price flex flex-col justify-start w-[260px] h-[186px]">
+                    {/* card-price */}
+                    <div className=" flex flex-col justify-start w-[260px] h-[186px]">
                       <div className="w-[260px] h-[58px] flex flex-col items-end">
                         <p className="text-gray700 line-through">
                           THB {room.discount.toLocaleString("en-US", options)}
@@ -200,8 +210,11 @@ function SearchResult() {
                       </div>
                     </div>
                   </div>
-                  <div className="button-panel flex justify-end w-[619px] h-[48px] gap-[24px] font-fontWeight6">
+                  {/* end of card text */}
+                  {/* button-panel */}
+                  <div className=" flex justify-end w-[619px] h-[48px] gap-[24px] font-fontWeight6">
                     <div className="" key={room.id}>
+                      {/* room detail pop-up button */}
                       <button
                         className="btn text-orange-500"
                         onClick={() =>
@@ -323,6 +336,7 @@ function SearchResult() {
                           </div>
                         </div>
                       </dialog>
+                      {/* end of room detail pop-up button */}
                     </div>
                     <button className="py-3 px-8 rounded font-sans font-semibold text-white bg-orange-600">
                       <Link to="/hotel/payment">Book Now</Link>
