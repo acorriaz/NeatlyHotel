@@ -1,8 +1,11 @@
-export default function ServiceAndFacilities() {
+import { forwardRef } from "react";
+
+const ServiceAndFacilities = forwardRef((props, ref) => {
   return (
     <div
       id="services"
       className="m-auto w-screen pt-[100px] pb-[120px] bg-green700 text-white text-center"
+      ref={ref}
     >
       <h1 className="mb-[72px] text-[4.25rem] font-noto-serif">
         Service & Facilities
@@ -132,4 +135,6 @@ export default function ServiceAndFacilities() {
       </div>
     </div>
   );
-}
+});
+
+export default ServiceAndFacilities;
