@@ -11,46 +11,6 @@ const AdminCustomerBooking = ({ token }) => {
     navigate("/agent-login");
   }
 
-  const onTableContainerClick = useCallback(() => {
-    // Please sync "(admin) customer booking" to the project
-  }, []);
-
-  const onTableContainer1Click = useCallback(() => {
-    // Please sync "(admin) customer booking" to the project
-  }, []);
-
-  const onTableContainer2Click = useCallback(() => {
-    // Please sync "(admin) customer booking" to the project
-  }, []);
-
-  const onTableContainer3Click = useCallback(() => {
-    // Please sync "(admin) customer booking" to the project
-  }, []);
-
-  const onTableContainer4Click = useCallback(() => {
-    // Please sync "(admin) customer booking" to the project
-  }, []);
-
-  const onTableContainer5Click = useCallback(() => {
-    // Please sync "(admin) customer booking" to the project
-  }, []);
-
-  const onTableContainer6Click = useCallback(() => {
-    // Please sync "(admin) customer booking" to the project
-  }, []);
-
-  const onTableContainer7Click = useCallback(() => {
-    // Please sync "(admin) customer booking" to the project
-  }, []);
-
-  const onTableContainer8Click = useCallback(() => {
-    // Please sync "(admin) customer booking" to the project
-  }, []);
-
-  const onTableContainer9Click = useCallback(() => {
-    // Please sync "(admin) customer booking" to the project
-  }, []);
-
   return (
     <div className="w-full relative bg-utility-white overflow-hidden flex flex-row items-start justify-start tracking-[normal] mq1050:pl-5 mq1050:pr-5 mq1050:box-border">
       <SideBarAdmin />
