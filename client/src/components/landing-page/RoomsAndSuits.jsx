@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { forwardRef } from "react";
 import superiorGardenImg from "../../assets/landing-page-images/superior-garden-view.jpg";
 import superior from "../../assets/landing-page-images/superior.jpg";
 import deluxeImg from "../../assets/landing-page-images/deluxe.jpg";
@@ -7,9 +8,13 @@ import premierImg from "../../assets/landing-page-images/premier-sea-view.jpg";
 import supremeImg from "../../assets/landing-page-images/supreme.jpg";
 import Rooms from "./Rooms";
 
-export default function RoomsAndSuits() {
+const RoomsAndSuits = forwardRef((props, ref) => {
   return (
-    <div id="rooms" className="m-auto pt-28 pb-[11.125rem] max-w-[1200px]">
+    <div
+      id="rooms"
+      ref={ref}
+      className="m-auto pt-28 pb-[11.125rem] max-w-[1200px]"
+    >
       <h1 className="mb-[72px] font-noto-serif text-center text-[4.25rem] text-green800">
         Rooms & Suits
       </h1>
@@ -70,4 +75,6 @@ export default function RoomsAndSuits() {
       </div>
     </div>
   );
-}
+});
+
+export default RoomsAndSuits;

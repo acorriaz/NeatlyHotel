@@ -1,10 +1,12 @@
+import { forwardRef } from "react";
 import AboutHotelCarousel from "./AboutHotelCarousel";
 
-export default function AboutHotel() {
+const AboutHotel = forwardRef((props, ref) => {
   return (
     <div
       id="about"
       className="pt-[115px] pb-[132px] max-w-[1440px] m-auto flex flex-col items-center gap-[8.25rem]"
+      ref={ref}
     >
       <div className="max-w-[1200px] flex flex-col gap-12">
         <h1 className="text-[4.25rem] text-green800 font-medium font-noto-serif tracking-[-0.085rem]">
@@ -32,4 +34,6 @@ export default function AboutHotel() {
       <AboutHotelCarousel />
     </div>
   );
-}
+});
+
+export default AboutHotel;
