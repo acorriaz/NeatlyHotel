@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from "react";
 import SideBarAdmin from "../components/SideBarAdmin";
 import { createClient } from "@supabase/supabase-js";
+import { Link, useNavigate } from "react-router-dom";
 
 const supabaseUrl = "https://aqbgthzlroeplhhywlst.supabase.co";
 const supabaseKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxYmd0aHpscm9lcGxoaHl3bHN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDY1OTU5MjUsImV4cCI6MjAyMjE3MTkyNX0.opkphl2pLEzLW2C7piUj9AzkOM14XrZGy9CgEH63R-4";
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
-const RoomAndPropertyPage = () => {
+const RoomAndPropertyPage = ({ token }) => {
+  let navigate = useNavigate();
+
+  function handleLogout() {
+    localStorage.removeItem("token");
+    navigate("/agent-login");
+  }
+
   const [rooms, setRooms] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
 

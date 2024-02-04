@@ -46,7 +46,6 @@ function App() {
         <Route path="/agent-register" element={<AgentRegisterPage />} />
         <Route path="/room-management" element={<RoomManagementPage />} />
         <Route path="/hotel-information" element={<HotelInfoPage />} />
-        <Route path="/room-and-property" element={<RoomAndPropertyPage />} />
 
         <Route
           path="/agent-login"
@@ -60,7 +59,10 @@ function App() {
               path="/agent-customer-booking"
               element={<AgentCustomerBooking token={token} />}
             />
-            ) (
+            <Route
+              path="/room-and-property"
+              element={<RoomAndPropertyPage token={token} />}
+            />
             <Route
               path="/admin-customer-booking"
               element={<AdminCustomerBooking token={token} />}
