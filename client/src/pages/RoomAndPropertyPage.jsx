@@ -57,7 +57,7 @@ const RoomAndPropertyPage = ({ token }) => {
               cursor: "pointer",
             }}
           >
-            + Create Room
+            <Link to="/create-room-form">+ Create Room</Link>
           </button>
         </div>
       </div>

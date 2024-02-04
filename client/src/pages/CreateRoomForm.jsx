@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function CreateRoomForm() {
   const CreateARoomBar = () => {
@@ -10,7 +11,7 @@ export default function CreateRoomForm() {
 
         <button className="flex w-[116px] pt-[16px] pr-[32px] pb-[16px] pl-[32px] gap-[10px] justify-center items-center shrink-0 flex-nowrap bg-[#fff] rounded-[4px] border-solid border border-[#e76b39] relative z-[1] pointer">
           <span className="flex w-[52px] h-[16px] justify-center items-start shrink-0 basis-auto font-['Open_Sans'] text-[16px] font-semibold leading-[16px] text-[#e76b39] relative text-center whitespace-nowrap z-[2]">
-            Cancel
+            <Link to="/room-and-property">Cancel</Link>
           </span>
         </button>
         <button className="flex w-[116px] pt-[16px] pr-[32px] pb-[16px] pl-[32px] gap-[10px] justify-center items-center shrink-0 flex-nowrap bg-[#c14817] rounded-[4px] border-none relative z-[3] pointer">
