@@ -18,12 +18,11 @@ import AdminCustomerBooking from "./pages/AdminCustomerBooking";
 import RoomManagementPage from "./pages/RoomManagementPage";
 import RoomAndPropertyPage from "./pages/RoomAndPropertyPage";
 import HotelInfoPage from "./pages/HotelInfoPage";
+import CreateRoomForm from "./pages/CreateRoomForm";
 
 function App() {
   const [token, setToken] = useState(false);
-
-  const navigate = useNavigate();
-
+  /*const navigate = useNavigate();*/
   if (token) {
     sessionStorage.setItem("token", JSON.stringify(token));
   }
@@ -46,6 +45,7 @@ function App() {
         <Route path="/agent-register" element={<AgentRegisterPage />} />
         <Route path="/room-management" element={<RoomManagementPage />} />
         <Route path="/hotel-information" element={<HotelInfoPage />} />
+        <Route path="/create-room-form" element={<CreateRoomForm />} />
 
         <Route
           path="/agent-login"
