@@ -2,9 +2,12 @@ import { useForm, Controller } from "react-hook-form";
 import { useEffect, useRef, useState } from "react";
 import { IoAlertCircle, IoAdd } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import supabase from "../../../server/utils/db";
 import NavigationBar from "../components/NavigationBar";
+import { useNavigate } from "react-router-dom";
 
 function RegisterPage() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -14,7 +17,119 @@ function RegisterPage() {
   } = useForm();
   const [selectedFileState, setSelectedFileState] = useState(null);
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    let errorMessage = "";
+    //Age > 18
+    const ageOver18 = (dateOfBirth) => {
+      const birthday = new Date(dateOfBirth);
+      const today = new Date();
+      let age = today.getFullYear() - birthday.getFullYear();
+      const month = today.getMonth() - birthday.getMonth();
+      if (month < 0 || (month === 0 && today.getDate() < birthday.getDate())) {
+        age--;
+      }
+      return age >= 18;
+    };
+
+    if (!ageOver18(data.dateOfBirth)) {
+      console.error("You must be at least 18 years old to register.");
+      return;
+    }
+
+    //username ไม่ซ้ำ
+    //email มี @ .com ไม่ซ้ำ
+    const userCheck = await supabase
+      .from("users")
+      .select("username, email")
+      .or(`username.eq.${data.username}, email.eq.${data.email}`);
+
+    if (userCheck.error) {
+      console.error(userCheck.error);
+      return;
+    }
+
+    if (userCheck.data.length > 0) {
+      if (userCheck.data.find((user) => user.username === data.username)) {
+        errorMessage = "Sorry! This username has already been taken!";
+      } else if (userCheck.data.find((user) => user.email === data.email)) {
+        errorMessage = "Sorry! This email has already been used!";
+      }
+
+      console.error(errorMessage);
+      return;
+    }
+
+    //ID no. is no. and >=13 and ไม่ซ้ำ
+    const profileCheck = await supabase
+      .from("users_profile")
+      .select("id_number")
+      .eq("id_number", data.idNumber);
+
+    if (profileCheck.error) {
+      console.error(profileCheck.error);
+      return;
+    }
+
+    if (profileCheck.data.length > 0) {
+      errorMessage = "Sorry! This ID number has already been used!";
+      console.error(errorMessage);
+      return;
+    }
+
+    // auth part
+
+    try {
+      const { data: signUpResult, error } = await supabase.auth.signUp({
+        email: data.email,
+        password: data.password,
+        options: {
+          data: {
+            full_name: data.fullName,
+            username: data.username,
+            id_number: data.idNumber,
+            date_of_birth: data.dateOfBirth,
+            country: data.country,
+            card_number: data.creditCardNo,
+            card_owner: data.cardOwner,
+            card_expiry_date: data.cardExpiry,
+            card_cvc_cvv: data.cvcCvv,
+          },
+        },
+      });
+
+      if (signUpResult.user) {
+        const { data: profileData, error: profileError } = await supabase
+          .from("users_profile")
+          .insert([
+            {
+              user_profile_id: signUpResult.user.id,
+              full_name: data.fullName, // Adjust these field names as necessary
+              id_number: data.idNumber,
+              date_of_birth: data.dateOfBirth,
+              country: data.country,
+              card_number: data.creditCardNo,
+              card_owner: data.cardOwner,
+              card_expiry_date: data.cardExpiry,
+              card_cvc_cvv: data.cvcCvv,
+            },
+          ]);
+
+        if (profileError) {
+          alert(profileError.message);
+          return;
+        }
+
+        alert("Registration successful!");
+      } else if (error) {
+        alert(error.message);
+        return;
+      }
+    } catch (error) {
+      alert(error.message);
+      return;
+    }
+  };
+
   const handleFileChange = (file) => {
     setSelectedFileState(file);
   };
@@ -132,6 +247,8 @@ function RegisterPage() {
                     name="password"
                     type="password"
                     placeholder="Enter your password"
+                    //password.length >= 12
+                    minLength={12}
                     className={inputErrorBorder("password")}
                   />
                   {inputErrorIcon("password")}
@@ -539,6 +656,7 @@ function RegisterPage() {
                       id="creditCardNo"
                       name="creditCardNo"
                       type="text"
+                      // credit card no >= 16
                       maxLength={16}
                       minLength={16}
                       inputMode="numeric"
