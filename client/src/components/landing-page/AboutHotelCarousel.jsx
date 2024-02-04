@@ -4,7 +4,6 @@ import suiteImg from "../../assets/landing-page-images/suite.jpg";
 import supremeImg from "../../assets/landing-page-images/supreme.jpg";
 import superiorGardenImg from "../../assets/landing-page-images/superior-garden-view.jpg";
 import premierImg from "../../assets/landing-page-images/premier-sea-view.jpg";
-import { BsArrowRightCircle, BsArrowLeftCircle } from "react-icons/bs";
 import { GoArrowRight, GoArrowLeft } from "react-icons/go";
 
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
