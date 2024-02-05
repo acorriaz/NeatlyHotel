@@ -1,5 +1,5 @@
 function PaymentPage() {
-  return <p>Hello Payment</p>;
+  return <p>Hello Payment Page</p>;
 }
 
 export default PaymentPage;
