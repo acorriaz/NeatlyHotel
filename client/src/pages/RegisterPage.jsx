@@ -184,19 +184,19 @@ function RegisterPage() {
                 Basic Information
               </p>
               <div className="mt-5 relative">
-                <label htmlFor="fullname">Full Name</label>
+                <label htmlFor="full_name">Full Name</label>
                 <br></br>
                 <input
-                  {...register("fullname", {
+                  {...register("full_name", {
                     required: true,
                   })}
-                  id="fullname"
-                  name="fullname"
+                  id="full_name"
+                  name="full_name"
                   type="text"
                   placeholder="Enter your name and last name"
-                  className={inputErrorBorder("fullname")}
+                  className={inputErrorBorder("full_name")}
                 />
-                {inputErrorIcon("fullname")}
+                {inputErrorIcon("full_name")}
               </div>
               <div className="grid grid-cols-2 gap-10 mt-5">
                 <div className="relative">
