@@ -1,14 +1,9 @@
 import { Link } from "react-router-dom";
 import React, { useState } from "react";
-import { createClient } from "@supabase/supabase-js";
 import chairBesidePool from "../assets/loginPageImage/chairBesidePool.jpg";
 import NavigationBar from "../components/NavigationBar";
 import Footer from "../components/Footer";
-
-const supabaseUrl = "https://aqbgthzlroeplhhywlst.supabase.co";
-const supabaseKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxYmd0aHpscm9lcGxoaHl3bHN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDY1OTU5MjUsImV4cCI6MjAyMjE3MTkyNX0.opkphl2pLEzLW2C7piUj9AzkOM14XrZGy9CgEH63R-4";
-export const supabase = createClient(supabaseUrl, supabaseKey);
+import { supabase } from "../components/supabaseClient";
 
 const AgentRegisterPage = () => {
   const [formData, setFormData] = useState({
