@@ -52,7 +52,7 @@ export function UserLoginForm() {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email,
-        password: data.userPassword,
+        password: userPassword,
       });
       console.log(data);
       if (error) throw error;
