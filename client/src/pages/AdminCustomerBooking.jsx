@@ -1,60 +1,131 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Footer from "../components/Footer";
+import { useCallback } from "react";
+import React, { useState, useEffect } from "react";
+import SideBarAdmin from "../components/SideBarAdmin";
+import { Link, useNavigate } from "react-router-dom";
+import { supabase } from "../components/supabaseClient";
 
-const AgentCustomerBooking = () => {
+const AdminCustomerBooking = ({ token }) => {
   let navigate = useNavigate();
 
   function handleLogout() {
-    sessionStorage.removeItem("token");
+    localStorage.removeItem("token");
     navigate("/agent-login");
   }
 
-  return (
-    <>
-      <div className="w-full relative bg-green-700 overflow-hidden flex flex-col items-start justify-start tracking-[normal]">
-        <main className="self-stretch font-noto-serif overflow-hidden flex flex-row items-center justify-center p-[60px] box-border bg-[url('src/assets/loginPageImage/chairBesidePool.jpg')] bg-cover bg-no-repeat bg-[top] max-w-full lg:py-[39px] lg:px-[30px] lg:box-border mq450:pt-5 mq450:pb-5 mq450:box-border mq1050:pt-[25px] mq1050:pb-[25px] mq1050:box-border">
-          <form className="m-0 w-[1092px] rounded bg-white shadow-[4px_4px_16px_rgba(0,_0,_0,_0.08)] flex flex-col items-center justify-start p-20 box-border gap-[60px] max-w-full lg:gap-[60px] lg:py-[52px] lg:px-10 lg:box-border mq450:pt-[22px] mq450:pb-[22px] mq450:box-border mq750:gap-[60px] mq1050:pt-[34px] mq1050:pb-[34px] mq1050:box-border">
-            <h1 className="m-0 self-stretch relative text-5xl  tracking-[-0.02em] leading-[125%] font-medium font-headline2 text-green-800 text-left mq450:text-[41px] mq450:leading-[51px] mq1050:text-[54px] mq1050:leading-[68px]">
-              Welcome, {token.user.user_metadata.full_name}
-            </h1>
+  const [bookings, setBookings] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState("");
 
-            <div className="self-stretch flex flex-col items-start justify-start gap-[40px] max-w-full text-left text-base text-gray-900 font-body1 mq750:gap-[40px]">
-              <div className="self-stretch flex flex-row items-start justify-start max-w-full mq750:gap-[40px]">
-                <div className="flex-1 flex flex-col items-start justify-start gap-[4px] max-w-full">
-                  <div className="self-stretch flex flex-row items-start justify-start max-w-full mq750:gap-[40px]"></div>
-
-                  <div className="self-stretch flex flex-row items-start justify-start max-w-full mq750:gap-[40px]">
-                    <div className="flex-1 flex flex-col items-start justify-start gap-[4px] max-w-full">
-                      <div className="self-stretch flex flex-row items-start justify-start max-w-full"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="self-stretch flex flex-row items-start justify-start max-w-full">
-              <div className="w-[446px] flex flex-col items-start justify-start gap-[16px] max-w-full">
-                <button
-                  onClick={handleLogout}
-                  type="submit"
-                  className="cursor-pointer [border:none] py-4 px-8 bg-orange-600 self-stretch rounded flex flex-row items-center justify-center hover:bg-chocolate"
-                >
-                  <div className="relative text-base leading-[16px] font-semibold font-open-sans text-utility-white text-center">
-                    Logout
-                  </div>
-                </button>
-                <div className="flex flex-row items-start justify-center [row-gap:20px] mq450:flex-wrap">
-                  <button className="cursor-pointer [border:none] py-1 px-2 bg-[transparent] flex flex-row items-start justify-start gap-[8px]"></button>
-                </div>
-              </div>
-            </div>
-          </form>
-        </main>
+  // TopBar component
+  const TopBar = ({ searchKeyword, setSearchKeyword }) => {
+    return (
+      <div
+        className="top-bar"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "1rem",
+          backgroundColor: "white",
+        }}
+      >
+        <h1 style={{ fontSize: "1.5rem" }}>Bookings</h1>
+        <div style={{ display: "flex", gap: "0.5rem" }}>
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+            style={{
+              padding: "0.5rem",
+              borderRadius: "4px",
+              border: "1px solid #ccc",
+            }}
+          />
+          <button
+            onClick={() => {
+              // Implement logout logic here
+              handleLogout();
+            }}
+            style={{
+              padding: "0.5rem 1rem",
+              borderRadius: "4px",
+              border: "none",
+              backgroundColor: "red",
+              color: "white",
+              cursor: "pointer",
+            }}
+          >
+            Logout
+          </button>
+        </div>
       </div>
-      <Footer />
-    </>
+    );
+  };
+
+  // Fetch bookings from the database
+  const fetchBookings = async () => {
+    const { data, error } = await supabase.from("bookings").select("*");
+    if (error) {
+      console.error("Error fetching bookings:", error);
+    } else {
+      setBookings(data);
+    }
+  };
+
+  useEffect(() => {
+    fetchBookings();
+  }, []);
+
+  // Filter bookings based on search keyword
+  const filteredBookings = bookings.filter(
+    (booking) =>
+      booking.customer_name
+        .toLowerCase()
+        .includes(searchKeyword.toLowerCase()) ||
+      booking.room_type.toLowerCase().includes(searchKeyword.toLowerCase())
+  );
+
+  return (
+    <div className="room-and-property-page flex flex-row">
+      {/* SideBarAdmin component must be defined elsewhere */}
+      <SideBarAdmin />
+      <main className="main-content flex-1 bg-utility-white font-noto-serif">
+        <TopBar
+          searchKeyword={searchKeyword}
+          setSearchKeyword={setSearchKeyword}
+        />
+
+        <section className="booking-listing p-8">
+          <table className="w-full text-left bg-white">
+            <thead className="bg-gray-200">
+              <tr>
+                <th className="p-4">Customer Name</th>
+                <th className="p-4">Guest(s)</th>
+                <th className="p-4">Room Type</th>
+                <th className="p-4">Amount</th>
+                <th className="p-4">Bed Type</th>
+                <th className="p-4">Check-in</th>
+                <th className="p-4">Check-out</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredBookings.map((booking) => (
+                <tr className="border-b" key={booking.id}>
+                  <td className="p-4">{booking.customer_name}</td>
+                  <td className="p-4">{booking.guests}</td>
+                  <td className="p-4">{booking.room_type}</td>
+                  <td className="p-4">{booking.amount}</td>
+                  <td className="p-4">{booking.bed_type}</td>
+                  <td className="p-4">{booking.check_in}</td>
+                  <td className="p-4">{booking.check_out}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+      </main>
+    </div>
   );
 };
 
-export default AgentCustomerBooking;
+export default AdminCustomerBooking;
