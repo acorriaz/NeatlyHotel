@@ -1,35 +1,34 @@
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import ScrollToTop from "./components/utils/ScrollToTop";
-import RoomDetail from "./pages/RoomDetailPage";
-import UserLoginPage from "./pages/UserLoginPage";
-import RegisterPage from "./pages/RegisterPage";
-import SearchResultPage from "./pages/searchResultPage";
-import PaymentPage from "./pages/PaymentPage";
-import AgentRegisterPage from "./pages/AgentRegisterPage";
-import AgentLoginPage from "./pages/AgentLoginPage";
-import AgentCustomerBooking from "./pages/AdminCustomerBooking";
-import LandingPage from "./pages/LandingPage";
-
 
 function App() {
+  const [count, setCount] = useState(0);
+
   return (
-    <div className="App">
-      <BrowserRouter>
-        <ScrollToTop />
-        <Routes>
-          <Route path="/hotel/user-login" element={<UserLoginPage />} />
-          <Route path="/hotel/user-register" element={<RegisterPage />} />
-          <Route path="/hotel/detail" element={<RoomDetail />} />
-          <Route path="/hotel/result" element={<SearchResultPage />} />
-          <Route path="/hotel/payment" element={<PaymentPage />} />
-          <Route path="/agent-register" element={<AgentRegisterPage />} />
-          <Route path="/agent-login" element={<AgentLoginPage />} />
-          <Route path="/agent-booking" element={<AgentCustomerBooking />} />
-          <Route path="/hotel" element={<LandingPage />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <>
+      <div>
+        <a href="https://vitejs.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1 className="text-3xl font-bold underline">Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.jsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
   );
 }
 

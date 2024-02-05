@@ -1,7 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&family=Kanit:wght@400;500&family=Kodchasan:wght@300&family=Noto+Serif:wght@500&family=Outfit:wght@700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&family=Inter:wght@400;500;600&family=Kanit:wght@400;500&family=Kodchasan:wght@300&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;600;700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -9,45 +8,11 @@
   font-weight: 400;
 
   color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-.headline1 {
-  @apply font-noto-serif text-headline1;
-}
-
-.headline2 {
-  @apply font-noto-serif text-headline2;
-}
-
-.headline3 {
-  @apply font-noto-serif text-headline3;
-}
-
-.headline4 {
-  @apply font-inter text-headline4 font-fontWeight6;
-}
-
-.headline5 {
-  @apply font-inter text-headline5 font-fontWeight6;
-}
-
-.body1 {
-  @apply font-inter text-body1 font-fontWeight4;
-}
-
-.body2 {
-  @apply font-inter text-body2 font-fontWeight5;
-}
-
-.body3 {
-  @apply font-inter text-body3 font-fontWeight5;
-}
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
