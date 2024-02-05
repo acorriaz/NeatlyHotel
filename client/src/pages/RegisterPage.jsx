@@ -97,33 +97,33 @@ function RegisterPage() {
         },
       });
 
-      // if (signUpResult.user) {
-      //   const { data: profileData, error: profileError } = await supabase
-      //     .from("users_profile")
-      //     .insert([
-      //       {
-      //         user_profile_id: signUpResult.user.id,
-      //         full_name: data.fullName, // Adjust these field names as necessary
-      //         id_number: data.idNumber,
-      //         date_of_birth: data.dateOfBirth,
-      //         country: data.country,
-      //         card_number: data.creditCardNo,
-      //         card_owner: data.cardOwner,
-      //         card_expiry_date: data.cardExpiry,
-      //         card_cvc_cvv: data.cvcCvv,
-      //       },
-      //     ]);
+      if (signUpResult.user) {
+        const { data: profileData, error: profileError } = await supabase
+          .from("users_profile")
+          .insert([
+            {
+              user_profile_id: signUpResult.user.id,
+              full_name: data.fullName, // Adjust these field names as necessary
+              id_number: data.idNumber,
+              date_of_birth: data.dateOfBirth,
+              country: data.country,
+              card_number: data.creditCardNo,
+              card_owner: data.cardOwner,
+              card_expiry_date: data.cardExpiry,
+              card_cvc_cvv: data.cvcCvv,
+            },
+          ]);
 
-      //   if (profileError) {
-      //     alert(profileError.message);
-      //     return;
-      //   }
+        if (profileError) {
+          alert(profileError.message);
+          return;
+        }
 
-      //   alert("Registration successful!");
-      // } else if (error) {
-      //   alert(error.message);
-      //   return;
-      // }
+        alert("Registration successful!");
+      } else if (error) {
+        alert(error.message);
+        return;
+      }
     } catch (error) {
       alert(error.message);
       return;
