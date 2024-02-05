@@ -3,7 +3,9 @@ import React, { useState } from "react";
 import chairBesidePool from "../assets/loginPageImage/chairBesidePool.jpg";
 import NavigationBar from "../components/NavigationBar";
 import Footer from "../components/Footer";
+
 import { supabase } from "../components/supabaseClient";
+
 
 const AgentRegisterPage = () => {
   const [formData, setFormData] = useState({

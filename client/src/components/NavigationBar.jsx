@@ -1,25 +1,35 @@
 import neatlyLogo from "../assets/neatly-logo.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function NavigationBar() {
+  const items = [
+    {
+      href: "#about",
+      title: "About Neatly",
+    },
+    {
+      href: "#services",
+      title: "Service & Facilities",
+    },
+    { href: "#rooms", title: "Rooms & Suits" },
+  ];
+
+  function navListEl() {
+    return items.map((item, index) => (
+      <Link to={`/hotel${item.href}`} key={index}>
+        <li className="font-sans">{item.title}</li>
+      </Link>
+    ));
+  }
+
   return (
-    <div className="fixed top-0 z-10 m-auto w-screen h-[100px] p-0 navbar bg-base-100">
+    <div className="fixed top-0 z-10 m-auto w-screen p-0 navbar bg-base-100">
       <div className="w-[1200px] m-auto">
         <div className="w-full m-auto flex flex-1 justify-between items-center gap-12">
           <Link to="/hotel">
             <img src={neatlyLogo} alt="Neatly Logo" />
           </Link>
-          <ul className="flex flex-1 gap-12">
-            <Link to="#">
-              <li className="font-sans">About Neatly</li>
-            </Link>
-            <Link to="#">
-              <li className="font-sans">Service & Facilities</li>
-            </Link>
-            <Link to="#">
-              <li className="font-sans">Rooms & Suits</li>
-            </Link>
-          </ul>
+          <ul className="flex flex-1 gap-12">{navListEl()}</ul>
         </div>
         <div className="flex items-center gap-6">
           <Link to="/hotel/user-login">
@@ -27,7 +37,7 @@ export default function NavigationBar() {
               Log in
             </p>
           </Link>
-          <Link to="#">
+          <Link to="/hotel/result">
             <button className="py-3 px-8 rounded font-sans text-sm font-semibold text-white bg-orange-600">
               Book Now
             </button>

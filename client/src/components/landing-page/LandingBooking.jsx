@@ -1,11 +1,17 @@
+import { forwardRef } from "react";
 import superiorGardenView from "../../assets/landing-page-images/superior-garden-view.jpg";
 
-export default function LandingBooking() {
+const LandingBooking = forwardRef((props, ref) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div
       className={
         "relative max-w-screen h-[900px] flex flex-col justify-center items-center gap-12"
       }
+      ref={ref}
     >
       <img
         src={superiorGardenView}
@@ -16,7 +22,10 @@ export default function LandingBooking() {
         A Best Place for Your <br />
         Neatly Experience
       </h1>
-      <form className="relative p-11 w-[1200px] bg-white rounded-md flex justify-between items-end gap-4">
+      <form
+        onSubmit={() => handleSubmit()}
+        className="relative p-11 w-[1200px] bg-white rounded-md flex justify-between items-end gap-4"
+      >
         <div className="w-[240px] flex flex-col justify-center gap-2">
           <label htmlFor="check_in" class="text-sm text-gray-900">
             Check In
@@ -57,4 +66,6 @@ export default function LandingBooking() {
       </form>
     </div>
   );
-}
+});
+
+export default LandingBooking;

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
@@ -5,6 +6,10 @@ import {
   Route,
   useNavigate,
 } from "react-router-dom";
+
+import "./App.css";
+import ScrollToTop from "./components/utils/ScrollToTop";
+
 import RoomDetail from "./pages/RoomDetailPage";
 import UserLoginPage from "./pages/UserLoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -36,7 +41,11 @@ function App() {
 
   return (
     <div className="App">
+
+   <BrowserRouter>
+    <ScrollToTop />
       <Routes>
+
         <Route path="/hotel/user-login" element={<UserLoginPage />} />
         <Route path="/hotel/user-register" element={<RegisterPage />} />
         <Route path="/hotel/detail" element={<RoomDetail />} />
@@ -46,6 +55,7 @@ function App() {
         <Route path="/room-management" element={<RoomManagementPage />} />
         <Route path="/hotel-information" element={<HotelInfoPage />} />
         <Route path="/create-room-form" element={<CreateRoomForm />} />
+        <Route path="/hotel" element={<LandingPage />} />  
 
         <Route
           path="/agent-login"
@@ -70,6 +80,8 @@ function App() {
           </>
         )}
       </Routes>
+ </BrowserRouter>
+
     </div>
   );
 }

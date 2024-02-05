@@ -1,19 +1,66 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import chairBesidePool from "../assets/loginPageImage/chairBesidePool.jpg";
+import supabase from "../../../server/utils/db";
+import { useNavigate } from "react-router-dom";
+
+// check ว่าเป็น email ไหม
+function isEmail(input) {
+  return input.includes("@");
+}
+
+// หา email จาก username
+async function getEmailFromUsername(username) {
+  const { data, error } = await supabase
+    .from("users")
+    .select("email")
+    .eq("username", username)
+    .single();
+
+  if (error) {
+    console.error("Error fetching email", error);
+    return null;
+  }
+
+  return data?.email;
+}
 
 // --login ของ user--
 export function UserLoginForm() {
   const [userUsernameOrEmail, setuserUsernameOrEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    let data = {
-      userUsernameOrEmail,
-      userPassword,
-    };
-    console.log(data);
+    // let userData = {
+    //   userUsernameOrEmail,
+    //   userPassword,
+    // };
+
+    let email = userUsernameOrEmail;
+
+    if (!isEmail(userUsernameOrEmail)) {
+      const fetchedEmail = await getEmailFromUsername(userUsernameOrEmail);
+      if (!fetchedEmail) {
+        alert("Username not found");
+        return;
+      }
+      email = fetchedEmail;
+    }
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: data.userPassword,
+      });
+      console.log(data);
+      if (error) throw error;
+      alert("Login successful!");
+      navigate("/hotel");
+    } catch (error) {
+      alert(`Login failed: ${error.message}`);
+    }
   };
 
   return (
@@ -76,7 +123,7 @@ export function UserLoginForm() {
                 Don’t have an account yet?
               </span>{" "}
               <Link
-                to="#"
+                to="/hotel/user-register"
                 className="text-body1 font-fontWeight6 text-orange-500"
               >
                 Register
