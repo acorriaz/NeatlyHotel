@@ -84,7 +84,7 @@ function RegisterPage() {
         password: data.password,
         options: {
           data: {
-            full_name: data.fullName,
+            full_name: data.full_name,
             username: data.username,
             id_number: data.idNumber,
             date_of_birth: data.dateOfBirth,
@@ -102,8 +102,8 @@ function RegisterPage() {
           .from("users_profile")
           .insert([
             {
-              user_profile_id: signUpResult.user.id,
-              full_name: data.fullName, // Adjust these field names as necessary
+              user_id: signUpResult.user.id,
+              full_name: data.full_name,
               id_number: data.idNumber,
               date_of_birth: data.dateOfBirth,
               country: data.country,
@@ -120,6 +120,7 @@ function RegisterPage() {
         }
 
         alert("Registration successful!");
+        navigate("/hotel/user-login");
       } else if (error) {
         alert(error.message);
         return;
