@@ -4,8 +4,7 @@ import chairBesidePool from "../assets/loginPageImage/chairBesidePool.jpg";
 import NavigationBar from "../components/NavigationBar";
 import Footer from "../components/Footer";
 
-import { supabase } from "../components/supabaseClient";
-
+import supabase from "../../../server/utils/db";
 
 const AgentRegisterPage = () => {
   const [formData, setFormData] = useState({

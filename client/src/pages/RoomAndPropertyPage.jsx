@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SideBarAdmin from "../components/SideBarAdmin";
 import { Link, useNavigate } from "react-router-dom";
-import { supabase } from "../components/supabaseClient";
+import supabase from "../../../server/utils/db";
 
 const RoomAndPropertyPage = ({ token }) => {
   let navigate = useNavigate();

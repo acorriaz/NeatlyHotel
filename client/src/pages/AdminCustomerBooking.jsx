@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import React, { useState, useEffect } from "react";
 import SideBarAdmin from "../components/SideBarAdmin";
 import { Link, useNavigate } from "react-router-dom";
-import { supabase } from "../components/supabaseClient";
+import supabase from "../../../server/utils/db";
 
 const AdminCustomerBooking = ({ token }) => {
   let navigate = useNavigate();

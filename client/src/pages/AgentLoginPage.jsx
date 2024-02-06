@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import NavigationBar from "../components/NavigationBar";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../components/supabaseClient";
+import supabase from "../../../server/utils/db";
 
 const AgentLoginPage = ({ setToken }) => {
   const [formData, setFormData] = useState({
