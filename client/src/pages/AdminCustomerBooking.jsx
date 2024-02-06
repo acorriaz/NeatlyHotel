@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import React, { useState, useEffect } from "react";
 import SideBarAdmin from "../components/SideBarAdmin";
 import { Link, useNavigate } from "react-router-dom";
-import { supabase } from "../components/supabaseClient";
+import supabase from "../../../server/utils/db";
 
 const AdminCustomerBooking = ({ token }) => {
   let navigate = useNavigate();
@@ -86,7 +86,7 @@ const AdminCustomerBooking = ({ token }) => {
   );
 
   return (
-    <div className="room-and-property-page flex flex-row">
+    <div className=" bg-white room-and-property-page flex flex-row">
       {/* SideBarAdmin component must be defined elsewhere */}
       <SideBarAdmin />
       <main className="main-content flex-1 bg-utility-white font-noto-serif">
