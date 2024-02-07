@@ -92,7 +92,6 @@ function RegisterPage() {
             card_number: data.creditCardNo,
             card_owner: data.cardOwner,
             card_expiry_date: data.cardExpiry,
-            card_cvc_cvv: data.cvcCvv,
           },
         },
       });
@@ -110,7 +109,6 @@ function RegisterPage() {
               card_number: data.creditCardNo,
               card_owner: data.cardOwner,
               card_expiry_date: data.cardExpiry,
-              card_cvc_cvv: data.cvcCvv,
             },
           ]);
 
@@ -707,30 +705,6 @@ function RegisterPage() {
                       className={inputErrorBorder("cardExpiry")}
                     />
                     {inputErrorIcon("cardExpiry")}
-                  </div>
-                  <div className="relative">
-                    <label htmlFor="cvcCvv" className="body2">
-                      CVC/CVV
-                    </label>
-                    <br></br>
-                    <input
-                      {...register("cvcCvv", {
-                        required: true,
-                        pattern: {
-                          value: /^\d{3}$/,
-                          message: "CVV/CVC must be 3 digits",
-                        },
-                      })}
-                      id="cvcCvv"
-                      name="cvcCvv"
-                      type="tel"
-                      inputMode="numeric"
-                      placeholder="CVC/CVV"
-                      maxLength={3}
-                      minLength={3}
-                      className={inputErrorBorder("cvcCvv")}
-                    />
-                    {inputErrorIcon("cvcCvv")}
                   </div>
                 </div>
               </div>
