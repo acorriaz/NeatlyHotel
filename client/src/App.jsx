@@ -21,6 +21,7 @@ import BookingRefundPage from "./pages/BookingRefundPage"
 import BookingRefundSuccessPage from "./pages/BookingRefundSuccessPage"
 import BookingCancelPage from "./pages/BookingCancelPage"
 import BookingCancelSuccessPage from "./pages/BookingCancelSuccessPage"
+import PaymentResultPage from "./pages/PaymentResultPage";
 
 function App() {
   const [token, setToken] = useState(false);
@@ -45,6 +46,7 @@ function App() {
         <Route path="/hotel" element={<SearchResultPage />} />
         <Route path="/hotel/detail" element={<RoomDetail />} />
         <Route path="/hotel/payment" element={<PaymentPage />} />
+<<<<<<< HEAD
         <Route path="/users/booking-history" element={<BookingHistoryPage />} />
         <Route path="/users/booking-history/change-date/:id" element={<BookingChangeDatePage />} />
         <Route path="/users/booking-history/refund/:id" element={<BookingRefundPage />} />
@@ -55,6 +57,21 @@ function App() {
         <Route path="/agent/room-management" element={<RoomManagementPage />} />
         <Route path="/agent/hotel-information" element={<HotelInfoPage />} />
         <Route path="/agent/create-room" element={<CreateRoomForm />} />
+=======
+        <Route path="/hotel/payment-result" element={<PaymentResultPage />} />
+        <Route path="/agent-register" element={<AgentRegisterPage />} />
+        <Route path="/room-management" element={<RoomManagementPage />} />
+        <Route path="/hotel-information" element={<HotelInfoPage />} />
+        <Route path="/create-room-form" element={<CreateRoomForm />} />
+        <Route path="/hotel" element={<LandingPage />} />
+
+        <Route
+          path="/agent-login"
+          element={<AgentLoginPage setToken={setToken} />}
+        />
+        <Route path="/hotel" element={<LandingPage />} />
+
+>>>>>>> e107c18 (feat: add payment result page)
         {token && (
           <>
             <Route path="/agent/customer-booking" element={<AgentCustomerBooking token={token} />}/>
