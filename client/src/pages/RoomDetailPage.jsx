@@ -1,6 +1,6 @@
 import ImageSlideRoom from "../components/roomDetail/ImageSlideRoom"
-import RoomCategories from "../components/roomDetail/roomCategories"
-import OtherRoom from "../components/roomDetail/otherRoom";
+import RoomCategories from "../components/roomDetail/RoomCategories"
+import OtherRoom from "../components/roomDetail/OtherRoom";
 import NavigationBar from "../components/NavigationBar";
 import Footer from "../components/Footer"
 

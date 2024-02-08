@@ -77,3 +77,150 @@ export const rooms = [
 
 // `Per Night${(<br />)}(Including Taxes & Fees)`
 // "Per Night (Including Taxes & Fees)"
+
+export const bookingDetail = [
+  {
+    room_id: 1,
+    room_type: "Superior Garden View",
+    guest_number: 2,
+    check_in: "Th, 19 Oct 2022 ",
+    check_out: "Fri, 20 Oct 2022",
+    payment_method: "Credit Card - *888",
+    guest_request: {
+      guest_request_id: 1,
+      request_id: [
+        {
+          request_id: 1,
+          request_name: "Airport tranfer",
+          request_type: "Standard",
+          request_price: 200,
+        },
+      ],
+    },
+    total_price: 2300,
+    room_price: 2500,
+    photo: gardenview,
+    additional_request: "Can i have some chocolate?",
+    created_at: "Tue, 16 Oct 2022",
+  },
+  {
+    room_id: 2,
+    room_type: "Deluxe",
+    guest_number: 2,
+    check_in: "Th, 19 Oct 2022 ",
+    check_out: "Fri, 20 Oct 2022",
+    payment_method: "Credit Card - *888",
+    guest_request: {
+      guest_request_id: 1,
+      request_id: [
+        {
+          request_id: 1,
+          request_name: "Airport tranfer",
+          request_type: "Standard",
+          request_price: 200,
+        },
+      ],
+    },
+    total_price: 2300,
+    room_price: 2500,
+    additional_request: "Can i have some chocolate?",
+    photo: delux,
+    created_at: "Tue, 16 Oct 2022",
+  },
+  {
+    room_id: 3,
+    room_type: "Superior",
+    guest_number: 2,
+    check_in: "Th, 19 Oct 2022 ",
+    check_out: "Fri, 20 Oct 2022",
+    payment_method: "Credit Card - *888",
+    guest_request: {
+      guest_request_id: 1,
+      request_id: [
+        {
+          request_id: 1,
+          request_name: "Airport tranfer",
+          request_type: "Standard",
+          request_price: 200,
+        },
+      ],
+    },
+    total_price: 2300,
+    room_price: 2500,
+    additional_request: "Can i have some chocolate?",
+    photo: superior,
+    created_at: "Tue, 16 Oct 2022",
+  },
+  {
+    room_id: 4,
+    room_type: "Supreme",
+    guest_number: 2,
+    check_in: "Th, 19 Oct 2022 ",
+    check_out: "Fri, 20 Oct 2022",
+    payment_method: "Credit Card - *888",
+    guest_request: {
+      guest_request_id: 1,
+      request_id: [
+        {
+          request_id: 1,
+          request_name: "Airport tranfer",
+          request_type: "Standard",
+          request_price: 200,
+        },
+      ],
+    },
+    total_price: 2300,
+    room_price: 2500,
+    additional_request: "Can i have some chocolate?",
+    photo: supreme,
+    created_at: "Tue, 16 Oct 2022",
+  },
+  {
+    room_id: 5,
+    room_type: "Premier Sea View",
+    guest_number: 2,
+    check_in: "Th, 19 Oct 2022 ",
+    check_out: "Fri, 20 Oct 2022",
+    payment_method: "Credit Card - *888",
+    guest_request: {
+      guest_request_id: 1,
+      request_id: [
+        {
+          request_id: 1,
+          request_name: "Airport tranfer",
+          request_type: "Standard",
+          request_price: 200,
+        },
+      ],
+    },
+    total_price: 2300,
+    room_price: 2500,
+    additional_request: "Can i have some chocolate?",
+    photo: seaview,
+    created_at: "Tue, 16 Oct 2022",
+  },
+  {
+    room_id: 6,
+    room_type: "Suit",
+    guest_number: 2,
+    check_in: "Th, 19 Oct 2022 ",
+    check_out: "Fri, 20 Oct 2022",
+    payment_method: "Credit Card - *888",
+    guest_request: {
+      guest_request_id: 1,
+      request_id: [
+        {
+          request_id: 1,
+          request_name: "Airport tranfer",
+          request_type: "Standard",
+          request_price: 200,
+        },
+      ],
+    },
+    total_price: 2300,
+    room_price: 2500,
+    additional_request: "Can i have some chocolate?",
+    photo: suit,
+    created_at: "Tue, 16 Oct 2022",
+  },
+];
