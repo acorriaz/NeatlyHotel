@@ -16,7 +16,7 @@ export default function NavigationBar() {
 
   function navListEl() {
     return items.map((item, index) => (
-      <Link to={`/hotel${item.href}`} key={index}>
+      <Link to={`/${item.href}`} key={index}>
         <li className="font-sans">{item.title}</li>
       </Link>
     ));
@@ -26,18 +26,18 @@ export default function NavigationBar() {
     <div className="fixed top-0 z-10 m-auto w-screen p-0 navbar bg-base-100">
       <div className="w-[1200px] m-auto">
         <div className="w-full m-auto flex flex-1 justify-between items-center gap-12">
-          <Link to="/hotel">
+          <Link to="/">
             <img src={neatlyLogo} alt="Neatly Logo" />
           </Link>
           <ul className="flex flex-1 gap-12">{navListEl()}</ul>
         </div>
         <div className="flex items-center gap-6">
-          <Link to="/hotel/user-login">
+          <Link to="/users/login">
             <p className="font-sans font-semibold text-sm text-orange-500">
               Log in
             </p>
           </Link>
-          <Link to="/hotel/result">
+          <Link to="/hotel">
             <button className="py-3 px-8 rounded font-sans text-sm font-semibold text-white bg-orange-600">
               Book Now
             </button>
