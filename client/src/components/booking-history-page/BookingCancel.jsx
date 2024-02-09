@@ -43,9 +43,9 @@ function BookingCancel() {
           <div className="w-full flex justify-between font-sans font-fontWeight6 mt-16">
             <Link to="/users/booking-history" className="text-orange500 px-2">Cancel</Link>
             <div>
-              <button className="py-4 px-8 bg-orange600 text-utilWhite rounded-md">
+              <Link to="/users/booking-history/cancel-success/:id" className="py-4 px-8 bg-orange600 text-utilWhite rounded-md">
                 Cancel this Booking
-              </button>
+              </Link>
             </div>
           </div>
         </div>

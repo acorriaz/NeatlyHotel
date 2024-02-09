@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function BookingRefundSuccess () {
     return (
       <>
@@ -35,9 +37,9 @@ function BookingRefundSuccess () {
               </div>
             </div>
             <div className="w-full flex justify-center items-center font-sans font-fontWeight6">
-              <button className="w-44 h-12 bg-orange600 text-utilWhite rounded-md mt-12">
+              <Link to="/users/booking-history" className="w-44 h-14 bg-orange600 text-utilWhite rounded-md mt-12 py-4 px-8">
                 Back to Home
-              </button>
+              </Link>
             </div>
           </div>
         </div>
