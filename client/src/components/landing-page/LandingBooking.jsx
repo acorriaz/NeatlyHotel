@@ -60,7 +60,7 @@ const LandingBooking = forwardRef((props, ref) => {
             <option>1 Room, 2 Adult</option>
           </select>
         </div>
-        <button className="bg-orange600 text-white py-3 px-6 font-sans font-semibold rounded-md">
+        <button className="bg-orange-600 text-white py-3 px-6 font-sans font-semibold rounded-md">
           Book Now
         </button>
       </form>
