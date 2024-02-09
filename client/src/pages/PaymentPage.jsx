@@ -1,4 +1,5 @@
 import { useForm, Controller } from "react-hook-form";
+import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { IoAlertCircle, IoAdd } from "react-icons/io5";
 import { Link } from "react-router-dom";
@@ -199,7 +200,7 @@ function PaymentPage(token) {
             <div className="flex flex-col mt-10">
               {/* --- Basic Information start --- */}
               <p className="justify-start headline5 text-gray600">
-                Basic Information
+                Basic Information,
               </p>
               <div className="mt-5 relative">
                 <label htmlFor="full_name">Full Name</label>
