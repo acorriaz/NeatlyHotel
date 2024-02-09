@@ -23,7 +23,6 @@ function PaymentPage({ token }) {
     watch,
     formState: { errors },
   } = useForm();
-  const [selectedFileState, setSelectedFileState] = useState(null);
 
   const onSubmit = async (data) => {
     let errorMessage = "";
@@ -87,7 +86,7 @@ function PaymentPage({ token }) {
     // auth part
 
     try {
-      const { data: signUpResult, error } = await supabase.auth.signUp({
+      const { data: signUpResult, error } = await supabase.auth.updateUser({
         email: data.email,
         password: data.password,
         options: {
@@ -127,7 +126,7 @@ function PaymentPage({ token }) {
           return;
         }
 
-        alert("Registration successful!");
+        alert("Updated successful!");
       } else if (error) {
         alert(error.message);
         return;
@@ -137,12 +136,6 @@ function PaymentPage({ token }) {
       return;
     }
   };
-
-  const handleFileChange = (file) => {
-    setSelectedFileState(file);
-  };
-
-  const fileInputRef = useRef(null);
 
   // กำหนดไม่ให้เลือกวันนี้กับหลังจากนี้
   const yesterday = new Date();
