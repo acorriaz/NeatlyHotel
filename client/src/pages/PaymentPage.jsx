@@ -197,7 +197,8 @@ function PaymentPage({ token }) {
             onSubmit={handleSubmit(onSubmit)}
           >
             <h1 className="headline2 text-green800">
-              Hello,{token.user.user_metadata.full_name}
+              Hello,{token.user.user_metadata.full_name},
+              {token.user.user_metadata.emails}
             </h1>
             <div className="flex flex-col mt-10">
               {/* --- Basic Information start --- */}
@@ -248,7 +249,7 @@ function PaymentPage({ token }) {
                     id="email"
                     name="email"
                     type="email"
-                    placeholder={token.user.user_metadata.email}
+                    placeholder="Re-enter your email"
                     className={inputErrorBorder("email")}
                   />
                   {inputErrorIcon("email")}
@@ -267,7 +268,7 @@ function PaymentPage({ token }) {
                     id="password"
                     name="password"
                     type="password"
-                    placeholder="Enter your password"
+                    placeholder="Re enter your password"
                     //password.length >= 12
                     minLength={12}
                     className={inputErrorBorder("password")}
@@ -299,6 +300,7 @@ function PaymentPage({ token }) {
                   {inputErrorIcon("idNumber")}
                 </div>
               </div>
+
               <div className="grid grid-cols-2 gap-10 mt-5">
                 <div className="relative">
                   <label htmlFor="dateOfBirth" className="body2">
@@ -311,13 +313,13 @@ function PaymentPage({ token }) {
                     })}
                     id="dateOfBirth"
                     name="dateOfBirth"
-                    type="date"
-                    placeholder="Pick your date of birth"
+                    type="text"
+                    placeholder={token.user.user_metadata.date_of_birth}
                     className={inputErrorBorder("dateOfBirth")}
-                    max={maxDate}
                   />
                   {inputErrorIcon("dateOfBirth")}
                 </div>
+
                 <div className="relative">
                   <label htmlFor="country" className="body2">
                     Country
@@ -629,7 +631,7 @@ function PaymentPage({ token }) {
                       maxLength={16}
                       minLength={16}
                       inputMode="numeric"
-                      placeholder="Enter your card number"
+                      placeholder={token.user.user_metadata.card_number}
                       className={inputErrorBorder("creditCardNo")}
                     />
                     {inputErrorIcon("creditCardNo")}
@@ -646,7 +648,7 @@ function PaymentPage({ token }) {
                       id="cardOwner"
                       name="cardOwner"
                       type="text"
-                      placeholder="Enter your card name"
+                      placeholder={token.user.user_metadata.card_owner}
                       className={inputErrorBorder("cardOwner")}
                     />
                     {inputErrorIcon("cardOwner")}
@@ -671,7 +673,7 @@ function PaymentPage({ token }) {
                       type="tel"
                       maxLength={5}
                       inputMode="numeric"
-                      placeholder="MM / YY"
+                      placeholder={token.user.user_metadata.card_expiry_date}
                       className={inputErrorBorder("cardExpiry")}
                     />
                     {inputErrorIcon("cardExpiry")}
@@ -693,7 +695,7 @@ function PaymentPage({ token }) {
                       name="cvcCvv"
                       type="tel"
                       inputMode="numeric"
-                      placeholder="CVC/CVV"
+                      placeholder="Re-enter your CVV/CVC number"
                       maxLength={3}
                       minLength={3}
                       className={inputErrorBorder("cvcCvv")}
