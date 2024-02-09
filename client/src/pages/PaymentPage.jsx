@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import supabase from "../../../server/utils/db";
 import NavigationBar from "../components/NavigationBar";
 import { useNavigate } from "react-router-dom";
+import LoginModal from "../components/LoginModal";
 
 function PaymentPage() {
   const navigate = useNavigate();
