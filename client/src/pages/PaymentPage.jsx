@@ -24,66 +24,10 @@ function PaymentPage({ token }) {
   } = useForm();
 
   const onSubmit = async (data) => {
-    let errorMessage = "";
-    //Age > 18
-    const ageOver18 = (dateOfBirth) => {
-      const birthday = new Date(dateOfBirth);
-      const today = new Date();
-      let age = today.getFullYear() - birthday.getFullYear();
-      const month = today.getMonth() - birthday.getMonth();
-      if (month < 0 || (month === 0 && today.getDate() < birthday.getDate())) {
-        age--;
-      }
-      return age >= 18;
-    };
-
-    if (!ageOver18(data.dateOfBirth)) {
-      console.error("You must be at least 18 years old to register.");
-      return;
-    }
-
-    //username ไม่ซ้ำ
-    //email มี @ .com ไม่ซ้ำ
-    const userCheck = await supabase
-      .from("users")
-      .select("username, email")
-      .or(`username.eq.${data.username}, email.eq.${data.email}`);
-
-    if (userCheck.error) {
-      console.error(userCheck.error);
-      return;
-    }
-
-    if (userCheck.data.length > 0) {
-      if (userCheck.data.find((user) => user.username === data.username)) {
-        errorMessage = "Sorry! This username has already been taken!";
-      } else if (userCheck.data.find((user) => user.email === data.email)) {
-        errorMessage = "Sorry! This email has already been used!";
-      }
-
-      console.error(errorMessage);
-      return;
-    }
-
-    //ID no. is no. and >=13 and ไม่ซ้ำ
-    const profileCheck = await supabase
-      .from("users_profile")
-      .select("id_number")
-      .eq("id_number", data.idNumber);
-
-    if (profileCheck.error) {
-      console.error(profileCheck.error);
-      return;
-    }
-
-    if (profileCheck.data.length > 0) {
-      errorMessage = "Sorry! This ID number has already been used!";
-      console.error(errorMessage);
-      return;
-    }
+    let errorMessage = "ERRORRR";
 
     // auth part
-
+    const user = supabase.auth.user();
     try {
       const { data: signUpResult, error } = await supabase.auth.updateUser({
         email: data.email,
@@ -103,22 +47,21 @@ function PaymentPage({ token }) {
         },
       });
 
-      if (signUpResult.user) {
-        const { data: profileData, error: profileError } = await supabase
+      if (signUpResult?.user) {
+        const { error: profileError } = await supabase
           .from("users_profile")
-          .insert([
-            {
-              user_profile_id: signUpResult.user.id,
-              full_name: data.fullName, // Adjust these field names as necessary
-              id_number: data.idNumber,
-              date_of_birth: data.dateOfBirth,
-              country: data.country,
-              card_number: data.creditCardNo,
-              card_owner: data.cardOwner,
-              card_expiry_date: data.cardExpiry,
-              card_cvc_cvv: data.cvcCvv,
-            },
-          ]);
+          .update({
+            full_name: data.fullName,
+            username: data.username,
+            id_number: data.idNumber,
+            date_of_birth: data.dateOfBirth,
+            country: data.country,
+            card_number: data.creditCardNo,
+            card_owner: data.cardOwner,
+            card_expiry_date: data.cardExpiry,
+            card_cvc_cvv: data.cvcCvv,
+          })
+          .eq("id", user?.id);
 
         if (profileError) {
           alert(profileError.message);
@@ -135,11 +78,6 @@ function PaymentPage({ token }) {
       return;
     }
   };
-
-  // กำหนดไม่ให้เลือกวันนี้กับหลังจากนี้
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  const maxDate = yesterday.toISOString().split("T")[0];
 
   const inputErrorBorder = (id) => {
     return `w-full bg-utilWhite border rounded py-3 pr-4 pl-3 relative ${
@@ -174,9 +112,7 @@ function PaymentPage({ token }) {
             </h1>
             <div className="flex flex-col mt-10">
               {/* --- Basic Information start --- */}
-              <p className="justify-start headline5 text-gray600">
-                Basic Information,
-              </p>
+
               <div className="mt-5 relative">
                 <label htmlFor="full_name">Full Name</label>
                 <br></br>
@@ -313,9 +249,7 @@ function PaymentPage({ token }) {
                 </div>
               </div>
               <hr className="mt-10"></hr>
-
-              {/* --- Basic Information end --- */}
-              {/* --- Credit Card 2 start --- */}
+              {/* --- Credit Card start --- */}
               <div className="flex flex-col pt-10 mt-5">
                 <p className="justify-start headline5 text-gray600">
                   Credit Card
