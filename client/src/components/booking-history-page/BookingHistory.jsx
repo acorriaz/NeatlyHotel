@@ -14,10 +14,10 @@ function BookingHistory() {
         <div className="border mt-16 mx-44">
           {bookingDetailArray.map((item, index) => {
             return (
-              <div key={index} className="py-10">
-                <div className="flex gap-14 bg-gray300">
-                  <div className="w-[357px] h-[210px]">
-                    <img src={item.photo} alt="" />
+              <div key={index} className="py-10 bg-gray300">
+                <div className="flex gap-12">
+                  <div className="w-[500px] h-[200px]">
+                    <img src={item.photo} alt="" className="w-full h-full rounded-md"/>
                   </div>
                   <div className="w-full flex flex-col justify-between pb-4">
                     <div className="flex justify-between font-inter">
@@ -31,40 +31,35 @@ function BookingHistory() {
                     <div className="flex gap-12 text-gray800 w-full font-inter my-6">
                       <div>
                         <p className="font-fontWeight6">Check-in</p>
-                        <span className="font-fontWeight4">
+                        <span className="font-fontWeight4 mr-2">
                           {item.check_in}
-                        </span>{" "}
-                        |
-                        <span className="font-fontWeight4"> After 2:00 PM</span>
+                        </span> |
+                        <span className="font-fontWeight4 ml-2">After 2:00 PM</span>
                       </div>
                       <div>
                         <p className="font-fontWeight6">Check-out</p>
-                        <span className="font-fontWeight4">
+                        <span className="font-fontWeight4 mr-2">
                           {item.check_out}
-                        </span>{" "}
-                        |
-                        <span className="font-fontWeight4">
-                          {" "}
-                          Before 2:00 PM
-                        </span>
+                        </span> |
+                        <span className="font-fontWeight4 ml-2">Before 2:00 PM</span>
                       </div>
                     </div>
                     <div className="collapse collapse-arrow bg-gray200 text-orange500 font-sans font-fontWeight6">
                       <input type="radio" name="roomDetail" />
                       <div className="collapse-title">
-                        <p className="text-gray900">Booking Detail</p>
+                        <p className="text-gray900 my-2 mx-4">Booking Detail</p>
                       </div>
-                      <div className="collapse-content text-gray700 font-inter">
+                      <div className="collapse-content text-gray700 font-inter font-fontWeight4">
                         <p className="flex justify-between w-full pb-6">
                           {item.guest_number} Guests (1 Night)
                           <span>
                             Payment success via
-                            <span className="pl-2">{item.payment_method}</span>
+                            <span className="pl-2 font-fontWeight6">{item.payment_method}</span>
                           </span>
                         </p>
                         <p className="flex justify-between w-full py-2">
                           {item.room_type}
-                          <span className="pl-2 text-gray900">
+                          <span className="pl-2 text-gray900 font-fontWeight6">
                             {item.room_price}
                           </span>
                         </p>
@@ -75,7 +70,7 @@ function BookingHistory() {
                               className="flex justify-between w-full py-2 "
                             >
                               {req.request_name}
-                              <span className="pl-2 text-gray900">
+                              <span className="pl-2 text-gray900 font-fontWeight6">
                                 {req.request_price}
                               </span>
                             </p>
@@ -83,16 +78,16 @@ function BookingHistory() {
                         })}
                         <p className="flex justify-between w-full py-2">
                           Promotion Code
-                          <span className="pl-2 text-gray900">-400.00</span>
+                          <span className="pl-2 text-gray900 font-fontWeight6">-400</span>
                         </p>
                         <p className="flex justify-between w-full py-2">
                           Total
-                          <span className="headline5 pl-2 text-gray900">
+                          <span className="headline5 pl-2 text-gray900 font-fontWeight6">
                             THB {item.total_price}
                           </span>
                         </p>
                         <div className="py-4 px-6">
-                          <p>Additional Request</p>
+                          <p className=" text-gray900 font-fontWeight6">Additional Request</p>
                           <p className="font-fontWeight4">
                             {item.additional_request}
                           </p>
@@ -114,9 +109,9 @@ function BookingHistory() {
                     <button className="py-4 px-8 text-orange500">
                       Room Detail
                     </button>
-                    <button className="py-4 px-8 bg-orange600 text-utilWhite rounded-md">
+                    <Link to="/users/booking-history/change-date/:id" className="py-4 px-8 bg-orange600 text-utilWhite rounded-md">
                       Change Date
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>

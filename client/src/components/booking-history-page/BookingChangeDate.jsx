@@ -11,10 +11,14 @@ function BookingChangeDate() {
         <h1 className="headline2 text-utilBlack font-['noto-serif'] w-1/2 mx-44">
           Change Check-in <br /> and Check-out Date
         </h1>
-        <div className="w-3/4 h-[500px] mt-16 mx-44 font-inter">
-          <div className="flex justify-between gap-8">
-            <div className="w-[357px] h-[210px]">
-              <img src={bookingDetailArray.photo} alt="" />
+        <div className="w-3/4 h-[450px] mt-16 mx-44 bg-gray300 font-inter">
+          <div className="flex justify-between gap-12">
+            <div className="w-[500px] h-[200px]">
+              <img
+                src={bookingDetailArray.photo}
+                alt=""
+                className="w-full h-full rounded-md"
+              />
             </div>
             <div className="w-full flex flex-col">
               <div className="flex justify-between">
@@ -35,21 +39,23 @@ function BookingChangeDate() {
                 </span>
               </div>
               <div>
-                <p className=" text-gray800 mx-6">Change Date</p>
+                <p className="text-gray800 font-fontWeight6 mx-6 mt-6">
+                  Change Date
+                </p>
                 <div className="flex items-center gap-12 my-4 mx-6 text-gray900">
                   <div className="w-1/2">
-                    <p className="font-fontWeight6 mb-4">Check-in</p>
+                    <p className="font-fontWeight4 mb-4">Check-in</p>
                     <input
                       type="date"
-                      className="font-fontWeight4 bg-gray400 w-full"
+                      className="font-fontWeight4 bg-gray400 w-full mx-4"
                     />
                   </div>
                   <span>-</span>
                   <div className="w-1/2">
-                    <p className="font-fontWeight6 mb-4">Check-out</p>
+                    <p className="font-fontWeight4 mb-4">Check-out</p>
                     <input
                       type="date"
-                      className="font-fontWeight4 bg-gray400 w-full"
+                      className="font-fontWeight4 bg-gray400 w-full mx-4"
                     />
                   </div>
                 </div>
@@ -57,7 +63,9 @@ function BookingChangeDate() {
             </div>
           </div>
           <div className="w-full flex justify-between font-sans font-fontWeight6 my-10">
-            <button className="text-orange500 px-2">Cancel</button>
+            <Link to="/users/booking-history" className="text-orange500 px-2">
+              Cancel
+            </Link>
             <div>
               <button
                 className="py-4 px-8 bg-orange600 text-utilWhite rounded-md"

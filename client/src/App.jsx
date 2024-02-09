@@ -54,7 +54,7 @@ function App() {
         <Route path="/agent/login" element={<AgentLoginPage setToken={setToken} />}/>
         <Route path="/agent/room-management" element={<RoomManagementPage />} />
         <Route path="/agent/hotel-information" element={<HotelInfoPage />} />
-         <Route path="/agent/create-room" element={<CreateRoomForm />} />
+        <Route path="/agent/create-room" element={<CreateRoomForm />} />
         {token && (
           <>
             <Route path="/agent/customer-booking" element={<AgentCustomerBooking token={token} />}/>
