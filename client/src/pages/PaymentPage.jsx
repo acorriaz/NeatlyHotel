@@ -8,7 +8,7 @@ import NavigationBar from "../components/NavigationBar";
 import { useNavigate } from "react-router-dom";
 import LoginModal from "../components/LoginModal";
 
-function PaymentPage(token) {
+function PaymentPage({ token }) {
   const navigate = useNavigate();
 
   function handleLogout() {
@@ -196,7 +196,9 @@ function PaymentPage(token) {
             className="flex flex-col items-start justify-start"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <h1 className="headline2 text-green800">User Page</h1>
+            <h1 className="headline2 text-green800">
+              Hello,{token.user.user_metadata.full_name}
+            </h1>
             <div className="flex flex-col mt-10">
               {/* --- Basic Information start --- */}
               <p className="justify-start headline5 text-gray600">
@@ -212,7 +214,7 @@ function PaymentPage(token) {
                   id="full_name"
                   name="full_name"
                   type="text"
-                  placeholder="Enter your name and last name"
+                  placeholder={token.user.user_metadata.full_name}
                   className={inputErrorBorder("full_name")}
                 />
                 {inputErrorIcon("full_name")}
@@ -230,7 +232,7 @@ function PaymentPage(token) {
                     id="username"
                     name="username"
                     type="text"
-                    placeholder="Enter your username"
+                    placeholder={token.user.user_metadata.username}
                     className={inputErrorBorder("username")}
                   />
                   {inputErrorIcon("username")}
@@ -246,7 +248,7 @@ function PaymentPage(token) {
                     id="email"
                     name="email"
                     type="email"
-                    placeholder="Enter your email"
+                    placeholder={token.user.user_metadata.email}
                     className={inputErrorBorder("email")}
                   />
                   {inputErrorIcon("email")}
@@ -288,7 +290,7 @@ function PaymentPage(token) {
                     id="idNumber"
                     name="idNumber"
                     type="text"
-                    placeholder="Enter your ID Number"
+                    placeholder={token.user.user_metadata.id_number}
                     inputMode="numeric"
                     maxLength={13}
                     minLength={13}
@@ -329,7 +331,7 @@ function PaymentPage(token) {
                     name="country"
                     className={inputErrorBorder("country")}
                   >
-                    <option>select country</option>
+                    <option>{token.user.user_metadata.country}</option>
                     <option value="AF">Afghanistan</option>
                     <option value="AX">Aland Islands</option>
                     <option value="AL">Albania</option>
@@ -599,36 +601,7 @@ function PaymentPage(token) {
                 </div>
               </div>
               <hr className="mt-10"></hr>
-              <div className="mt-10">
-                <label
-                  htmlFor="profilePicture"
-                  className="headline5 text-gray600"
-                  name="avatar"
-                  control={control}
-                  defaultValue={[]}
-                  render={({ field: { onChange, onBlur, name, ref } }) => (
-                    <input
-                      type="file"
-                      id="profilePicture"
-                      className="hidden"
-                      name={name}
-                      ref={(e) => {
-                        ref(e);
-                        fileInputRef.current = e;
-                      }}
-                      onBlur={onBlur}
-                      onChange={(e) => {
-                        const file = e.target.files[0];
-                        if (file) {
-                          handleFileChange(file);
-                          onChange(file);
-                        }
-                      }}
-                    />
-                  )}
-                />
-                <hr className="mt-10"></hr>
-              </div>
+
               {/* --- Basic Information end --- */}
               {/* --- Credit Card 2 start --- */}
               <div className="flex flex-col pt-10 mt-5">
@@ -743,7 +716,7 @@ function PaymentPage(token) {
                   to="/hotel/user-login"
                   className=" font-sans font-fontWeight6 text-orange500"
                 >
-                  Logout
+                  Logout,{token.user.user_metadata.full_name}
                 </Link>
               </div>
               <div></div>
