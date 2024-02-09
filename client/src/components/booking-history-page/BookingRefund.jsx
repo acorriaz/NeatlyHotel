@@ -43,9 +43,9 @@ function BookingRefund() {
           <div className="w-full flex justify-between font-sans font-fontWeight6 mt-20">
             <Link to="/users/booking-history" className="text-orange500 px-2">Cancel</Link>
             <div>
-              <button className="py-4 px-8 bg-orange600 text-utilWhite rounded-md">
+              <Link to="/users/booking-history/refund-success/:id" className="py-4 px-8 bg-orange600 text-utilWhite rounded-md">
                 Cancel and Refund this Booking
-              </button>
+              </Link>
             </div>
           </div>
         </div>
