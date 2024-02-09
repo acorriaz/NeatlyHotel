@@ -56,6 +56,15 @@ const AgentCustomerBooking = ({ token }) => {
                   </Link>
                 </button>
 
+                <button className="cursor-pointer [border:none] py-4 px-8 bg-orange-600 self-stretch rounded flex flex-row items-center justify-center hover:bg-chocolate">
+                  <Link
+                    to="/user-payment"
+                    className="relative text-base leading-[16px] font-semibold font-open-sans text-utility-white text-center"
+                  >
+                    User Profile
+                  </Link>
+                </button>
+
                 <div className="flex flex-row items-start justify-center [row-gap:20px] mq450:flex-wrap">
                   <button className="cursor-pointer [border:none] py-1 px-2 bg-[transparent] flex flex-row items-start justify-start gap-[8px]"></button>
                 </div>

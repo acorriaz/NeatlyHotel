@@ -7,8 +7,34 @@ import NavigationBar from "../components/NavigationBar";
 import { useNavigate } from "react-router-dom";
 import LoginModal from "../components/LoginModal";
 
-function PaymentPage() {
+function PaymentPage(token) {
   const navigate = useNavigate();
+
+  function handleLogout() {
+    localStorage.removeItem("token");
+    navigate("/agent-login");
+  }
+
+  ////
+
+  /*const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
+  useEffect(() => {
+    // Here you should check if the user is authenticated
+    // This is a placeholder, replace with your actual auth check logic
+    const user = supabase.auth.user();
+    if (user) {
+      setIsAuthenticated(true);
+    } else {
+      setShowLoginModal(true);
+    }
+  }, []);
+
+  */
+
+  /////
+
   const {
     register,
     handleSubmit,
@@ -160,15 +186,6 @@ function PaymentPage() {
     );
   };
 
-  useEffect(() => {
-    return () => {
-      if (selectedFileState) {
-        // เอาไฟล์ที่อัปโหลดก่อนหน้านี้ออก เป็นขั้นตอนสำคัญในการบริหารทรัพยากรให้มีประสิทธิภาพ
-        URL.revokeObjectURL(selectedFileState);
-      }
-    };
-  }, [selectedFileState]);
-
   return (
     <>
       <NavigationBar />
@@ -178,7 +195,7 @@ function PaymentPage() {
             className="flex flex-col items-start justify-start"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <h1 className="headline2 text-green800">Register</h1>
+            <h1 className="headline2 text-green800">User Page</h1>
             <div className="flex flex-col mt-10">
               {/* --- Basic Information start --- */}
               <p className="justify-start headline5 text-gray600">
@@ -585,29 +602,6 @@ function PaymentPage() {
                 <label
                   htmlFor="profilePicture"
                   className="headline5 text-gray600"
-                >
-                  Profile Picture
-                </label>
-                <br></br>
-                {selectedFileState ? (
-                  <img
-                    src={URL.createObjectURL(selectedFileState)}
-                    alt="Profile Picture"
-                    className="size-40 object-cover mt-5"
-                    onClick={() => fileInputRef.current.click()}
-                  />
-                ) : (
-                  <div className="size-40 bg-gray200 text-orange500 mt-5 relative">
-                    <div
-                      className="body2 flex flex-col justify-center items-center absolute right-9 top-12"
-                      onClick={() => fileInputRef.current.click()}
-                    >
-                      <IoAdd className="text-2xl transform scale-110" />
-                      <p>Upload Photo</p>
-                    </div>
-                  </div>
-                )}
-                <Controller
                   name="avatar"
                   control={control}
                   defaultValue={[]}
@@ -739,18 +733,16 @@ function PaymentPage() {
                   className="btn w-full bg-orange600 hover:bg-orange500 active:bg-orange700 text-body1 text-utilWhite font-fontWeight6 mb-4"
                   type="submit"
                 >
-                  Register
+                  Update
                 </button>
               </div>
               <div>
-                <span className="text-body1 text-gray700">
-                  Already have an account?
-                </span>{" "}
+                <span className="text-body1 text-gray700">You are signed?</span>{" "}
                 <Link
                   to="/hotel/user-login"
                   className=" font-sans font-fontWeight6 text-orange500"
                 >
-                  Login
+                  Logout
                 </Link>
               </div>
               <div></div>

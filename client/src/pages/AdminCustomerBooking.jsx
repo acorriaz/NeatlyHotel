@@ -28,7 +28,9 @@ const AdminCustomerBooking = ({ token }) => {
           backgroundColor: "white",
         }}
       >
-        <h1 style={{ fontSize: "1.5rem" }}>Bookings</h1>
+        <h1 style={{ fontSize: "1.5rem" }}>
+          Bookings , Hi Agent {token.user.user_metadata.full_name}{" "}
+        </h1>
         <div style={{ display: "flex", gap: "0.5rem" }}>
           <input
             type="text"
