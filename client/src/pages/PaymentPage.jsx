@@ -16,26 +16,6 @@ function PaymentPage({ token }) {
     navigate("/agent-login");
   }
 
-  ////
-
-  /*const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
-
-  useEffect(() => {
-    // Here you should check if the user is authenticated
-    // This is a placeholder, replace with your actual auth check logic
-    const user = supabase.auth.user();
-    if (user) {
-      setIsAuthenticated(true);
-    } else {
-      setShowLoginModal(true);
-    }
-  }, []);
-
-  */
-
-  /////
-
   const {
     register,
     handleSubmit,
@@ -215,7 +195,7 @@ function PaymentPage({ token }) {
                   id="full_name"
                   name="full_name"
                   type="text"
-                  placeholder={token.user.user_metadata.full_name}
+                  defaultValue={token.user.user_metadata.full_name}
                   className={inputErrorBorder("full_name")}
                 />
                 {inputErrorIcon("full_name")}
@@ -233,7 +213,7 @@ function PaymentPage({ token }) {
                     id="username"
                     name="username"
                     type="text"
-                    placeholder={token.user.user_metadata.username}
+                    defaultValue={token.user.user_metadata.username}
                     className={inputErrorBorder("username")}
                   />
                   {inputErrorIcon("username")}
@@ -291,7 +271,7 @@ function PaymentPage({ token }) {
                     id="idNumber"
                     name="idNumber"
                     type="text"
-                    placeholder={token.user.user_metadata.id_number}
+                    defaultValue={token.user.user_metadata.id_number}
                     inputMode="numeric"
                     maxLength={13}
                     minLength={13}
@@ -314,7 +294,7 @@ function PaymentPage({ token }) {
                     id="dateOfBirth"
                     name="dateOfBirth"
                     type="text"
-                    placeholder={token.user.user_metadata.date_of_birth}
+                    defaultValue={token.user.user_metadata.date_of_birth}
                     className={inputErrorBorder("dateOfBirth")}
                   />
                   {inputErrorIcon("dateOfBirth")}
@@ -631,7 +611,7 @@ function PaymentPage({ token }) {
                       maxLength={16}
                       minLength={16}
                       inputMode="numeric"
-                      placeholder={token.user.user_metadata.card_number}
+                      defaultValue={token.user.user_metadata.card_number}
                       className={inputErrorBorder("creditCardNo")}
                     />
                     {inputErrorIcon("creditCardNo")}
@@ -648,7 +628,7 @@ function PaymentPage({ token }) {
                       id="cardOwner"
                       name="cardOwner"
                       type="text"
-                      placeholder={token.user.user_metadata.card_owner}
+                      defaultValue={token.user.user_metadata.card_owner}
                       className={inputErrorBorder("cardOwner")}
                     />
                     {inputErrorIcon("cardOwner")}
@@ -673,7 +653,7 @@ function PaymentPage({ token }) {
                       type="tel"
                       maxLength={5}
                       inputMode="numeric"
-                      placeholder={token.user.user_metadata.card_expiry_date}
+                      defaultValue={token.user.user_metadata.card_expiry_date}
                       className={inputErrorBorder("cardExpiry")}
                     />
                     {inputErrorIcon("cardExpiry")}
