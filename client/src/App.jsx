@@ -67,6 +67,10 @@ function App() {
               path="/admin-customer-booking"
               element={<AdminCustomerBooking token={token} />}
             />
+            <Route
+              path="/user-payment"
+              element={<PaymentPage token={token} />}
+            />
           </>
         )}
       </Routes>
