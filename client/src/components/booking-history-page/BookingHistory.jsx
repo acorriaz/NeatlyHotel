@@ -1,9 +1,8 @@
-import { bookingDetail } from "../../data/rooms.js";
 import { Link } from "react-router-dom";
-
-let bookingDetailArray = [...bookingDetail];
+import { useState, useEffect } from "react";
 
 function BookingHistory() {
+  const [bookingHistory, setBookingHistory] = useState();
 
   return (
     <>
@@ -12,7 +11,7 @@ function BookingHistory() {
           Booking History
         </h1>
         <div className="border mt-16 mx-44">
-          {bookingDetailArray.map((item, index) => {
+          {bookingHistory.map((item, index) => {
             return (
               <div key={index} className="py-10 bg-gray300">
                 <div className="flex gap-12">
@@ -116,7 +115,9 @@ function BookingHistory() {
                   <button
                     className="text-orange500 px-2"
                     onClick={() =>
-                      document.getElementById("modelCancelAndRefund").showModal()
+                      document
+                        .getElementById("modelCancelAndRefund")
+                        .showModal()
                     }
                   >
                     Cancel Booking
@@ -149,7 +150,10 @@ function BookingHistory() {
               Are you sure you would like to cancel this booking?
             </p>
             <div className="flex gap-4 body3 w-full font-sans">
-              <Link to="/users/booking-history/refund/:id" className="py-4 px-4 border border-orange500 bg-white rounded-md text-orange500 w-3/5">
+              <Link
+                to="/users/booking-history/refund/:id"
+                className="py-4 px-4 border border-orange500 bg-white rounded-md text-orange500 w-3/5"
+              >
                 Yes, I want to cancel and request refund
               </Link>
               <form method="dialog" className="w-2/5">

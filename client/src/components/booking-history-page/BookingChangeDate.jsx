@@ -1,9 +1,21 @@
-import { bookingDetail } from "../../data/rooms.js";
 import { Link } from "react-router-dom";
-
-let bookingDetailArray = bookingDetail[0];
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 function BookingChangeDate() {
+  const [booking, setBooking] = useState({});
+
+  const params = useParams();
+
+  async function getBooking () {
+    const resultBooking = await axios.get("http://localhost:4000/booking/" + params.userId);
+    console.log(resultBooking);
+  }
+
+  useEffect (() => {
+    getBooking();
+  }, [])
   
   return (
     <>
@@ -15,7 +27,7 @@ function BookingChangeDate() {
           <div className="flex justify-between gap-12">
             <div className="w-[500px] h-[200px]">
               <img
-                src={bookingDetailArray.photo}
+                src={booking.photo}
                 alt=""
                 className="w-full h-full rounded-md"
               />
@@ -23,10 +35,10 @@ function BookingChangeDate() {
             <div className="w-full flex flex-col">
               <div className="flex justify-between">
                 <span className="headline4 text-utilBlack font-fontWeight6">
-                  {bookingDetailArray.room_type}
+                  {booking.room_type}
                 </span>
                 <span className="text-gray600 font-fontWeight4">
-                  Booking date: {bookingDetailArray.created_at}
+                  Booking date: {booking.created_at}
                 </span>
               </div>
               <div className="my-8">
