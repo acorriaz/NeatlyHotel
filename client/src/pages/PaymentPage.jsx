@@ -23,59 +23,35 @@ function PaymentPage({ token }) {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (formData) => {
     let errorMessage = "ERRORRR";
 
     // auth part
-    const user = supabase.auth.user();
     try {
       const { data: signUpResult, error } = await supabase.auth.updateUser({
-        email: data.email,
-        password: data.password,
-        options: {
-          data: {
-            full_name: data.fullName,
-            username: data.username,
-            id_number: data.idNumber,
-            date_of_birth: data.dateOfBirth,
-            country: data.country,
-            card_number: data.creditCardNo,
-            card_owner: data.cardOwner,
-            card_expiry_date: data.cardExpiry,
-            card_cvc_cvv: data.cvcCvv,
-          },
+        email: formData.email,
+        password: formData.password,
+        data: {
+          full_name: formData.fullName,
+          username: formData.username,
+          id_number: formData.idNumber,
+          date_of_birth: formData.dateOfBirth,
+          country: formData.country,
+          card_number: formData.creditCardNo,
+          card_owner: formData.cardOwner,
+          card_expiry_date: formData.cardExpiry,
+          card_cvc_cvv: formData.cvcCvv,
         },
       });
 
-      if (signUpResult?.user) {
-        const { error: profileError } = await supabase
-          .from("users_profile")
-          .update({
-            full_name: data.fullName,
-            username: data.username,
-            id_number: data.idNumber,
-            date_of_birth: data.dateOfBirth,
-            country: data.country,
-            card_number: data.creditCardNo,
-            card_owner: data.cardOwner,
-            card_expiry_date: data.cardExpiry,
-            card_cvc_cvv: data.cvcCvv,
-          })
-          .eq("id", user?.id);
-
-        if (profileError) {
-          alert(profileError.message);
-          return;
-        }
-
-        alert("Updated successful!");
-      } else if (error) {
-        alert(error.message);
-        return;
+      // Check if the update was successful
+      if (error) {
+        console.error("Update error", error);
+      } else {
+        console.log("User updated successfully", signUpResult);
       }
     } catch (error) {
-      alert(error.message);
-      return;
+      console.error("Unexpected error", error);
     }
   };
 
