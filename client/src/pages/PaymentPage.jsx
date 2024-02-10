@@ -30,7 +30,6 @@ function PaymentPage({ token }) {
     try {
       const { data: signUpResult, error } = await supabase.auth.updateUser({
         email: formData.email,
-        password: formData.password,
         data: {
           full_name: formData.fullName,
           username: formData.username,
@@ -140,25 +139,6 @@ function PaymentPage({ token }) {
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-10 mt-5">
-                <div className="relative">
-                  <label htmlFor="password" className="body2">
-                    password
-                  </label>
-                  <br></br>
-                  <input
-                    {...register("password", {
-                      required: true,
-                    })}
-                    id="password"
-                    name="password"
-                    type="password"
-                    placeholder="Re enter your password"
-                    //password.length >= 12
-                    minLength={12}
-                    className={inputErrorBorder("password")}
-                  />
-                  {inputErrorIcon("password")}
-                </div>
                 <div className="relative">
                   <label htmlFor="idNumber" className="body2">
                     ID Number
