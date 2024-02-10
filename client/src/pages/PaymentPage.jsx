@@ -48,6 +48,8 @@ function PaymentPage({ token }) {
         console.error("Update error", error);
       } else {
         console.log("User updated successfully", signUpResult);
+        alert("User updated successfully");
+        navigate("/agent-login");
       }
     } catch (error) {
       console.error("Unexpected error", error);
