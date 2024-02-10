@@ -31,7 +31,7 @@ function PaymentPage({ token }) {
       const { data: signUpResult, error } = await supabase.auth.updateUser({
         email: formData.email,
         data: {
-          full_name: formData.fullName,
+          full_name: formData.full_name,
           username: formData.username,
           id_number: formData.idNumber,
           date_of_birth: formData.dateOfBirth,
