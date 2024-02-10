@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import supabase from "../supabaseClient.js";
 import chairBesidePool from "../assets/loginPageImage/chairBesidePool.jpg";
-import supabase from "../../../server/utils/db";
 import { useNavigate } from "react-router-dom";
 
 // check ว่าเป็น email ไหม
@@ -27,36 +27,28 @@ async function getEmailFromUsername(username) {
 
 // --login ของ user--
 export function UserLoginForm() {
-  const [userUsernameOrEmail, setuserUsernameOrEmail] = useState("");
+  const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // let userData = {
-    //   userUsernameOrEmail,
-    //   userPassword,
-    // };
 
-    let email = userUsernameOrEmail;
-
-    if (!isEmail(userUsernameOrEmail)) {
-      const fetchedEmail = await getEmailFromUsername(userUsernameOrEmail);
-      if (!fetchedEmail) {
-        alert("Username not found");
-        return;
+    if (!isEmail(usernameOrEmail)) {
+      try {
+        const fetchedEmail = await getEmailFromUsername(usernameOrEmail);
+        setUsernameOrEmail(fetchedEmail);
+      } catch {
+        alert("Login failed: Username or Email not found");
       }
-      email = fetchedEmail;
     }
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: email,
+        email: usernameOrEmail,
         password: userPassword,
       });
-      console.log(data);
       if (error) throw error;
-      alert("Login successful!");
       navigate("/hotel");
     } catch (error) {
       alert(`Login failed: ${error.message}`);
@@ -86,15 +78,15 @@ export function UserLoginForm() {
                 </label>
                 <br></br>
                 <input
-                  id="userUsernameOrEmail"
+                  id="usernameOrEmail"
                   name="userUsernameOrEmail"
                   type="text"
                   placeholder="Enter your username or email"
                   className="w-full mb-10 py-3 pl-3 pr-3 bg-utilWhite border rounded border-solid border-gray400 text-gray600 focus:border focus:border-orange500 invalid:border-utilRed"
                   onChange={(event) => {
-                    setuserUsernameOrEmail(event.target.value);
+                    setUsernameOrEmail(event.target.value);
                   }}
-                  value={userUsernameOrEmail}
+                  value={usernameOrEmail}
                 />
                 <br></br>
                 <label htmlFor="userPassword" className="body1 text-gray900">
