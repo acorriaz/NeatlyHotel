@@ -1,13 +1,13 @@
 import SearchResult from "../components/SearchResult";
 import NavigationBar from "../components/NavigationBar";
-import CheckInBar from "../components/CheckInBar";
 import Footer from "../components/Footer";
+import LandingBooking from "../components/landing-page/LandingBooking";
 
 function SearchResultPage() {
   return (
     <>
       <NavigationBar />
-      <CheckInBar />
+      <LandingBooking />
       <SearchResult />
       <Footer />
     </>
