@@ -27,7 +27,7 @@ const LandingBooking = forwardRef((props, ref) => {
         className="relative p-11 w-[1200px] bg-white rounded-md flex justify-between items-end gap-4"
       >
         <div className="w-[240px] flex flex-col justify-center gap-2">
-          <label htmlFor="check_in" class="text-sm text-gray-900">
+          <label htmlFor="check_in" className="text-sm text-gray-900">
             Check In
           </label>
           <input
@@ -39,7 +39,7 @@ const LandingBooking = forwardRef((props, ref) => {
           />
         </div>
         <div className="w-[240px] flex flex-col justify-center gap-2">
-          <label htmlFor="check_out" class="text-sm text-gray-900">
+          <label htmlFor="check_out" className="text-sm text-gray-900">
             Check Out
           </label>
           <input

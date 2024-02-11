@@ -1,11 +1,10 @@
-import ImageSlideRoom from "../components/room-detail/ImageSlideRoom"
+import ImageSlideRoom from "../components/room-detail/ImageSlideRoom";
 import RoomCategories from "../components/room-detail/RoomCategories";
 import OtherRoom from "../components/room-detail/OtherRoom";
-import NavigationBar from "../components/NavigationBar";
-import Footer from "../components/Footer"
+import NavigationBar from "../components/navigation-bar/NavigationBar";
+import Footer from "../components/Footer";
 
-
-function RoomDetail () {
+function RoomDetail() {
   return (
     <>
       <NavigationBar />

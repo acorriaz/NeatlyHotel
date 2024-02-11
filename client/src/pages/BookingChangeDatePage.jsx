@@ -1,4 +1,4 @@
-import NavigationBar from "../components/NavigationBar";
+import NavigationBar from "../components/navigation-bar/NavigationBar";
 import BookingChangeDate from "../components/booking-history-page/BookingChangeDate";
 
 function BookingChangeDatePage() {

@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { IoAlertCircle, IoAdd } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import supabase from "../../../server/utils/db";
-import NavigationBar from "../components/NavigationBar";
+import NavigationBar from "../components/navigation-bar/NavigationBar";
 import { useNavigate } from "react-router-dom";
 
 function RegisterPage() {

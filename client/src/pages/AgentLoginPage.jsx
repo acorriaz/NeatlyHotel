@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import NavigationBar from "../components/NavigationBar";
+import NavigationBar from "../components/navigation-bar/NavigationBar";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../../server/utils/db";

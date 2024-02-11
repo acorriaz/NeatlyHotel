@@ -1,5 +1,6 @@
 import { useEffect, useState, createContext, useContext } from "react";
 import getUserDataFromLocalStorage from "../../utils/getUserDataFromLocalStorage";
+import supabase from "../../supabaseClient";
 
 const AuthContext = createContext({
   isAuthenticated: false,
@@ -11,11 +12,6 @@ const AuthContext = createContext({
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState(null);
-
-  console.log("authen in auth", isAuthenticated);
-  // console.log("AuthProvider run");
-  // console.log("isAuthenticated", isAuthenticated);
-  // console.log("userData", userData);
 
   useEffect(() => {
     console.log("useEffect in useAuth.jsx");
@@ -32,7 +28,8 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    const { error } = await supabase.auth.signOut();
     setIsAuthenticated(false);
     setUserData(null);
   };
