@@ -11,8 +11,6 @@ hotelRouter.get("/users", async function (req, res) {
   } catch (error) {
     return res.status(500).json(resultUsers.error);
   }
-<<<<<<< HEAD
-=======
 });
 
 hotelRouter.get("/rooms", async (req, res) => {
@@ -51,7 +49,6 @@ hotelRouter.get("/", async (req, res) => {
   return res.json({
     data: results,
   });
->>>>>>> cbc53b4 (feat: still working on landing booking page on checkin, checkout and room and guest)
 });
 
 export default hotelRouter;
