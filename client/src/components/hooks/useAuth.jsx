@@ -12,13 +12,18 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState(null);
 
-  const userDataFromLocalStorage = getUserDataFromLocalStorage();
+  console.log("authen in auth", isAuthenticated);
+  // console.log("AuthProvider run");
+  // console.log("isAuthenticated", isAuthenticated);
+  // console.log("userData", userData);
 
   useEffect(() => {
+    console.log("useEffect in useAuth.jsx");
     isLogin();
-  }, []);
+  }, [isAuthenticated]);
 
   const isLogin = () => {
+    const userDataFromLocalStorage = getUserDataFromLocalStorage();
     if (userDataFromLocalStorage) {
       setIsAuthenticated(true);
       setUserData(userDataFromLocalStorage);

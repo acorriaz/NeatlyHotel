@@ -33,8 +33,6 @@ export default () => {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev",
       }}
-      onSwiper={(swiper) => console.log(swiper)}
-      onSlideChange={() => console.log("slide change")}
       className="m-auto max-w-[1440px]"
     >
       {items.map((item, index) => (

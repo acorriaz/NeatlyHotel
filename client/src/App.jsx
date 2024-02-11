@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
+
 import ScrollToTop from "./components/utils/ScrollToTop";
 import RoomDetail from "./pages/RoomDetailPage";
 import UserLoginPage from "./pages/UserLoginPage";
@@ -17,14 +18,19 @@ import HotelInfoPage from "./pages/HotelInfoPage";
 import CreateRoomForm from "./pages/CreateRoomForm";
 import BookingHistoryPage from "./pages/BookingHistoryPage";
 import BookingChangeDatePage from "./pages/BookingChangeDatePage";
-import BookingRefundPage from "./pages/BookingRefundPage"
-import BookingRefundSuccessPage from "./pages/BookingRefundSuccessPage"
-import BookingCancelPage from "./pages/BookingCancelPage"
-import BookingCancelSuccessPage from "./pages/BookingCancelSuccessPage"
+import BookingRefundPage from "./pages/BookingRefundPage";
+import BookingRefundSuccessPage from "./pages/BookingRefundSuccessPage";
+import BookingCancelPage from "./pages/BookingCancelPage";
+import BookingCancelSuccessPage from "./pages/BookingCancelSuccessPage";
 import PaymentResultPage from "./pages/PaymentResultPage";
+
+import { useAuth } from "./components/hooks/useAuth.jsx";
 
 function App() {
   const [token, setToken] = useState(false);
+
+  const { isAuthenticated, isLogin } = useAuth();
+
   if (token) {
     sessionStorage.setItem("token", JSON.stringify(token));
   }
@@ -35,6 +41,12 @@ function App() {
       setToken(data);
     }
   }, []);
+
+  useEffect(() => {
+    isLogin();
+  }, []);
+
+  console.log("isAuthenticated", isAuthenticated);
 
   return (
     <div className="App">
@@ -47,23 +59,51 @@ function App() {
         <Route path="/hotel/detail" element={<RoomDetail />} />
         <Route path="/hotel/payment" element={<PaymentPage />} />
         <Route path="/users/booking-history" element={<BookingHistoryPage />} />
-        <Route path="/users/booking-history/change-date/:id" element={<BookingChangeDatePage />} />
-        <Route path="/users/booking-history/refund/:id" element={<BookingRefundPage />} />
-        <Route path="/users/booking-history/refund-success/:id" element={<BookingRefundSuccessPage />} />
-        <Route path="/users/booking-history/cancel/:id" element={<BookingCancelPage />} />
-        <Route path="/users/booking-history/cancel-success/:id" element={<BookingCancelSuccessPage />} />
-        <Route path="/agent/login" element={<AgentLoginPage setToken={setToken} />}/>
+        <Route
+          path="/users/booking-history/change-date/:id"
+          element={<BookingChangeDatePage />}
+        />
+        <Route
+          path="/users/booking-history/refund/:id"
+          element={<BookingRefundPage />}
+        />
+        <Route
+          path="/users/booking-history/refund-success/:id"
+          element={<BookingRefundSuccessPage />}
+        />
+        <Route
+          path="/users/booking-history/cancel/:id"
+          element={<BookingCancelPage />}
+        />
+        <Route
+          path="/users/booking-history/cancel-success/:id"
+          element={<BookingCancelSuccessPage />}
+        />
+        <Route
+          path="/agent/login"
+          element={<AgentLoginPage setToken={setToken} />}
+        />
         <Route path="/agent/room-management" element={<RoomManagementPage />} />
         <Route path="/agent/hotel-information" element={<HotelInfoPage />} />
         <Route path="/agent/create-room" element={<CreateRoomForm />} />
         <Route path="/hotel/payment-result" element={<PaymentResultPage />} />
-      
+
         {token && (
           <>
-            <Route path="/agent/customer-booking" element={<AgentCustomerBooking token={token} />}/>
-            <Route path="/agent/room-and-property" element={<RoomAndPropertyPage token={token} />}/>
-            <Route path="/agent/admin-customer-booking" element={<AdminCustomerBooking token={token} />}/>
-          </> )}
+            <Route
+              path="/agent/customer-booking"
+              element={<AgentCustomerBooking token={token} />}
+            />
+            <Route
+              path="/agent/room-and-property"
+              element={<RoomAndPropertyPage token={token} />}
+            />
+            <Route
+              path="/agent/admin-customer-booking"
+              element={<AdminCustomerBooking token={token} />}
+            />
+          </>
+        )}
       </Routes>
     </div>
   );

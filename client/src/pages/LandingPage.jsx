@@ -7,7 +7,7 @@ import RoomsAndSuits from "../components/landing-page/RoomsAndSuits";
 import Footer from "../components/Footer";
 import Review from "../components/landing-page/Review";
 import LandingBooking from "../components/landing-page/LandingBooking";
-import getTokenFromLocalStorage from "../utils/getUserDataFromLocalStorage";
+import getUserDataFromLocalStorage from "../utils/getUserDataFromLocalStorage";
 
 export default function LandingPage() {
   const location = useLocation();
@@ -32,7 +32,7 @@ export default function LandingPage() {
     } else if (location.hash === "") {
       scrollToRef(bookingRef);
     }
-    getTokenFromLocalStorage();
+    getUserDataFromLocalStorage();
   }, [location]);
 
   return (

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import supabase from "../supabaseClient.js";
 import chairBesidePool from "../assets/loginPageImage/chairBesidePool.jpg";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./hooks/useAuth";
 
 // check ว่าเป็น email ไหม
 function isEmail(input) {
@@ -30,6 +31,7 @@ export function UserLoginForm() {
   const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const navigate = useNavigate();
+  const { isLogin } = useAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -49,6 +51,7 @@ export function UserLoginForm() {
         password: userPassword,
       });
       if (error) throw error;
+      isLogin();
       navigate("/hotel");
     } catch (error) {
       alert(`Login failed: ${error.message}`);
