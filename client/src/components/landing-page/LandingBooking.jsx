@@ -187,14 +187,9 @@ const LandingBooking = forwardRef((props, ref) => {
             </div>
           )}
         </div>
-<<<<<<< HEAD
-        <button className="bg-orange-600 text-white py-3 px-6 font-sans font-semibold rounded-md">
-          Book Now
-=======
         {/* select button */}
         <button className="w-[144px] h-max px-8 py-3 rounded font-sans font-semibold text-orange-500 bg-base-100 border border-orange-500">
           Search
->>>>>>> cbc53b4 (feat: still working on landing booking page on checkin, checkout and room and guest)
         </button>
       </form>
     </div>
@@ -202,57 +197,3 @@ const LandingBooking = forwardRef((props, ref) => {
 });
 
 export default LandingBooking;
-
-{
-  /* <div className="w-[240px] list">
-          <label htmlFor="room-and-guests">Room & Guests</label>
-          <select
-            id="room-and-guests"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          >
-            <option value={`${roomCounter} room, ${guestCounter} guest`}>
-              {roomCounter} room, {guestCounter} guest
-            </option>
-          </select>
-          <div className="flex justify-between w-[240px] h-[40px] px-[16px] py-[8px]">
-            <p>Room</p>
-            <div className="w-[78px] h-[24px] flex justify-between">
-              <button
-                onClick={() =>
-                  handleRoomCounterChange(setRoomCounter, roomCounter - 1)
-                }
-              >
-                <MinusCircleIcon className="w-[15px] h-[15px] stroke-orange-500" />
-              </button>
-              <p>{roomCounter}</p>
-              <button
-                onClick={() =>
-                  handleRoomCounterChange(setRoomCounter, roomCounter + 1)
-                }
-              >
-                <PlusCircleIcon className="w-[15px] h-[15px] stroke-orange-500" />
-              </button>
-            </div>
-          </div>
-          <div className="flex justify-between w-[240px] h-[40px] px-[16px] py-[8px]">
-            <p>Guest</p>
-            <div className="w-[78px] h-[24px] flex justify-between">
-              <button
-                onClick={() =>
-                  handleRoomCounterChange(setGuestCounter, guestCounter - 1)
-                }
-              >
-                <MinusCircleIcon className="w-[15px] h-[15px] stroke-orange-500" />
-              </button>
-              <p>{guestCounter}</p>
-              <button
-                onClick={() =>
-                  handleRoomCounterChange(setGuestCounter, guestCounter + 1)
-                }
-              >
-                <PlusCircleIcon className="w-[15px] h-[15px] stroke-orange-500" />
-              </button>
-            </div>
-          </div>
-        </div> */
-}
