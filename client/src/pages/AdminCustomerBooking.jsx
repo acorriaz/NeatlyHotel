@@ -2,7 +2,6 @@ import { useCallback } from "react";
 import React, { useState, useEffect } from "react";
 import SideBarAdmin from "../components/SideBarAdmin";
 import { Link, useNavigate } from "react-router-dom";
-import supabase from "../../../server/utils/db";
 import axios from "axios";
 
 const AdminCustomerBooking = ({ token }) => {
