@@ -1,9 +1,32 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import NavigationBar from "../components/navigation-bar/NavigationBar";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import NavigationBar from "../components/NavigationBar";
+import supabase from "../../../server/utils/db";
 
 function PaymentResultPage() {
+  const [user, setUser] = useState(null);
+  const [booking, setBooking] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      try {
+        const response = await supabase.auth.getSession();
+        setUser(response.data.session);
+        console.log(user.user);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchSession();
+  }, []);
+
+  const getBooking = async () => {
+    const result = await axios.get();
+  };
   return (
     <>
       <header>
