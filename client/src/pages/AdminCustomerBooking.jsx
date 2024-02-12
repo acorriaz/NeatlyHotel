@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import SideBarAdmin from "../components/SideBarAdmin";
 import { Link, useNavigate } from "react-router-dom";
 import supabase from "../../../server/utils/db";
+import axios from "axios";
 
 const AdminCustomerBooking = ({ token }) => {
   let navigate = useNavigate();
@@ -65,17 +66,13 @@ const AdminCustomerBooking = ({ token }) => {
   };
 
   // Fetch bookings from the database
-  const fetchBookings = async () => {
-    const { data, error } = await supabase.from("bookings").select("*");
-    if (error) {
-      console.error("Error fetching bookings:", error);
-    } else {
-      setBookings(data);
-    }
+  const getBookingData = async () => {
+    const respone = axios.get("http://localhost:5173/admin");
+    console.log(respone);
   };
 
   useEffect(() => {
-    fetchBookings();
+    getBookingData();
   }, []);
 
   // Filter bookings based on search keyword
