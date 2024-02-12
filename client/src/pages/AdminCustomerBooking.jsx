@@ -67,7 +67,7 @@ const AdminCustomerBooking = ({ token }) => {
 
   // Fetch bookings from the database
   const getBookingData = async () => {
-    const respone = axios.get("http://localhost:5173/admin");
+    const respone = axios.get("http://localhost:4000/admin");
     console.log(respone);
   };
 
