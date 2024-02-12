@@ -1,13 +1,48 @@
-import { rooms as roomData } from "../data/rooms.js";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
-let rooms = [...roomData];
 function SearchResult() {
+  const location = useLocation();
+  const receivedData = location.state;
+  const [guestCount, setGuestCount] = useState("");
+  const [rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    setInitialInput();
+    getRoom();
+  }, []);
+
+  const setInitialInput = () => {
+    setGuestCount(receivedData.guests);
+    setSomething(receivedData);
+  };
+
+  const getRoom = async () => {
+    const result = await axios.get("http://localhost:4000/hotel/rooms");
+    console.log(result);
+    setRooms(result.data.data);
+  };
+
+  const searchRoom = async () => {
+    const result = await axios.get("http://localhost:4000/hotel/rooms");
+    setRooms(result.data.data);
+    navigate("/hotel");
+  };
+
   const options = {
     style: "decimal",
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   };
+
+  useEffect(() => {
+    getRoom();
+  }, []);
+
+  useEffect(() => {
+    searchRoom();
+  }, [rooms]);
 
   return (
     <>
@@ -18,13 +53,13 @@ function SearchResult() {
             // result content
             <div
               className=" flex flex-col justify-center items-center bg-gray-100"
-              key={room.id}
+              key={room.room_type_id}
             >
               {/* card-container */}
               <div className=" flex w-[1120px] h-[400px] justify-between items-center py-[20px] gap-[40px] border-b-2 border-b-gray-200">
                 <div className="image-container relative w-[453px] h-[320px]">
                   <img
-                    src={room.photo}
+                    src={room.room_image_url}
                     alt=""
                     className=" w-[453px] h-[320px]"
                   />
@@ -181,13 +216,13 @@ function SearchResult() {
                     <div className="flex flex-col justify-between w-[314px] h-[178px]">
                       <div className="w-[314px] h-[74px] flex-col justify-between items-start">
                         <p className="text-headline4 font-semibold">
-                          {room.title}
+                          {room.room_type}
                         </p>
                         {/* room detail */}
-                        <div className="flex w-[289px] h-[24px] gap-[16px] font-fontWeight4 text-gray700 text-body1">
-                          {room.detail.map((detail) => {
-                            return <p>{detail}</p>;
-                          })}
+                        <div className="flex w-[289px] h-[24px] justify-between items-center gap-[16px] font-fontWeight4 text-gray700 text-body1">
+                          <p>{room.guest_number} Guests</p>
+                          <p>{room.bed_type_id}</p>
+                          <p>{room.room_size}</p>
                         </div>
                       </div>
                       <p className="w-[314px] h-[72px] font-fontWeight4 text-gray700 text-body1">
@@ -201,7 +236,7 @@ function SearchResult() {
                           THB {room.discount.toLocaleString("en-US", options)}
                         </p>
                         <p className="text-headline5">
-                          THB {room.price.toLocaleString("en-US", options)}
+                          THB {room.room_price.toLocaleString("en-US", options)}
                         </p>
                       </div>
                       <div className="w-[260px] h-[48px] flex flex-col items-end text-gray700">
@@ -213,7 +248,7 @@ function SearchResult() {
                   {/* end of card text */}
                   {/* button-panel */}
                   <div className=" flex justify-end w-[619px] h-[48px] gap-[24px] font-fontWeight6">
-                    <div className="" key={room.id}>
+                    <div className="" key={room.room_type_id}>
                       {/* room detail pop-up button */}
                       <button
                         className="btn text-orange-500"
@@ -230,7 +265,9 @@ function SearchResult() {
                               ✕
                             </button>
                           </form>
-                          <h3 className="font-bold text-lg">{room.title}</h3>
+                          <h3 className="font-bold text-lg">
+                            {room.room_type}
+                          </h3>
                           <div className="carousel w-full">
                             <div
                               id="slide1"
@@ -301,10 +338,11 @@ function SearchResult() {
                               </div>
                             </div>
                           </div>
-                          <div className="room-description flex w-full h-[24px] gap-[16px] font-fontWeight4 text-gray700 text-body1">
-                            {room.detail.map((detail) => {
-                              return <p>{detail}</p>;
-                            })}
+                          {/* room description */}
+                          <div className=" flex w-full h-[24px] gap-[16px] font-fontWeight4 text-gray700 text-body1">
+                            <p>{room.guest_number} Guests</p>
+                            <p>{room.bed_type_id}</p>
+                            <p>{room.room_size}</p>
                           </div>
                           <p className="w-full h-[72px] font-fontWeight4 text-gray700 text-body1">
                             {room.description}
