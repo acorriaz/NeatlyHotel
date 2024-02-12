@@ -60,7 +60,7 @@ function App() {
         <Route path="/hotel/payment" element={<PaymentPage />} />
         <Route path="/users/payment-result" element={<PaymentResultPage />} />
         <Route path="/users/booking-history" element={<BookingHistoryPage />} />
-        <Route path="/users/booking-history/change-date/:userId" element={<BookingChangeDatePage />} />
+        <Route path="/users/booking-history/change-date/:bookingId" element={<BookingChangeDatePage />} />
         <Route path="/users/booking-history/refund/:userId" element={<BookingRefundPage />} />
         <Route path="/users/booking-history/refund-success/:userId" element={<BookingRefundSuccessPage />} />
         <Route path="/users/booking-history/cancel/:userId" element={<BookingCancelPage />} />

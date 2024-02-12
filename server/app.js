@@ -1,7 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-import hotelRouter from "./app/hotelRouter.js";
 import bookingRouter from "./app/bookingRouter.js";
 import bookingHistory from "./app/bookingHistoryRouter.js";
 

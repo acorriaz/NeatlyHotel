@@ -2,16 +2,21 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { format } from "date-fns";
 
 function BookingChangeDate() {
-  const [booking, setBooking] = useState({});
-
+  const [booking, setBooking] = useState({}); 
   const params = useParams();
 
   async function getBooking () {
-    const resultBooking = await axios.get("http://localhost:4000/booking/" + params.userId);
+    const resultBooking = await axios.get("http://localhost:4000/bookingHistory/" + params.bookingId);
+    setBooking(resultBooking.data.data[0]);
     console.log(resultBooking);
   }
+
+  function getDate(day) {
+  return format(new Date(day), "EEE, dd MMM yyyy");
+}
 
   useEffect (() => {
     getBooking();
@@ -38,7 +43,7 @@ function BookingChangeDate() {
                   {booking.room_type}
                 </span>
                 <span className="text-gray600 font-fontWeight4">
-                  Booking date: {booking.created_at}
+                  Booking date: {getDate(booking.check_in)}
                 </span>
               </div>
               <div className="my-8">

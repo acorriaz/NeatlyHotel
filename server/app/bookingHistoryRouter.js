@@ -3,13 +3,13 @@ import supabase from "../utils/db.js";
 
 const bookingHistory = Router();
 
-bookingHistory.get("/:user_id", async function (req, res) {
-  const userId = req.params.user_id;
+bookingHistory.get("/:booking_id", async function (req, res) {
+  const bookingId = req.params.booking_id;
   try {
     const bookings = await supabase
       .from("booking_detail")
-      .select("*,user()")
-      .eq("user_id", userId);
+      .select("*")
+      .eq("booking_detail_id", bookingId);
 
     res.json(bookings);
   } catch (error) {
