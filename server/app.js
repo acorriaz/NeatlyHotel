@@ -1,7 +1,7 @@
 import express from "express";
 import hotelRouter from "./app/hotelRouter.js";
 import bookingRouter from "./app/bookingRouter.js";
-import adminBookingRouter from "../app/adminBookingRouter.js";
+import adminBookingRouter from "./app/adminBookingRouter.js";
 
 const app = express();
 const port = 4000;
