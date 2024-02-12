@@ -18,12 +18,29 @@ hotelRouter.get("/rooms", async (req, res) => {
   let status = req.query.status;
 
   if (guests > 2 && guests <= 4 && status === "Vacant") {
-    const roomCondition = await supabase.from("room_type").filter();
+    const roomCondition = await supabase
+      .from("room_type")
+      .filter((roomType) => {
+        roomType.room_type.includes("Superior Garden View" && "Supreme");
+      });
     return res.status(200).json(roomCondition);
   }
 
-  const roomCondition = await supabase.from("room_type").select();
-  return res.status(200).json(roomCondition);
+  if (guests <= 2 && status === "Vacant") {
+    const roomCondition = await supabase
+      .from("room_type")
+      .filter((roomType) => {
+        roomType.room_type.includes(
+          "Deluxe" && "Premier Sea View" && "Superior" && "Suit"
+        );
+      });
+    return res.status(200).json(roomCondition);
+  }
+
+  if (status === "Vacant") {
+    const roomCondition = await supabase.from("room_type").select();
+    return res.status(200).json(roomCondition);
+  }
 });
 
 hotelRouter.get("/", async (req, res) => {
