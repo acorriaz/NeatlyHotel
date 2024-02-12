@@ -1,5 +1,6 @@
 import SearchResult from "../components/SearchResult";
-import NavigationBar from "../components/NavigationBar";
+import NavigationBar from "../components/navigation-bar/NavigationBar";
+import CheckInBar from "../components/CheckInBar";
 import Footer from "../components/Footer";
 import LandingBooking from "../components/landing-page/LandingBooking";
 

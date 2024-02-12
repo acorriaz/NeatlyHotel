@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import NavigationBar from "../components/NavigationBar";
+import NavigationBar from "../components/navigation-bar/NavigationBar";
 
 function PaymentResultPage() {
   const navigate = useNavigate();
