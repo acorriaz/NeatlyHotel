@@ -3,7 +3,7 @@ import supabase from "../utils/db.js";
 
 const adminBookingRouter = Router();
 
-adminBookingRouter.get("", async (req, res) => {
+adminBookingRouter.get("/", async (req, res) => {
   try {
     const bookings = await supabase.from("booking_detail").select("*");
 
