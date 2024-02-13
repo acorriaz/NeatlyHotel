@@ -39,23 +39,34 @@ const AgentLoginPage = ({ setToken }) => {
     e.preventDefault();
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: formData.email,
-        password: formData.password,
-      });
+      const { data: authData, error: authError } =
+        await supabase.auth.signInWithPassword({
+          email: formData.email,
+          password: formData.password,
+        });
 
-      if (error) throw error;
+      if (authError) throw authError;
 
-      // Save or clear credentials based on the savePassword flag
-      if (savePassword) {
-        localStorage.setItem("email", formData.email);
-        localStorage.setItem("password", formData.password);
-      } else {
-        localStorage.removeItem("email");
-        localStorage.removeItem("password");
+      // Use the email from formData to fetch the user's role from the users table
+      const { data: userData, error: userError } = await supabase
+        .from("users")
+        .select("role")
+        .eq("email", formData.email) // Assuming 'email' is the unique identifier in your users table
+        .single();
+
+      if (userError) throw userError;
+
+      // Check if the logged-in user's role is not 'admin'
+      if (userData.role !== "admin") {
+        // Redirect non-admin user to the agent login page
+        alert("You are not an admin, redirecting to agent login page");
+        navigate("/hotel/user-login");
+        return; // Stop further execution since the user is not an admin
       }
 
-      setToken(data);
+      // Proceed with setting token and navigating to the agent-customer-booking page for admins
+      // Assuming setToken is a function to handle setting the authentication token in your application context or state
+      setToken(authData);
       navigate("/agent-customer-booking");
     } catch (error) {
       alert(error.error_description || error.message);

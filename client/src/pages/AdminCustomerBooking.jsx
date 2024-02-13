@@ -107,9 +107,9 @@ const AdminCustomerBooking = ({ token }) => {
           <table className="w-full text-left bg-white">
             <thead className="bg-gray-200">
               <tr>
-                <th className="p-4">Customer Name</th>
+                {/* <th className="p-4">Customer Name</th>
                 <th className="p-4">Guest(s)</th>
-                <th className="p-4">Room Type</th>
+                <th className="p-4">Room Type</th> */}
                 <th className="p-4">Total Price</th>
                 <th className="p-4">Payment Method</th>
                 <th className="p-4">Check-in</th>
@@ -121,9 +121,9 @@ const AdminCustomerBooking = ({ token }) => {
                 <tr className="border-b" key={booking.booking_detail_id}>
                   {" "}
                   {/* Ensure this is a unique value */}
-                  <td className="p-4">{booking.customer_name}</td>
+                  {/* <td className="p-4">{booking.customer_name}</td>
                   <td className="p-4">{booking.guests}</td>
-                  <td className="p-4">{booking.room_type}</td>
+                  <td className="p-4">{booking.room_type}</td> */}
                   <td className="p-4">{booking.total_price}</td>
                   <td className="p-4">{booking.payment_method}</td>
                   <td className="p-4">{booking.check_in}</td>
