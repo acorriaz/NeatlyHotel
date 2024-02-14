@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import supabase from "../supabaseClient.js";
+import supabase from "../../../server/utils/db";
 import chairBesidePool from "../assets/loginPageImage/chairBesidePool.jpg";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "./hooks/useAuth";
 
 // check ว่าเป็น email ไหม
 function isEmail(input) {
