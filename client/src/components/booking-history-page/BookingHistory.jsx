@@ -10,7 +10,7 @@ function BookingHistory() {
   const getBooking = async () => {
     try {
       const resultBooking = await axios.get(
-        "http://localhost:4000/bookingHistory/" + params.userId
+        "http://localhost:4000/bookinghistory/" + params.userId
       );
       setBooking(resultBooking.data.data);
     } catch (error) {

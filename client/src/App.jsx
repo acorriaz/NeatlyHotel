@@ -22,7 +22,7 @@ import BookingRefundPage from "./pages/BookingRefundPage";
 import BookingRefundSuccessPage from "./pages/BookingRefundSuccessPage";
 import BookingCancelPage from "./pages/BookingCancelPage";
 import BookingCancelSuccessPage from "./pages/BookingCancelSuccessPage";
-import PaymentResultPage from "./pages/PaymentResultPage";
+import PaymentResultPage from "./pages/PaymentResultPage.jsx";
 
 import { useAuth } from "./components/hooks/useAuth.jsx";
 
@@ -50,14 +50,13 @@ function App() {
 
   return (
     <div className="App">
-      <ScrollToTop />
+      <ScrollToTop/>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/users/login" element={<UserLoginPage />} />
         <Route path="/users/register" element={<RegisterPage />} />
         <Route path="/hotel" element={<SearchResultPage />} />
-        <Route path="/hotel/detail" element={<RoomDetail />} />
-        <Route path="/hotel/payment" element={<PaymentPage />} />
+        <Route path="/hotel/detail/:roomTypeId" element={<RoomDetail />} />
         <Route path="/users/booking-history/:userId" element={<BookingHistoryPage />} />
         <Route path="/users/booking-history/change-date/:bookingId" element={<BookingChangeDatePage />} />
         <Route path="/users/booking-history/refund/:userId" element={<BookingRefundPage />} />
