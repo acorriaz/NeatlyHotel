@@ -1,16 +1,20 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const SideBarAdmin = ({ token }) => {
   let navigate = useNavigate();
+  const location = useLocation();
 
   function handleLogout() {
     localStorage.removeItem("token");
     navigate("/agent-login");
   }
+  function isActive(route) {
+    return location.pathname === route;
+  }
 
   return (
-    <div className="h-[1024px] w-60 bg-green-800 box-border overflow-hidden shrink-0 flex flex-col items-start justify-start gap-[40px] text-center text-base text-green-400 font-body1 border-r-[1px] border-solid border-gray-300 mq1050:hidden">
-      <div className="self-stretch flex flex-col items-center justify-end py-10 px-6 gap-[16px]">
+    <div className="h-[1024px] w-60 bg-green-800 box-border overflow-hidden shrink-0 flex flex-col items-start justify-start gap-[40px] text-center text-base text-white font-body1 border-r-[1px] border-solid border-gray-300 mq1050:hidden">
+      <div className="self-stretch flex flex-col items-center justify-end py-10 px-6 gap-[16px]   ">
         <img
           className="w-[120px] h-[32.3px] relative"
           loading="eager"
@@ -21,8 +25,15 @@ const SideBarAdmin = ({ token }) => {
           Admin Panel Control
         </div>
       </div>
+
       <div className="self-stretch h-[540px] flex flex-col items-start justify-start text-left text-green-300 mq450:h-[540px]">
-        <div className="self-stretch bg-green-800 flex flex-row items-start justify-start p-6 gap-[16px] whitespace-nowrap text-green-100">
+        <div
+          className={`self-stretch ${
+            isActive("/admin-customer-booking")
+              ? "bg-green-600"
+              : "bg-green-800"
+          } flex flex-row items-start justify-start p-6 gap-[16px] whitespace-nowrap text-green-100`}
+        >
           <img
             className="h-6 w-6 relative overflow-hidden shrink-0 min-h-[24px]"
             alt=""
@@ -35,7 +46,7 @@ const SideBarAdmin = ({ token }) => {
             Customer Booking
           </Link>
         </div>
-        <div className="bg-green-800 flex flex-row items-start justify-start p-6 gap-[16px] whitespace-nowrap">
+        <div className="  flex flex-row  items-start justify-start p-6 gap-[16px] whitespace-nowrap">
           <img
             className="h-6 w-6 relative overflow-hidden shrink-0 min-h-[24px]"
             alt=""
@@ -48,7 +59,8 @@ const SideBarAdmin = ({ token }) => {
             Room Management
           </Link>
         </div>
-        <div className="self-stretch bg-green-800 flex flex-row items-start justify-start p-6 gap-[16px] whitespace-nowrap">
+
+        <div className="self-stretch  bg-green-800 flex flex-row items-start justify-start p-6 gap-[16px] whitespace-nowrap">
           <img
             className="h-6 w-6 relative overflow-hidden shrink-0 min-h-[24px]"
             alt=""
@@ -61,6 +73,7 @@ const SideBarAdmin = ({ token }) => {
             Hotel Information
           </Link>
         </div>
+
         <div className="self-stretch bg-green-800 flex flex-row items-start justify-start p-6 gap-[16px] whitespace-nowrap">
           <img
             className="h-6 w-6 relative overflow-hidden shrink-0 min-h-[24px]"
