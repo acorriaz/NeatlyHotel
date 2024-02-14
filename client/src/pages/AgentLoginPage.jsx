@@ -143,9 +143,9 @@ const AgentLoginPage = ({ setToken }) => {
               {/* Login Button */}
               <button
                 type="submit"
-                className="w-full p-4 bg-orange-600 text-white rounded hover:bg-orange-500"
+                className="w-full p-4 bg-orange-600 text-white font-semibold rounded hover:bg-orange-500"
               >
-                Login
+                Log In
               </button>
 
               {/* Register Link */}
