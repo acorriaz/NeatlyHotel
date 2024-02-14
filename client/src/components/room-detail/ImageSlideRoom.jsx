@@ -1,35 +1,14 @@
 import { useState , useEffect} from "react";
 
-function ImageSlideRoom() {
+function ImageSlideRoom(props) {
   const [page,setPage] = useState(0);
 
-  const imageRoom = [
-    {
-      id: 1,
-      image:
-        "https://daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.jpg",
-    },
-    {
-      id: 2,
-      image:
-        "https://daisyui.com/images/stock/photo-1565098772267-60af42b81ef2.jpg",
-    },
-    {
-      id: 3,
-      image:
-        "https://daisyui.com/images/stock/photo-1572635148818-ef6fd45eb394.jpg",
-    },
-    {
-      id: 4,
-      image:
-        "https://daisyui.com/images/stock/photo-1494253109108-2e30c049369b.jpg",
-    },
-    {
-      id: 5,
-      image:
-        "https://daisyui.com/images/stock/photo-1559181567-c3190ca9959b.jpg",
-    },
-  ];
+  const imageRoom = props.image.map((img, index) => {
+    return {
+      id: index + 1,
+      image: img.room_image_url,
+    };
+  })
 
   const handlePrev = () => {
     setPage((prevPage) => (prevPage > 0 ? prevPage - 1 : imageRoom.length - 1));
@@ -38,14 +17,14 @@ function ImageSlideRoom() {
   const handleNext = () => {
     setPage((prevPage) => (prevPage < imageRoom.length - 1 ? prevPage + 1 : 0));
   };
-
+  //เหลือเก็บ optional ให้รูปเลื่อนเองโดยอัตโนมัติ
   useEffect(() => {
     const interval = setInterval(() => {
       handleNext();
     }, 3000);
     return () => clearInterval(interval);
   }, [page]); 
-
+  //
   return (
     <header className="relative w-full h-fit mt-20">
       {/* Carousel content */}
