@@ -18,6 +18,7 @@ import RoomManagementPage from "./pages/RoomManagementPage";
 import RoomAndPropertyPage from "./pages/RoomAndPropertyPage";
 import HotelInfoPage from "./pages/HotelInfoPage";
 import CreateRoomForm from "./pages/CreateRoomForm";
+import PaymentPageCard from "./pages/PaymentPageCard";
 
 function App() {
   const [token, setToken] = useState(false);
@@ -70,6 +71,10 @@ function App() {
             <Route
               path="/user-payment"
               element={<PaymentPage token={token} />}
+            />
+            <Route
+              path="/user-payment-card"
+              element={<PaymentPageCard token={token} />}
             />
           </>
         )}

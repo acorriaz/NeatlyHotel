@@ -7,7 +7,7 @@ import supabase from "../../../server/utils/db";
 import NavigationBar from "../components/NavigationBar";
 import { useNavigate } from "react-router-dom";
 
-function PaymentPage({ token }) {
+function PaymentPageCard({ token }) {
   const navigate = useNavigate();
 
   function handleLogout() {
@@ -31,11 +31,6 @@ function PaymentPage({ token }) {
       const { data: signUpResult, error } = await supabase.auth.updateUser({
         email: formData.email,
         data: {
-          full_name: formData.full_name,
-          username: formData.username,
-          id_number: formData.idNumber,
-          date_of_birth: formData.dateOfBirth,
-          country: formData.country,
           card_number: formData.creditCardNo,
           card_owner: formData.cardOwner,
           card_expiry_date: formData.cardExpiry,
@@ -83,132 +78,10 @@ function PaymentPage({ token }) {
             className="flex flex-col items-start justify-start"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <h1 className="headline2 text-green800">
-              Hello,{token.user.user_metadata.full_name},
-              {token.user.user_metadata.emails}
-            </h1>
+            <h1 className="headline2 text-green800">Payment Method</h1>
             <div className="flex flex-col mt-10">
-              {/* --- Basic Information start --- */}
-
-              <div className="mt-5 relative">
-                <label htmlFor="full_name">Full Name</label>
-                <br></br>
-                <input
-                  {...register("full_name", {
-                    required: true,
-                  })}
-                  id="full_name"
-                  name="full_name"
-                  type="text"
-                  defaultValue={token.user.user_metadata.full_name}
-                  className={inputErrorBorder("full_name")}
-                />
-                {inputErrorIcon("full_name")}
-              </div>
-              <div className="grid grid-cols-2 gap-10 mt-5">
-                <div className="relative">
-                  <label htmlFor="username" className="body2">
-                    username
-                  </label>
-                  <br></br>
-                  <input
-                    {...register("username", {
-                      required: true,
-                    })}
-                    id="username"
-                    name="username"
-                    type="text"
-                    defaultValue={token.user.user_metadata.username}
-                    className={inputErrorBorder("username")}
-                  />
-                  {inputErrorIcon("username")}
-                </div>
-                <div className="relative">
-                  <label htmlFor="email">email</label>
-                  <br></br>
-                  <input
-                    {...register("email", {
-                      required: true,
-                      pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                    })}
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="Re-enter your email"
-                    className={inputErrorBorder("email")}
-                  />
-                  {inputErrorIcon("email")}
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-10 mt-5">
-                <div className="relative">
-                  <label htmlFor="idNumber" className="body2">
-                    ID Number
-                  </label>
-                  <br></br>
-                  <input
-                    {...register("idNumber", {
-                      required: true,
-                      pattern: {
-                        value: /^\d{13}$/,
-                        message: "ID Number must be 13 digits",
-                      },
-                    })}
-                    id="idNumber"
-                    name="idNumber"
-                    type="text"
-                    defaultValue={token.user.user_metadata.id_number}
-                    inputMode="numeric"
-                    maxLength={13}
-                    minLength={13}
-                    className={inputErrorBorder("idNumber")}
-                  />
-                  {inputErrorIcon("idNumber")}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-10 mt-5">
-                <div className="relative">
-                  <label htmlFor="dateOfBirth" className="body2">
-                    Date of Birth
-                  </label>
-                  <br></br>
-                  <input
-                    {...register("dateOfBirth", {
-                      required: true,
-                    })}
-                    id="dateOfBirth"
-                    name="dateOfBirth"
-                    type="text"
-                    defaultValue={token.user.user_metadata.date_of_birth}
-                    className={inputErrorBorder("dateOfBirth")}
-                  />
-                  {inputErrorIcon("dateOfBirth")}
-                </div>
-
-                <div className="relative">
-                  <label htmlFor="country" className="body2">
-                    Country
-                  </label>
-                  <br></br>
-                  <select
-                    {...register("country", {
-                      required: true,
-                    })}
-                    id="country"
-                    name="country"
-                    className={inputErrorBorder("country")}
-                  >
-                    <option>{token.user.user_metadata.country}</option>
-                    <option value="AF">Afghanistan</option>
-                    <option value="ZW">Zimbabwe</option>
-                  </select>
-                  {inputErrorIcon("country")}
-                </div>
-              </div>
-              <hr className="mt-10"></hr>
               {/* --- Credit Card start --- */}
-              {/* <div className="flex flex-col pt-10 mt-5">
+              <div className="flex flex-col pt-10 mt-5">
                 <p className="justify-start headline5 text-gray600">
                   Credit Card
                 </p>
@@ -305,13 +178,13 @@ function PaymentPage({ token }) {
                     {inputErrorIcon("cvcCvv")}
                   </div>
                 </div>
-              </div> */}
+              </div>
               <div className="grid grid-cols-2 gap-10 mt-5">
                 <button
                   className="btn w-full bg-orange600 hover:bg-orange500 active:bg-orange700 text-body1 text-utilWhite font-fontWeight6 mb-4"
                   type="submit"
                 >
-                  Update
+                  Update Payment Method
                 </button>
               </div>
               <div>
@@ -332,4 +205,4 @@ function PaymentPage({ token }) {
   );
 }
 
-export default PaymentPage;
+export default PaymentPageCard;
