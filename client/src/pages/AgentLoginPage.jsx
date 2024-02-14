@@ -82,7 +82,7 @@ const AgentLoginPage = ({ setToken }) => {
         {/* Login Form Section */}
         <div className="flex justify-center items-center w-2/4 pl-12 pr-40 pt-15 pb-30 ">
           <div className="flex-col bg-utilBG w-screen h-fit text-left">
-            <h1 className="headline2 w-full mb-60 text-green800">Login</h1>
+            <h1 className="headline2 w-full mb-60 text-green800">Log In</h1>
             <br></br>
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Email Input */}
