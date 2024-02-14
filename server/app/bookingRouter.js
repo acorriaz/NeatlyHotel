@@ -1,4 +1,4 @@
-import { Router } from "express";
+import e, { Router } from "express";
 import supabase from "../utils/db.js";
 
 const bookingRouter = Router();
@@ -14,6 +14,68 @@ bookingRouter.get("/:userId", async (req, res) => {
     res.json(bookings);
   } catch (error) {
     res.status(400).json({ error: "data not found" });
+  }
+});
+
+bookingRouter.get("/recent-booking/:userId", async (req, res) => {
+  const userId = req.params.userId;
+  try {
+    let { data: booking, error: bookingError } = await supabase
+      .from("booking_detail")
+      .select(
+        `
+      *,
+      room:room_id (
+        room_type:room_type_id (
+          room_type,
+          room_price,
+          guest_number
+        )
+      )
+    `
+      )
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false })
+      .limit(1);
+
+    if (bookingError) throw bookingError;
+    if (booking.length === 0) return res.status(404).send("No booking found");
+
+    const recentBooking = booking[0];
+
+    let { data: guestRequests, error: guestRequestsError } = await supabase
+      .from("guest_request")
+      .select("request_id")
+      .eq("booking_detail_id", recentBooking.booking_detail_id);
+
+    if (guestRequestsError) throw guestRequestsError;
+
+    const requests = await Promise.all(
+      guestRequests.map(async (guestRequest) => {
+        let { data: request, error: requestError } = await supabase
+          .from("request")
+          .select("request_name, request_price, request_type")
+          .eq("request_id", guestRequest.request_id);
+
+        if (requestError) throw requestError;
+        return request[0];
+      })
+    );
+
+    const response = {
+      bookingDetail: recentBooking,
+      roomInfo: {
+        roomType: recentBooking.room.room_type.room_type,
+        roomPrice: recentBooking.room.room_type.room_price,
+        guestNumber: recentBooking.room.room_type.guest_number,
+      },
+      requests,
+    };
+
+    res.json(response);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("An error occurred");
   }
 });
 

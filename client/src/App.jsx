@@ -58,6 +58,7 @@ function App() {
         <Route path="/hotel" element={<SearchResultPage />} />
         <Route path="/hotel/detail" element={<RoomDetail />} />
         <Route path="/hotel/payment" element={<PaymentPage />} />
+        <Route path="/users/payment-result" element={<PaymentResultPage />} />
         <Route path="/users/booking-history" element={<BookingHistoryPage />} />
         <Route
           path="/users/booking-history/change-date/:id"
@@ -86,7 +87,6 @@ function App() {
         <Route path="/agent/room-management" element={<RoomManagementPage />} />
         <Route path="/agent/hotel-information" element={<HotelInfoPage />} />
         <Route path="/agent/create-room" element={<CreateRoomForm />} />
-        <Route path="/hotel/payment-result" element={<PaymentResultPage />} />
         {token && (
           <>
             <Route

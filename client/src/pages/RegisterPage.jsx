@@ -118,7 +118,7 @@ function RegisterPage() {
         }
 
         alert("Registration successful!");
-        navigate("/hotel/user-login");
+        navigate("/users/login");
       } else if (error) {
         alert(error.message);
         return;
