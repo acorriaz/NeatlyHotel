@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Routes, Route } from "react-router-dom";
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 
 import ScrollToTop from "./components/utils/ScrollToTop";
@@ -7,7 +8,6 @@ import RoomDetail from "./pages/RoomDetailPage";
 import UserLoginPage from "./pages/UserLoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import SearchResultPage from "./pages/SearchResultPage";
-import PaymentPage from "./pages/PaymentPage";
 import AgentLoginPage from "./pages/AgentLoginPage";
 import LandingPage from "./pages/LandingPage";
 import AgentCustomerBooking from "./pages/AgentCustomerBooking";
@@ -104,6 +104,7 @@ function App() {
           </>
         )}
       </Routes>
+
     </div>
   );
 }

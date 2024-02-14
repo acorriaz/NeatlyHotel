@@ -5,23 +5,26 @@ import axios from "axios";
 import PlusCircleIcon from "@heroicons/react/24/outline/PlusCircleIcon";
 import MinusCircleIcon from "@heroicons/react/24/outline/MinusCircleIcon";
 import { AiOutlineCaretUp, AiOutlineCaretDown } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 const LandingBooking = forwardRef((props, ref) => {
   const [roomCounter, setRoomCounter] = useState(1);
   const [guestCounter, setGuestCounter] = useState(2);
-  const [rooms, setRooms] = useState("");
-
+  const [rooms, setRooms] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [checkIn, setCheckIn] = useState("");
+  const [checkout, setCheckOut] = useState("");
 
-  const getRoom = async () => {
-    const result = await axios.get("http://localhost:4000/hotel/rooms");
-    console.log(result);
-    setRooms(result.data.data);
-  };
+  const navigate = useNavigate();
 
-  const searchRoom = async () => {
-    const result = await axios.get("http://localhost:4000/");
-    setRoomCounter(result.data.data);
+  const handleNavigation = () => {
+    const dataToSend = {
+      room: roomCounter,
+      guest: guestCounter,
+      checkIn,
+    };
+
+    navigate("/hotel", { state: dataToSend });
   };
 
   const handleRoomCounterChange = (counterSetter, newValue) => {
@@ -72,12 +75,13 @@ const LandingBooking = forwardRef((props, ref) => {
     return formattedDate;
   };
 
-  useEffect(() => {
-    getRoom();
-  }, []);
-  useEffect(() => {
-    searchRoom();
-  }, [rooms]);
+  // useEffect(() => {
+  //   getRoom();
+  // }, []);
+
+  // useEffect(() => {
+  //   searchRoom();
+  // }, [rooms]);
 
   return (
     <div
@@ -111,7 +115,6 @@ const LandingBooking = forwardRef((props, ref) => {
             required
           />
         </div>
-        <div className="self-center">-</div>
         <div className="w-[240px] flex flex-col justify-center gap-2">
           <label htmlFor="check_out" className="text-sm text-gray-900">
             Check Out
@@ -188,7 +191,10 @@ const LandingBooking = forwardRef((props, ref) => {
           )}
         </div>
         {/* select button */}
-        <button className="w-[144px] h-max px-8 py-3 rounded font-sans font-semibold text-orange-500 bg-base-100 border border-orange-500">
+        <button
+          onClick={handleNavigation}
+          className="w-[144px] h-max px-8 py-3 rounded font-sans font-semibold text-orange-500 bg-base-100 border border-orange-500"
+        >
           Search
         </button>
       </form>
