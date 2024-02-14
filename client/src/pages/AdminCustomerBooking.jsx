@@ -82,7 +82,10 @@ const AdminCustomerBooking = ({ token }) => {
   );
 
   return (
-    <div className="bg-white room-and-property-page flex flex-row">
+    <div
+      className="bg-white room-and-property-page flex flex-row"
+      style={{ width: "100vw", height: "100vh" }}
+    >
       <SideBarAdmin />
       <main className="main-content flex-1 bg-utility-white font-noto-serif">
         <TopBar

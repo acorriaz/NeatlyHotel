@@ -13,7 +13,10 @@ const SideBarAdmin = ({ token }) => {
   }
 
   return (
-    <div className="h-[1024px] w-60 bg-green-800 box-border overflow-hidden shrink-0 flex flex-col items-start justify-start gap-[40px] text-center text-base text-white font-body1 border-r-[1px] border-solid border-gray-300 mq1050:hidden">
+    <div
+      className="h-[1024px] w-60 bg-green-800 box-border overflow-hidden shrink-0 flex flex-col items-start justify-start gap-[40px] text-center text-base text-white font-body1 border-r-[1px] border-solid border-gray-300 mq1050:hidden"
+      style={{ width: "13vw", height: "100vh" }}
+    >
       <div className="self-stretch flex flex-col items-center justify-end py-10 px-6 gap-[16px]   ">
         <img
           className="w-[120px] h-[32.3px] relative"
