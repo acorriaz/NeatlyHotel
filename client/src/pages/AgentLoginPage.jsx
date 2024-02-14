@@ -155,7 +155,7 @@ const AgentLoginPage = ({ setToken }) => {
                 <p className="text-gray-700">
                   Don’t have an account yet?{" "}
                   <a
-                    href="/admin-customer-booking"
+                    // href="/admin-customer-booking"
                     className="text-orange-500 font-semibold"
                   >
                     Register
