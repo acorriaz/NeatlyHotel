@@ -76,7 +76,7 @@ const AgentLoginPage = ({ setToken }) => {
   return (
     <>
       <NavigationBar />
-      <div className="w-full relative bg-green-700 overflow-hidden flex flex-col items-start justify-start tracking-[normal]">
+      <div className="w-full relative bg-center overflow-hidden flex flex-row-reverse items-start justify-start tracking-[normal] bg-[url('src/assets/loginPageImage/chairBesidePool.jpg')]">
         <main className="self-stretch font-noto-serif overflow-hidden flex flex-row items-center justify-center p-[60px] box-border bg-[url('src/assets/loginPageImage/chairBesidePool.jpg')] bg-cover bg-no-repeat bg-[top] max-w-full lg:py-[39px] lg:px-[30px] lg:box-border mq450:pt-5 mq450:pb-5 mq450:box-border mq1050:pt-[25px] mq1050:pb-[25px] mq1050:box-border">
           <form
             onSubmit={handleSubmit}
