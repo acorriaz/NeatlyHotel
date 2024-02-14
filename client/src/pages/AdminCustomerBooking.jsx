@@ -94,7 +94,7 @@ const AdminCustomerBooking = ({ token }) => {
         />
         <section className="booking-listing p-8">
           <table className="w-full text-left bg-white">
-            <thead className="bg-gray-200">
+            <thead className="bg-gray-300 font-gray-800">
               <tr>
                 {/* <th className="p-4">Customer Name</th>
                 <th className="p-4">Guest(s)</th>
