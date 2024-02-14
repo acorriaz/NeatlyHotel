@@ -12,7 +12,6 @@ import PaymentPage from "./pages/PaymentPage";
 import AgentRegisterPage from "./pages/AgentRegisterPage";
 import AgentLoginPage from "./pages/AgentLoginPage";
 import LandingPage from "./pages/LandingPage";
-import AgentCustomerBooking from "./pages/AgentCustomerBooking";
 import AdminCustomerBooking from "./pages/AdminCustomerBooking";
 import RoomManagementPage from "./pages/RoomManagementPage";
 import RoomAndPropertyPage from "./pages/RoomAndPropertyPage";
@@ -57,24 +56,12 @@ function App() {
         {token && (
           <>
             <Route
-              path="/agent-customer-booking"
-              element={<AgentCustomerBooking token={token} />}
-            />
-            <Route
               path="/room-and-property"
               element={<RoomAndPropertyPage token={token} />}
             />
             <Route
               path="/admin-customer-booking"
               element={<AdminCustomerBooking token={token} />}
-            />
-            <Route
-              path="/user-payment"
-              element={<PaymentPage token={token} />}
-            />
-            <Route
-              path="/user-payment-card"
-              element={<PaymentPageCard token={token} />}
             />
           </>
         )}

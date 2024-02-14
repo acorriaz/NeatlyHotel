@@ -75,16 +75,14 @@ const AgentLoginPage = ({ setToken }) => {
   return (
     <>
       <NavigationBar />
-      <div className="flex h-screen">
+      <div className="flex h-screen bg-utilBG">
         {/* Background Image Section */}
-        <div className="w-1/2 bg-[url('src/assets/loginPageImage/chairBesidePool.jpg')] bg-cover bg-no-repeat bg-center"></div>
+        <div className="w-2/4 bg-[url('src/assets/loginPageImage/chairBesidePool.jpg')] bg-cover bg-no-repeat bg-center"></div>
 
         {/* Login Form Section */}
-        <div className="w-1/2 flex justify-center items-center pl-12 pr-40 bg-white  ">
-          <div className="bg-white p-20 rounded  w-full max-w-md">
-            <h1 className="text-[68px] font-noto-serif  text-green-800 mb-6">
-              Login
-            </h1>
+        <div className="flex justify-center items-center w-2/4 pl-12 pr-40 pt-15 pb-30 ">
+          <div className="flex-col bg-utilBG w-screen h-fit text-left">
+            <h1 className="headline2 w-full mb-60 text-green800">Login</h1>
             <br></br>
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Email Input */}
@@ -93,16 +91,16 @@ const AgentLoginPage = ({ setToken }) => {
                   htmlFor="email"
                   className=" text-[16px] block text-gray-700"
                 >
-                  Email
+                  Username or Email
                 </label>
                 <input
                   id="email"
                   type="email"
                   name="email"
-                  placeholder="Enter your Email"
+                  placeholder="Username or Email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full p-3 bg-gray-100 border border-gray-300 rounded focus:outline-none focus:border-orange-500"
+                  className="w-full p-3 bg-white border border-gray-300 rounded focus:outline-none focus:border-orange-500"
                 />
               </div>
               <br></br>
@@ -119,7 +117,7 @@ const AgentLoginPage = ({ setToken }) => {
                   placeholder="Enter your password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full p-3 bg-gray-100 border border-gray-300 rounded focus:outline-none focus:border-orange-500"
+                  className="w-full p-3 bg-white border border-gray-300 rounded focus:outline-none focus:border-orange-500"
                 />
               </div>
 
