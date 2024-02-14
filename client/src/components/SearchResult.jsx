@@ -9,14 +9,14 @@ function SearchResult() {
   const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
-    setInitialInput();
+    // setInitialInput();
     getRoom();
   }, []);
 
-  const setInitialInput = () => {
-    setGuestCount(receivedData.guests);
-    setSomething(receivedData);
-  };
+  // const setInitialInput = () => {
+  //   setGuestCount(receivedData.guests);
+  //   setSomething(receivedData);
+  // };
 
   const getRoom = async () => {
     const result = await axios.get("http://localhost:4000/hotel/rooms");
