@@ -53,29 +53,15 @@ const AdminCustomerBooking = ({ token }) => {
 
   // TopBar component
   const TopBar = ({ searchKeyword, setSearchKeyword }) => (
-    <div
-      className="top-bar"
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "1rem",
-        backgroundColor: "white",
-      }}
-    >
-      <h1 style={{ fontSize: "1.5rem", color: "#1F2937" }}>Customer Booking</h1>
-      <div style={{ display: "flex", gap: "0.5rem" }}>
+    <div className="flex justify-between items-center p-8 bg-white">
+      <h1 className="text-2xl text-gray-800">Customer Booking</h1>
+      <div className="flex gap-2">
         <input
           type="text"
           placeholder="Search..."
           value={searchKeyword}
           onChange={(e) => setSearchKeyword(e.target.value)}
-          style={{
-            padding: "0.5rem",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-            backgroundColor: "white",
-          }}
+          className="p-2 rounded border border-gray-300 bg-white"
         />
       </div>
     </div>
