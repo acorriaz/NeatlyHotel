@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import NavigationBar from "../components/NavigationBar";
-import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../../server/utils/db";
 
@@ -83,14 +82,17 @@ const AgentLoginPage = ({ setToken }) => {
         {/* Login Form Section */}
         <div className="w-1/2 flex justify-center items-center pl-12 pr-40 bg-white  ">
           <div className="bg-white p-20 rounded  w-full max-w-md">
-            <h1 className="text-5xl font-noto-serif  text-green-800 mb-6">
+            <h1 className="text-[68px] font-noto-serif  text-green-800 mb-6">
               Login
             </h1>
             <br></br>
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Email Input */}
               <div>
-                <label htmlFor="email" className="block text-gray-700">
+                <label
+                  htmlFor="email"
+                  className=" text-[16px] block text-gray-700"
+                >
                   Email
                 </label>
                 <input
@@ -164,7 +166,6 @@ const AgentLoginPage = ({ setToken }) => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

@@ -1,7 +1,9 @@
+import React from "react";
 import neatlyLogo from "../assets/neatly-logo.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function NavigationBar() {
+  // Items array remains unchanged
   const items = [
     {
       href: "#about",
@@ -14,6 +16,7 @@ export default function NavigationBar() {
     { href: "#rooms", title: "Rooms & Suits" },
   ];
 
+  // Generate navigation list elements
   function navListEl() {
     return items.map((item, index) => (
       <Link to={`/hotel${item.href}`} key={index}>
@@ -23,7 +26,9 @@ export default function NavigationBar() {
   }
 
   return (
-    <div className="fixed top-0 z-10 m-auto w-screen p-0 navbar bg-base-100">
+    <div className="fixed top-0 z-10 m-auto w-screen p-0 navbar bg-white text-black">
+      {" "}
+      {/* Adjusted for light mode */}
       <div className="w-[1200px] m-auto">
         <div className="w-full m-auto flex flex-1 justify-between items-center gap-12">
           <Link to="/hotel">
