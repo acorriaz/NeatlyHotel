@@ -8,6 +8,7 @@ const SideBarAdmin = ({ token }) => {
     localStorage.removeItem("token");
     navigate("/agent-login");
   }
+
   function isActive(route) {
     return location.pathname === route;
   }
@@ -15,9 +16,9 @@ const SideBarAdmin = ({ token }) => {
   return (
     <div
       className="h-[1024px] w-60 bg-green-800 box-border overflow-hidden shrink-0 flex flex-col items-start justify-start gap-[40px] text-center text-base text-white font-body1 border-r-[1px] border-solid border-gray-300 mq1050:hidden"
-      style={{ width: "13vw", height: "100vh" }}
+      style={{ width: "17vw", height: "100vh" }}
     >
-      <div className="self-stretch flex flex-col items-center justify-end py-10 px-6 gap-[16px]   ">
+      <div className="self-stretch flex flex-col items-center justify-end py-10 px-6 gap-[16px]">
         <img
           className="w-[120px] h-[32.3px] relative"
           loading="eager"
@@ -30,6 +31,7 @@ const SideBarAdmin = ({ token }) => {
       </div>
 
       <div className="self-stretch h-[540px] flex flex-col items-start justify-start text-left text-green-300 mq450:h-[540px]">
+        {/* Customer Booking */}
         <div
           className={`self-stretch ${
             isActive("/admin-customer-booking")
@@ -49,7 +51,13 @@ const SideBarAdmin = ({ token }) => {
             Customer Booking
           </Link>
         </div>
-        <div className="  flex flex-row  items-start justify-start p-6 gap-[16px] whitespace-nowrap">
+
+        {/* Room Management */}
+        <div
+          className={`self-stretch ${
+            isActive("/room-management") ? "bg-green-600" : "bg-green-800"
+          } flex flex-row items-start justify-start p-6 gap-[16px] whitespace-nowrap text-green-100`}
+        >
           <img
             className="h-6 w-6 relative overflow-hidden shrink-0 min-h-[24px]"
             alt=""
@@ -57,13 +65,18 @@ const SideBarAdmin = ({ token }) => {
           />
           <Link
             to="/room-management"
-            className="relative tracking-[-0.02em] leading-[150%] font-medium"
+            className="flex-1 relative tracking-[-0.02em] leading-[150%] font-medium"
           >
             Room Management
           </Link>
         </div>
 
-        <div className="self-stretch  bg-green-800 flex flex-row items-start justify-start p-6 gap-[16px] whitespace-nowrap">
+        {/* Hotel Information */}
+        <div
+          className={`self-stretch ${
+            isActive("/hotel-information") ? "bg-green-600" : "bg-green-800"
+          } flex flex-row items-start justify-start p-6 gap-[16px] whitespace-nowrap text-green-100`}
+        >
           <img
             className="h-6 w-6 relative overflow-hidden shrink-0 min-h-[24px]"
             alt=""
@@ -77,7 +90,12 @@ const SideBarAdmin = ({ token }) => {
           </Link>
         </div>
 
-        <div className="self-stretch bg-green-800 flex flex-row items-start justify-start p-6 gap-[16px] whitespace-nowrap">
+        {/* Room & Property */}
+        <div
+          className={`self-stretch ${
+            isActive("/room-and-property") ? "bg-green-600" : "bg-green-800"
+          } flex flex-row items-start justify-start p-6 gap-[16px] whitespace-nowrap text-green-100`}
+        >
           <img
             className="h-6 w-6 relative overflow-hidden shrink-0 min-h-[24px]"
             alt=""
