@@ -63,9 +63,7 @@ const AdminCustomerBooking = ({ token }) => {
         backgroundColor: "white",
       }}
     >
-      <h1 style={{ fontSize: "1.5rem" }}>
-        Bookings, Hi Agent {token.user.user_metadata.full_name}
-      </h1>
+      <h1 style={{ fontSize: "1.5rem", color: "#1F2937" }}>Customer Booking</h1>
       <div style={{ display: "flex", gap: "0.5rem" }}>
         <input
           type="text"
@@ -76,21 +74,9 @@ const AdminCustomerBooking = ({ token }) => {
             padding: "0.5rem",
             borderRadius: "4px",
             border: "1px solid #ccc",
+            backgroundColor: "white",
           }}
         />
-        <button
-          onClick={handleLogout}
-          style={{
-            padding: "0.5rem 1rem",
-            borderRadius: "4px",
-            border: "none",
-            backgroundColor: "red",
-            color: "white",
-            cursor: "pointer",
-          }}
-        >
-          Logout
-        </button>
       </div>
     </div>
   );
