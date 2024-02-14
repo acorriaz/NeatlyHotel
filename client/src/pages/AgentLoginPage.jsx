@@ -144,7 +144,7 @@ const AgentLoginPage = ({ setToken }) => {
               </div>
               <button className="cursor-pointer [border:none] py-1 px-2 bg-[transparent] flex flex-row items-start justify-start gap-[8px]">
                 <div className="relative text-base leading-[16px] font-semibold font-open-sans text-orange-500 text-center">
-                  <Link to="/agent-register">Register</Link>
+                  <Link to="/admin-customer-booking">Register</Link>
                 </div>
               </button>
             </div>
