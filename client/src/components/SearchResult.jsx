@@ -1,10 +1,11 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import SearchBar from "./utils/SearchBar.jsx";
 
 function SearchResult() {
   const location = useLocation();
+  const navigate = useNavigate();
   const receivedData = location.state;
   const [guestCount, setGuestCount] = useState("");
   const [rooms, setRooms] = useState([]);
