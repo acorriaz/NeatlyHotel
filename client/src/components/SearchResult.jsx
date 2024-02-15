@@ -1,9 +1,10 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
 function SearchResult() {
   const location = useLocation();
+  const navigate = useNavigate();
   const receivedData = location.state;
   const [guestCount, setGuestCount] = useState("");
   const [rooms, setRooms] = useState([]);
@@ -376,8 +377,15 @@ function SearchResult() {
                       </dialog>
                       {/* end of room detail pop-up button */}
                     </div>
-                    <button className="py-3 px-8 rounded font-sans font-semibold text-white bg-orange-600">
-                      <Link to="/hotel/payment-result">Book Now</Link>
+
+                    <button
+                      type="button"
+                      className="py-3 px-8 rounded font-sans font-semibold text-white bg-orange-600"
+                      onClick={() => {
+                        navigate("/hotel/payment", { state: room });
+                      }}
+                    >
+                      Book Now
                     </button>
                   </div>
                 </div>
