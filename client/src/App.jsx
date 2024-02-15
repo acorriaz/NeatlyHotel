@@ -22,14 +22,10 @@ import BookingRefundPage from "./pages/BookingRefundPage";
 import BookingRefundSuccessPage from "./pages/BookingRefundSuccessPage";
 import BookingCancelPage from "./pages/BookingCancelPage";
 import BookingCancelSuccessPage from "./pages/BookingCancelSuccessPage";
-import PaymentResultPage from "./pages/PaymentResultPage.jsx";
-
-import { useAuth } from "./components/hooks/useAuth.jsx";
+import PaymentResultPage from "./pages/PaymentResultPage";
 
 function App() {
   const [token, setToken] = useState(false);
-
-  const { isAuthenticated, isLogin } = useAuth();
 
   if (token) {
     sessionStorage.setItem("token", JSON.stringify(token));
@@ -42,15 +38,8 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    isLogin();
-  }, []);
-
-  console.log("isAuthenticated", isAuthenticated);
-
   return (
     <div className="App">
-      <ScrollToTop />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/users/login" element={<UserLoginPage />} />

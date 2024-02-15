@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../components/hooks/useAuth";
 import NavigationBar from "../components/navigation-bar/NavigationBar";
 import AboutHotel from "../components/landing-page/AboutHotel";
 import ServiceAndFacilities from "../components/landing-page/ServiceAndFacilities";
