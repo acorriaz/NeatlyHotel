@@ -13,7 +13,10 @@ function ModelPopUp(massage) {
         <p className="py-4 body2">{massage.body}</p>
         <div className="flex gap-4 body3 w-full font-sans">
           <Link
-            to="/users/booking-history/refund/:id"
+            to={{
+              pathname:massage.link
+            }}
+            state={massage.state}
             className="py-4 px-4 border border-orange500 bg-white rounded-md text-orange500 w-3/5"
           >
             {massage.confirm}
