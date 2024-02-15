@@ -50,56 +50,46 @@ function App() {
 
   return (
     <div className="App">
-      <ScrollToTop/>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/users/login" element={<UserLoginPage />} />
         <Route path="/users/register" element={<RegisterPage />} />
         <Route path="/hotel" element={<SearchResultPage />} />
-<<<<<<< HEAD
         <Route path="/hotel/detail/:roomTypeId" element={<RoomDetail />} />
-        <Route path="/users/booking-history/:userId" element={<BookingHistoryPage />} />
-        <Route path="/users/booking-history/change-date/:bookingId" element={<BookingChangeDatePage />} />
-        <Route path="/users/booking-history/refund/:userId" element={<BookingRefundPage />} />
-        <Route path="/users/booking-history/refund-success/:userId" element={<BookingRefundSuccessPage />} />
-        <Route path="/users/booking-history/cancel/:userId" element={<BookingCancelPage />} />
-        <Route path="/users/booking-history/cancel-success/:userId" element={<BookingCancelSuccessPage />} />
-        <Route path="/agent/login" element={<AgentLoginPage setToken={setToken} />}/>
-=======
-        <Route path="/hotel/detail" element={<RoomDetail />} />
-        {/* <Route path="/hotel/payment" element={<PaymentPage />} /> */}
-        <Route path="/users/payment-result" element={<PaymentResultPage />} />
-        <Route path="/users/booking-history" element={<BookingHistoryPage />} />
         <Route
-          path="/users/booking-history/change-date/:id"
+          path="/users/booking-history/:userId"
+          element={<BookingHistoryPage />}
+        />
+        <Route
+          path="/users/booking-history/change-date/:bookingId"
           element={<BookingChangeDatePage />}
         />
         <Route
-          path="/users/booking-history/refund/:id"
+          path="/users/booking-history/refund/:userId"
           element={<BookingRefundPage />}
         />
         <Route
-          path="/users/booking-history/refund-success/:id"
+          path="/users/booking-history/refund-success/:userId"
           element={<BookingRefundSuccessPage />}
         />
         <Route
-          path="/users/booking-history/cancel/:id"
+          path="/users/booking-history/cancel/:userId"
           element={<BookingCancelPage />}
         />
         <Route
-          path="/users/booking-history/cancel-success/:id"
+          path="/users/booking-history/cancel-success/:userId"
           element={<BookingCancelSuccessPage />}
         />
         <Route
           path="/agent/login"
           element={<AgentLoginPage setToken={setToken} />}
         />
->>>>>>> 80650b6 (feat: update on booking router)
         <Route path="/agent/room-management" element={<RoomManagementPage />} />
         <Route path="/agent/hotel-information" element={<HotelInfoPage />} />
         <Route path="/agent/create-room" element={<CreateRoomForm />} />
         <Route path="/hotel/payment-result" element={<PaymentResultPage />} />
-        
+
         {token && (
           <>
             <Route
