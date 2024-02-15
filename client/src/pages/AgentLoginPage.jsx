@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
 import NavigationBar from "../components/NavigationBar";
 import { useNavigate } from "react-router-dom";
-import supabase from "../../../server/utils/db";
+import supabase from "/supabase.js";
 
 const AgentLoginPage = ({ setToken }) => {
   const [formData, setFormData] = useState({
