@@ -3,11 +3,29 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import SideBarAdmin from "../components/SideBarAdmin";
 
+// Debounce hook
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
 const AdminCustomerBooking = ({ token }) => {
   let navigate = useNavigate();
 
   const [bookings, setBookings] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
+  const debouncedSearchKeyword = useDebounce(searchKeyword, 500);
 
   // Handle logout
   function handleLogout() {
@@ -20,38 +38,36 @@ const AdminCustomerBooking = ({ token }) => {
     try {
       const response = await axios.get("http://localhost:4000/admin", {
         headers: {
-          Authorization: `Bearer ${token}`, // Assuming your API uses a bearer token for authentication
+          Authorization: `Bearer ${token}`,
         },
       });
-      // Access the `data` property of the response to get the actual bookings array
       if (Array.isArray(response.data.data)) {
         setBookings(response.data.data);
       } else {
         console.error("Received data is not an array", response.data);
-        setBookings([]); // Keep the bookings array empty if data is not as expected
+        setBookings([]);
       }
     } catch (error) {
       console.error("Failed to fetch bookings:", error);
-      setBookings([]); // Keep the bookings array empty in case of error
+      setBookings([]);
     }
   };
 
   useEffect(() => {
     getBookingData();
-  }, []); // Empty array ensures this runs once on component mount
+  }, []);
 
-  // Filter bookings based on search keyword
+  // Filter bookings based on debounced search keyword
   const filteredBookings = bookings.filter(
     (booking) =>
-      (booking.customer_name?.toLowerCase() || "").includes(
-        searchKeyword.toLowerCase()
-      ) ||
-      (booking.room_type?.toLowerCase() || "").includes(
-        searchKeyword.toLowerCase()
-      )
+      booking.name
+        ?.toLowerCase()
+        .includes(debouncedSearchKeyword.toLowerCase()) ||
+      booking.room_type
+        ?.toLowerCase()
+        .includes(debouncedSearchKeyword.toLowerCase())
   );
 
-  // TopBar component
   const TopBar = ({ searchKeyword, setSearchKeyword }) => (
     <div className="flex justify-between items-center p-8 bg-white">
       <h1 className="text-2xl text-gray-800">Customer Booking</h1>
@@ -82,9 +98,7 @@ const AdminCustomerBooking = ({ token }) => {
           <table className="w-full text-left bg-white">
             <thead className="bg-gray-300 font-gray-800">
               <tr>
-                {/* <th className="p-4">Customer Name</th>
-                <th className="p-4">Guest(s)</th>
-                <th className="p-4">Room Type</th> */}
+                <th className="p-4">Customer Name</th>
                 <th className="p-4">Total Price</th>
                 <th className="p-4">Payment Method</th>
                 <th className="p-4">Check-in</th>
@@ -94,11 +108,7 @@ const AdminCustomerBooking = ({ token }) => {
             <tbody>
               {filteredBookings.map((booking) => (
                 <tr className="border-b" key={booking.booking_detail_id}>
-                  {" "}
-                  {/* Ensure this is a unique value */}
-                  {/* <td className="p-4">{booking.customer_name}</td>
-                  <td className="p-4">{booking.guests}</td>
-                  <td className="p-4">{booking.room_type}</td> */}
+                  <td className="p-4">{booking.name}</td>
                   <td className="p-4">{booking.total_price}</td>
                   <td className="p-4">{booking.payment_method}</td>
                   <td className="p-4">{booking.check_in}</td>
