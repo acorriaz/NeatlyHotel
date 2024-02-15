@@ -118,7 +118,7 @@ export function UserLoginForm() {
                 Don’t have an account yet?
               </span>{" "}
               <Link
-                to="/hotel/user-register"
+                to="/users/register"
                 className="text-body1 font-fontWeight6 text-orange-500"
               >
                 Register
