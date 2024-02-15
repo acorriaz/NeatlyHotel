@@ -22,14 +22,10 @@ import BookingRefundPage from "./pages/BookingRefundPage";
 import BookingRefundSuccessPage from "./pages/BookingRefundSuccessPage";
 import BookingCancelPage from "./pages/BookingCancelPage";
 import BookingCancelSuccessPage from "./pages/BookingCancelSuccessPage";
-import PaymentResultPage from "./pages/PaymentResultPage.jsx";
-
-import { useAuth } from "./components/hooks/useAuth.jsx";
+import PaymentResultPage from "./pages/PaymentResultPage";
 
 function App() {
   const [token, setToken] = useState(false);
-
-  const { isAuthenticated, isLogin } = useAuth();
 
   if (token) {
     sessionStorage.setItem("token", JSON.stringify(token));
@@ -42,33 +38,47 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    isLogin();
-  }, []);
-
-  console.log("isAuthenticated", isAuthenticated);
-
   return (
     <div className="App">
-      <ScrollToTop/>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/users/login" element={<UserLoginPage />} />
         <Route path="/users/register" element={<RegisterPage />} />
         <Route path="/hotel" element={<SearchResultPage />} />
         <Route path="/hotel/detail/:roomTypeId" element={<RoomDetail />} />
-        <Route path="/users/booking-history/:userId" element={<BookingHistoryPage />} />
-        <Route path="/users/booking-history/change-date/:bookingId" element={<BookingChangeDatePage />} />
-        <Route path="/users/booking-history/refund/:userId" element={<BookingRefundPage />} />
-        <Route path="/users/booking-history/refund-success/:userId" element={<BookingRefundSuccessPage />} />
-        <Route path="/users/booking-history/cancel/:userId" element={<BookingCancelPage />} />
-        <Route path="/users/booking-history/cancel-success/:userId" element={<BookingCancelSuccessPage />} />
-        <Route path="/agent/login" element={<AgentLoginPage setToken={setToken} />}/>
+        <Route
+          path="/users/booking-history/:userId"
+          element={<BookingHistoryPage />}
+        />
+        <Route
+          path="/users/booking-history/change-date/:bookingId"
+          element={<BookingChangeDatePage />}
+        />
+        <Route
+          path="/users/booking-history/refund/:userId"
+          element={<BookingRefundPage />}
+        />
+        <Route
+          path="/users/booking-history/refund-success/:userId"
+          element={<BookingRefundSuccessPage />}
+        />
+        <Route
+          path="/users/booking-history/cancel/:userId"
+          element={<BookingCancelPage />}
+        />
+        <Route
+          path="/users/booking-history/cancel-success/:userId"
+          element={<BookingCancelSuccessPage />}
+        />
+        <Route
+          path="/agent/login"
+          element={<AgentLoginPage setToken={setToken} />}
+        />
         <Route path="/agent/room-management" element={<RoomManagementPage />} />
         <Route path="/agent/hotel-information" element={<HotelInfoPage />} />
         <Route path="/agent/create-room" element={<CreateRoomForm />} />
         <Route path="/hotel/payment-result" element={<PaymentResultPage />} />
-        
+
         {token && (
           <>
             <Route
@@ -86,7 +96,6 @@ function App() {
           </>
         )}
       </Routes>
-
     </div>
   );
 }
