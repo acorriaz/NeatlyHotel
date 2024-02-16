@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import ModelPopUp from "./ModelPopup";
 
 function CardBooking(props) {
   //แสดงวันที่แบบ ชื่อย่อวัน วันที่ ชื่อย่อเดือน ปี
@@ -26,7 +25,6 @@ function CardBooking(props) {
     const formattedDate = `${dayName}, ${day} ${monthNames[monthIndex]} ${year}`;
     return formattedDate;
   };
-
   //แปลงวันเวลาเป็น milliseconds
   const isShowsWithDate = (checkIn) => {
     let toDay = new Date();
@@ -35,8 +33,22 @@ function CardBooking(props) {
     result = Math.round(result / 3600000 + 7); //แปลง milliseconds เป็นชั่วโมง
     return result;
   };
-
-  if (props.data) {
+  //โชว์โมเดลเมื่อทำการกดปุ่ม cancel booking 
+  const showModal = () => {
+    document
+      .getElementById(
+        isShowsWithDate(props.data.check_in) >= 24
+        ? "modelCancelAndRefund"
+        : "modelCancel"
+      ) 
+    .showModal()
+    sendBackBooking()    
+  }
+  //ส่งข้อมูล booking ที่เลือกกลับไปยัง parrant component booking history
+  const sendBackBooking = () => {
+    props.sendBooking(props.data);
+  }
+  
     return (
       <>
         <div className="py-10 bg-gray300">
@@ -54,7 +66,8 @@ function CardBooking(props) {
                   {props.data.room_id.room_type_id.room_type}
                 </span>
                 <span className="text-gray600">
-                  Booking date: {formatDate(props.data.created_at)}
+                  Booking date: {formatDate(props.data.created_at)} <br />
+                  {props.data.canceled_at ? `Cancellation date: ${formatDate(props.data.canceled_at)}` : ""}
                 </span>
               </div>
               <div className="flex gap-12 text-gray800 w-full font-inter my-6">
@@ -111,8 +124,7 @@ function CardBooking(props) {
                   })}
                   <p className="flex justify-between w-full py-2">
                     Promotion Code
-                    <span className="pl-2 text-gray900 font-fontWeight6">
-                    </span>
+                    <span className="pl-2 text-gray900 font-fontWeight6"></span>
                   </p>
                   <p className="flex justify-between w-full py-2">
                     Total
@@ -132,28 +144,15 @@ function CardBooking(props) {
               </div>
             </div>
           </div>
-          <div className="w-full flex justify-between font-sans font-fontWeight6">
-            <button
-              className="text-orange500 px-2"
-              onClick={() =>
-                document
-                  .getElementById(
-                    isShowsWithDate(props.data.check_in) >= 24
-                      ? "modelCancelAndRefund"
-                      : "modelCancel"
-                  )
-                  .showModal()
-              }
-            >
+          { !props.data.canceled_at && <div className="w-full flex justify-between font-sans font-fontWeight6">
+            <button className="text-orange500 px-2" onClick={showModal}>
               Cancel Booking
             </button>
             <div>
               <button className="py-4 px-8 text-orange500">Room Detail</button>
               {isShowsWithDate(props.data.check_in) >= 24 && (
                 <Link
-                  to={{
-                    pathname: `/users/booking-history/change-date/${props.data.booking_detail_id}`,
-                  }}
+                  to="/users/booking-history/change-date"
                   state={{ data: props.data }}
                 >
                   <button className="py-4 px-8 bg-orange600 text-utilWhite rounded-md">
@@ -162,23 +161,10 @@ function CardBooking(props) {
                 </Link>
               )}
             </div>
-          </div>
+          </div>}
         </div>
-        <ModelPopUp
-          id={"modelCancelAndRefund"}
-          body={"Are you sure you would like to cancel this booking?"}
-          confirm={"Yes, I want to cancel and request refund"}
-          cancel={"No, Don’t Cancel"}
-        />
-        <ModelPopUp
-          id={"modelCancel"}
-          body={"Are you sure you would like to cancel this booking?"}
-          confirm={"Yes, I want to cancel"}
-          cancel={"No, Don’t Cancel"}
-        />
       </>
     );
   }
-}
 
 export default CardBooking;

@@ -1,9 +1,50 @@
-import { bookingDetail } from "../../data/rooms.js";
+import axios from "axios";
 import { Link } from "react-router-dom";
-
-let bookingDetailArray = bookingDetail[0];
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 function BookingRefund() {
+  const location = useLocation();
+  const [booking, setBooking] = useState(location.state);
+  const [cancelRefundDate, setCancelRefundDate] = useState(new Date());
+
+  const putBooking = async () => {
+    try {
+      await axios.put(
+        "http://localhost:4000/bookingHistory/" + booking.booking_detail_id,
+        {
+          canceled_at: cancelRefundDate,
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //แสดงวันที่แบบ ชื่อย่อวัน วันที่ ชื่อย่อเดือน ปี
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+    const dayName = date.toLocaleDateString("en-US", { weekday: "short" });
+    const formattedDate = `${dayName}, ${day} ${monthNames[monthIndex]} ${year}`;
+    return formattedDate;
+  };
+
   return (
     <>
       <div className="p-20 mt-16">
@@ -13,38 +54,59 @@ function BookingRefund() {
         <div className="w-3/4 h-[400px] mt-16 mx-44 font-inter">
           <div className="flex justify-between gap-12">
             <div className="w-[500px] h-[200px]">
-              <img src={bookingDetailArray.photo} alt="" className="w-full h-full rounded-md"/>
+              <img
+                src={booking.room_id.room_type_id.room_image_url}
+                alt=""
+                className="w-full h-full rounded-md"
+              />
             </div>
             <div className="w-full flex flex-col">
               <div className="flex justify-between">
                 <span className="headline4 text-utilBlack font-fontWeight6">
-                  {bookingDetailArray.room_type}
+                  {booking.room_id.room_type_id.room_type}
                 </span>
                 <span className="text-gray600 font-fontWeight4">
-                  Booking date: {bookingDetailArray.created_at}
+                  Booking date: {formatDate(booking.created_at)}
                 </span>
               </div>
               <div className="flex justify-between">
                 <div className="my-10">
                   <span className="text-gray700 font-fontWeight4">
-                    Th, 19 Oct 2022
+                    {formatDate(booking.check_in)}
                   </span>
+                  <span> - </span>
                   <span className="text-gray700 font-fontWeight4">
-                    - Fri, 20 Oct 2022 <br /> 2 Guests
+                    {formatDate(booking.check_out)} <br />
+                    {booking.room_id.room_type_id.guest_number} Guests
                   </span>
                 </div>
                 <div className="my-10">
                   <p className="text-gray900 font-fontWeight4">Total Refund</p>
-                  <p className="text-gray900 font-fontWeight6">THB 2,300.00</p>
+                  <p className="text-gray900 font-fontWeight6">
+                    THB {booking.total_price}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
           <div className="w-full flex justify-between font-sans font-fontWeight6 mt-20">
-            <Link to="/users/booking-history" className="text-orange500 px-2">Cancel</Link>
+            <Link
+              to={`/users/booking-history/${booking.user_id.user_id}`}
+              className="text-orange500 px-2"
+            >
+              Cancel
+            </Link>
             <div>
-              <Link to="/users/booking-history/refund-success/:id" className="py-4 px-8 bg-orange600 text-utilWhite rounded-md">
-                Cancel and Refund this Booking
+              <Link
+                to={{
+                  pathname: "/users/booking-history/refund-success",
+                }}
+                state={{ data: booking, cancel: cancelRefundDate }}
+                onClick={putBooking}
+              >
+                <button className="py-4 px-8 bg-orange600 text-utilWhite rounded-md">
+                  Cancel and Refund this Booking
+                </button>
               </Link>
             </div>
           </div>

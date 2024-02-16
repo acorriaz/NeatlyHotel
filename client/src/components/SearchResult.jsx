@@ -1,26 +1,40 @@
 import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import SearchBar from "./utils/SearchBar.jsx";
+import { useAuth } from "../components/hooks/useAuth.jsx";
 
 function SearchResult() {
   const navigate = useNavigate();
   const [rooms, setRooms] = useState([]);
+  const navigate = useNavigate();
+  const { isAuthenticated, isLogin } = useAuth();
 
   const getRoom = async () => {
     try {
       const result = await axios.get("http://localhost:4000/hotel/rooms");
       console.log(result);
-      setRooms(result.Object.data);
+      setRooms(result.data);
     } catch (error) {
       console.error("Error fetching rooms:", error);
     }
   };
 
   const searchRoom = async () => {
-    const result = await axios.get("http://localhost:4000/hotel/rooms/:guests");
-    setRooms(result.Object.data);
-    navigate("/hotel");
+    try {
+      const result = await axios.get(
+        "http://localhost:4000/hotel/rooms/:guests"
+      );
+      setRooms(result.data);
+      navigate("/hotel");
+    } catch (error) {
+      console.error("Error searching rooms:", error);
+    }
+  };
+
+  const handleSearchRoom = (e) => {
+    setRooms(e.target.value);
   };
 
   // currency format logic
@@ -38,13 +52,22 @@ function SearchResult() {
     searchRoom();
   }, [rooms]);
 
+  useEffect(() => {
+    isLogin();
+  }, []);
+
+  console.log("isAuthenticated", isAuthenticated);
+
   if (rooms) {
     return (
-      <div className="flex flex-col justify-start items-center pt-[100px]">
+      <div className="flex flex-col justify-start items-center pt-[100px] bg-gray-100">
         {/* search result main container */}
-        <div className=" flex flex-col justify-start items-center mb-[200px] bg-gray-100">
+        <div className="flex justify-center items-center h-fit w-full bg-white border-t-2 shadow-lg">
           <SearchBar />
+        </div>
+        <div className=" flex flex-col justify-start items-center mb-[200px] w-full bg-gray-100 mt-[100px]">
           {rooms.map((room) => {
+            const discount = room.room_price + 500;
             return (
               // result content
               <div
@@ -52,12 +75,12 @@ function SearchResult() {
                 key={room.room_type_id}
               >
                 {/* card-container */}
-                <div className=" flex w-[1120px] h-[400px] justify-between items-center py-[20px] gap-[40px] border-b-2 border-b-gray-200">
+                <div className=" flex w-[1120px] h-[400px] justify-between items-center py-[25px] gap-[40px] border-b-2 border-b-gray-200">
                   <div className="image-container relative w-[453px] h-[320px]">
                     <img
                       src={room.room_image_url}
                       alt=""
-                      className=" w-[453px] h-[320px]"
+                      className=" w-[453px] h-[320px] rounded-md"
                     />
                     {/* full image view button */}
                     <button
@@ -69,7 +92,7 @@ function SearchResult() {
                       <img
                         src={room.icon}
                         alt=""
-                        className="absolute z-10 bottom-0 left-0 w-[40px] h-[40px]"
+                        className="absolute z-10 bottom-0 left-0 w-[40px] h-[40px] border-transparent"
                       />
                     </button>
                     <dialog id="my_modal_3" className="modal">
@@ -215,9 +238,11 @@ function SearchResult() {
                             {room.room_type}
                           </p>
                           {/* room detail */}
-                          <div className="flex w-[289px] h-[24px] justify-between items-center gap-[16px] font-fontWeight4 text-gray700 text-body1">
+                          <div className="flex w-[400px] h-[24px] justify-start items-start gap-[16px] font-fontWeight3 text-gray700 text-body1">
                             <p>{room.guest_number} Guests</p>
-                            <p>{room.bed_type_id}</p>
+                            <p>|</p>
+                            <p>{room.bed_type.bed_type_name}</p>
+                            <p>|</p>
                             <p>{room.room_size}</p>
                           </div>
                         </div>
@@ -229,9 +254,9 @@ function SearchResult() {
                       <div className=" flex flex-col justify-start w-[260px] h-[186px]">
                         <div className="w-[260px] h-[58px] flex flex-col items-end">
                           <p className="text-gray700 line-through">
-                            THB {room.discount.toLocaleString("en-US", options)}
+                            THB {discount.toLocaleString("en-US", options)}
                           </p>
-                          <p className="text-headline5">
+                          <p className="text-headline5 font-semibold">
                             THB{" "}
                             {room.room_price.toLocaleString("en-US", options)}
                           </p>
@@ -243,6 +268,12 @@ function SearchResult() {
                       </div>
                     </div>
                     {/* end of card text */}
+                    <div
+                      className="flex justify-end w-[619px] h-[48px] font-fontWeight6"
+                      key={room.room_type_id}
+                    >
+                      <p>available room: {room.vacantCount}</p>
+                    </div>
                     {/* button-panel */}
                     <div className=" flex justify-end w-[619px] h-[48px] gap-[24px] font-fontWeight6">
                       <div className="" key={room.room_type_id}>
@@ -256,7 +287,7 @@ function SearchResult() {
                           Room Detail
                         </button>
                         <dialog id="my_modal_4" className="modal">
-                          <div className="modal-box w-[800px] h-[620px]">
+                          <div className="modal-box w-[1200px] h-[620px]">
                             <form method="dialog">
                               <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
                                 ✕
@@ -336,9 +367,9 @@ function SearchResult() {
                               </div>
                             </div>
                             {/* room description */}
-                            <div className=" flex w-full h-[24px] gap-[16px] font-fontWeight4 text-gray700 text-body1">
+                            <div className=" flex w-full h-[50px] gap-[16px] font-fontWeight4 text-gray700 text-body1">
                               <p>{room.guest_number} Guests</p>
-                              <p>{room.bed_type_id}</p>
+                              <p>{room.bed_type.bed_type_name}</p>
                               <p>{room.room_size}</p>
                             </div>
                             <p className="w-full h-[72px] font-fontWeight4 text-gray700 text-body1">

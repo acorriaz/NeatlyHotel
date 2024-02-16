@@ -1,34 +1,36 @@
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function BookingChangeDate() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [booking, setBooking] = useState(location.state.data);
   const [checkIn, setCheckIn] = useState(location.state.data.check_in);
   const [checkOut, setCheckOut] = useState(location.state.data.check_out);
-  console.log(checkIn);
-  console.log(checkOut);  
 
   useEffect(() => {
     changeDateFunc(checkIn);
   }, [checkIn]);
-  
+
   const putBooking = async (event) => {
     event.preventDefault();
     try {
       await axios.put(
-        "http://localhost:4000/bookingHistory/" + params.bookingId,
+        "http://localhost:4000/bookingHistory/" + booking.booking_detail_id,
         {
           check_in: checkIn,
           check_out: checkOut,
+          updated_at: new Date()
         });    
+        navigate(
+          `/users/booking-history/${location.state.data.user_id.user_id}`
+        );
     } catch (error) {
       console.log(error)
     }
   }
-  
   //แสดงวันที่แบบ ชื่อวัน วันที่ ชื่อเดือน และปี
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -53,20 +55,21 @@ function BookingChangeDate() {
     const formattedDate = `${dayName}, ${day} ${monthNames[monthIndex]} ${year}`;
     return formattedDate;
   };
-
-  const differenceDate = (checkIn, checkOut) => {
-    let timeStart = new Date(checkIn).getTime();
-    let timeEnd = new Date(checkOut).getTime();
+  //หาระยะห่างของวัน checkin และ วัน checkout
+  const differenceDate = () => {
+    let timeStart = new Date(location.state.data.check_in).getTime();
+    let timeEnd = new Date(location.state.data.check_out).getTime();
     let differenceInTime = timeEnd - timeStart;
     let differenceInDays = Math.round(differenceInTime / (1000 * 3600 * 24));
     return differenceInDays;
   };
-
+  //เมื่อกดเปลี่ยนวัน checkin วัน checkOut จะเปลี่ยนตามระยะห่างของวันจองเดิม
   const changeDateFunc = (checkIn) => {
     let difDate = differenceDate(booking.check_in, booking.check_out);
-    let newDate = new Date(checkIn);
+    let newDate = new Date(checkIn)
     newDate.setDate(newDate.getDate() + difDate);
-    setCheckOut(newDate);
+    let formattedDate = newDate.toISOString().split("T")[0];
+    setCheckOut(formattedDate);
   };
   
   if (booking) {
@@ -76,7 +79,7 @@ function BookingChangeDate() {
           <h1 className="headline2 text-utilBlack font-['noto-serif'] w-1/2 mx-44">
             Change Check-in <br /> and Check-out Date
           </h1>
-          <form
+          <div
             className="w-3/4 h-[450px] mt-16 mx-44 bg-gray300 font-inter"
             onSubmit={putBooking}
           >
@@ -139,12 +142,14 @@ function BookingChangeDate() {
               </div>
             </div>
             <div className="w-full flex justify-between font-sans font-fontWeight6 my-10">
-              <Link to="/users/booking-history" className="text-orange500 px-2">
+              <Link
+                to={`/users/booking-history/${location.state.data.user_id.user_id}`}
+                className="text-orange500 px-2"
+              >
                 Cancel
               </Link>
               <div>
                 <button
-                  type="submit"
                   className="py-4 px-8 bg-orange600 text-utilWhite rounded-md"
                   onClick={() =>
                     document.getElementById("modelCancel").showModal()
@@ -154,7 +159,7 @@ function BookingChangeDate() {
                 </button>
               </div>
             </div>
-          </form>
+          </div>
           <dialog id="modelCancel" className="modal">
             <div className="modal-box font-inter">
               <form method="dialog">
@@ -173,7 +178,10 @@ function BookingChangeDate() {
                     No, I don’t
                   </button>
                 </form>
-                <button className="py-4 px-2 w-2/5 bg-orange500 rounded-md text-white ">
+                <button
+                  className="py-4 px-2 w-2/5 bg-orange500 rounded-md text-white "
+                  onClick={putBooking}
+                >
                   Yes, I want to change
                 </button>
               </div>

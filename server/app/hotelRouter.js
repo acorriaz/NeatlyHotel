@@ -16,8 +16,18 @@ hotelRouter.get("/users", async function (req, res) {
 hotelRouter.get("/rooms", async function (req, res) {
   let resultRooms = null;
   try {
-    resultRooms = await supabase.from("room_type").select("*");
-    return res.status(200).json(resultRooms.data);
+    resultRooms = await supabase
+      .from("room_type")
+      .select(
+        "*, bed_type:bed_type_id(*), room:room_type_id(*, status:status_id(*))"
+      )
+      .order("room_type", { ascending: true });
+    const roomsWithStatus = resultRooms.data.map((room) => ({
+      ...room,
+      vacantCount: room.room.filter((r) => r.status.status_name === "Vacant")
+        .length,
+    }));
+    return res.status(200).json(roomsWithStatus);
   } catch (error) {
     return res.status(500).json(resultRooms.error);
   }

@@ -2,9 +2,11 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import CardBooking from "./CardBooking";
+import ModelPopUp from "./ModelPopup";
 
 function BookingHistory() {
   const [booking, setBooking] = useState();
+  const [bookingOnClick, setBookingOnClick] = useState();
   const params = useParams();
 
   const getBooking = async () => {
@@ -17,6 +19,10 @@ function BookingHistory() {
       console.log(error);
     }
   };
+  //ส่ง function เพื่อไปรับข้อมูล booking ที่เลือกจาก child component card booking
+  const sendBookingComeBack = (data) => {
+    setBookingOnClick(data);
+  }
 
   useEffect(() => {
     getBooking();
@@ -32,9 +38,31 @@ function BookingHistory() {
             </h1>
             <div className="border mt-16 mx-44">
               {booking.map((item, index) => {
-                return <CardBooking key={index} data={item} />;
+                return (
+                  <CardBooking
+                    key={index}
+                    data={item}
+                    sendBooking={sendBookingComeBack}
+                  />
+                );
               })}
             </div>
+            <ModelPopUp
+              id={"modelCancelAndRefund"}
+              body={"Are you sure you would like to cancel this booking?"}
+              confirm={"Yes, I want to cancel and request refund"}
+              cancel={"No, Don’t Cancel"}
+              link={"/users/booking-history/refund"}
+              state={bookingOnClick}
+            />
+            <ModelPopUp
+              id={"modelCancel"}
+              body={"Are you sure you would like to cancel this booking?"}
+              confirm={"Yes, I want to cancel"}
+              cancel={"No, Don’t Cancel"}
+              link={"/users/booking-history/cancel"}
+              state={bookingOnClick}
+            />
           </div>
         </>
       );

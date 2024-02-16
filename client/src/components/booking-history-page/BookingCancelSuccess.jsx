@@ -1,6 +1,35 @@
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useState } from "react";
 
 function BookingCancelSuccess() {
+  const location = useLocation();
+  const [booking, setBooking] = useState(location.state);
+  //แสดงวันที่แบบ ชื่อย่อวัน วันที่ ชื่อย่อเดือน ปี
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+    const dayName = date.toLocaleDateString("en-US", { weekday: "short" });
+    const formattedDate = `${dayName}, ${day} ${monthNames[monthIndex]} ${year}`;
+    return formattedDate;
+  };
+
   return (
     <>
       <div className="w-full p-20 mt-16 flex justify-center items-center">
@@ -11,28 +40,37 @@ function BookingCancelSuccess() {
             </h1>
             <p className="body2 text-green400 mx-6 mb-10">
               The cancellation is complete. <br />
-              You will recieve an email with a detail of cancellation within 24 hours.
+              You will recieve an email with a detail of cancellation within 24
+              hours.
             </p>
           </div>
           <div className="bg-green700 rounded-b-md">
             <div className="w-6/7 h-[255px] mx-8 mt-6 mb-8 p-6 bg-green600 rounded-md">
               <h1 className="headline5 text-utilWhite mb-6">
-                Superior Garden View
+                {booking.data.room_id.room_type_id.room_type}
               </h1>
               <div className="text-utilWhite font-inter mb-12">
-                <span className="font-fontWeight6">Th, 19 Oct 2022</span>
+                <span className="font-fontWeight6">
+                  {formatDate(booking.data.check_in)}
+                </span>
+                <span> - </span>
                 <span className="font-fontWeight4">
-                  - Fri, 20 Oct 2022 <br /> 2 Guests
+                  {formatDate(booking.data.check_out)}
+                  <br />
+                  {booking.data.room_id.room_type_id.guest_number} Guests
                 </span>
               </div>
               <div className="body1 text-green300">
-                <p>Booking date: Tue, 16 Oct 2022</p>
-                <p>Cancellation date: Tue, 16 Oct 2022</p>
+                <p>Booking date: {formatDate(booking.data.created_at)}</p>
+                <p>Cancellation date: {formatDate(booking.cancel)}</p>
               </div>
             </div>
           </div>
           <div className="w-full flex justify-center items-center font-sans font-fontWeight6">
-            <Link to="/users/booking-history" className="w-44 h-14 bg-orange600 text-utilWhite rounded-md mt-16 py-4 px-8">
+            <Link
+              to={"/users/booking-history/" + booking.data.user_id.user_id}
+              className="w-44 h-14 bg-orange600 text-utilWhite rounded-md mt-16 py-4 px-8"
+            >
               Back to Home
             </Link>
           </div>

@@ -721,7 +721,7 @@ function RegisterPage() {
                   Already have an account?
                 </span>{" "}
                 <Link
-                  to="/hotel/user-login"
+                  to="/users/login"
                   className=" font-sans font-fontWeight6 text-orange500"
                 >
                   Login

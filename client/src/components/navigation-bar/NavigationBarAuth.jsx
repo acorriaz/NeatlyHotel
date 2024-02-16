@@ -61,7 +61,8 @@ export default function NavigationBarAuth() {
             <a className="font-sans text-sm text-gray700">Payment Method</a>
           </li>
           <li>
-            <a className="font-sans text-sm text-gray700">Booking History</a>
+            <a href="/users/booking-history/480082ce-4044-4a16-a39d-8a605547d0ec" 
+            className="font-sans text-sm text-gray700">Booking History</a>
           </li>
           <hr className="my-1" />
           <li>
