@@ -57,6 +57,13 @@ export default {
         gray800: "#424C6B",
         gray900: "#2A2E3F",
       },
+      theme: {
+        extend: {
+          colors: {
+            "custom-green": "#2F3E35",
+          },
+        },
+      },
       padding: {
         12: "120px",
         15: "150px",
@@ -71,5 +78,4 @@ export default {
     },
   },
   plugins: [require("daisyui")],
-
 };

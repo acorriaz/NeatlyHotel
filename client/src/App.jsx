@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-
 import ScrollToTop from "./components/utils/ScrollToTop";
 import RoomDetail from "./pages/RoomDetailPage";
 import UserLoginPage from "./pages/UserLoginPage";
@@ -10,7 +8,6 @@ import RegisterPage from "./pages/RegisterPage";
 import SearchResultPage from "./pages/SearchResultPage";
 import AgentLoginPage from "./pages/AgentLoginPage";
 import LandingPage from "./pages/LandingPage";
-import AgentCustomerBooking from "./pages/AgentCustomerBooking";
 import AdminCustomerBooking from "./pages/AdminCustomerBooking";
 import RoomManagementPage from "./pages/RoomManagementPage";
 import RoomAndPropertyPage from "./pages/RoomAndPropertyPage";
@@ -23,7 +20,6 @@ import BookingRefundSuccessPage from "./pages/BookingRefundSuccessPage";
 import BookingCancelPage from "./pages/BookingCancelPage";
 import BookingCancelSuccessPage from "./pages/BookingCancelSuccessPage";
 import PaymentResultPage from "./pages/PaymentResultPage.jsx";
-
 import { useAuth } from "./components/hooks/useAuth.jsx";
 
 function App() {
@@ -93,11 +89,7 @@ function App() {
         {token && (
           <>
             <Route
-              path="/agent/customer-booking"
-              element={<AgentCustomerBooking token={token} />}
-            />
-            <Route
-              path="/agent/room-and-property"
+              path="/room-and-property"
               element={<RoomAndPropertyPage token={token} />}
             />
             <Route
