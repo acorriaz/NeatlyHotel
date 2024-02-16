@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import SearchBar from "./utils/SearchBar.jsx";
@@ -8,7 +7,6 @@ import { useAuth } from "../components/hooks/useAuth.jsx";
 function SearchResult() {
   const navigate = useNavigate();
   const [rooms, setRooms] = useState([]);
-  const navigate = useNavigate();
   const { isAuthenticated, isLogin } = useAuth();
 
   const getRoom = async () => {
