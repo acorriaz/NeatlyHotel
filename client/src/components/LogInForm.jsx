@@ -52,7 +52,7 @@ export function UserLoginForm() {
       });
       if (error) throw error;
       isLogin();
-      navigate("/hotel");
+      navigate("/");
     } catch (error) {
       alert(`Login failed: ${error.message}`);
     }
