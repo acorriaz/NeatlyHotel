@@ -1,32 +1,33 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-function RoomCategories() {
-  const [roomDetail, setRoomDetail] = useState();
+function RoomCategories(props) {
+  const [roomDetail, setRoomDetail] = useState(props.room);
+
+  const roomData = roomDetail.filter(
+    (room) => room.room_type_id === props.param
+  );
 
   return (
     <main className="w-full h-[900px] flex justify-center content-center mt-20">
       <div className="w-3/5 h-[630px] flex flex-col justify-between">
         <div>
-          <h1 className="headline2 text-green800">Superior Garden View</h1>
+          <h1 className="headline2 text-green800">{roomData[0].room_type}</h1>
           <div className="flex justify-between text-gray700">
             <div className="w-2/5 flex flex-col gap-14 pr-4 pb-4 mt-20 body1">
+              <p>{roomData[0].description}</p>
               <p>
-                Rooms (36sqm) with full garden views, 1 single bed, bathroom
-                with bathtub & shower.
-              </p>
-              <p>
-                <span> 2 Person </span>
-                <span> 1 Double bed </span>
-                <span> 32 sqm </span>
+                <span> {roomData[0].guest_number} Person </span>
+                <span> 1 {roomData[0].bed_type_id.bed_type_name} </span>
+                <span> {roomData[0].room_size} </span>
               </p>
             </div>
             <div className="w-2/5 flex flex-col items-end gap-14 mt-20 text-gray700">
               <div>
-                <p className="line-through"> THB 3,100.00 </p>
-                <p> THB 2,500.00 </p>
+                <p className="line-through"> THB 7,000.00 </p>
+                <p> THB {roomData[0].room_price} </p>
               </div>
-              <Link to="/hotel/payment">
+              <Link to="/hotel/payment-result">
                 <button
                   className="w-[143px] h-[48px] btn btn-active text-utilWhite bg-orange600 
                 hover:text-orange500

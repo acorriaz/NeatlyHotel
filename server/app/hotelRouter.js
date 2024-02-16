@@ -13,70 +13,91 @@ hotelRouter.get("/users", async function (req, res) {
   }
 });
 
-hotelRouter.get("/rooms", async (req, res) => {
-  let guests = req.query.guests;
-
-  if (guests > 2 && guests <= 4) {
-    // 1. บอก DB ว่าขอ Query ข้อมูลห้องประเภทที่พี่ต้องการหน่อย
-    const roomCondition = await supabase
-      .from("room_type")
-      .select((roomType) => {
-        roomType.room_type.includes("Superior Garden View" && "Supreme");
-        // 2. เอาข้อมูลที่ได้กลับมาจาก Database มา Filter ดูว่ามีห้องที่ว่างรึเปล่า
-        // พอได้ข้อมูลที่ Query มาแล้วก็เอามา filter มันที่ Server ว่ามี status === vacant ไหม
-        // 3. เมื่อ Filter ที่ Server เสร็จปุ๊บให้เข้า conditional statement ด้านล่าง
-        if (filterVacantRooms.length >= 1) {
-        } else if (filterVacantRooms.length === 0) {
-          // ถ้า Query.length เป็น 0 แสดงว่าเราก็ไม่มีข้อมูลเหมือนกัน
-          return res.status(400).json();
-        }
-        // status น่าจะต้อง Query ว่าอันไหนมี Status ที่เป็น Vacant บ้าง
-        // ถ้ามีส่งอะไรกลับไป
-        // ถ้าไม่มีที่ Vacant แล้วจะส่งอะไรกลับไป
-      });
-    return res.status(200).json(roomCondition);
-  }
-
-  if (guests <= 2 && status === "Vacant") {
-    const roomCondition = await supabase
-      .from("room_type")
-      .filter((roomType) => {
-        roomType.room_type.includes(
-          "Deluxe" && "Premier Sea View" && "Superior" && "Suit"
-        );
-      });
-    return res.status(200).json(roomCondition);
-  }
-
-  if (status === "Vacant") {
-    const roomCondition = await supabase.from("room_type").select();
-    return res.status(200).json(roomCondition);
+hotelRouter.get("/rooms", async function (req, res) {
+  let resultRooms = null;
+  try {
+    resultRooms = await supabase.from("room_type").select("*");
+    return res.status(200).json(resultRooms.data);
+  } catch (error) {
+    return res.status(500).json(resultRooms.error);
   }
 });
 
-hotelRouter.get("/", async (req, res) => {
-  let guests = req.query.guests;
-  let status = req.query.status;
-
-  if (keywords === undefined) {
-    return res.status(400).json({
-      message: "Please send keywords parameter in the URL endpoint",
-    });
+hotelRouter.get("/rooms/:guests", async (req, res) => {
+  let guests = parseInt(req.params.guests, 10);
+  console.log(guests);
+  try {
+    if (guests >= 3 && guests <= 4) {
+      const { data: roomCondition, error } = await supabase
+        .from("room")
+        .select(
+          `*, 
+          room_type:room_type_id(*
+          ),status:status_id(status_name)`
+        )
+        .gte("room_type.guest_number", guests)
+        .eq("status.status_name", "Vacant")
+        .in("room_type.room_type", ["Superior Garden View", "Supreme"]);
+      if (error) {
+        console.error("Supabase error:", error);
+        return res.status(400).json({ error: error.message });
+      } else if (roomCondition.length >= 1) {
+        const specificRoomTypeRooms = roomCondition.filter(
+          (room) => room.room_type !== null
+        );
+        if (specificRoomTypeRooms.length > 0) {
+          return res.status(200).json(specificRoomTypeRooms);
+        } else {
+          return res
+            .status(404)
+            .json({ error: "Rooms of the specified type not found" });
+        }
+      } else {
+        return res.status(404).json({ error: "Rooms not found" });
+      }
+    }
+  } catch (error) {
+    return res.status(500).json(error);
   }
 
-  const regexKeywords = keywords.split(" ").join("|");
-  const regex = new RegExp(regexKeywords, "ig");
-  const results = trips.filter((trip) => {
-    return (
-      trip.title.match(regex) ||
-      trip.description.match(regex) ||
-      trip.tags.filter((tag) => tag.match(regex)).length
-    );
-  });
-
-  return res.json({
-    data: results,
-  });
+  try {
+    if (guests >= 1 && guests <= 2) {
+      const { data: roomCondition, error } = await supabase
+        .from("room")
+        .select(
+          `*, 
+          room_type:room_type_id(*
+          ),status:status_id(status_name)`
+        )
+        .gt("room_type.guest_number", guests)
+        .eq("status.status_name", "Vacant")
+        .in("room_type.room_type", [
+          "Premier Sea View",
+          "Deluxe",
+          "Superior",
+          "Suit",
+        ]);
+      if (error) {
+        console.error("Supabase error:", error);
+        return res.status(400).json({ error: error.message });
+      } else if (roomCondition.length >= 1) {
+        const specificRoomTypeRooms = roomCondition.filter(
+          (room) => room.room_type !== null
+        );
+        if (specificRoomTypeRooms.length > 0) {
+          return res.status(200).json(specificRoomTypeRooms);
+        } else {
+          return res
+            .status(404)
+            .json({ error: "Rooms of the specified type not found" });
+        }
+      } else {
+        return res.status(404).json({ error: "Rooms not found" });
+      }
+    }
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 });
 
 export default hotelRouter;
