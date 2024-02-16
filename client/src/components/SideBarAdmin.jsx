@@ -6,7 +6,7 @@ const SideBarAdmin = ({ token }) => {
 
   function handleLogout() {
     localStorage.removeItem("token");
-    navigate("/agent-login");
+    navigate("/agents/login");
   }
 
   function isActive(route) {
@@ -34,7 +34,7 @@ const SideBarAdmin = ({ token }) => {
         {/* Customer Booking */}
         <div
           className={`self-stretch ${
-            isActive("/admin-customer-booking")
+            isActive("/agents/admin-customer-booking")
               ? "bg-green-600"
               : "bg-green-800"
           } flex flex-row items-start justify-start p-6 gap-[16px] whitespace-nowrap text-green-100`}
@@ -45,7 +45,7 @@ const SideBarAdmin = ({ token }) => {
             src="/iconbooking.svg"
           />
           <Link
-            to="/admin-customer-booking"
+            to="/agents/admin-customer-booking"
             className="flex-1 relative tracking-[-0.02em] leading-[150%] font-medium"
           >
             Customer Booking
@@ -55,7 +55,7 @@ const SideBarAdmin = ({ token }) => {
         {/* Room Management */}
         <div
           className={`self-stretch ${
-            isActive("/room-management") ? "bg-green-600" : "bg-green-800"
+            isActive("/agent/room-management") ? "bg-green-600" : "bg-green-800"
           } flex flex-row items-start justify-start p-6 gap-[16px] whitespace-nowrap text-green-100`}
         >
           <img
@@ -64,7 +64,7 @@ const SideBarAdmin = ({ token }) => {
             src="/iconmanage.svg"
           />
           <Link
-            to="/room-management"
+            to="/agent/room-management"
             className="flex-1 relative tracking-[-0.02em] leading-[150%] font-medium"
           >
             Room Management
@@ -74,7 +74,9 @@ const SideBarAdmin = ({ token }) => {
         {/* Hotel Information */}
         <div
           className={`self-stretch ${
-            isActive("/hotel-information") ? "bg-green-600" : "bg-green-800"
+            isActive("/agent/hotel-information")
+              ? "bg-green-600"
+              : "bg-green-800"
           } flex flex-row items-start justify-start p-6 gap-[16px] whitespace-nowrap text-green-100`}
         >
           <img
@@ -83,7 +85,7 @@ const SideBarAdmin = ({ token }) => {
             src="/iconhotel.svg"
           />
           <Link
-            to="/hotel-information"
+            to="/agent/hotel-information"
             className="flex-1 relative tracking-[-0.02em] leading-[150%] font-medium"
           >
             Hotel Information

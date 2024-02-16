@@ -6,7 +6,6 @@ import RoomDetail from "./pages/RoomDetailPage";
 import UserLoginPage from "./pages/UserLoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import SearchResultPage from "./pages/SearchResultPage";
-import AgentLoginPage from "./pages/AgentLoginPage";
 import LandingPage from "./pages/LandingPage";
 import AdminCustomerBooking from "./pages/AdminCustomerBooking";
 import RoomManagementPage from "./pages/RoomManagementPage";
@@ -21,6 +20,7 @@ import BookingCancelPage from "./pages/BookingCancelPage";
 import BookingCancelSuccessPage from "./pages/BookingCancelSuccessPage";
 import PaymentResultPage from "./pages/PaymentResultPage.jsx";
 import { useAuth } from "./components/hooks/useAuth.jsx";
+import AgentLoginPage from "./pages/AgentLoginPage";
 
 function App() {
   const [token, setToken] = useState(false);
@@ -77,14 +77,19 @@ function App() {
           path="/users/booking-history/cancel-success/:userId"
           element={<BookingCancelSuccessPage />}
         />
-        <Route
-          path="/agent/login"
-          element={<AgentLoginPage setToken={setToken} />}
-        />
         <Route path="/agent/room-management" element={<RoomManagementPage />} />
         <Route path="/agent/hotel-information" element={<HotelInfoPage />} />
         <Route path="/agent/create-room" element={<CreateRoomForm />} />
         <Route path="/hotel/payment-result" element={<PaymentResultPage />} />
+        <Route
+          path="/agents/login"
+          element={<AgentLoginPage setToken={setToken} />}
+        />
+
+        {/* <Route
+          path="/agent/login"
+          element={<AgentLoginPage setToken={setToken} />}
+        /> */}
 
         {token && (
           <>
@@ -93,7 +98,7 @@ function App() {
               element={<RoomAndPropertyPage token={token} />}
             />
             <Route
-              path="/agent/admin-customer-booking"
+              path="/agents/admin-customer-booking"
               element={<AdminCustomerBooking token={token} />}
             />
           </>

@@ -30,7 +30,7 @@ const AdminCustomerBooking = ({ token }) => {
   // Handle logout
   function handleLogout() {
     localStorage.removeItem("token");
-    navigate("/agent-login");
+    navigate("/agents-login");
   }
 
   // Fetch bookings from the database

@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import NavigationBar from "../components/navigation-bar/NavigationBar";
 import { useNavigate } from "react-router-dom";
 import supabase from "/supabase.js";
+import { useAuth } from "../components/hooks/useAuth";
 
 const AgentLoginPage = ({ setToken }) => {
+  const { isAuthenticated } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -57,15 +59,15 @@ const AgentLoginPage = ({ setToken }) => {
       // Check if the logged-in user's role is not 'admin'
       if (userData.role !== "admin") {
         // Redirect non-admin user to the agent login page
-        alert("You are not an admin, redirecting to agent login page");
-        navigate("/hotel/user-login");
+        alert("You are not an admin, redirecting to user login page");
+        navigate("/users/login");
         return; // Stop further execution since the user is not an admin
       }
 
       // Proceed with setting token and navigating to the agent-customer-booking page for admins
       // Assuming setToken is a function to handle setting the authentication token in your application context or state
       setToken(authData);
-      navigate("/admin-customer-booking");
+      navigate("/agents/admin-customer-booking");
     } catch (error) {
       alert(error.error_description || error.message);
     }
@@ -76,13 +78,12 @@ const AgentLoginPage = ({ setToken }) => {
       <NavigationBar />
       <div className="flex h-screen bg-utilBG">
         {/* Background Image Section */}
-        <div className="w-2/4 bg-[url('src/assets/loginPageImage/chairBesidePool.jpg')] bg-cover bg-no-repeat bg-center"></div>
+        <div className="w-2/4 bg-[url('/src/assets/loginPageImage/chairBesidePool.jpg')] bg-cover bg-no-repeat bg-center"></div>
 
         {/* Login Form Section */}
         <div className="flex justify-center items-center w-2/4 pl-12 pr-40 pt-15 pb-30 ">
           <div className="flex-col bg-utilBG w-screen h-fit text-left">
             <h1 className="headline2 w-full mb-60 text-green800">Log In</h1>
-            <br></br>
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Email Input */}
               <div>
@@ -96,7 +97,7 @@ const AgentLoginPage = ({ setToken }) => {
                   id="email"
                   type="email"
                   name="email"
-                  placeholder="Username or Email"
+                  placeholder="Enter your username or email"
                   value={formData.email}
                   onChange={handleChange}
                   className="w-full p-3 bg-white border border-gray-300 rounded focus:outline-none focus:border-orange-500"
@@ -148,8 +149,8 @@ const AgentLoginPage = ({ setToken }) => {
               </button>
 
               {/* Register Link */}
-              <div className="text-center">
-                <p className="text-gray-700">
+              <div className="text-left">
+                <p className="text-gray-700 ">
                   Don’t have an account yet?{" "}
                   <a
                     // href="/admin-customer-booking"
