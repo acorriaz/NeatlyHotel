@@ -8,7 +8,6 @@ import { useAuth } from "../components/hooks/useAuth.jsx";
 function SearchResult() {
   const navigate = useNavigate();
   const [rooms, setRooms] = useState([]);
-  const navigate = useNavigate();
   const { isAuthenticated, isLogin } = useAuth();
 
   const getRoom = async () => {
