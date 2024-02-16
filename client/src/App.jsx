@@ -57,34 +57,13 @@ function App() {
         <Route path="/users/register" element={<RegisterPage />} />
         <Route path="/hotel" element={<SearchResultPage />} />
         <Route path="/hotel/detail/:roomTypeId" element={<RoomDetail />} />
-        <Route
-          path="/users/booking-history/:userId"
-          element={<BookingHistoryPage />}
-        />
-        <Route
-          path="/users/booking-history/change-date/:bookingId"
-          element={<BookingChangeDatePage />}
-        />
-        <Route
-          path="/users/booking-history/refund/:userId"
-          element={<BookingRefundPage />}
-        />
-        <Route
-          path="/users/booking-history/refund-success/:userId"
-          element={<BookingRefundSuccessPage />}
-        />
-        <Route
-          path="/users/booking-history/cancel/:userId"
-          element={<BookingCancelPage />}
-        />
-        <Route
-          path="/users/booking-history/cancel-success/:userId"
-          element={<BookingCancelSuccessPage />}
-        />
-        <Route
-          path="/agent/login"
-          element={<AgentLoginPage setToken={setToken} />}
-        />
+        <Route path="/users/booking-history/:userId" element={<BookingHistoryPage />} />
+        <Route path="/users/booking-history/change-date" element={<BookingChangeDatePage />} />
+        <Route path="/users/booking-history/refund" element={<BookingRefundPage />} />
+        <Route path="/users/booking-history/refund-success" element={<BookingRefundSuccessPage />} />
+        <Route path="/users/booking-history/cancel" element={<BookingCancelPage />} />
+        <Route path="/users/booking-history/cancel-success" element={<BookingCancelSuccessPage />} />
+        <Route path="/agent/login" element={<AgentLoginPage setToken={setToken} />}/>
         <Route path="/agent/room-management" element={<RoomManagementPage />} />
         <Route path="/agent/hotel-information" element={<HotelInfoPage />} />
         <Route path="/agent/create-room" element={<CreateRoomForm />} />
