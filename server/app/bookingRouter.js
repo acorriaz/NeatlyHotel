@@ -135,7 +135,7 @@ bookingRouter.post("/request", async (req, res) => {
 
     return res
       .status(200)
-      .json({ text: "Booking has been creaded new request" });
+      .json({ text: "Booking has been created new request" });
   } catch (error) {
     console.error("Unexpected error:", error);
     return res.status(500).json({

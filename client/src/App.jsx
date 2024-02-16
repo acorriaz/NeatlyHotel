@@ -50,7 +50,7 @@ function App() {
 
   return (
     <div className="App">
-      <ScrollToTop/>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/users/login" element={<UserLoginPage />} />
@@ -68,7 +68,7 @@ function App() {
         <Route path="/agent/hotel-information" element={<HotelInfoPage />} />
         <Route path="/agent/create-room" element={<CreateRoomForm />} />
         <Route path="/hotel/payment-result" element={<PaymentResultPage />} />
-        
+
         {token && (
           <>
             <Route
@@ -86,7 +86,6 @@ function App() {
           </>
         )}
       </Routes>
-
     </div>
   );
 }
