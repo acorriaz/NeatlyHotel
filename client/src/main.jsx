@@ -4,13 +4,16 @@ import App from "./App.jsx";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./components/hooks/useAuth";
+import { SearchInputContextProvider } from "./components/context/searchInputContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      <BrowserRouter>
-      <App />
-      </BrowserRouter>
+      <SearchInputContextProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </SearchInputContextProvider>
     </AuthProvider>
   </React.StrictMode>
 );

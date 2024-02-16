@@ -1,52 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useSearchInput } from "../context/searchInputContext";
+import { getCheckInDate } from "../../utils/getInputDate";
 
 import PlusCircleIcon from "@heroicons/react/24/outline/PlusCircleIcon";
 import MinusCircleIcon from "@heroicons/react/24/outline/MinusCircleIcon";
 import { AiOutlineCaretUp, AiOutlineCaretDown } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
 
 export default function SearchBar() {
-  const [roomCounter, setRoomCounter] = useState(1);
-  const [guestCounter, setGuestCounter] = useState(2);
   const [isOpen, setIsOpen] = useState(false);
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
-
-  const navigate = useNavigate();
-
-  const handleNavigation = () => {
-    const dataToSend = {
-      room: roomCounter,
-      guest: guestCounter,
-      checkIn: checkIn,
-      checkOut: checkOut,
-    };
-
-    navigate("/hotel", { state: dataToSend });
-  };
-
-  const handleRoomCounterChange = (counterSetter, newValue) => {
-    counterSetter(newValue < 0 ? 0 : newValue);
-  };
+  const { searchInput, handleRoomAndGuestCount, handleInputDateChange } =
+    useSearchInput();
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
-
-  // check-in logic
-  let tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  let minDate = tomorrow.toISOString().split("T")[0];
-
-  const handleCheckIn = (e) => {
-    setCheckIn(e.target.value);
-  };
-  console.log(checkIn);
-
-  // check-out logic
-  let nextTomorrow = new Date();
-  nextTomorrow.setDate(tomorrow.getDate() + 1);
-  let nextMinDate = nextTomorrow.toISOString().split("T")[0];
 
   return (
     <form
@@ -60,10 +28,11 @@ export default function SearchBar() {
           </label>
           <input
             type="date"
-            min={minDate}
-            onChange={handleCheckIn}
-            value={!checkIn ? minDate : checkIn}
-            id="check_in"
+            min={getCheckInDate()}
+            onChange={(e) => handleInputDateChange(e)}
+            value={searchInput.checkIn}
+            id="checkIn"
+            name="checkIn"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
             placeholder="John"
             required
@@ -71,14 +40,16 @@ export default function SearchBar() {
         </div>
         <p className="items-center">-</p>
         <div className="w-[240px] flex flex-col justify-center gap-2">
-          <label htmlFor="check_out" className="text-sm text-gray-900">
+          <label htmlFor="checkOut" className="text-sm text-gray-900">
             Check Out
           </label>
           <input
             type="date"
-            min={nextMinDate}
-            value={nextMinDate}
-            id="check_out"
+            min={searchInput.minCheckOut}
+            onChange={(e) => handleInputDateChange(e)}
+            value={searchInput.checkOut}
+            id="checkOut"
+            name="checkOut"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="John"
             required
@@ -94,7 +65,7 @@ export default function SearchBar() {
           }}
           className="flex justify-between w-full h-[45px] items-center px-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg active:border-black duration-300"
         >
-          {`${roomCounter} room, ${guestCounter} guest`}
+          {`${searchInput.room} room, ${searchInput.guest} guest`}
           {!isOpen ? (
             <AiOutlineCaretDown className="h-8" />
           ) : (
@@ -107,18 +78,12 @@ export default function SearchBar() {
               <p className="text-gray-900 text-sm">Room</p>
               <div className="w-[78px] h-[24px] flex justify-between">
                 <button
-                  onClick={() =>
-                    handleRoomCounterChange(setRoomCounter, roomCounter - 1)
-                  }
+                  onClick={() => handleRoomAndGuestCount("minus", "room")}
                 >
                   <MinusCircleIcon className="w-[15px] h-[15px] stroke-orange-500" />
                 </button>
-                <p>{roomCounter}</p>
-                <button
-                  onClick={() =>
-                    handleRoomCounterChange(setRoomCounter, roomCounter + 1)
-                  }
-                >
+                <p>{searchInput.room}</p>
+                <button onClick={() => handleRoomAndGuestCount("plus", "room")}>
                   <PlusCircleIcon className="w-[15px] h-[15px] stroke-orange-500" />
                 </button>
               </div>
@@ -127,17 +92,13 @@ export default function SearchBar() {
               <p className="text-gray-900 text-sm">Guest</p>
               <div className="w-[78px] h-[24px] flex justify-between">
                 <button
-                  onClick={() =>
-                    handleRoomCounterChange(setGuestCounter, guestCounter - 1)
-                  }
+                  onClick={() => handleRoomAndGuestCount("minus", "guest")}
                 >
                   <MinusCircleIcon className="w-[15px] h-[15px] stroke-orange-500" />
                 </button>
-                <p>{guestCounter}</p>
+                <p>{searchInput.guest}</p>
                 <button
-                  onClick={() =>
-                    handleRoomCounterChange(setGuestCounter, guestCounter + 1)
-                  }
+                  onClick={() => handleRoomAndGuestCount("plus", "guest")}
                 >
                   <PlusCircleIcon className="w-[15px] h-[15px] stroke-orange-500" />
                 </button>
@@ -147,12 +108,11 @@ export default function SearchBar() {
         )}
       </div>
       {/* select button */}
-      <button
-        onClick={handleNavigation}
-        className="w-[144px] h-max px-8 py-3 rounded font-sans font-semibold text-orange-500 bg-base-100 border border-orange-500"
-      >
-        Search
-      </button>
+      <Link to="/hotel">
+        <button className="w-[144px] h-max px-8 py-3 rounded font-sans font-semibold text-orange-500 bg-base-100 border border-orange-500">
+          Search
+        </button>
+      </Link>
     </form>
   );
 }
