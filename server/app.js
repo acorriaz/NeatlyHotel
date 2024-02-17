@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
+import usersRouter from "./app/usersRouter.js";
 import hotelRouter from "./app/hotelRouter.js";
 import roomRouter from "./app/roomDetail.js";
 import bookingRouter from "./app/bookingRouter.js";
@@ -14,6 +15,7 @@ const port = 4000;
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
+app.use("/users", usersRouter);
 app.use("/hotel", hotelRouter);
 app.use("/roomdetail", roomRouter);
 app.use("/booking", bookingRouter);
