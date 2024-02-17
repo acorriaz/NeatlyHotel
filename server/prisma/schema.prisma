@@ -1,22 +1,126 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url  	    = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
+model Users {
+  user_id    Int               @id @default(autoincrement())
+  username   String            @unique
+  email      String            @unique
+  password   String
+  profile    User_profile?
+  booking    Booking_detail[]
+}
+
+model User_profile {
+  user_profile_id Int     @id @default(autoincrement())
+  user            Users   @relation(fields: [userId], references: [user_id])
+  userId          Int     @unique
+  first_name      String 
+  last_name       String 
+  id_number       Int     @unique
+  date_of_birth   String
+  country         String
+  card_number     Int     
+  card_owner      String
+  card_expiry     String
+  profile_pic     String
+}
+
+model Agents {
+  agent_id    Int             @id @default(autoincrement())
+  username    String          @unique
+  email       String          @unique
+  password    String
+  profile     Agent_profile?
+}
+
+model Agent_profile {
+  agent_profile_id Int     @id @default(autoincrement())
+  agent            Agents  @relation(fields: [agentId], references: [agent_id])
+  agentId          Int     @unique
+  first_name       String 
+  last_name        String 
+  date_of_birth    String
+  phone_number     Int     @unique
+}
+
+model Room_type {
+  room_type_id    Int            @id @default(autoincrement())
+  room_type_name  String         @unique
+  bed_type        Bed_types      @relation(fields: [bedTypeId], references: [bed_type_id])
+  bedTypeId       Int
+  description     String
+  room_amenities  String
+  guest_capacity  Int
+  room_size       Int
+  room_price      Int
+  room_img_url    Room_images[]
+  room            Room[]
+}
+
+model Room_images {
+  room_image_id  Int         @id @default(autoincrement())
+  room_type      Room_type   @relation(fields: [roomTypeId], references: [room_type_id])
+  roomTypeId     Int
+  image          String
+}
+
+model Bed_types {
+  bed_type_id    Int          @id      @default(autoincrement())
+  bed_type_name  String       @unique
+  room_type      Room_type[]
+}
+
 model Room {
-  id Int @id @default(autoincrement())
-  name String
-  detail String[]
-  description String
-  price Int
-  discount_price Int
-  price_detail Int
+  room_id         Int          @id @default(autoincrement())
+  room_type       Room_type    @relation(fields: [roomTypeId], references: [room_type_id])
+  roomTypeId      Int  
+  room_number     Int          @unique
+  room_status     Room_status   @relation(fields: [statusId], references: [status_id])
+  statusId        Int
+  booking_detail  Booking_detail[]
+}
+
+model Room_status {
+  status_id       Int     @id @default(autoincrement())
+  status_name     String
+  room            Room[]
+}
+
+model Booking_detail {
+  booking_detail_id  Int     @id @default(autoincrement())
+  user               Users   @relation(fields: [userId], references: [user_id])
+  userId             Int
+  room               Room    @relation(fields: [roomId], references: [room_id])
+  roomId             Int
+  payment_method     String
+  total_price        Int
+  check_in           String
+  check_out          String
+  created_at         String
+  updated_at         String
+  cancelled_at       String?
+  guest_request      Guest_request[]
+}
+
+model Guest_request {
+  guest_request_id  Int            @id @default(autoincrement())
+  booking_detail    Booking_detail @relation(fields: [bookingDetailId], references: [booking_detail_id])
+  bookingDetailId   Int
+  request           Request        @relation(fields: [requestId], references: [request_id])
+  requestId         Int
+}
+
+model Request {
+  request_id      Int              @id @default(autoincrement())
+  request_type    String
+  request_name    String
+  request_price   Int
+  guest_request   Guest_request[]
 }
