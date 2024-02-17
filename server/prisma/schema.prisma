@@ -9,118 +9,121 @@ datasource db {
 }
 
 model Users {
-  user_id    Int               @id @default(autoincrement())
+  userId     Int               @id @default(autoincrement())
   username   String            @unique
   email      String            @unique
   password   String
-  profile    User_profile?
-  booking    Booking_detail[]
+  profile    UserProfile?
+  booking    BookingDetail[]
 }
 
-model User_profile {
-  user_profile_id Int     @id @default(autoincrement())
-  user            Users   @relation(fields: [userId], references: [user_id])
-  userId          Int     @unique
-  first_name      String 
-  last_name       String 
-  id_number       Int     @unique
-  date_of_birth   String
-  country         String
-  card_number     Int     
-  card_owner      String
-  card_expiry     String
-  profile_pic     String
+model UserProfile {
+  userProfileId  Int     @id @default(autoincrement())
+  user           Users   @relation(fields: [userId], references: [userId])
+  userId         Int     @unique
+  firstName      String 
+  lastName       String 
+  idNumber       Int     @unique
+  dateOfBirth    String
+  country        String
+  cardNumber     Int     
+  cardOwner      String
+  cardExpiry     String
+  profilePicUrl  String
+  createdAt      DateTime
+  updatedAt      DateTime
 }
 
 model Agents {
-  agent_id    Int             @id @default(autoincrement())
+  agentId    Int             @id @default(autoincrement())
   username    String          @unique
   email       String          @unique
   password    String
-  profile     Agent_profile?
+  profile     AgentProfile?
 }
 
-model Agent_profile {
-  agent_profile_id Int     @id @default(autoincrement())
-  agent            Agents  @relation(fields: [agentId], references: [agent_id])
-  agentId          Int     @unique
-  first_name       String 
-  last_name        String 
-  date_of_birth    String
-  phone_number     Int     @unique
+model AgentProfile {
+  agentProfileId Int     @id @default(autoincrement())
+  agent          Agents  @relation(fields: [agentId], references: [agentId])
+  agentId        Int     @unique
+  firstName      String   
+  lastName       String 
+  dateOfBirth    String
+  phoneNumber    Int     @unique
 }
 
-model Room_type {
-  room_type_id    Int            @id @default(autoincrement())
-  room_type_name  String         @unique
-  bed_type        Bed_types      @relation(fields: [bedTypeId], references: [bed_type_id])
-  bedTypeId       Int
-  description     String
-  room_amenities  String
-  guest_capacity  Int
-  room_size       Int
-  room_price      Int
-  room_img_url    Room_images[]
-  room            Room[]
+model RoomType {
+  roomTypeId     Int            @id @default(autoincrement())
+  roomTypeName   String         @unique
+  bedType        BedTypes      @relation(fields: [bedTypeId], references: [bedTypeId])
+  bedTypeId      Int
+  description    String
+  roomAmenities  String
+  guestCapacity  Int
+  roomSize       Int
+  roomSrice      Int
+  roomImgUrl     RoomImages[]
+  room           Room[]
 }
 
-model Room_images {
+model RoomImages {
   room_image_id  Int         @id @default(autoincrement())
-  room_type      Room_type   @relation(fields: [roomTypeId], references: [room_type_id])
+  roomType       RoomType    @relation(fields: [roomTypeId], references: [roomTypeId])
   roomTypeId     Int
   image          String
 }
 
-model Bed_types {
-  bed_type_id    Int          @id      @default(autoincrement())
-  bed_type_name  String       @unique
-  room_type      Room_type[]
+model BedTypes {
+  bedTypeId     Int          @id      @default(autoincrement())
+  bedTypeName   String       @unique
+  roomType      RoomType[]
 }
 
 model Room {
-  room_id         Int          @id @default(autoincrement())
-  room_type       Room_type    @relation(fields: [roomTypeId], references: [room_type_id])
-  roomTypeId      Int  
-  room_number     Int          @unique
-  room_status     Room_status   @relation(fields: [statusId], references: [status_id])
+  roomId          Int               @id @default(autoincrement())
+  roomType        RoomType          @relation(fields: [roomTypeId], references: [roomTypeId])
+  roomTypeId      Int   
+  roomNumber      Int               @unique
+  roomStatus      RoomStatus        @relation(fields: [statusId], references: [statusId])
   statusId        Int
-  booking_detail  Booking_detail[]
+  updated_at      DateTime
+  bookingDetail   BookingDetail[]
 }
 
-model Room_status {
-  status_id       Int     @id @default(autoincrement())
-  status_name     String
-  room            Room[]
+model RoomStatus {
+  statusId       Int        @id @default(autoincrement())
+  statusName     String
+  room           Room[]
 }
 
-model Booking_detail {
-  booking_detail_id  Int     @id @default(autoincrement())
-  user               Users   @relation(fields: [userId], references: [user_id])
+model BookingDetail {
+  bookingDetailId    Int     @id @default(autoincrement())
+  user               Users   @relation(fields: [userId], references: [userId])
   userId             Int
-  room               Room    @relation(fields: [roomId], references: [room_id])
+  room               Room    @relation(fields: [roomId], references: [roomId])
   roomId             Int
-  payment_method     String
-  total_price        Int
-  check_in           String
-  check_out          String
-  created_at         String
-  updated_at         String
-  cancelled_at       String?
-  guest_request      Guest_request[]
+  paymentMethod      String
+  totalPrice         Int
+  checkIn            String
+  checkOut           String
+  createdAt          DateTime
+  updatedAt          DateTime
+  cancelledAt        DateTime?
+  guestRequest       GuestRequest[]
 }
 
-model Guest_request {
-  guest_request_id  Int            @id @default(autoincrement())
-  booking_detail    Booking_detail @relation(fields: [bookingDetailId], references: [booking_detail_id])
+model GuestRequest {
+  guestRequestId    Int            @id @default(autoincrement())
+  bookingDetail     BookingDetail  @relation(fields: [bookingDetailId], references: [bookingDetailId])
   bookingDetailId   Int
-  request           Request        @relation(fields: [requestId], references: [request_id])
+  request           Request        @relation(fields: [requestId], references: [requestId])
   requestId         Int
 }
 
 model Request {
-  request_id      Int              @id @default(autoincrement())
-  request_type    String
-  request_name    String
-  request_price   Int
-  guest_request   Guest_request[]
+  requestId      Int              @id @default(autoincrement())
+  requestType    String
+  requestName    String
+  requestPrice   Int
+  guestRequest   GuestRequest[]
 }
