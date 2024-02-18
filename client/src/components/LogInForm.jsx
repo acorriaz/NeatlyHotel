@@ -1,29 +1,29 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import supabase from "../supabaseClient.js";
-import chairBesidePool from "../assets/loginPageImage/chairBesidePool.jpg";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
+import axios from "axios";
+import chairBesidePool from "../assets/loginPageImage/chairBesidePool.jpg";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../config/firebase-config";
 
 // check ว่าเป็น email ไหม
 function isEmail(input) {
+  console.log("input: ", input);
   return input.includes("@");
 }
 
 // หา email จาก username
 async function getEmailFromUsername(username) {
-  const { data, error } = await supabase
-    .from("users")
-    .select("email")
-    .eq("username", username)
-    .single();
+  try {
+    const userEmail = await axios.get(
+      `http://localhost:4000/users/user-email/${username}`
+    );
 
-  if (error) {
+    return userEmail.data.email;
+  } catch (error) {
     console.error("Error fetching email", error);
     return null;
   }
-
-  return data?.email;
 }
 
 // --login ของ user--
@@ -36,25 +36,29 @@ export function UserLoginForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!isEmail(usernameOrEmail)) {
+    const emailCheck = isEmail(usernameOrEmail);
+    let userLogin = usernameOrEmail;
+
+    if (!emailCheck) {
       try {
         const fetchedEmail = await getEmailFromUsername(usernameOrEmail);
-        setUsernameOrEmail(fetchedEmail);
-      } catch {
+        userLogin = fetchedEmail;
+      } catch (error) {
         alert("Login failed: Username or Email not found");
       }
     }
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: usernameOrEmail,
-        password: userPassword,
-      });
-      if (error) throw error;
+      const response = await signInWithEmailAndPassword(
+        auth,
+        userLogin,
+        userPassword
+      );
+      console.log("response from firebase", response);
       isLogin();
       navigate("/");
     } catch (error) {
-      alert(`Login failed: ${error.message}`);
+      console.error("Error signing in", error);
     }
   };
 
