@@ -3,6 +3,27 @@ import prisma from "../utils/db.js";
 
 const usersRouter = Router();
 
+usersRouter.get("/user-email/:username", async (req, res) => {
+  const { username } = req.params;
+  console.log(username);
+  const user = await prisma.users.findFirst({
+    where: {
+      username,
+    },
+    select: {
+      email: true,
+    },
+  });
+
+  console.log("user: ", user);
+
+  if (!user) {
+    return res.status(404).json({ message: "Username not found" });
+  }
+
+  return res.json({ email: user.email });
+});
+
 usersRouter.get("/user-check", async (req, res) => {
   const { username, email, idNumber } = req.params;
   const user = await prisma.users.findMany({

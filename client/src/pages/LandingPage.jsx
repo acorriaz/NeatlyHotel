@@ -1,6 +1,5 @@
 import { useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useAuth } from "../components/hooks/useAuth";
 import NavigationBar from "../components/navigation-bar/NavigationBar";
 import AboutHotel from "../components/landing-page/AboutHotel";
 import ServiceAndFacilities from "../components/landing-page/ServiceAndFacilities";
@@ -9,6 +8,7 @@ import Footer from "../components/Footer";
 import Review from "../components/landing-page/Review";
 import LandingBooking from "../components/landing-page/LandingBooking";
 import getUserDataFromLocalStorage from "../utils/getUserDataFromLocalStorage";
+import { auth } from "../config/firebase-config";
 
 export default function LandingPage() {
   const location = useLocation();
