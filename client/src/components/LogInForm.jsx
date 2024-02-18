@@ -31,7 +31,7 @@ export function UserLoginForm() {
   const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const navigate = useNavigate();
-  const { isLogin } = useAuth();
+  const { handleIsAuthenticated } = useAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -54,8 +54,7 @@ export function UserLoginForm() {
         userLogin,
         userPassword
       );
-      console.log("response from firebase", response);
-      isLogin();
+      handleIsAuthenticated();
       navigate("/");
     } catch (error) {
       console.error("Error signing in", error);

@@ -1,6 +1,7 @@
-import { useEffect, useState, createContext, useContext } from "react";
-import getUserDataFromLocalStorage from "../../utils/getUserDataFromLocalStorage";
-import supabase from "../../supabaseClient";
+// Maybe I don't need this file, but I'm keeping it for now.
+
+import { useState, createContext, useContext, useEffect } from "react";
+import { auth } from "../../config/firebase-config";
 
 const AuthContext = createContext({
   isAuthenticated: false,
@@ -13,30 +14,34 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState(null);
 
+  console.log("auth.currentUser: ", auth.currentUser);
+
   useEffect(() => {
-    console.log("useEffect in useAuth.jsx");
-    isLogin();
+    handleIsAuthenticated();
   }, [isAuthenticated]);
 
-  const isLogin = () => {
-    const userDataFromLocalStorage = getUserDataFromLocalStorage();
-    if (userDataFromLocalStorage) {
+  function handleIsAuthenticated() {
+    if (auth.currentUser) {
       setIsAuthenticated(true);
-      setUserData(userDataFromLocalStorage);
     } else {
       setIsAuthenticated(false);
     }
-  };
+  }
 
   const logout = async () => {
-    const { error } = await supabase.auth.signOut();
+    try {
+      const response = await auth.signOut();
+      console.log("Sign Out response: ", response);
+    } catch (error) {
+      console.error("Error signing out", error);
+    }
     setIsAuthenticated(false);
     setUserData(null);
   };
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, userData, isLogin, logout }}
+      value={{ isAuthenticated, userData, handleIsAuthenticated, logout }}
     >
       {children}
     </AuthContext.Provider>
@@ -44,7 +49,7 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => {
-  const { isAuthenticated, userData, isLogin, logout } =
+  const { isAuthenticated, userData, handleIsAuthenticated, logout } =
     useContext(AuthContext);
-  return { isAuthenticated, userData, isLogin, logout };
+  return { isAuthenticated, userData, handleIsAuthenticated, logout };
 };
