@@ -7,6 +7,15 @@ import PlusCircleIcon from "@heroicons/react/24/outline/PlusCircleIcon";
 import MinusCircleIcon from "@heroicons/react/24/outline/MinusCircleIcon";
 import { AiOutlineCaretUp, AiOutlineCaretDown } from "react-icons/ai";
 
+import * as React from "react";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import { LocalizationProvider } from "@mui/x-date-pickers-pro";
+import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
+
+import { Datepicker } from "flowbite-react";
+
 export default function SearchBar() {
   const [isOpen, setIsOpen] = useState(false);
   const { searchInput, handleRoomAndGuestCount, handleInputDateChange } =
@@ -22,6 +31,7 @@ export default function SearchBar() {
       className="relative p-11 w-[1200px] bg-white rounded-md flex justify-evenly items-end gap-4"
     >
       <div className=" flex w-[536px] h-[76px] justify-between items-center">
+        {/* input date */}
         <div className="w-[240px] flex flex-col justify-center gap-2">
           <label htmlFor="check_in" className="text-sm text-gray-900">
             Check In
@@ -50,13 +60,41 @@ export default function SearchBar() {
             value={searchInput.checkOut}
             id="checkOut"
             name="checkOut"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
             placeholder="John"
             required
           />
         </div>
+        {/* mui */}
+        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoContainer components={["DatePicker", "DatePicker"]}>
+            <DemoItem label="Check In">
+              <DatePicker
+                minDate={dayjs(getCheckInDate())}
+                onChange={(date) => handleInputDateChange(date)}
+                value={dayjs(searchInput.checkIn)}
+                className="custom-datepicker"
+                DatePickerProps={{
+                  className: "custom-popup-datepicker",
+                }}
+              />
+            </DemoItem>
+            <p className="self-center">-</p>
+            <DemoItem label="Check Out">
+              <DatePicker
+                minDate={dayjs(searchInput.minCheckOut)}
+                onChange={(date) => handleInputDateChange(date)}
+                value={dayjs(searchInput.checkOut)}
+                className="custom-datepicker"
+                DatePickerProps={{
+                  className: "custom-popup-datepicker",
+                }}
+              />
+            </DemoItem>
+          </DemoContainer>
+        </LocalizationProvider> */}
+        {/* room and guest selection */}
       </div>
-      {/* room and guest selection */}
       <div className="relative flex flex-col justify-between w-[240px] h-[76px] rounded-lg">
         <p className="text-sm text-gray-900">Rooms & Guests</p>
         <button

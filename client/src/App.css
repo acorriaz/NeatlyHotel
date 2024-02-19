@@ -3,3 +3,100 @@
   padding: 0;
   margin: 0;
 }
+
+/* .custom-datepicker .MuiTextField-root {
+  width: 100%;
+}
+
+.custom-datepicker .MuiOutlinedInput-input {
+  padding: 10px;
+}
+
+.custom-datepicker .MuiInputAdornment-root {
+  color: #555;
+}
+
+.custom-datepicker .MuiFormHelperText-root {
+  margin-top: 4px;
+}
+
+.custom-datepicker .MuiPickersCalendarHeader-root {
+  background-color: #f7f7f7;
+  color: #333;
+}
+
+.custom-datepicker .MuiPickersDay-day:not(.Mui-selected):hover {
+  background-color: #f0f0f0;
+}
+
+.custom-datepicker .Mui-selected {
+  background-color: #ec8714;
+}
+
+.custom-datepicker .Mui-selected.Mui-disabled {
+  background-color: transparent;
+  color: #f27916;
+}
+
+.custom-datepicker .MuiPickersCalendarHeader-dayLabel {
+  color: #555;
+}
+
+.custom-datepicker .MuiPickersDay-day {
+  color: #333;
+}
+
+.custom-datepicker .MuiPickersDay-dayDisabled {
+  color: #999;
+}
+
+.custom-datepicker .MuiPickersDay-daySelected {
+  background-color: #f0f0f0;
+}
+
+/* popup-part */
+/* .custom-popup-datepicker .MuiPopover-paper {
+  width: 300px;
+}
+
+.custom-popup-datepicker .MuiPickersBasePicker-pickerView {
+  min-width: 300px;
+}
+
+.custom-popup-datepicker .MuiPickersCalendar-weekHeader {
+  color: #555;
+}
+
+.custom-popup-datepicker .MuiPickersCalendarHeader-root {
+  background-color: #f7f7f7;
+  color: #333;
+}
+
+.custom-popup-datepicker .MuiPickersDay-day:not(.Mui-selected):hover {
+  background-color: orange;
+}
+
+.custom-popup-datepicker .Mui-selected {
+  background-color: orange;
+}
+
+.custom-popup-datepicker .Mui-selected.Mui-disabled {
+  background-color: transparent;
+  color: #999;
+}
+
+.custom-popup-datepicker .MuiPickersCalendarHeader-dayLabel {
+  color: #555;
+}
+
+.custom-popup-datepicker .MuiPickersDay-day {
+  color: #333;
+}
+
+.custom-popup-datepicker .MuiPickersDay-dayDisabled {
+  color: #999;
+}
+
+.custom-popup-datepicker .MuiPickersDay-daySelected {
+  background-color: #f0f0f0;
+} * */
