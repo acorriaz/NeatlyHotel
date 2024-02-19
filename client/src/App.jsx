@@ -77,7 +77,7 @@ function App() {
         <Route path="/agent/room-management" element={<RoomManagementPage />} />
         <Route path="/agent/hotel-information" element={<HotelInfoPage />} />
         <Route path="/agent/create-room" element={<CreateRoomForm />} />
-        <Route path="/hotel/payment-result" element={<PaymentResultPage />} />
+        <Route path="/users/payment-result" element={<PaymentResultPage />} />
 
         {token && (
           <>
