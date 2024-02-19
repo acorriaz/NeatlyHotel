@@ -183,7 +183,10 @@ function PaymentResult() {
           </section>
 
           <section className="flex justify-center mt-10 gap-x-10">
-            <button className="text-body1 font-fontWeight6 text-orange500 pb-4 cursor-pointer">
+            <button
+              className="text-body1 font-fontWeight6 text-orange500 pb-4 cursor-pointer"
+              onClick={() => navigate(`/users/booking-history/${userData.id}`)}
+            >
               Check Booking Detail
             </button>
             <button
