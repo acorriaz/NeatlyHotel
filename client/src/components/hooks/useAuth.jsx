@@ -1,28 +1,37 @@
-// Maybe I don't need this file, but I'm keeping it for now.
-
 import { useState, createContext, useContext, useEffect } from "react";
 import { auth } from "../../config/firebase-config";
+import axios from "axios";
 
 const AuthContext = createContext({
   isAuthenticated: false,
   userData: null,
-  login: () => {},
+  handleIsAuthenticated: () => {},
   logout: () => {},
 });
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userData, setUserData] = useState(null);
-
-  console.log("auth.currentUser: ", auth.currentUser);
+  const [userData, setUserData] = useState({});
 
   useEffect(() => {
-    handleIsAuthenticated();
-  }, [isAuthenticated]);
+    console.log(userData);
+  }, [userData]);
 
-  function handleIsAuthenticated() {
+  async function handleIsAuthenticated() {
     if (auth.currentUser) {
-      setIsAuthenticated(true);
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/users/${auth.currentUser.uid}`
+        );
+        setUserData({
+          ...response.data,
+          token: auth.currentUser.stsTokenManager,
+        });
+        setIsAuthenticated(true);
+      } catch (err) {
+        console.log(err);
+        alert("Login Fail");
+      }
     } else {
       setIsAuthenticated(false);
     }
@@ -31,12 +40,11 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       const response = await auth.signOut();
-      console.log("Sign Out response: ", response);
+      setIsAuthenticated(false);
+      setUserData(null);
     } catch (error) {
       console.error("Error signing out", error);
     }
-    setIsAuthenticated(false);
-    setUserData(null);
   };
 
   return (

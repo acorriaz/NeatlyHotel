@@ -23,6 +23,7 @@ import BookingRefundSuccessPage from "./pages/BookingRefundSuccessPage";
 import BookingCancelPage from "./pages/BookingCancelPage";
 import BookingCancelSuccessPage from "./pages/BookingCancelSuccessPage";
 import PaymentResultPage from "./pages/PaymentResultPage";
+import PaymentPage from "./pages/PaymentPage";
 
 function App() {
   const [token, setToken] = useState(false);
@@ -44,6 +45,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/users/login" element={<UserLoginPage />} />
         <Route path="/users/register" element={<RegisterPage />} />
+        <Route path="/users/payment" element={<PaymentPage />} />
         <Route path="/hotel" element={<SearchResultPage />} />
         <Route path="/hotel/detail/:roomTypeId" element={<RoomDetail />} />
         <Route
