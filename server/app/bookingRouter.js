@@ -88,6 +88,7 @@ bookingRouter.post("/", async (req, res) => {
     payment_method: paymentMethod,
     total_price: totalPrice,
   } = req.body;
+
   try {
     const { data: bookingData, error } = await supabase
       .from("booking_detail")
