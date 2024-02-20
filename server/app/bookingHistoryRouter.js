@@ -23,10 +23,13 @@ bookingHistory.get("/:userId", async function (req, res) {
           include: {
             roomType: {
               include: {
+                roomAmenitie: {
+                  select: { roomAmenitieName: true },
+                },
                 bedType: {
                   select: { bedTypeName: true },
                 },
-                roomImg: {
+                roomImage: {
                   select: { imageUrl: true },
                 },
               },
@@ -54,21 +57,37 @@ bookingHistory.get("/:userId", async function (req, res) {
 
 //API booking history change date
 bookingHistory.put("/:booking_id", async function (req, res) {
-  const bookingId = req.params.booking_id;
-  const updateData = {...req.body}
+  const bookingId = Number(req.params.booking_id);
+  const updateData = {
+    ...req.body
+  };
+
   try {
-    await prisma.BookingDetail.update({
+    if (!updateData) {
+      return res.status(400).json({ error: "Invalid data provided" });
+    }
+
+    console.log("check in",updateData.checkIn)
+    console.log("check out",updateData.checkOut)
+
+    const filteredData = {
+      checkIn: updateData.checkIn,
+      checkOut: updateData.checkOut,
+    };
+
+    const updatedBooking = await prisma.bookingDetail.update({
       where: {
         bookingDetailId: bookingId,
       },
       data: {
-        ...updateData,
-        updatedAt : new Date(),
+        ...filteredData,
       },
     });
-    res.status(200).json({ message: "data update successfully!" });
+    res
+      .status(200)
+      .json({ message: "Data updated successfully", updatedBooking });
   } catch (error) {
-    res.status(400).json(error);
+    res.status(400).json({ error: "Failed to update data", details: error });
   }
 });
 
