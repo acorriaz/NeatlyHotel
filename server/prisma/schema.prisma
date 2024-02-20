@@ -52,16 +52,16 @@ model AgentProfile {
 }
 
 model RoomType {
-  roomTypeId    Int         @id @default(autoincrement())
-  roomTypeName  String      @unique
-  bedType       BedType     @relation(fields: [bedTypeId], references: [bedTypeId])
+  roomTypeId    Int             @id @default(autoincrement())
+  roomTypeName  String          @unique
+  bedType       BedType         @relation(fields: [bedTypeId], references: [bedTypeId])
   bedTypeId     Int
   description   String
-  roomAmenities String
   guestCapacity Int
   roomSize      Int
-  roomSrice     Int
-  roomImg       RoomImage[]
+  roomPrice     Int
+  roomAmenities RoomAmenities[]
+  roomImage     RoomImage[]
   room          Room[]
 }
 
@@ -105,8 +105,8 @@ model BookingDetail {
   totalPrice      Int
   checkIn         String
   checkOut        String
-  createdAt       DateTime
-  updatedAt       DateTime
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
   cancelledAt     DateTime?
   guestRequest    GuestRequest[]
 }
@@ -125,4 +125,11 @@ model Request {
   requestName  String
   requestPrice Int
   guestRequest GuestRequest[]
+}
+
+model RoomAmenities {
+  amenitiesId   Int      @id @default(autoincrement())
+  amenitiesName String
+  roomType      RoomType @relation(fields: [roomTypeId], references: [roomTypeId])
+  roomTypeId    Int
 }
