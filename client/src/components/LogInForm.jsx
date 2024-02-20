@@ -28,9 +28,11 @@ async function getEmailFromUsername(username) {
 
 // --login ของ user--
 export function UserLoginForm() {
+  const navigate = useNavigate();
+
   const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
-  const navigate = useNavigate();
+
   const { handleIsAuthenticated } = useAuth();
 
   const handleSubmit = async (event) => {
@@ -54,7 +56,8 @@ export function UserLoginForm() {
         userLogin,
         userPassword
       );
-      handleIsAuthenticated();
+      console.log("response from firebase", response);
+      await handleIsAuthenticated();
       navigate("/");
     } catch (error) {
       console.error("Error signing in", error);
