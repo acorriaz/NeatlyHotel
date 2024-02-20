@@ -1,47 +1,48 @@
-import prisma from "../utils/db";
+import prisma from "../utils/db.js";
 
 export default async function roomStatusSeed() {
   await prisma.roomStatus.createMany({
     data: [
       {
-        status: "Vacant",
+        statusName: "Vacant",
       },
       {
-        status: "Occupied",
+        statusName: "Occupied",
       },
       {
-        status: "Assign Clean",
+        statusName: "Assign Clean",
       },
       {
-        status: "Assign Dirty",
+        statusName: "Assign Dirty",
       },
       {
-        status: "Vacant Clean",
+        statusName: "Vacant Clean",
       },
       {
-        status: "Vacant Clean Inspected",
+        statusName: "Vacant Clean Inspected",
       },
       {
-        status: "Vacant Clean Pick Up",
+        statusName: "Vacant Clean Pick Up",
       },
       {
-        status: "Occupied Clean",
+        statusName: "Occupied Clean",
       },
       {
-        status: "Occupied Clean Inspected",
+        statusName: "Occupied Clean Inspected",
       },
       {
-        status: "Occupied Dirty",
+        statusName: "Occupied Dirty",
       },
       {
-        status: "Out of Order",
+        statusName: "Out of Order",
       },
       {
-        status: "Out of Service",
+        statusName: "Out of Service",
       },
       {
-        status: "Out of Inventory",
+        statusName: "Out of Inventory",
       },
     ],
+    skipDuplicates: true,
   });
 }

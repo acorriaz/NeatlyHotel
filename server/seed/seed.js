@@ -4,10 +4,14 @@ import roomSeed from "./roomSeed.js";
 import roomImageSeed from "./roomImageSeed.js";
 import requestSeed from "./requestSeed.js";
 import roomTypeSeed from "./roomTypeSeed.js";
+import bedTypeSeed from "./bedTypeSeed.js";
 
 async function main() {
   await roomStatusSeed();
   console.log("Room Status Seed Done");
+
+  await bedTypeSeed();
+  console.log("Bed Type Seed Done");
 
   await roomTypeSeed();
   console.log("Room Type Seed Done");

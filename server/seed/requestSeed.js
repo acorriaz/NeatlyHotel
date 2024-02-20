@@ -59,5 +59,6 @@ export default async function roomTypeSeed() {
         requestType: "Special",
       },
     ],
+    skipDuplicates: true,
   });
 }

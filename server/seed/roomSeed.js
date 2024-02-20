@@ -64,6 +64,7 @@ export default async function roomSeed() {
       { roomTypeId: 6, statusId: 1, roomNumber: 609 },
       { roomTypeId: 6, statusId: 1, roomNumber: 600 },
     ],
+    skipDuplicates: true,
   });
   console.log("Batch insert is completed.");
 }

@@ -1,4 +1,4 @@
-import prisma from "../utils/db";
+import prisma from "../utils/db.js";
 
 export default async function roomImageSeed() {
   await prisma.roomImage.createMany({
@@ -34,5 +34,6 @@ export default async function roomImageSeed() {
           "https://ahtzzacznyiounwwvrks.supabase.co/storage/v1/object/sign/Neatlyhotelimage/suit.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJOZWF0bHlob3RlbGltYWdlL3N1aXQuanBnIiwiaWF0IjoxNzA4NDEwOTYxLCJleHAiOjE3Mzk5NDY5NjF9._qscRnge4MtHuAxng2vRUbzzgw7NJzAwfLeupC_MUFg&t=2024-02-20T06%3A36%3A01.846Z",
       },
     ],
+    skipDuplicates: true,
   });
 }

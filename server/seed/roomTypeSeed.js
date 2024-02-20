@@ -1,4 +1,4 @@
-import prisma from "../utils/db";
+import prisma from "../utils/db.js";
 
 export default async function roomTypeSeed() {
   await prisma.roomType.createMany({
@@ -58,5 +58,6 @@ export default async function roomTypeSeed() {
         bedTypeId: 1, // single bed
       },
     ],
+    skipDuplicates: true,
   });
 }
