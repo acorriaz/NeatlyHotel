@@ -31,7 +31,7 @@ export default async function roomImageSeed() {
       {
         roomTypeId: 6,
         imageUrl:
-          "https://ahtzzacznyiounwwvrks.supabase.co/storage/v1/object/sign/Neatlyhotelimage/seaview.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJOZWF0bHlob3RlbGltYWdlL3NlYXZpZXcuanBnIiwiaWF0IjoxNzA4MzM4NDQwLCJleHAiOjE3Mzk4NzQ0NDB9.M5ZpaSjT80RCB_DuHOnMe4y-O3YXrVdEmFrdZbiiJmQ&t=2024-02-19T10%3A27%3A19.586Z",
+          "https://ahtzzacznyiounwwvrks.supabase.co/storage/v1/object/sign/Neatlyhotelimage/suit.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJOZWF0bHlob3RlbGltYWdlL3N1aXQuanBnIiwiaWF0IjoxNzA4NDEwOTYxLCJleHAiOjE3Mzk5NDY5NjF9._qscRnge4MtHuAxng2vRUbzzgw7NJzAwfLeupC_MUFg&t=2024-02-20T06%3A36%3A01.846Z",
       },
     ],
   });

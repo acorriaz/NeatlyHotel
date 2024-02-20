@@ -8,7 +8,7 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model Users {
+model User {
   userId        String          @id @default(uuid())
   username      String          @unique
   email         String          @unique
@@ -18,10 +18,11 @@ model Users {
 
 model UserProfile {
   userProfileId Int      @id @default(autoincrement())
-  user          Users    @relation(fields: [userId], references: [userId])
+  user          User     @relation(fields: [userId], references: [userId])
   userId        String   @unique
   firstName     String
   lastName      String
+  fullName      String
   idNumber      String   @unique
   dateOfBirth   String
   country       String
@@ -52,15 +53,15 @@ model AgentProfile {
 }
 
 model RoomType {
-  roomTypeId    Int             @id @default(autoincrement())
-  roomTypeName  String          @unique
-  bedType       BedType         @relation(fields: [bedTypeId], references: [bedTypeId])
+  roomTypeId    Int            @id @default(autoincrement())
+  roomTypeName  String         @unique
+  bedType       BedType        @relation(fields: [bedTypeId], references: [bedTypeId])
   bedTypeId     Int
   description   String
   guestCapacity Int
   roomSize      Int
   roomPrice     Int
-  roomAmenities RoomAmenities[]
+  roomAmenitie  RoomAmenitie[]
   roomImage     RoomImage[]
   room          Room[]
 }
@@ -97,7 +98,7 @@ model RoomStatus {
 
 model BookingDetail {
   bookingDetailId Int            @id @default(autoincrement())
-  user            Users          @relation(fields: [userId], references: [userId])
+  user            User           @relation(fields: [userId], references: [userId])
   userId          String
   room            Room           @relation(fields: [roomId], references: [roomId])
   roomId          Int
@@ -127,9 +128,9 @@ model Request {
   guestRequest GuestRequest[]
 }
 
-model RoomAmenities {
-  amenitiesId   Int      @id @default(autoincrement())
-  amenitiesName String
-  roomType      RoomType @relation(fields: [roomTypeId], references: [roomTypeId])
-  roomTypeId    Int
+model RoomAmenitie {
+  roomAmenitieId   Int      @id @default(autoincrement())
+  roomAmenitieName String
+  roomType         RoomType @relation(fields: [roomTypeId], references: [roomTypeId])
+  roomTypeId       Int
 }
