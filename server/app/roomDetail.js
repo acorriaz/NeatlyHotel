@@ -1,16 +1,18 @@
 import { Router } from "express";
-import supabase from "../utils/db.js";
+import prisma from "../utils/db.js";
 
 const roomRouter = Router();
 
 //API booking history page
 roomRouter.get("/", async function (req, res) {
   try {
-    const roomDetail = await supabase
-      .from("room_type")
-      .select("*, bed_type_id(*)")
-
-    res.json(roomDetail);
+    const roomData = await prisma.roomType.findMany({
+      include: {
+        roomImage: true,
+        bedType: true,
+      },
+    });
+    res.json(roomData);
   } catch (error) {
     res.status(400).json({ error: "data not found" });
   }

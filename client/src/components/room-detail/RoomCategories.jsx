@@ -3,29 +3,31 @@ import { Link } from "react-router-dom";
 
 function RoomCategories(props) {
   const [roomDetail, setRoomDetail] = useState(props.room);
-
+  
   const roomData = roomDetail.filter(
-    (room) => room.room_type_id === props.param
+    (room) => room.roomTypeId === Number(props.param)
   );
-
+  console.log(roomDetail);
   return (
     <main className="w-full h-[900px] flex justify-center content-center mt-20">
       <div className="w-3/5 h-[630px] flex flex-col justify-between">
         <div>
-          <h1 className="headline2 text-green800">{roomData[0].room_type}</h1>
+          <h1 className="headline2 text-green800">
+            {roomData[0].roomTypeName}
+          </h1>
           <div className="flex justify-between text-gray700">
             <div className="w-2/5 flex flex-col gap-14 pr-4 pb-4 mt-20 body1">
               <p>{roomData[0].description}</p>
               <p>
-                <span> {roomData[0].guest_number} Person </span>
-                <span> 1 {roomData[0].bed_type_id.bed_type_name} </span>
-                <span> {roomData[0].room_size} </span>
+                <span> {roomData[0].guestCapacity} Person </span>
+                <span> 1 {roomData[0].bedType.bedTypeName} </span>
+                <span> {roomData[0].roomSize} </span>
               </p>
             </div>
             <div className="w-2/5 flex flex-col items-end gap-14 mt-20 text-gray700">
               <div>
                 <p className="line-through"> THB 7,000.00 </p>
-                <p> THB {roomData[0].room_price} </p>
+                <p> THB {roomData[0].roomSrice} </p>
               </div>
               <Link to="/hotel/payment-result">
                 <button

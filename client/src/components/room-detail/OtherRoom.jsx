@@ -5,7 +5,7 @@ function OtherRoom (props) {
   const [roomDetail, setRoomDetail] = useState(props.room);
   
   const roomData = roomDetail.filter(
-    (room) => room.room_type_id !== props.param
+    (room) => room.roomTypeId !== Number(props.param)
   );
 
   const getRandomInt = (max) => {
@@ -21,16 +21,16 @@ function OtherRoom (props) {
             return (
               <div key={index} className="relative w-2/4 h-[340px]">
                 <img
-                  src={otherRoom.room_image_url}
+                  src={otherRoom.roomImg[0].imageUrl}
                   alt="image"
                   className="w-full h-[340px]"
                 />
                 <div className="absolute bottom-10 left-12 text-utilWhite">
                   <p className="headline3 text-utilWhite mb-6">
-                    {otherRoom.room_type}
+                    {otherRoom.roomTypeName}
                   </p>
                   <Link
-                    to={"/hotel/detail/" + otherRoom.room_type_id}
+                    to={"/hotel/detail/" + otherRoom.roomTypeId}
                     className="sans"
                   >
                     Explore Rooms &#129122;

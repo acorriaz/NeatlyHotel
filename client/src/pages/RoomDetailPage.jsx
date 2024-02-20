@@ -14,7 +14,7 @@ function RoomDetail() {
   const getRoomDetail = async () => {
     try {
       const roomType = await axios.get("http://localhost:4000/roomdetail");
-      setRoomType(roomType.data.data);
+      setRoomType(roomType.data);
     } catch (error) {
       console.log(error);
     }
