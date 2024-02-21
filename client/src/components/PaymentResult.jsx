@@ -7,17 +7,15 @@ function PaymentResult() {
   const navigate = useNavigate();
   const { isAuthenticated, userData } = useAuth();
   const [Loading, setLoading] = useState(false);
-  const [bookingInfo, setBookingInfo] = useState({
-    room: {},
-  });
+  const [bookingDetail, setbookingDetail] = useState({});
   const [simplifiedRequests, setSimplifiedRequests] = useState([]);
 
-  console.log(userData);
-  console.log(bookingInfo);
+  // console.log(userData);
+  console.log(bookingDetail);
   console.log(simplifiedRequests);
 
   useEffect(() => {
-    if (userData && bookingInfo) {
+    if (userData) {
       getRecentBooking();
     }
   }, [userData]);
@@ -26,29 +24,28 @@ function PaymentResult() {
     try {
       setLoading(true);
       const result = await axios.get(
-        `http://localhost:4000/booking/recent-booking/${userData.id}`
+        `http://localhost:4000/booking/recent-booking/${userData.userId}`
       );
       // console.log(result.data);
 
-      const { bookingDetail, roomInfo, requests } = result.data;
+      const bookingDetail = result.data;
 
-      setBookingInfo({
-        ...bookingDetail,
-        room: { ...roomInfo },
-      });
-      console.log(bookingInfo);
+      setbookingDetail(result.data);
+      console.log(bookingDetail);
 
-      const newSimplifiedRequests = requests.map((request) => {
-        return {
-          name: request.request_name,
-          price: request.request_price,
-          type: request.request_type,
-        };
-      });
+      const newSimplifiedRequests = bookingDetail.guestRequest.map(
+        (request) => {
+          return {
+            name: request.request.requestName,
+            price: request.request.requestPrice,
+            type: request.request.requestType,
+          };
+        }
+      );
 
       setSimplifiedRequests(newSimplifiedRequests);
 
-      if (!bookingInfo) {
+      if (!bookingDetail) {
         return <div>Loading</div>;
       }
     } catch (error) {
@@ -60,8 +57,8 @@ function PaymentResult() {
 
   // format date part vvv
 
-  const checkIn = bookingInfo.check_in;
-  const checkOut = bookingInfo.check_out;
+  const checkIn = bookingDetail.checkIn;
+  const checkOut = bookingDetail.checkOut;
 
   function dateFormat(dateString) {
     const date = new Date(dateString);
@@ -87,12 +84,14 @@ function PaymentResult() {
 
   // check payment method part vvv
 
-  const paymentMethod = bookingInfo.payment_method;
+  const paymentMethod = bookingDetail.paymentMethod;
+  console.log(paymentMethod);
+
   function checkPaymentMethod() {
     if (paymentMethod === "Cash") {
       return "Cash";
-    } else if (paymentMethod === "Credit card") {
-      const creditCardNumber = userData.card.cardNumber;
+    } else if (paymentMethod === "Credit Card") {
+      const creditCardNumber = userData?.userProfile?.cardNumber;
       const lastThreeDigits = creditCardNumber.slice(-3);
       return `Credit Card - *${lastThreeDigits}`;
     }
@@ -100,7 +99,7 @@ function PaymentResult() {
   const paymentMethodDisplay = checkPaymentMethod(paymentMethod);
   console.log(paymentMethodDisplay);
 
-  // check payment method part vvv
+  // check payment method part ^^^
 
   // sum total vvv
 
@@ -114,7 +113,7 @@ function PaymentResult() {
     return totalCost;
   }
 
-  const roomPrice = bookingInfo.room.roomPrice;
+  const roomPrice = bookingDetail?.room?.roomType?.roomPrice;
   const totalCost = sumTotal(roomPrice, simplifiedRequests);
 
   // sum total ^^^
@@ -137,7 +136,7 @@ function PaymentResult() {
               <article>
                 <p className="font-fontWeight6">{formattedDate}</p>
                 <p className="font-fontWeight4">
-                  {bookingInfo?.room?.guestNumber}
+                  {bookingDetail?.room?.roomType.guestCapacity}
                 </p>
               </article>
 
@@ -161,10 +160,10 @@ function PaymentResult() {
             <div>
               <div className="flex justify-between mb-5">
                 <p className="body1 text-green300">
-                  {bookingInfo.room.roomType}
+                  {bookingDetail?.room?.roomType?.roomTypeName}
                 </p>
                 <p className="text-body1 text-utilWhite">
-                  {bookingInfo.room.roomPrice}
+                  {bookingDetail?.room?.roomType?.roomPrice}
                 </p>
               </div>
               {simplifiedRequests.length > 0 &&

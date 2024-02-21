@@ -29,197 +29,78 @@ bookingRouter.get("/:userId", async (req, res) => {
 });
 
 bookingRouter.get("/recent-booking/:userId", async (req, res) => {
-  const userId = req.params.userId;
+  const { userId } = req.params;
+
   try {
-    let { data: booking, error: bookingError } = await supabase
-      .from("booking_detail")
-      .select(
-        `
-      *,
-      room:room_id (
-        room_type:room_type_id (
-          room_type,
-          room_price,
-          guest_number
-        )
-      )
-    `
-      )
-      .eq("user_id", userId)
-      .order("created_at", { ascending: false })
-      .limit(1);
-
-    if (bookingError) throw bookingError;
-    if (booking.length === 0) return res.status(404).send("No booking found");
-
-    const recentBooking = booking[0];
-
-    let { data: guestRequests, error: guestRequestsError } = await supabase
-      .from("guest_request")
-      .select("request_id")
-      .eq("booking_detail_id", recentBooking.booking_detail_id);
-
-    if (guestRequestsError) throw guestRequestsError;
-
-    const requests = await Promise.all(
-      guestRequests.map(async (guestRequest) => {
-        let { data: request, error: requestError } = await supabase
-          .from("request")
-          .select("request_name, request_price, request_type")
-          .eq("request_id", guestRequest.request_id);
-
-        if (requestError) throw requestError;
-        return request[0];
-      })
-    );
-
-    const response = {
-      bookingDetail: recentBooking,
-      roomInfo: {
-        roomType: recentBooking.room.room_type.room_type,
-        roomPrice: recentBooking.room.room_type.room_price,
-        guestNumber: recentBooking.room.room_type.guest_number,
+    const recentBooking = await prisma.bookingDetail.findFirst({
+      where: {
+        userId: userId,
       },
-      requests,
-    };
-
-    res.json(response);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("An error occurred");
-  }
-});
-
-bookingRouter.post("/", async (req, res) => {
-  const {
-    userId,
-    roomId,
-    checkIn,
-    checkOut,
-    paymentMethod,
-    totalPrice,
-    guestRequests,
-  } = req.body;
-
-  try {
-    const { data: bookingData, error } = await supabase
-      .from("booking_detail")
-      .insert({
-        user_id: userId,
-        room_id: roomId,
-        check_in: checkInDate,
-        check_out: checkOutDate,
-        payment_method: paymentMethod,
-        total_price: totalPrice,
-      })
-      .select("*");
-
-    if (error) {
-      console.error("Supabase error:", error);
-      return res.status(400).json({ error: error.message });
-    }
-
-    return res.status(201).json({
-      message: "Booking has been created!",
-      bookingDetail,
+      include: {
+        room: {
+          include: {
+            roomType: true,
+          },
+        },
+        guestRequest: {
+          include: {
+            request: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
+
+    if (!recentBooking)
+      return res.status(404).json({ message: "No booking found." });
+
+    console.log(recentBooking);
+    res.status(200).json(recentBooking);
   } catch (error) {
     console.error(error);
-
-    if (error.code === "P2002") {
-      return res.status(400).json({
-        message: "Cannot create booking.",
-      });
-    }
     return res.status(500).json({
       message: "Sorry, something went wrong. Please try again later.",
     });
   }
-
-  // try {
-  //   const { data: bookingData, error } = await supabase
-  //     .from("booking_detail")
-  //     .insert({
-  //       user_id: userId,
-  //       room_id: roomId,
-  //       check_in: checkInDate,
-  //       check_out: checkOutDate,
-  //       payment_method: paymentMethod,
-  //       total_price: totalPrice,
-  //     })
-  //     .select("*");
-
-  //   if (error) {
-  //     console.error("Supabase error:", error);
-  //     return res.status(400).json({ error: error.message });
-  //   }
-
-  //   return res.status(201).json({ data: bookingData });
-  // } catch (error) {
-  //   console.error("Unexpected error:", error);
-  //   return res.status(500).json({
-  //     error: "Failed to create bookings",
-  //     details: error.message,
-  //   });
-  // }
 });
 
-bookingRouter.post("/request", async (req, res) => {
-  // const { request_id: requestId, booking_detail_id: bookingId } = req.body;
-  // try {
-  //   const { data, error } = await supabase
-  //     .from("guest_request")
-  //     .insert({
-  //       request_id: requestId,
-  //       booking_detail_id: bookingId,
-  //     })
-  //     .single();
-  //   if (error) {
-  //     console.error("Supabase error: ", error);
-  //     return res.status(400).json({ error: "Can not create request" });
-  //   }
-  //   return res
-  //     .status(200)
-  //     .json({ text: "Booking has been created new request" });
-  // } catch (error) {
-  //   console.error("Unexpected error:", error);
-  //   return res.status(500).json({
-  //     error: "Failed to create request",
-  //     details: error.message,
-  //   });
-  // }
-});
-
-bookingRouter.put("/:bookingId", async (req, res) => {
-  const bookingId = req.params.bookingId;
-  console.log(bookingId);
+bookingRouter.post("/", async (req, res) => {
   const { userId, roomId, checkIn, checkOut, paymentMethod, totalPrice } =
     req.body;
-
+  if (
+    !userId ||
+    !roomId ||
+    !checkIn ||
+    !checkOut ||
+    !paymentMethod ||
+    !totalPrice
+  ) {
+    return res.status(400).json({
+      message: "Every field requires data.",
+    });
+  }
   try {
-    const { data: bookingData, error } = await supabase
-      .from("booking_detail")
-      .insert({
-        user_id: userId,
-        room_id: roomId,
-        check_in: checkInDate,
-        check_out: checkOutDate,
-        payment_method: paymentMethod,
-        total_price: totalPrice,
-      })
-      .select("*");
+    const booking = await prisma.bookingDetail.create({
+      data: {
+        userId: userId,
+        roomId,
+        checkIn,
+        checkOut,
+        paymentMethod,
+        totalPrice,
+      },
+    });
 
-    if (error) {
-      console.error("Supabase error:", error);
-      return res.status(400).json({ error: error.message });
-    }
-
-    return res.status(201).json({ data: bookingData });
+    return res.status(200).json({
+      message: "Booking has been created",
+      booking,
+    });
   } catch (error) {
-    console.error("Unexpected error:", error);
+    console.error(error);
     return res.status(500).json({
-      error: "Failed to create bookings",
-      details: error.message,
+      message: "Sorry, something went wrong. Please try again later.",
     });
   }
 });
@@ -297,7 +178,7 @@ bookingRouter.put("/:bookingId", async (req, res) => {
 
   try {
     const updatedBooking = await prisma.bookingDetail.update({
-      where: { bookingDetailId: bookingId },
+      where: { bookingDetailId: parseInt(bookingId, 10) },
       data: {
         roomId,
         checkIn,
