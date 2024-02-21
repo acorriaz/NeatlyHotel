@@ -14,6 +14,7 @@ const SearchInputContext = createContext({
 });
 
 export function SearchInputContextProvider({ children }) {
+  const [rooms, setRooms] = useState([]);
   const [searchInput, setSearchInput] = useState({
     checkIn: getCheckInDate(),
     checkOut: getCheckOutDate(),
@@ -57,6 +58,8 @@ export function SearchInputContextProvider({ children }) {
         setSearchInput,
         handleRoomAndGuestCount,
         handleInputDateChange,
+        rooms,
+        setRooms,
       }}
     >
       {children}
@@ -70,11 +73,15 @@ export const useSearchInput = () => {
     setSearchInput,
     handleRoomAndGuestCount,
     handleInputDateChange,
+    rooms,
+    setRooms,
   } = useContext(SearchInputContext);
   return {
     searchInput,
     setSearchInput,
     handleRoomAndGuestCount,
     handleInputDateChange,
+    rooms,
+    setRooms,
   };
 };

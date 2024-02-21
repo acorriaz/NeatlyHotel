@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import { useSearchInput } from "../context/searchInputContext";
 import { getCheckInDate } from "../../utils/getInputDate";
 
@@ -7,23 +8,36 @@ import PlusCircleIcon from "@heroicons/react/24/outline/PlusCircleIcon";
 import MinusCircleIcon from "@heroicons/react/24/outline/MinusCircleIcon";
 import { AiOutlineCaretUp, AiOutlineCaretDown } from "react-icons/ai";
 
-import * as React from "react";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-import { LocalizationProvider } from "@mui/x-date-pickers-pro";
-import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs from "dayjs";
-
-import { Datepicker } from "flowbite-react";
-
 export default function SearchBar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { searchInput, handleRoomAndGuestCount, handleInputDateChange } =
-    useSearchInput();
+  const {
+    searchInput,
+    handleRoomAndGuestCount,
+    handleInputDateChange,
+    rooms,
+    setRooms,
+  } = useSearchInput();
+  const navigate = useNavigate();
+
+  const searchRoom = async () => {
+    try {
+      const result = await axios.get(
+        `http://localhost:4000/hotel/rooms/${searchInput.guest}`
+      );
+      console.log(result);
+      setRooms(result.data);
+    } catch (error) {
+      console.error("Error searching rooms:", error);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    searchRoom();
+  }, []);
 
   return (
     <form
@@ -65,34 +79,6 @@ export default function SearchBar() {
             required
           />
         </div>
-        {/* mui */}
-        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer components={["DatePicker", "DatePicker"]}>
-            <DemoItem label="Check In">
-              <DatePicker
-                minDate={dayjs(getCheckInDate())}
-                onChange={(date) => handleInputDateChange(date)}
-                value={dayjs(searchInput.checkIn)}
-                className="custom-datepicker"
-                DatePickerProps={{
-                  className: "custom-popup-datepicker",
-                }}
-              />
-            </DemoItem>
-            <p className="self-center">-</p>
-            <DemoItem label="Check Out">
-              <DatePicker
-                minDate={dayjs(searchInput.minCheckOut)}
-                onChange={(date) => handleInputDateChange(date)}
-                value={dayjs(searchInput.checkOut)}
-                className="custom-datepicker"
-                DatePickerProps={{
-                  className: "custom-popup-datepicker",
-                }}
-              />
-            </DemoItem>
-          </DemoContainer>
-        </LocalizationProvider> */}
         {/* room and guest selection */}
       </div>
       <div className="relative flex flex-col justify-between w-[240px] h-[76px] rounded-lg">
@@ -147,7 +133,10 @@ export default function SearchBar() {
       </div>
       {/* select button */}
       <Link to="/hotel">
-        <button className="w-[144px] h-max px-8 py-3 rounded font-sans font-semibold text-orange-500 bg-base-100 border border-orange-500">
+        <button
+          onClick={searchRoom}
+          className="w-[144px] h-max px-8 py-3 rounded font-sans font-semibold text-orange-500 bg-base-100 border border-orange-500"
+        >
           Search
         </button>
       </Link>
