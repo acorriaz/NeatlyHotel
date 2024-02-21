@@ -1,4 +1,4 @@
-import { Router } from "express";
+import e, { Router, request } from "express";
 import prisma from "../utils/db.js";
 
 const bookingRouter = Router();
@@ -15,17 +15,11 @@ bookingRouter.get("/:userId", async (req, res) => {
 
     if (userBooking.length === 0) {
       return res.status(404).json({
-        message: "Data not found",
+        message: "Data not found.",
       });
     }
 
     return res.status(200).json(userBooking);
-    // const bookings = await supabase
-    //   .from("booking_detail")
-    //   .select("*")
-    //   .eq("user_id", userId);
-
-    // res.json(bookings);
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -199,27 +193,20 @@ bookingRouter.post("/request", async (req, res) => {
 bookingRouter.put("/:bookingId", async (req, res) => {
   const bookingId = req.params.bookingId;
   console.log(bookingId);
-  const {
-    userId,
-    roomId,
-    checkIn,
-    checkOut,
-    paymentMethod,
-    totalPrice,
-    guestRequests,
-  } = req.body;
+  const { userId, roomId, checkIn, checkOut, paymentMethod, totalPrice } =
+    req.body;
 
   try {
-    const { data, error } = await supabase
+    const { data: bookingData, error } = await supabase
       .from("booking_detail")
-      .update({
+      .insert({
+        user_id: userId,
         room_id: roomId,
         check_in: checkInDate,
         check_out: checkOutDate,
         payment_method: paymentMethod,
         total_price: totalPrice,
       })
-      .eq("booking_detail_id", bookingId)
       .select("*");
 
     if (error) {
@@ -227,34 +214,136 @@ bookingRouter.put("/:bookingId", async (req, res) => {
       return res.status(400).json({ error: error.message });
     }
 
-    return res.status(200).json({ data: data });
+    return res.status(201).json({ data: bookingData });
   } catch (error) {
+    console.error("Unexpected error:", error);
     return res.status(500).json({
-      error: "Failed to update bookings",
+      error: "Failed to create bookings",
       details: error.message,
     });
   }
 });
 
-bookingRouter.delete("/:bookingId", async (req, res) => {
-  const bookingId = req.params.bookingId;
-  try {
-    const { data, error } = await supabase
-      .from("booking_detail")
-      .delete()
-      .eq("booking_detail_id", bookingId);
+bookingRouter.post("/request", async (req, res) => {
+  console.log(req.body);
+  const { requestId, bookingDetailId } = req.body;
 
-    if (error) {
-      console.error("Supabase error:", error);
-      return res.status(400).json({ error: "Can not delete booking" });
+  if (!req.body.requestId || !req.body.bookingDetailId) {
+    return res.status(400).json({
+      message: "requestId and bookingDetailId are required.",
+    });
+  }
+
+  try {
+    const guestRequest = await prisma.guestRequest.create({
+      data: {
+        requestId,
+        bookingDetailId,
+      },
+    });
+
+    if (guestRequest) {
+      const bookingDetailWithRoom = await prisma.bookingDetail.findUnique({
+        where: {
+          bookingDetailId,
+        },
+        include: {
+          room: {
+            select: {
+              roomId: true,
+              roomNumber: true,
+            },
+          },
+          guestRequest: {
+            where: {
+              bookingDetailId,
+            },
+            include: {
+              request: true,
+            },
+          },
+        },
+      });
+
+      const response = {
+        bookingDetailId: bookingDetailWithRoom.bookingDetailId,
+        room: bookingDetailWithRoom.room,
+        requests: bookingDetailWithRoom.guestRequest.map((gr) => ({
+          requestId: gr.requestId,
+          requestType: gr.request.requestType,
+          requestName: gr.request.requestName,
+          requestPrice: gr.request.requestPrice,
+        })),
+      };
+
+      console.log(response);
+      return res.status(200).json({
+        message: "Request has been created.",
+        response,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Failed to create request.",
+      details: error.message,
+    });
+  }
+});
+
+bookingRouter.put("/:bookingId", async (req, res) => {
+  const { bookingId } = req.params;
+  const { roomId, checkIn, checkOut, paymentMethod, totalPrice } = req.body;
+
+  try {
+    const updatedBooking = await prisma.bookingDetail.update({
+      where: { bookingDetailId: bookingId },
+      data: {
+        roomId,
+        checkIn,
+        checkOut,
+        paymentMethod,
+        totalPrice,
+      },
+    });
+
+    return res.status(200).json({
+      message: "Booking has been updated.",
+      updatedBooking,
+    });
+  } catch (error) {
+    console.error(error);
+    if (error.code === "P2025") {
+      return res.status(404).json({ message: "Booking not found." });
+    }
+    return res.status(500).json({
+      message: "Sorry, something went wrong. Plese try again later.",
+    });
+  }
+});
+
+bookingRouter.delete("/:bookingId", async (req, res) => {
+  const { bookingDetailId } = req.params;
+  try {
+    const bookingDetail = await prisma.bookingDetail.delete({
+      where: {
+        bookingDetailId: bookingDetailId,
+      },
+    });
+
+    return res.status(200).json({
+      message: "Booking has been deleted.",
+      bookingDetail,
+    });
+  } catch (error) {
+    console.error(error);
+
+    if (error.code === "P2025") {
+      return res.status(404).json({ message: "Booking not found." });
     }
 
-    return res.status(200).json({ text: "Booking has been deleted" });
-  } catch (error) {
-    console.error("Unexpected error:", error);
     return res.status(500).json({
-      error: "Failed to delete bookings",
-      details: error.message,
+      message: "Sorry, something went wrong. Please try again later.",
     });
   }
 });
