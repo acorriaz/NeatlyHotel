@@ -42,6 +42,7 @@ bookingHistory.get("/:userId", async function (req, res) {
               select: {
                 requestType: true,
                 requestName: true,
+                requestPrice: true,
               },
             },
           },
@@ -67,20 +68,12 @@ bookingHistory.put("/:booking_id", async function (req, res) {
       return res.status(400).json({ error: "Invalid data provided" });
     }
 
-    console.log("check in",updateData.checkIn)
-    console.log("check out",updateData.checkOut)
-
-    const filteredData = {
-      checkIn: updateData.checkIn,
-      checkOut: updateData.checkOut,
-    };
-
     const updatedBooking = await prisma.bookingDetail.update({
       where: {
         bookingDetailId: bookingId,
       },
       data: {
-        ...filteredData,
+        ...updateData,
       },
     });
     res

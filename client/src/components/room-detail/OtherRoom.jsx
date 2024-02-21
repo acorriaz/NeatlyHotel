@@ -21,7 +21,7 @@ function OtherRoom (props) {
             return (
               <div key={index} className="relative w-2/4 h-[340px]">
                 <img
-                  src={otherRoom.roomImg[0].imageUrl}
+                  src={otherRoom.roomImage[0].imageUrl}
                   alt="image"
                   className="w-full h-[340px]"
                 />

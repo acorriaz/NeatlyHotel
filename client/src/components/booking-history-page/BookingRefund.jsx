@@ -11,9 +11,9 @@ function BookingRefund() {
   const putBooking = async () => {
     try {
       await axios.put(
-        "http://localhost:4000/bookingHistory/" + booking.booking_detail_id,
+        "http://localhost:4000/bookingHistory/" + booking.bookingDetailId,
         {
-          canceled_at: cancelRefundDate,
+          cancelledAt: cancelRefundDate,
         }
       );
     } catch (error) {
@@ -55,7 +55,7 @@ function BookingRefund() {
           <div className="flex justify-between gap-12">
             <div className="w-[500px] h-[200px]">
               <img
-                src={booking.room_id.room_type_id.room_image_url}
+                src={booking.room.roomType.roomImage[0].imageUrl}
                 alt=""
                 className="w-full h-full rounded-md"
               />
@@ -63,27 +63,27 @@ function BookingRefund() {
             <div className="w-full flex flex-col">
               <div className="flex justify-between">
                 <span className="headline4 text-utilBlack font-fontWeight6">
-                  {booking.room_id.room_type_id.room_type}
+                  {booking.room.roomType.roomTypeName}
                 </span>
                 <span className="text-gray600 font-fontWeight4">
-                  Booking date: {formatDate(booking.created_at)}
+                  Booking date: {formatDate(booking.createdAt)}
                 </span>
               </div>
               <div className="flex justify-between">
                 <div className="my-10">
                   <span className="text-gray700 font-fontWeight4">
-                    {formatDate(booking.check_in)}
+                    {formatDate(booking.checkIn)}
                   </span>
                   <span> - </span>
                   <span className="text-gray700 font-fontWeight4">
-                    {formatDate(booking.check_out)} <br />
-                    {booking.room_id.room_type_id.guest_number} Guests
+                    {formatDate(booking.checkOut)} <br />
+                    {booking.room.roomType.guestCapacity} Guests
                   </span>
                 </div>
                 <div className="my-10">
                   <p className="text-gray900 font-fontWeight4">Total Refund</p>
                   <p className="text-gray900 font-fontWeight6">
-                    THB {booking.total_price}
+                    THB {booking.totalPrice}
                   </p>
                 </div>
               </div>
@@ -91,7 +91,7 @@ function BookingRefund() {
           </div>
           <div className="w-full flex justify-between font-sans font-fontWeight6 mt-20">
             <Link
-              to={`/users/booking-history/${booking.user_id.user_id}`}
+              to={`/users/booking-history/${booking.userId}`}
               className="text-orange500 px-2"
             >
               Cancel

@@ -62,7 +62,7 @@ export default function NavigationBarAuth() {
           </li>
           <li>
             <a
-              href="/users/booking-history/480082ce-4044-4a16-a39d-8a605547d0ec"
+              href="/users/booking-history/iWHb6OezMpUeZUiNALqr6wKncTh1"
               className="font-sans text-sm text-gray700"
             >
               Booking History
