@@ -1,113 +1,140 @@
 import { Router } from "express";
-import supabase from "../utils/db.js";
+import prisma from "../utils/db.js";
 
 const hotelRouter = Router();
 
-hotelRouter.get("/users", async function (req, res) {
-  let resultUsers = null;
-  try {
-    resultUsers = await supabase.from("users").select("*");
-    return res.status(200).json(resultUsers.data);
-  } catch (error) {
-    return res.status(500).json(resultUsers.error);
-  }
-});
-
-hotelRouter.get("/rooms", async function (req, res) {
-  let resultRooms = null;
-  try {
-    resultRooms = await supabase
-      .from("room_type")
-      .select(
-        "*, bed_type:bed_type_id(*), room:room_type_id(*, status:status_id(*))"
-      )
-      .order("room_type", { ascending: true });
-    const roomsWithStatus = resultRooms.data.map((room) => ({
-      ...room,
-      vacantCount: room.room.filter((r) => r.status.status_name === "Vacant")
-        .length,
-    }));
-    return res.status(200).json(roomsWithStatus);
-  } catch (error) {
-    return res.status(500).json(resultRooms.error);
-  }
-});
-
 hotelRouter.get("/rooms/:guests", async (req, res) => {
-  let guests = parseInt(req.params.guests, 10);
-  console.log(guests);
+  const guests = parseInt(req.params.guests);
   try {
-    if (guests >= 3 && guests <= 4) {
-      const { data: roomCondition, error } = await supabase
-        .from("room")
-        .select(
-          `*, 
-          room_type:room_type_id(*
-          ),status:status_id(status_name)`
-        )
-        .gte("room_type.guest_number", guests)
-        .eq("status.status_name", "Vacant")
-        .in("room_type.room_type", ["Superior Garden View", "Supreme"]);
-      if (error) {
-        console.error("Supabase error:", error);
-        return res.status(400).json({ error: error.message });
-      } else if (roomCondition.length >= 1) {
-        const specificRoomTypeRooms = roomCondition.filter(
-          (room) => room.room_type !== null
-        );
-        if (specificRoomTypeRooms.length > 0) {
-          return res.status(200).json(specificRoomTypeRooms);
-        } else {
-          return res
-            .status(404)
-            .json({ error: "Rooms of the specified type not found" });
-        }
-      } else {
-        return res.status(404).json({ error: "Rooms not found" });
-      }
-    }
-  } catch (error) {
-    return res.status(500).json(error);
-  }
+    if (guests >= 1 && guests <= 10) {
+      const roomCondition = await prisma.roomType.findMany({
+        where: {
+          guestCapacity: {
+            gte: guests,
+          },
+          room: {
+            some: {
+              roomStatus: {
+                statusName: "Vacant",
+              },
+            },
+          },
+        },
+        orderBy: {
+          roomTypeName: "asc",
+        },
+        include: {
+          roomAmenitie: true,
+          bedType: true,
+          roomImage: true,
+          room: {
+            where: {
+              roomStatus: {
+                statusName: "Vacant",
+              },
+            },
+            include: {
+              roomStatus: true,
+            },
+          },
+        },
+      });
 
-  try {
-    if (guests >= 1 && guests <= 2) {
-      const { data: roomCondition, error } = await supabase
-        .from("room")
-        .select(
-          `*, 
-          room_type:room_type_id(*
-          ),status:status_id(status_name)`
-        )
-        .gt("room_type.guest_number", guests)
-        .eq("status.status_name", "Vacant")
-        .in("room_type.room_type", [
-          "Premier Sea View",
-          "Deluxe",
-          "Superior",
-          "Suit",
-        ]);
-      if (error) {
-        console.error("Supabase error:", error);
-        return res.status(400).json({ error: error.message });
-      } else if (roomCondition.length >= 1) {
-        const specificRoomTypeRooms = roomCondition.filter(
-          (room) => room.room_type !== null
-        );
-        if (specificRoomTypeRooms.length > 0) {
-          return res.status(200).json(specificRoomTypeRooms);
-        } else {
-          return res
-            .status(404)
-            .json({ error: "Rooms of the specified type not found" });
-        }
-      } else {
+      if (!roomCondition.length) {
         return res.status(404).json({ error: "Rooms not found" });
       }
+      const vacantRooms = roomCondition.map((roomType) => {
+        const vacantCount = roomType.room.filter(
+          (room) => room.roomStatus.statusName === "Vacant"
+        ).length;
+        return {
+          ...roomType,
+          vacantCount,
+        };
+      });
+      return res.status(200).json(vacantRooms);
+    } else {
+      return res.status(400).json({ error: "Invalid guest count" });
     }
   } catch (error) {
-    return res.status(500).json(error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 });
 
 export default hotelRouter;
+
+// hotelRouter.get("/rooms", async function (req, res) {
+//   try {
+//     const resultRooms = await prisma.roomType.findMany({
+//       orderBy: {
+//         roomTypeName: "asc",
+//       },
+//       include: {
+//         roomAmenitie: true,
+//         bedType: true,
+//         roomImage: true,
+//         room: {
+//           include: {
+//             roomStatus: true,
+//           },
+//         },
+//       },
+//     });
+
+//     const vacantRooms = resultRooms.map((roomType) => {
+//       const vacantCount = roomType.room.filter(
+//         (room) => room.roomStatus.statusName === "Vacant"
+//       ).length;
+//       return {
+//         ...roomType,
+//         vacantCount,
+//       };
+//     });
+//     return res.status(200).json(vacantRooms);
+//   } catch (error) {
+//     return res.status(500).json({ error: error.message });
+//   }
+// });
+
+// hotelRouter.get("/rooms/:guests", async (req, res) => {
+//   let guests = parseInt(req.params.guests);
+//   let roomCondition = null;
+//   try {
+//     if (guests >= 1 && guests <= 10) {
+//       roomCondition = await prisma.roomType.findMany({
+//         where: {
+//           guestCapacity: {
+//             gte: guests,
+//           },
+//         },
+//         orderBy: {
+//           roomTypeName: "asc",
+//         },
+//         include: {
+//           roomAmenitie: true,
+//           bedType: true,
+//           roomImage: true,
+//           room: {
+//             include: {
+//               roomStatus: true,
+//             },
+//           },
+//         },
+//       });
+//     }
+//     // console.log(roomCondition);
+//     if (roomCondition.length) {
+//       const roomVacant = roomCondition.filter((roomType) =>
+//         roomType.room.filter((room) => room.roomStatus.statusName === "Vacant")
+//       );
+//       if (!roomVacant.length) {
+//         return res.status(404).json({ error: "Rooms not found" });
+//       }
+//       return res.status(200).json(roomVacant);
+//     } else {
+//       return res.status(404).json({ error: "Rooms not found" });
+//     }
+//   } catch (error) {
+//     return res.status(500).json(error);
+//   }
+// });

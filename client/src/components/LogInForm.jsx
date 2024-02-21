@@ -66,7 +66,7 @@ export function UserLoginForm() {
 
   return (
     <>
-      <section className="flex h-screen bg-utilBG">
+      <section className="flex h-screen bg-utilBG mt-[100px]">
         {/* img div */}
         <div className="w-2/4">
           <img src={chairBesidePool} className="object-cover h-screen w-full" />

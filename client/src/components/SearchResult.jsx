@@ -1,39 +1,17 @@
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import SearchBar from "./utils/SearchBar.jsx";
 import { useAuth } from "../components/hooks/useAuth.jsx";
+import { useSearchInput } from "../components/context/searchInputContext.jsx";
 
 function SearchResult() {
-  const navigate = useNavigate();
-  const [rooms, setRooms] = useState([]);
-  const { isAuthenticated, isLogin } = useAuth();
-
-  const getRoom = async () => {
-    try {
-      const result = await axios.get("http://localhost:4000/hotel/rooms");
-      console.log(result);
-      setRooms(result.data);
-    } catch (error) {
-      console.error("Error fetching rooms:", error);
-    }
-  };
-
-  const searchRoom = async () => {
-    try {
-      const result = await axios.get(
-        "http://localhost:4000/hotel/rooms/:guests"
-      );
-      setRooms(result.data);
-      navigate("/hotel");
-    } catch (error) {
-      console.error("Error searching rooms:", error);
-    }
-  };
-
-  const handleSearchRoom = (e) => {
-    setRooms(e.target.value);
-  };
+  const { isAuthenticated } = useAuth();
+  const {
+    searchInput,
+    handleRoomAndGuestCount,
+    handleInputDateChange,
+    rooms,
+    setRooms,
+  } = useSearchInput();
 
   // currency format logic
   const options = {
@@ -42,21 +20,9 @@ function SearchResult() {
     maximumFractionDigits: 2,
   };
 
-  useEffect(() => {
-    getRoom();
-  }, []);
-
-  useEffect(() => {
-    searchRoom();
-  }, [rooms]);
-
-  useEffect(() => {
-    isLogin();
-  }, []);
-
   console.log("isAuthenticated", isAuthenticated);
 
-  if (rooms) {
+  if (rooms.length > 0) {
     return (
       <div className="flex flex-col justify-start items-center pt-[100px] bg-gray-100">
         {/* search result main container */}
@@ -65,21 +31,22 @@ function SearchResult() {
         </div>
         <div className=" flex flex-col justify-start items-center mb-[200px] w-full bg-gray-100 mt-[100px]">
           {rooms.map((room) => {
-            const discount = room.room_price + 500;
+            const discount = room.roomPrice + 500;
             return (
               // result content
               <div
                 className=" flex flex-col justify-center items-center bg-gray-100"
-                key={room.room_type_id}
+                key={room.roomTypeId}
               >
                 {/* card-container */}
                 <div className=" flex w-[1120px] h-[400px] justify-between items-center py-[25px] gap-[40px] border-b-2 border-b-gray-200">
                   <div className="image-container relative w-[453px] h-[320px]">
                     <img
-                      src={room.room_image_url}
+                      src={room.roomImage[0].imageUrl}
                       alt=""
                       className=" w-[453px] h-[320px] rounded-md"
                     />
+
                     {/* full image view button */}
                     <button
                       className="btn absolute z-0 bottom-0 left-0 w-[40px] h-[40px] bg-transparent border-transparent"
@@ -233,15 +200,15 @@ function SearchResult() {
                       <div className="flex flex-col justify-between w-[314px] h-[178px]">
                         <div className="w-[314px] h-[74px] flex-col justify-between items-start">
                           <p className="text-headline4 font-semibold">
-                            {room.room_type}
+                            {room.roomTypeName}
                           </p>
                           {/* room detail */}
-                          <div className="flex w-[400px] h-[24px] justify-start items-start gap-[16px] font-fontWeight3 text-gray700 text-body1">
-                            <p>{room.guest_number} Guests</p>
+                          <div className="flex w-[400px] h-[24px] justify-start items-start gap-[10px] font-fontWeight3 text-gray700 text-body1">
+                            <p>{`${room.guestCapacity} Guests`}</p>
                             <p>|</p>
-                            <p>{room.bed_type.bed_type_name}</p>
+                            <p>{room.bedType.bedTypeName}</p>
                             <p>|</p>
-                            <p>{room.room_size}</p>
+                            <p>{`${room.roomSize} sqm`}</p>
                           </div>
                         </div>
                         <p className="w-[314px] h-[72px] font-fontWeight4 text-gray700 text-body1">
@@ -256,7 +223,7 @@ function SearchResult() {
                           </p>
                           <p className="text-headline5 font-semibold">
                             THB{" "}
-                            {room.room_price.toLocaleString("en-US", options)}
+                            {room.roomPrice.toLocaleString("en-US", options)}
                           </p>
                         </div>
                         <div className="w-[260px] h-[48px] flex flex-col items-end text-gray700">
@@ -268,13 +235,13 @@ function SearchResult() {
                     {/* end of card text */}
                     <div
                       className="flex justify-end w-[619px] h-[48px] font-fontWeight6"
-                      key={room.room_type_id}
+                      key={room.roomTypeId}
                     >
-                      <p>available room: {room.vacantCount}</p>
+                      <p>{`Available room : ${room.vacantCount}`}</p>
                     </div>
                     {/* button-panel */}
                     <div className=" flex justify-end w-[619px] h-[48px] gap-[24px] font-fontWeight6">
-                      <div className="" key={room.room_type_id}>
+                      <div className="" key={room.roomTypeId}>
                         {/* room detail pop-up button */}
                         <button
                           className="btn text-orange-500"
@@ -292,7 +259,7 @@ function SearchResult() {
                               </button>
                             </form>
                             <h3 className="font-bold text-lg">
-                              {room.room_type}
+                              {room.roomTypeName}
                             </h3>
                             <div className="carousel w-full">
                               <div
@@ -366,9 +333,11 @@ function SearchResult() {
                             </div>
                             {/* room description */}
                             <div className=" flex w-full h-[50px] gap-[16px] font-fontWeight4 text-gray700 text-body1">
-                              <p>{room.guest_number} Guests</p>
-                              <p>{room.bed_type.bed_type_name}</p>
-                              <p>{room.room_size}</p>
+                              <p>{`${room.guestCapacity} Guests`}</p>
+                              <p>|</p>
+                              <p>{room.bedType.bedTypeName}</p>
+                              <p>|</p>
+                              <p>{`${room.roomSize} sqm`}</p>
                             </div>
                             <p className="w-full h-[72px] font-fontWeight4 text-gray700 text-body1">
                               {room.description}
@@ -411,6 +380,18 @@ function SearchResult() {
               </div>
             );
           })}
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className="flex flex-col justify-start items-center pt-[100px] bg-gray-100">
+        {/* search result main container */}
+        <div className="flex justify-center items-center h-fit w-full bg-white border-t-2 shadow-lg">
+          <SearchBar />
+        </div>
+        <div className="flex justify-center items-center w-full h-[400px] mt-10 text-5xl">
+          <p>Loading rooms</p>
         </div>
       </div>
     );

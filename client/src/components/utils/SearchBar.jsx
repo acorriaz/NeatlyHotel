@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import { useSearchInput } from "../context/searchInputContext";
 import { getCheckInDate } from "../../utils/getInputDate";
 
@@ -9,12 +10,34 @@ import { AiOutlineCaretUp, AiOutlineCaretDown } from "react-icons/ai";
 
 export default function SearchBar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { searchInput, handleRoomAndGuestCount, handleInputDateChange } =
-    useSearchInput();
+  const {
+    searchInput,
+    handleRoomAndGuestCount,
+    handleInputDateChange,
+    rooms,
+    setRooms,
+  } = useSearchInput();
+  const navigate = useNavigate();
+
+  const searchRoom = async () => {
+    try {
+      const result = await axios.get(
+        `http://localhost:4000/hotel/rooms/${searchInput.guest}`
+      );
+      console.log(result);
+      setRooms(result.data);
+    } catch (error) {
+      console.error("Error searching rooms:", error);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    searchRoom();
+  }, []);
 
   return (
     <form
@@ -22,6 +45,7 @@ export default function SearchBar() {
       className="relative p-11 w-[1200px] bg-white rounded-md flex justify-evenly items-end gap-4"
     >
       <div className=" flex w-[536px] h-[76px] justify-between items-center">
+        {/* input date */}
         <div className="w-[240px] flex flex-col justify-center gap-2">
           <label htmlFor="check_in" className="text-sm text-gray-900">
             Check In
@@ -50,13 +74,13 @@ export default function SearchBar() {
             value={searchInput.checkOut}
             id="checkOut"
             name="checkOut"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
             placeholder="John"
             required
           />
         </div>
+        {/* room and guest selection */}
       </div>
-      {/* room and guest selection */}
       <div className="relative flex flex-col justify-between w-[240px] h-[76px] rounded-lg">
         <p className="text-sm text-gray-900">Rooms & Guests</p>
         <button
@@ -109,7 +133,10 @@ export default function SearchBar() {
       </div>
       {/* select button */}
       <Link to="/hotel">
-        <button className="w-[144px] h-max px-8 py-3 rounded font-sans font-semibold text-orange-500 bg-base-100 border border-orange-500">
+        <button
+          onClick={searchRoom}
+          className="w-[144px] h-max px-8 py-3 rounded font-sans font-semibold text-orange-500 bg-base-100 border border-orange-500"
+        >
           Search
         </button>
       </Link>

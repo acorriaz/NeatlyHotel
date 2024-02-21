@@ -64,6 +64,7 @@ usersRouter.get("/user-check", async (req, res) => {
 });
 
 usersRouter.post("/register", async (req, res) => {
+  console.log("run");
   const {
     uId,
     username,
