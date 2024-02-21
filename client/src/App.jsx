@@ -9,22 +9,24 @@ import UserLoginPage from "./pages/UserLoginPage";
 import UserUpdateProfilePage from "./pages/UserUpdateProfilePage";
 import RegisterPage from "./pages/RegisterPage";
 import SearchResultPage from "./pages/SearchResultPage";
-import AgentLoginPage from "./pages/AgentLoginPage";
+// import AgentLoginPage from "./pages/AgentLoginPage";
 import LandingPage from "./pages/LandingPage";
-import AgentCustomerBooking from "./pages/AgentCustomerBooking";
-import AdminCustomerBooking from "./pages/AdminCustomerBooking";
-import RoomManagementPage from "./pages/RoomManagementPage";
-import RoomAndPropertyPage from "./pages/RoomAndPropertyPage";
-import HotelInfoPage from "./pages/HotelInfoPage";
-import CreateRoomForm from "./pages/CreateRoomForm";
+// import AgentCustomerBooking from "./pages/AgentCustomerBooking";
+// import AdminCustomerBooking from "./pages/AdminCustomerBooking";
+// import RoomManagementPage from "./pages/RoomManagementPage";
+// import RoomAndPropertyPage from "./pages/RoomAndPropertyPage";
+// import HotelInfoPage from "./pages/HotelInfoPage";
+// import CreateRoomForm from "./pages/CreateRoomForm";
 import BookingHistoryPage from "./pages/BookingHistoryPage";
 import BookingChangeDatePage from "./pages/BookingChangeDatePage";
 import BookingRefundPage from "./pages/BookingRefundPage";
 import BookingRefundSuccessPage from "./pages/BookingRefundSuccessPage";
 import BookingCancelPage from "./pages/BookingCancelPage";
 import BookingCancelSuccessPage from "./pages/BookingCancelSuccessPage";
-import PaymentResultPage from "./pages/PaymentResultPage";
+// import PaymentResultPage from "./pages/PaymentResultPage";
 import PaymentPage from "./pages/PaymentPage";
+import AdminCustomerBookingPage from "./pages/AdminCustumerBookingPage";
+import AdminBookingDetailPage from "./pages/AdminBookingDetailPage";
 
 function App() {
   const [token, setToken] = useState(false);
@@ -76,6 +78,14 @@ function App() {
           element={<BookingCancelSuccessPage />}
         />
         <Route
+          path="/agent/customer-booking"
+          element={<AdminCustomerBookingPage />}
+        />
+        <Route
+          path="/agent/customer-booking/:bookingId"
+          element={<AdminBookingDetailPage />}
+        />
+        {/* <Route
           path="/agent/login"
           element={<AgentLoginPage setToken={setToken} />}
         />
@@ -83,36 +93,22 @@ function App() {
         <Route path="/agent/hotel-information" element={<HotelInfoPage />} />
         <Route path="/agent/create-room" element={<CreateRoomForm />} />
 
-        <Route path="/users/payment-result" element={<PaymentResultPage />} />
-        <>
-          <Route
-            path="/agent/customer-booking"
-            element={<AgentCustomerBooking token={token} />}
-          />
-          <Route
-            path="/agent/room-and-property"
-            element={<RoomAndPropertyPage />}
-          />
-          <Route
-            path="/agent/admin-customer-booking"
-            element={<AdminCustomerBooking token={token} />}
-          />
-        </>
-        <Route path="/hotel/payment-result" element={<PaymentResultPage />} />
-        <>
-          <Route
-            path="/agent/customer-booking"
-            element={<AgentCustomerBooking token={token} />}
-          />
-          <Route
-            path="/agent/room-and-property"
-            element={<RoomAndPropertyPage />}
-          />
-          <Route
-            path="/agent/admin-customer-booking"
-            element={<AdminCustomerBooking token={token} />}
-          />
-        </>
+        {token && (
+          <>
+            <Route
+              path="/agent/customer-booking"
+              element={<AgentCustomerBooking token={token} />}
+            />
+            <Route
+              path="/agent/room-and-property"
+              element={<RoomAndPropertyPage token={token} />}
+            />
+            <Route
+              path="/agent/admin-customer-booking"
+              element={<AdminCustomerBooking token={token} />}
+            />
+          </>
+        )} */}
       </Routes>
     </div>
   );
