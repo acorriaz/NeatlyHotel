@@ -4,7 +4,7 @@ import cors from "cors";
 import morgan from "morgan";
 import usersRouter from "./app/usersRouter.js";
 import hotelRouter from "./app/hotelRouter.js";
-import roomRouter from "./app/roomDetail.js";
+import roomRouter from "./app/roomDetailRouter.js";
 import bookingRouter from "./app/bookingRouter.js";
 import bookingHistory from "./app/bookingHistoryRouter.js";
 import prisma from "./utils/db.js";

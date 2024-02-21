@@ -6,15 +6,16 @@ const roomRouter = Router();
 //API booking history page
 roomRouter.get("/", async function (req, res) {
   try {
-    const roomData = await prisma.roomType.findMany({
+    const roomData = await prisma.RoomType.findMany({
       include: {
-        roomImage: true,
         bedType: true,
+        roomAmenitie: true,
+        roomImage: true,
       },
     });
     res.json(roomData);
   } catch (error) {
-    res.status(400).json({ error: "data not found" });
+    res.status(400).json(error);
   }
 });
 

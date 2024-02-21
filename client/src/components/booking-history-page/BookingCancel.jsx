@@ -7,13 +7,14 @@ function BookingCancel() {
   const location = useLocation();
   const [booking, setBooking] = useState(location.state);
   const [cancelDate, setCancelDate] = useState(new Date());
+  console.log(booking)
 
   const putBooking = async () => {
     try {
       await axios.put(
-        "http://localhost:4000/bookingHistory/" + booking.booking_detail_id,
+        "http://localhost:4000/bookingHistory/" + booking.bookingDetailId,
         {
-          canceled_at: cancelDate,
+          cancelledAt: cancelDate,
         }
       );
     } catch (error) {
@@ -55,7 +56,7 @@ function BookingCancel() {
           <div className="flex justify-between gap-12">
             <div className="w-[500px] h-[200px]">
               <img
-                src={booking.room_id.room_type_id.room_image_url}
+                src={booking.room.roomType.roomImage[0].imageUrl}
                 alt=""
                 className="w-full h-full rounded-md"
               />
@@ -63,20 +64,20 @@ function BookingCancel() {
             <div className="w-full flex flex-col">
               <div className="flex justify-between">
                 <span className="headline4 text-utilBlack font-fontWeight6">
-                  {booking.room_id.room_type_id.room_type}
+                  {booking.room.roomType.roomTypeName}
                 </span>
                 <span className="text-gray600 font-fontWeight4">
-                  Booking date: {formatDate(booking.created_at)}
+                  Booking date: {formatDate(booking.createdAt)}
                 </span>
               </div>
               <div className="flex justify-between">
                 <div className="my-10">
                   <span className="text-gray700 font-fontWeight4">
-                    {formatDate(booking.check_in)}
+                    {formatDate(booking.checkIn)}
                   </span>
                   <span> - </span>
                   <span className="text-gray700 font-fontWeight4">
-                    {formatDate(booking.check_out)}
+                    {formatDate(booking.checkOut)}
                   </span>
                   <p className="body3 text-utilRed mt-8">
                     *Cancellation of the booking now will not be able to request
@@ -88,7 +89,7 @@ function BookingCancel() {
           </div>
           <div className="w-full flex justify-between font-sans font-fontWeight6 mt-16">
             <Link
-              to={`/users/booking-history/${booking.user_id.user_id}`}
+              to={`/users/booking-history/${booking.userId}`}
               className="text-orange500 px-2"
             >
               Cancel

@@ -7,8 +7,8 @@ function BookingChangeDate() {
   const location = useLocation();
   const navigate = useNavigate();
   const [booking, setBooking] = useState(location.state.data);
-  const [checkIn, setCheckIn] = useState(location.state.data.check_in);
-  const [checkOut, setCheckOut] = useState(location.state.data.check_out);
+  const [checkIn, setCheckIn] = useState(location.state.data.checkIn);
+  const [checkOut, setCheckOut] = useState(location.state.data.checkOut);
 
   useEffect(() => {
     changeDateFunc(checkIn);
@@ -18,14 +18,13 @@ function BookingChangeDate() {
     event.preventDefault();
     try {
       await axios.put(
-        "http://localhost:4000/bookingHistory/" + booking.booking_detail_id,
+        "http://localhost:4000/bookingHistory/" + booking.bookingDetailId,
         {
-          check_in: checkIn,
-          check_out: checkOut,
-          updated_at: new Date()
+          checkIn: checkIn,
+          checkOut: checkOut,
         });    
         navigate(
-          `/users/booking-history/${location.state.data.user_id.user_id}`
+          `/users/booking-history/${location.state.data.userId}`
         );
     } catch (error) {
       console.log(error)
@@ -57,15 +56,15 @@ function BookingChangeDate() {
   };
   //หาระยะห่างของวัน checkin และ วัน checkout
   const differenceDate = () => {
-    let timeStart = new Date(location.state.data.check_in).getTime();
-    let timeEnd = new Date(location.state.data.check_out).getTime();
+    let timeStart = new Date(location.state.data.checkIn).getTime();
+    let timeEnd = new Date(location.state.data.checkOut).getTime();
     let differenceInTime = timeEnd - timeStart;
     let differenceInDays = Math.round(differenceInTime / (1000 * 3600 * 24));
     return differenceInDays;
   };
   //เมื่อกดเปลี่ยนวัน checkin วัน checkOut จะเปลี่ยนตามระยะห่างของวันจองเดิม
   const changeDateFunc = (checkIn) => {
-    let difDate = differenceDate(booking.check_in, booking.check_out);
+    let difDate = differenceDate();
     let newDate = new Date(checkIn)
     newDate.setDate(newDate.getDate() + difDate);
     let formattedDate = newDate.toISOString().split("T")[0];
@@ -86,27 +85,27 @@ function BookingChangeDate() {
             <div className="flex justify-between gap-12">
               <div className="w-[500px] h-[200px]">
                 <img
-                  src={booking.room_id.room_type_id.room_image_url}
+                  src={booking.room.roomType.roomImage[0].imageUrl}
                   className="w-full h-full rounded-md"
                 />
               </div>
               <div className="w-full flex flex-col">
                 <div className="flex justify-between">
                   <p className="headline4 text-utilBlack font-fontWeight6">
-                    {booking.room_id.room_type_id.room_type}
+                    {booking.room.roomType.roomTypeName}
                   </p>
                   <p className="text-gray600 font-fontWeight4">
-                    Booking date: {formatDate(booking.created_at)}
+                    Booking date: {formatDate(booking.createdAt)}
                   </p>
                 </div>
                 <div className="my-8">
                   <p className="text-gray800 font-fontWeight6">Original Date</p>
                   <span className="text-gray700 font-fontWeight4 mr-2">
-                    {formatDate(booking.check_in)}
+                    {formatDate(booking.checkIn)}
                   </span>
                   -
                   <span className="text-gray700 font-fontWeight4 ml-2">
-                    {formatDate(booking.check_out)}
+                    {formatDate(booking.checkOut)}
                   </span>
                 </div>
                 <div>
@@ -120,7 +119,7 @@ function BookingChangeDate() {
                         type="date"
                         className="font-fontWeight4 bg-utilWhite w-full border border-gray400 py-3 px-4 rounded"
                         value={checkIn}
-                        min={location.state.data.check_in}
+                        min={location.state.data.checkIn}
                         onChange={(event) => {
                           setCheckIn(event.target.value);
                         }}
@@ -143,7 +142,7 @@ function BookingChangeDate() {
             </div>
             <div className="w-full flex justify-between font-sans font-fontWeight6 my-10">
               <Link
-                to={`/users/booking-history/${location.state.data.user_id.user_id}`}
+                to={`/users/booking-history/${location.state.data.userId}`}
                 className="text-orange500 px-2"
               >
                 Cancel

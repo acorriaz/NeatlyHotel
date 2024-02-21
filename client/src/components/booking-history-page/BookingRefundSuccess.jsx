@@ -47,33 +47,33 @@ function BookingRefundSuccess () {
             <div className="bg-green700 rounded-b-md">
               <div className="w-6/7 h-[255px] mx-8 mt-6 mb-8 p-6 bg-green600 rounded-md">
                 <h1 className="headline5 text-utilWhite mb-6">
-                  {booking.data.room_id.room_type_id.room_type}
+                  {booking.data.room.roomType.roomTypeName}
                 </h1>
                 <div className="text-utilWhite font-inter mb-12">
                   <span className="font-fontWeight6">
-                    {formatDate(booking.data.check_in)}
+                    {formatDate(booking.data.checkIn)}
                   </span>
                   <span> - </span>
                   <span className="font-fontWeight4">
-                    {formatDate(booking.data.check_out)} <br />
-                    {booking.data.room_id.room_type_id.guest_number} Guests
+                    {formatDate(booking.data.checkOut)} <br />
+                    {booking.data.room.roomType.guestCapacity} Guests
                   </span>
                 </div>
                 <div className="body1 text-green300">
-                  <p>Booking date: {formatDate(booking.data.created_at)}</p>
+                  <p>Booking date: {formatDate(booking.data.createdAt)}</p>
                   <p>Cancellation date: {formatDate(booking.cancel)}</p>
                 </div>
               </div>
               <div className="w-6/7 h-[55px] mx-8 mb-14 flex justify-between items-end">
                 <span className="text-green300">Total Refund</span>
                 <span className="headline5 text-utilWhite">
-                  THB {booking.data.total_price}
+                  THB {booking.data.totalPrice}
                 </span>
               </div>
             </div>
             <div className="w-full flex justify-center items-center font-sans font-fontWeight6">
               <Link
-                to={"/users/booking-history/" + booking.data.user_id.user_id}
+                to={"/users/booking-history/" + booking.data.userId}
                 className="w-44 h-14 bg-orange600 text-utilWhite rounded-md mt-12 py-4 px-8"
               >
                 Back to Home

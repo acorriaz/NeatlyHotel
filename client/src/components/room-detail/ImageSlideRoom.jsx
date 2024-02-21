@@ -6,9 +6,9 @@ function ImageSlideRoom(props) {
   const imageRoom = props.image.map((img, index) => {
     return {
       id: index + 1,
-      image: img.room_image_url,
+      image: img.roomImage[0].imageUrl,
     };
-  })
+  });
 
   const handlePrev = () => {
     setPage((prevPage) => (prevPage > 0 ? prevPage - 1 : imageRoom.length - 1));

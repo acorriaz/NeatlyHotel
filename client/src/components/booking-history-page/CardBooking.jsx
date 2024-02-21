@@ -37,7 +37,7 @@ function CardBooking(props) {
   const showModal = () => {
     document
       .getElementById(
-        isShowsWithDate(props.data.check_in) >= 24
+        isShowsWithDate(props.data.checkIn) >= 24
         ? "modelCancelAndRefund"
         : "modelCancel"
       ) 
@@ -55,7 +55,7 @@ function CardBooking(props) {
           <div className="flex gap-12">
             <div className="w-[500px] h-[200px]">
               <img
-                src={props.data.room_id.room_type_id.room_image_url}
+                src={props.data.room.roomType.roomImage[0].imageUrl}
                 alt=""
                 className="w-full h-full rounded-md"
               />
@@ -63,25 +63,27 @@ function CardBooking(props) {
             <div className="w-full flex flex-col justify-between pb-4">
               <div className="flex justify-between font-inter">
                 <span className="headline4 text-utilBlack">
-                  {props.data.room_id.room_type_id.room_type}
+                  {props.data.room.roomType.roomTypeName}
                 </span>
                 <span className="text-gray600">
-                  Booking date: {formatDate(props.data.created_at)} <br />
-                  {props.data.canceled_at ? `Cancellation date: ${formatDate(props.data.canceled_at)}` : ""}
+                  Booking date: {formatDate(props.data.createdAt)} <br />
+                  {props.data.cancelledAt
+                    ? `Cancellation date: ${formatDate(props.data.cancelledAt)}`
+                    : ""}
                 </span>
               </div>
               <div className="flex gap-12 text-gray800 w-full font-inter my-6">
                 <div>
                   <p className="font-fontWeight6">Check-in</p>
                   <span className="font-fontWeight4 mr-2">
-                    {formatDate(props.data.check_in)}
+                    {formatDate(props.data.checkIn)}
                   </span>
                   |<span className="font-fontWeight4 ml-2">After 2:00 PM</span>
                 </div>
                 <div>
                   <p className="font-fontWeight6">Check-out</p>
                   <span className="font-fontWeight4 mr-2">
-                    {formatDate(props.data.check_out)}
+                    {formatDate(props.data.checkOut)}
                   </span>
                   |
                   <span className="font-fontWeight4 ml-2">Before 12:00 AM</span>
@@ -94,30 +96,29 @@ function CardBooking(props) {
                 </div>
                 <div className="collapse-content text-gray700 font-inter font-fontWeight4">
                   <p className="flex justify-between w-full pb-6">
-                    {props.data.room_id.room_type_id.guest_number} Guests (1
-                    Night)
+                    {props.data.room.roomType.guestCapacity} Guests (1 Night)
                     <span>
                       Payment success via
                       <span className="pl-2 font-fontWeight6">
-                        {props.data.payment_method}
+                        {props.data.paymentMethod}
                       </span>
                     </span>
                   </p>
                   <p className="flex justify-between w-full py-2">
-                    {props.data.room_id.room_type_id.room_type}
+                    {props.data.room.roomType.roomTypeName}
                     <span className="pl-2 text-gray900 font-fontWeight6">
-                      {props.data.room_id.room_type_id.room_price}
+                      {props.data.room.roomType.roomPrice}
                     </span>
                   </p>
-                  {props.data.request.map((req, index) => {
+                  {props.data.guestRequest.map((req, index) => {
                     return (
                       <p
                         key={index}
                         className="flex justify-between w-full py-2 "
                       >
-                        {req.request_id.request_name}
+                        {req.request.requestName}
                         <span className="pl-2 text-gray900 font-fontWeight6">
-                          {req.request_id.request_price}
+                          {req.request.requestPrice}
                         </span>
                       </p>
                     );
@@ -129,39 +130,41 @@ function CardBooking(props) {
                   <p className="flex justify-between w-full py-2">
                     Total
                     <span className="headline5 pl-2 text-gray900 font-fontWeight6">
-                      THB {props.data.total_price}
+                      THB {props.data.totalPrice}
                     </span>
                   </p>
                   <div className="py-4 px-6">
                     <p className=" text-gray900 font-fontWeight6">
                       Additional Request
                     </p>
-                    <p className="font-fontWeight4">
-                      {props.data.additional_request}
-                    </p>
+                    <p className="font-fontWeight4"></p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          { !props.data.canceled_at && <div className="w-full flex justify-between font-sans font-fontWeight6">
-            <button className="text-orange500 px-2" onClick={showModal}>
-              Cancel Booking
-            </button>
-            <div>
-              <button className="py-4 px-8 text-orange500">Room Detail</button>
-              {isShowsWithDate(props.data.check_in) >= 24 && (
-                <Link
-                  to="/users/booking-history/change-date"
-                  state={{ data: props.data }}
-                >
-                  <button className="py-4 px-8 bg-orange600 text-utilWhite rounded-md">
-                    Change Date
-                  </button>
-                </Link>
-              )}
+          {!props.data.cancelledAt && (
+            <div className="w-full flex justify-between font-sans font-fontWeight6">
+              <button className="text-orange500 px-2" onClick={showModal}>
+                Cancel Booking
+              </button>
+              <div>
+                <button className="py-4 px-8 text-orange500">
+                  Room Detail
+                </button>
+                {isShowsWithDate(props.data.checkIn) >= 24 && (
+                  <Link
+                    to="/users/booking-history/change-date"
+                    state={{ data: props.data }}
+                  >
+                    <button className="py-4 px-8 bg-orange600 text-utilWhite rounded-md">
+                      Change Date
+                    </button>
+                  </Link>
+                )}
+              </div>
             </div>
-          </div>}
+          )}
         </div>
       </>
     );
