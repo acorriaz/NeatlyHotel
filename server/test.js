@@ -1,15 +1,21 @@
 import prisma from "./utils/db.js";
 
 async function main() {
-    await prisma.BookingDetail.updateMany({
-      where: {
-        bookingDetailId: 20,
-      },
-      data: {
-        checkIn: "2024-02-24",
-        checkOut: "2024-02-27",
-      },
-    });
+    // await prisma.agent.create({
+    //   username: "agenttest",
+    //   email: "agenttest@gmail.com",
+    //   password: "123456789012",
+    // });
+
+    // await prisma.BookingDetail.updateMany({
+    //   where: {
+    //     userId: "T06kXmgVWdWalw8MClWzfqZlOjt1",
+    //   },
+    //   data: {
+    //     checkIn: "2024-02-23",
+    //     checkOut: "2024-02-25",
+    //   },
+    // });
 
     // await prisma.guestRequest.createMany({
     //   data: [
