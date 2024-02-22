@@ -14,8 +14,18 @@ export const AuthProvider = ({ children }) => {
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
-    console.log(userData);
-  }, [userData]);
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in, set isAuthenticated and userData
+        handleIsAuthenticated();
+      } else {
+        // User is signed out
+        setIsAuthenticated(false);
+        setUserData({});
+      }
+    });
+    return () => unsubscribe(); // Cleanup subscription on unmount
+  }, []);
 
   async function handleIsAuthenticated() {
     if (auth.currentUser) {

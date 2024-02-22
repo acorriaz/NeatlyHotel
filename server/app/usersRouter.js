@@ -97,6 +97,7 @@ usersRouter.post("/register", async (req, res) => {
           cardNumber,
           cardOwner,
           country,
+          fullName,
         },
       },
     },
