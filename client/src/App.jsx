@@ -82,6 +82,7 @@ function App() {
         <Route path="/agent/room-management" element={<RoomManagementPage />} />
         <Route path="/agent/hotel-information" element={<HotelInfoPage />} />
         <Route path="/agent/create-room" element={<CreateRoomForm />} />
+<<<<<<< Updated upstream
         <Route path="/users/payment-result" element={<PaymentResultPage />} />
 
         {token && (
@@ -100,6 +101,23 @@ function App() {
             />
           </>
         )}
+=======
+        <Route path="/hotel/payment-result" element={<PaymentResultPage />} />
+        <>
+          <Route
+            path="/agent/customer-booking"
+            element={<AgentCustomerBooking token={token} />}
+          />
+          <Route
+            path="/agent/room-and-property"
+            element={<RoomAndPropertyPage />}
+          />
+          <Route
+            path="/agent/admin-customer-booking"
+            element={<AdminCustomerBooking token={token} />}
+          />
+        </>
+>>>>>>> Stashed changes
       </Routes>
     </div>
   );

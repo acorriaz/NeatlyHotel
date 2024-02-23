@@ -3,6 +3,60 @@ import prisma from "../utils/db.js";
 
 const hotelRouter = Router();
 
+hotelRouter.get("/rooms", async function (req, res) {
+  try {
+    const resultRooms = await prisma.roomType.findMany({
+      orderBy: {
+        roomTypeName: "asc",
+      },
+      include: {
+        roomAmenitie: true,
+        bedType: true,
+        roomImage: true,
+        room: {
+          include: {
+            roomStatus: true,
+          },
+        },
+      },
+    });
+
+    const vacantRooms = resultRooms.map((roomType) => {
+      const vacantCount = roomType.room.filter(
+        (room) => room.roomStatus.statusName === "Vacant"
+      ).length;
+      return {
+        ...roomType,
+        vacantCount,
+      };
+    });
+    return res.status(200).json(vacantRooms);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+hotelRouter.get("/rooms-number", async function (req, res) {
+  try {
+    const resultRooms = await prisma.room.findMany({
+      // orderBy: {
+      //   roomTypeName: "asc",
+      // },
+      include: {
+        roomStatus: true,
+        roomType: {
+          include: {
+            bedType: true,
+          },
+        },
+      },
+    });
+    return res.status(200).json(resultRooms);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
+
 hotelRouter.get("/rooms/:guests", async (req, res) => {
   const guests = parseInt(req.params.guests);
   try {

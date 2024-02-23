@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import SearchBar from "./utils/SearchBar.jsx";
 import { useAuth } from "../components/hooks/useAuth.jsx";
 import { useSearchInput } from "../components/context/searchInputContext.jsx";
+import { useEffect } from "react";
 
 function SearchResult() {
   const { isAuthenticated } = useAuth();
