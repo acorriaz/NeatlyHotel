@@ -1,10 +1,15 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PaymentBasicInfo from "./PaymentBasicInfo";
 import BookingDetail from "./BookingDetail";
 import PaymentSpecialReq from "./PaymentSpecialReq";
+import PaymentMethod from "./PaymentMethod";
 
-export default function PaymentSection(props) {
-  const [currentSection, setCurrentSection] = useState(1);
+export default function PaymentSection({
+  currentSection,
+  handleSectionChange,
+}) {
+  const navigate = useNavigate();
   const [requestCheckboxValue, setRequestCheckboxValue] = useState({
     standard: {
       earlyCheckIn: false,
@@ -23,19 +28,6 @@ export default function PaymentSection(props) {
     },
   });
 
-  function handleSectionChange(buttonType) {
-    if (buttonType === "next") {
-      setCurrentSection((prev) => prev + 1);
-    } else if (buttonType === "back") {
-      if (currentSection === 1) {
-        // TODO (optional) : Modal popup Do you want to cancel the booking?
-        return;
-      } else {
-        setCurrentSection((prev) => prev - 1);
-      }
-    }
-  }
-
   function handleCheckboxChange(event, type) {
     const { name, checked } = event.target;
     setRequestCheckboxValue((prevRequest) => {
@@ -50,8 +42,8 @@ export default function PaymentSection(props) {
   }
 
   return (
-    <div className="m-auto p-8 w-[1120px] bg-white flex justify-center">
-      <div>
+    <div className="m-auto mt-6 w-[1120px] flex justify-between gap-4">
+      <div className="bg-white rounded-md flex-1 p-8 w-full">
         {currentSection === 1 && <PaymentBasicInfo />}
         {currentSection === 2 && (
           <PaymentSpecialReq
@@ -59,9 +51,40 @@ export default function PaymentSection(props) {
             handleCheckboxChange={handleCheckboxChange}
           />
         )}
-        {currentSection === 3 && <h1>Payment</h1>}
-        <button onClick={() => handleSectionChange("back")}>back</button>
-        <button onClick={() => handleSectionChange("next")}>next</button>
+        {currentSection === 3 && <PaymentMethod />}
+        <div className="mt-8 flex justify-between">
+          <button
+            className="font-medium text-orange500"
+            onClick={() => handleSectionChange("back")}
+          >
+            Back
+          </button>
+          {currentSection === 1 && (
+            <button
+              className="px-8 py-2 font-sans font-semibold text-white bg-orange500 rounded-md"
+              onClick={() => handleSectionChange("next")}
+            >
+              Next
+            </button>
+          )}
+          {currentSection === 2 && (
+            <button
+              className="px-8 py-2 font-sans font-semibold text-white bg-orange500 rounded-md"
+              onClick={() => handleSectionChange("next")}
+            >
+              Next
+            </button>
+          )}
+          {currentSection === 3 && (
+            <button
+              className="px-8 py-2 font-sans font-semibold text-white bg-orange500 rounded-md"
+              // TODO : add payment gateway and confirm booking
+              onClick={() => navigate("/users/payment-result")}
+            >
+              Confirm Booking
+            </button>
+          )}
+        </div>
       </div>
       <BookingDetail requestCheckboxValue={requestCheckboxValue} />
     </div>

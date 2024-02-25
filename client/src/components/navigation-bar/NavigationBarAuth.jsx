@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
 export default function NavigationBarAuth() {
@@ -55,7 +56,9 @@ export default function NavigationBarAuth() {
           className="menu menu-sm dropdown-content mt-[200px] z-[1] p-2 shadow bg-base-100 rounded-box w-52"
         >
           <li>
-            <a className="font-sans text-sm text-gray700">Profile</a>
+            <Link to="/users/update-profile">
+              <a className="font-sans text-sm text-gray700">Profile</a>
+            </Link>
           </li>
           <li>
             <a className="font-sans text-sm text-gray700">Payment Method</a>

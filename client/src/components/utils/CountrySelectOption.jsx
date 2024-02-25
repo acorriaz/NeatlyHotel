@@ -1,7 +1,12 @@
+import { useEffect } from "react";
 import { useState } from "react";
 
-export default function CountrySelectOption({ selectedCountry, isDisabled }) {
+export default function CountrySelectOption({ selectedCountry, isDisabled, handleInputChange }) {
   const [country, setCountry] = useState(selectedCountry);
+
+  useEffect(() => {
+    setCountry(selectedCountry);
+  }, [selectedCountry])
 
   return (
     <select
@@ -9,6 +14,7 @@ export default function CountrySelectOption({ selectedCountry, isDisabled }) {
       name="country"
       value={country}
       style={isDisabled ? { pointerEvents: "none" } : {}}
+      onChange={handleInputChange ? (e) => handleInputChange(e) : ""}
     >
       <option>select country</option>
       <option value="AF">Afghanistan</option>
