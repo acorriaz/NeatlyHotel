@@ -6,6 +6,7 @@ import { StatusPicker } from "./StatusPicker";
 
 const RoomManagement = () => {
   const [rooms, setRooms] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectedRoomId, setSelectedRoomId] = useState(null);
 
@@ -22,18 +23,23 @@ const RoomManagement = () => {
   };
 
   const handleStatusChange = async (roomId, newStatus) => {
-    const result = await axios.put(
-      `http://localhost:4000/hotel/rooms/${roomId}`,
-      { status: newStatus }
-    );
-    setRooms((prevRooms) =>
-      prevRooms.map((room) =>
-        room.roomId === roomId
-          ? { ...room, roomStatus: { statusName: newStatus } }
-          : room
-      )
-    );
-    setSelectedRoomId(null);
+    try {
+      await axios.put(`http://localhost:4000/status/rooms/${roomId}`, {
+        statusName: newStatus,
+      });
+      setRooms((prevRooms) =>
+        prevRooms.map((room) =>
+          room.roomId === roomId
+            ? { ...room, roomStatus: { statusName: newStatus } }
+            : room
+        )
+      );
+      setIsOpen(false);
+    } catch (error) {
+      console.error("Error updating status:", error);
+    } finally {
+      setSelectedRoomId(null);
+    }
   };
 
   useEffect(() => {
@@ -95,17 +101,22 @@ const RoomManagement = () => {
                     <td className="p-4">{room.roomType.roomTypeName}</td>
                     <td className="p-4">{room.roomType.bedType.bedTypeName}</td>
                     <td className="p-4">
-                      <button onClick={() => setSelectedRoomId(room.roomId)}>
-                        {room.roomStatus.statusName}
+                      <button
+                        onClick={() =>
+                          setSelectedRoomId(room.roomId) &&
+                          setIsOpen((prev) => !prev)
+                        }
+                      >
+                        {isOpen && <StatusPicker />}
                       </button>
-                      {room.roomId === selectedRoomId && (
+                      {/* {room.roomId === selectedRoomId && (
                         <StatusPicker
                           selectedStatus={room.roomStatus.statusName}
                           onSelect={(newStatus) =>
                             handleStatusChange(room.roomId, newStatus)
                           }
                         />
-                      )}
+                      )} */}
                     </td>
                   </tr>
                 );

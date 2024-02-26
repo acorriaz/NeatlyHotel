@@ -82,7 +82,7 @@ function App() {
         <Route path="/agent/room-management" element={<RoomManagementPage />} />
         <Route path="/agent/hotel-information" element={<HotelInfoPage />} />
         <Route path="/agent/create-room" element={<CreateRoomForm />} />
-<<<<<<< Updated upstream
+
         <Route path="/users/payment-result" element={<PaymentResultPage />} />
         <>
           <Route
@@ -98,7 +98,6 @@ function App() {
             element={<AdminCustomerBooking token={token} />}
           />
         </>
-=======
         <Route path="/hotel/payment-result" element={<PaymentResultPage />} />
         <>
           <Route
@@ -114,7 +113,6 @@ function App() {
             element={<AdminCustomerBooking token={token} />}
           />
         </>
->>>>>>> Stashed changes
       </Routes>
     </div>
   );

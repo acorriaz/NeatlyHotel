@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSearchInput } from "../context/searchInputContext";
 import { getCheckInDate } from "../../utils/getInputDate";
+import axios from "axios";
 
 import PlusCircleIcon from "@heroicons/react/24/outline/PlusCircleIcon";
 import MinusCircleIcon from "@heroicons/react/24/outline/MinusCircleIcon";
@@ -14,7 +14,6 @@ export default function SearchBar() {
     searchInput,
     handleRoomAndGuestCount,
     handleInputDateChange,
-    rooms,
     setRooms,
   } = useSearchInput();
 
@@ -33,10 +32,6 @@ export default function SearchBar() {
   const handleSubmit = (e) => {
     e.preventDefault();
   };
-
-  useEffect(() => {
-    searchRoom();
-  }, []);
 
   return (
     <form
@@ -133,7 +128,7 @@ export default function SearchBar() {
       {/* select button */}
       <Link to="/hotel">
         <button
-          onClick={searchRoom}
+          onClick={() => searchRoom()}
           className="w-[144px] h-max px-8 py-3 rounded font-sans font-semibold text-orange-500 bg-base-100 border border-orange-500"
         >
           Search
