@@ -17,8 +17,6 @@ export default function LandingPage() {
   const roomsAndSuitsRef = useRef(null);
   const bookingRef = useRef(null);
 
-  const { userData } = useAuth();
-
   // ฟังก์ชันเลื่อนไปที่ Section ที่ถูกกดจาก Navigation Bar
   const scrollToRef = (ref) => {
     ref.current.scrollIntoView({ behavior: "smooth" });

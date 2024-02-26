@@ -20,7 +20,7 @@ const RoomsAndSuits = forwardRef((props, ref) => {
       </h1>
       <div className="flex flex-col gap-6">
         <div className="relative">
-          <Link to="/hotel/detail">
+          <Link to="/hotel/detail/1">
             <Rooms
               src={superiorGardenImg}
               alt="Superior Garden View"
@@ -32,7 +32,7 @@ const RoomsAndSuits = forwardRef((props, ref) => {
 
         <div className="flex gap-6">
           <div className="flex flex-grow relative" style={{ flex: 3 }}>
-            <Link to="/hotel/detail">
+            <Link to="/hotel/detail/2">
               <Rooms src={deluxeImg} alt="Deluxe Rooms" title="Deluxe" />
             </Link>
           </div>
@@ -40,7 +40,7 @@ const RoomsAndSuits = forwardRef((props, ref) => {
             className="flex flex-grow relative max-h-full"
             style={{ flex: 2 }}
           >
-            <Link to="/hotel/detail">
+            <Link to="/hotel/detail/3">
               <Rooms src={superior} alt="Superior" title="Superior" />
             </Link>
           </div>
@@ -48,7 +48,7 @@ const RoomsAndSuits = forwardRef((props, ref) => {
 
         <div className="h-[700px] flex relative gap-6">
           <div className="h-full flex" style={{ flex: 2 }}>
-            <Link to="/hotel/detail">
+            <Link to="/hotel/detail/4">
               <Rooms
                 src={premierImg}
                 alt="Premier Sea View"
@@ -61,12 +61,12 @@ const RoomsAndSuits = forwardRef((props, ref) => {
             style={{ flex: 3 }}
           >
             <div className="h-[338px] flex-1">
-              <Link to="/hotel/detail">
+              <Link to="/hotel/detail/5">
                 <Rooms src={supremeImg} alt="Supreme room" title="Supreme" />
               </Link>
             </div>
             <div className="h-[338px] flex-1">
-              <Link to="/hotel/detail">
+              <Link to="/hotel/detail/6">
                 <Rooms src={suiteImg} alt="Suite room" title="Suite" />
               </Link>
             </div>

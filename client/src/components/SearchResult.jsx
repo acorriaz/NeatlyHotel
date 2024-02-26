@@ -372,7 +372,7 @@ function SearchResult() {
                         {/* end of room detail pop-up button */}
                       </div>
                       <button className="py-3 px-8 rounded font-sans font-semibold text-white bg-orange-600">
-                        <Link to="/hotel/payment-result">Book Now</Link>
+                        <Link to="/users/payment">Book Now</Link>
                       </button>
                     </div>
                   </div>
