@@ -5,6 +5,10 @@ import { IoAlertCircle, IoAdd } from "react-icons/io5";
 import NavigationBar from "../components/navigation-bar/NavigationBar";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase-config";
+import {
+  inputErrorBorder,
+  inputErrorIcon,
+} from "../components/utils/InputErrorStyles";
 import axios from "axios";
 
 function RegisterPage() {
@@ -100,24 +104,6 @@ function RegisterPage() {
   yesterday.setDate(yesterday.getDate() - 1);
   const maxDate = yesterday.toISOString().split("T")[0];
 
-  const inputErrorBorder = (id) => {
-    return `w-full bg-utilWhite border rounded py-3 pr-4 pl-3 relative ${
-      errors[id]
-        ? "border-utilRed"
-        : "border-gray400 focus:border-orange500 disabled:bg-gray200 disabled:border-gray400"
-    }`;
-  };
-
-  const inputErrorIcon = (id) => {
-    return (
-      errors[id] && (
-        <div className="absolute inset-y-0 right-2 top-6 pr-3 flex items-center pointer-events-none text-utilRed">
-          <IoAlertCircle />
-        </div>
-      )
-    );
-  };
-
   useEffect(() => {
     return () => {
       if (selectedFileState) {
@@ -153,9 +139,9 @@ function RegisterPage() {
                   name="full_name"
                   type="text"
                   placeholder="Enter your name and last name"
-                  className={inputErrorBorder("full_name")}
+                  className={inputErrorBorder(errors, "full_name")}
                 />
-                {inputErrorIcon("full_name")}
+                {inputErrorIcon(errors, "full_name")}
               </div>
               <div className="grid grid-cols-2 gap-10 mt-5">
                 <div className="relative">
@@ -171,9 +157,9 @@ function RegisterPage() {
                     name="username"
                     type="text"
                     placeholder="Enter your username"
-                    className={inputErrorBorder("username")}
+                    className={inputErrorBorder(errors, "username")}
                   />
-                  {inputErrorIcon("username")}
+                  {inputErrorIcon(errors, "username")}
                 </div>
                 <div className="relative">
                   <label htmlFor="email">email</label>
@@ -187,9 +173,9 @@ function RegisterPage() {
                     name="email"
                     type="email"
                     placeholder="Enter your email"
-                    className={inputErrorBorder("email")}
+                    className={inputErrorBorder(errors, "email")}
                   />
-                  {inputErrorIcon("email")}
+                  {inputErrorIcon(errors, "email")}
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-10 mt-5">
@@ -208,9 +194,9 @@ function RegisterPage() {
                     placeholder="Enter your password"
                     //password.length >= 12
                     minLength={12}
-                    className={inputErrorBorder("password")}
+                    className={inputErrorBorder(errors, "password")}
                   />
-                  {inputErrorIcon("password")}
+                  {inputErrorIcon(errors, "password")}
                 </div>
                 <div className="relative">
                   <label htmlFor="idNumber" className="body2">
@@ -232,9 +218,9 @@ function RegisterPage() {
                     inputMode="numeric"
                     maxLength={13}
                     minLength={13}
-                    className={inputErrorBorder("idNumber")}
+                    className={inputErrorBorder(errors, "idNumber")}
                   />
-                  {inputErrorIcon("idNumber")}
+                  {inputErrorIcon(errors, "idNumber")}
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-10 mt-5">
@@ -251,10 +237,10 @@ function RegisterPage() {
                     name="dateOfBirth"
                     type="date"
                     placeholder="Pick your date of birth"
-                    className={inputErrorBorder("dateOfBirth")}
+                    className={inputErrorBorder(errors, "dateOfBirth")}
                     max={maxDate}
                   />
-                  {inputErrorIcon("dateOfBirth")}
+                  {inputErrorIcon(errors, "dateOfBirth")}
                 </div>
                 <div className="relative">
                   <label htmlFor="country" className="body2">
@@ -267,7 +253,7 @@ function RegisterPage() {
                     })}
                     id="country"
                     name="country"
-                    className={inputErrorBorder("country")}
+                    className={inputErrorBorder(errors, "country")}
                   >
                     <option>select country</option>
                     <option value="AF">Afghanistan</option>
@@ -535,7 +521,7 @@ function RegisterPage() {
                     <option value="ZM">Zambia</option>
                     <option value="ZW">Zimbabwe</option>
                   </select>
-                  {inputErrorIcon("country")}
+                  {inputErrorIcon(errors, "country")}
                 </div>
               </div>
               <hr className="mt-10"></hr>
@@ -620,9 +606,9 @@ function RegisterPage() {
                       minLength={16}
                       inputMode="numeric"
                       placeholder="Enter your card number"
-                      className={inputErrorBorder("creditCardNo")}
+                      className={inputErrorBorder(errors, "creditCardNo")}
                     />
-                    {inputErrorIcon("creditCardNo")}
+                    {inputErrorIcon(errors, "creditCardNo")}
                   </div>
                   <div className="relative">
                     <label htmlFor="cardOwner" className="body2">
@@ -637,9 +623,9 @@ function RegisterPage() {
                       name="cardOwner"
                       type="text"
                       placeholder="Enter your card name"
-                      className={inputErrorBorder("cardOwner")}
+                      className={inputErrorBorder(errors, "cardOwner")}
                     />
-                    {inputErrorIcon("cardOwner")}
+                    {inputErrorIcon(errors, "cardOwner")}
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-10 mt-5">
@@ -662,9 +648,9 @@ function RegisterPage() {
                       maxLength={5}
                       inputMode="numeric"
                       placeholder="MM / YY"
-                      className={inputErrorBorder("cardExpiry")}
+                      className={inputErrorBorder(errors, "cardExpiry")}
                     />
-                    {inputErrorIcon("cardExpiry")}
+                    {inputErrorIcon(errors, "cardExpiry")}
                   </div>
                 </div>
               </div>

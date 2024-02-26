@@ -25,6 +25,8 @@ import BookingCancelPage from "./pages/BookingCancelPage";
 import BookingCancelSuccessPage from "./pages/BookingCancelSuccessPage";
 import PaymentResultPage from "./pages/PaymentResultPage";
 import PaymentPage from "./pages/PaymentPage";
+import EditUserProfilePage from "./pages/EditUserProfilePage";
+import EditUserPaymentPage from "./pages/EditUserPaymentPage";
 
 function App() {
   const [token, setToken] = useState(false);
@@ -74,6 +76,14 @@ function App() {
         <Route
           path="/users/booking-history/cancel-success"
           element={<BookingCancelSuccessPage />}
+        />
+        <Route
+          path="/users/profile/:userId"
+          element={<EditUserProfilePage />}
+        />
+        <Route
+          path="/users/payment-method/:userId"
+          element={<EditUserPaymentPage />}
         />
         <Route
           path="/agent/login"
