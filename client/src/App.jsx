@@ -82,24 +82,37 @@ function App() {
         <Route path="/agent/room-management" element={<RoomManagementPage />} />
         <Route path="/agent/hotel-information" element={<HotelInfoPage />} />
         <Route path="/agent/create-room" element={<CreateRoomForm />} />
-        <Route path="/users/payment-result" element={<PaymentResultPage />} />
 
-        {token && (
-          <>
-            <Route
-              path="/agent/customer-booking"
-              element={<AgentCustomerBooking token={token} />}
-            />
-            <Route
-              path="/agent/room-and-property"
-              element={<RoomAndPropertyPage token={token} />}
-            />
-            <Route
-              path="/agent/admin-customer-booking"
-              element={<AdminCustomerBooking token={token} />}
-            />
-          </>
-        )}
+        <Route path="/users/payment-result" element={<PaymentResultPage />} />
+        <>
+          <Route
+            path="/agent/customer-booking"
+            element={<AgentCustomerBooking token={token} />}
+          />
+          <Route
+            path="/agent/room-and-property"
+            element={<RoomAndPropertyPage />}
+          />
+          <Route
+            path="/agent/admin-customer-booking"
+            element={<AdminCustomerBooking token={token} />}
+          />
+        </>
+        <Route path="/hotel/payment-result" element={<PaymentResultPage />} />
+        <>
+          <Route
+            path="/agent/customer-booking"
+            element={<AgentCustomerBooking token={token} />}
+          />
+          <Route
+            path="/agent/room-and-property"
+            element={<RoomAndPropertyPage />}
+          />
+          <Route
+            path="/agent/admin-customer-booking"
+            element={<AdminCustomerBooking token={token} />}
+          />
+        </>
       </Routes>
     </div>
   );
