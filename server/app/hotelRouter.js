@@ -39,9 +39,9 @@ hotelRouter.get("/rooms", async function (req, res) {
 hotelRouter.get("/rooms-number", async function (req, res) {
   try {
     const resultRooms = await prisma.room.findMany({
-      // orderBy: {
-      //   roomTypeName: "asc",
-      // },
+      orderBy: {
+        roomNumber: "asc",
+      },
       include: {
         roomStatus: true,
         roomType: {
