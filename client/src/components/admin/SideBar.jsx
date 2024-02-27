@@ -1,9 +1,9 @@
-import LogoNeatly from "../../assets/agent/logo.png";
-import Booking from "../../assets/agent/icon/booking.png"
-import Hotel from "../../assets/agent/icon/hotel.png";
-import Logout from "../../assets/agent/icon/logout.png";
-import Manage from "../../assets/agent/icon/manage.png";
-import Room from "../../assets/agent/icon/room.png";
+import LogoNeatly from "../../assets/admin/logo.png";
+import Booking from "../../assets/admin/icon/booking.png";
+import Hotel from "../../assets/admin/icon/hotel.png";
+import Logout from "../../assets/admin/icon/logout.png";
+import Manage from "../../assets/admin/icon/manage.png";
+import Room from "../../assets/admin/icon/room.png";
 import { useState } from "react";
 
 function SideBar() {
@@ -32,7 +32,7 @@ function SideBar() {
                 }`}
               >
                 <a
-                  href="/agent/customer-booking"
+                  href="/admin/customer-booking"
                   className="flex gap-4"
                   onClick={() => handlePageClick("customer-booking")}
                 >

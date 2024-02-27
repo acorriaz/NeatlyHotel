@@ -1,4 +1,4 @@
-import NavBarAgent from "./NavbarAgent";
+import NavBarAdmin from "./NavbarAdmin";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,7 @@ function CustomerBooking(){
 
   const bookingSearch = async () => {
     const result = await axios.get(
-      `http://localhost:4000/agent/customer-booking?keywords=${searchInput}`
+      `http://localhost:4000/admin/customer-booking?keywords=${searchInput}`
     );
     setBooking(result.data);
   };
@@ -40,7 +40,7 @@ function CustomerBooking(){
   };
 
   const handleOnClick = (item) => {
-    navigate(`/agent/customer-booking/${item.bookingDetailId}`, 
+    navigate(`/admin/customer-booking/${item.bookingDetailId}`, 
     {
       state: { booking: item },
     });
@@ -57,7 +57,7 @@ function CustomerBooking(){
   if (booking) {
   return (
     <div className="w-full h-screen bg-gray100">
-      <NavBarAgent
+      <NavBarAdmin
         pageName="Customer Booking"
         getBackBooking={getBooking}
         showSearchInput={true}

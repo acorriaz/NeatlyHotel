@@ -1,4 +1,4 @@
-import NavBarAgent from "./NavbarAgent";
+import NavBarAdmin from "./NavbarAdmin";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 
@@ -41,7 +41,7 @@ function BookingDetail() {
 
   return (
     <div className="w-full h-full bg-gray100 pb-10 relative top-0 left-0 z-0">
-      <NavBarAgent
+      <NavBarAdmin
         pageName={ {username : booking.user.username , roomType : booking.room.roomType.roomTypeName}}
       />
       <div className=" mt-10 mx-[60px] pt-10 pb-[60px] px-20 flex flex-col gap-20 bg-utilWhite rounded">

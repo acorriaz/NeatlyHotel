@@ -1,7 +1,7 @@
-import Search from "../../assets/agent/icon/search.png"
+import Search from "../../assets/admin/icon/search.png";
 import { useState, useEffect } from "react"; 
 
-function NavBarAgent(props){
+function NavBarAdmin(props){
   const [Input, setInput] = useState("");
 
   if (props.showSearchInput) {
@@ -38,7 +38,7 @@ function NavBarAgent(props){
           <>
             <h1 className="w-full flex items-center">
               <a
-                href="/agent/customer-booking"
+                href="/admin/customer-booking"
                 className="mr-4 font-fontWeight6 text-gray600 text-2xl"
               >
                 &#129120;
@@ -51,4 +51,4 @@ function NavBarAgent(props){
       </nav>
     );
 }
-export default NavBarAgent
+export default NavBarAdmin;

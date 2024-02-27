@@ -26,6 +26,21 @@ async function getEmailFromUsername(username) {
   }
 }
 
+// หา email จาก admin username
+async function getEmailFromAdminUsername(username) {
+  try {
+    const userEmail = await axios.get(
+      `http://localhost:4000/admin/admin-email/${username}`
+    );
+    return userEmail.data.email;
+  } catch (error) {
+    console.error("Error fetching email", error);
+    return null;
+  }
+}
+
+
+
 // --login ของ user--
 export function UserLoginForm() {
   const navigate = useNavigate();
@@ -142,9 +157,37 @@ export function AdminLoginForm() {
   const [adminUsernameOrEmail, setAdminUsernameOrEmail] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    //login auth area ...
+
+    const emailCheck = isEmail(adminUsernameOrEmail);
+    let adminLogin = adminUsernameOrEmail;
+
+    if (!emailCheck) {
+      try {
+        const fetchedEmail = await getEmailFromAdminUsername(
+          adminUsernameOrEmail
+        );
+        adminLogin = fetchedEmail;
+      } catch (error) {
+        alert("Login failed: Username or Email not found");
+      }
+    }
+
+    try {
+      const response = await signInWithEmailAndPassword(
+        auth,
+        adminLogin,
+        adminPassword
+      );
+      console.log("response from firebase", response);
+      await handleIsAuthenticated();
+      navigate("/admin/customer-booking");
+    } catch (error) {
+      console.error("Error signing in", error);
+    }    
+
+
   };
 
   return (
@@ -205,7 +248,7 @@ export function AdminLoginForm() {
               </form>
               <span className="text-gray700 text-body1">
                 Don’t have an account yet?
-              </span>{" "}
+              </span>
               <Link
                 to="#"
                 className="text-body1 font-fontWeight6 text-orange-500"
