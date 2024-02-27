@@ -2,10 +2,27 @@ import prisma from "./utils/db.js";
 
 async function main() {
     // await prisma.agent.create({
-    //   username: "agenttest",
-    //   email: "agenttest@gmail.com",
-    //   password: "123456789012",
+    //   data: {
+    //     username: "donuttest",
+    //     email: "donut@gmail.com",
+    //     password: "123456789012",
+    //   },
     // });
+
+    await prisma.agentProfile.create({
+      data: {
+        agent: {
+          connect: {
+            agentId: 1, // Assuming the agentId exists in the Agent table
+          },
+        },
+        firstName: "donut",
+        lastName: "nakpong",
+        dateOfBirth: "1999-01-03",
+        phoneNumber: 1234567890,
+      },
+    });    
+
 
     // await prisma.BookingDetail.updateMany({
     //   where: {

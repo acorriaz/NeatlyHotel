@@ -1,7 +1,7 @@
 import SideBar from "../components/agent/SideBar";
 import BookingDetail from "../components/agent/Bookingdetail";
 
-function AdminBookingDetailPage() {
+function AgentBookingDetailPage() {
   return (
     <div className="flex">
       <SideBar />
@@ -9,4 +9,4 @@ function AdminBookingDetailPage() {
     </div>
   );
 }
-export default AdminBookingDetailPage;
+export default AgentBookingDetailPage;

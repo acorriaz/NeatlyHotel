@@ -25,8 +25,9 @@ import BookingCancelPage from "./pages/BookingCancelPage";
 import BookingCancelSuccessPage from "./pages/BookingCancelSuccessPage";
 // import PaymentResultPage from "./pages/PaymentResultPage";
 import PaymentPage from "./pages/PaymentPage";
-import AdminCustomerBookingPage from "./pages/AdminCustumerBookingPage";
-import AdminBookingDetailPage from "./pages/AdminBookingDetailPage";
+import AgentCustomerBookingPage from "./pages/AgentCustumerBookingPage";
+import AgentBookingDetailPage from "./pages/AgentBookingDetailPage";
+import AgentLoginPage from "./pages/AgentLoginPage";
 
 function App() {
   const [token, setToken] = useState(false);
@@ -79,12 +80,13 @@ function App() {
         />
         <Route
           path="/agent/customer-booking"
-          element={<AdminCustomerBookingPage />}
+          element={<AgentCustomerBookingPage />}
         />
         <Route
           path="/agent/customer-booking/:bookingId"
-          element={<AdminBookingDetailPage />}
+          element={<AgentBookingDetailPage />}
         />
+        <Route path="/agent/login" element={<AgentLoginPage />} />
         {/* <Route
           path="/agent/login"
           element={<AgentLoginPage setToken={setToken} />}
