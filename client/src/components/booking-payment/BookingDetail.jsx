@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
+import dateFormat from "../../utils/dateFormat";
+import { useSearchInput } from "../context/searchInputContext";
 import { useRoomDetail } from "../../pages/PaymentPage";
 
 export default function BookingDetail({ requestCheckboxValue }) {  
   const [userSelectedRequest, setUserSelectedRequest] = useState([]);
   const { roomDetailFromDB } = useRoomDetail()
+  const { searchInput } = useSearchInput() 
 
   const requestLabels = {
       earlyCheckIn: { title: "Early check-in", price: 0 },
@@ -41,7 +44,7 @@ export default function BookingDetail({ requestCheckboxValue }) {
 
   const totalPrice = userSelectedRequest.reduce((acc, request) => {
     return acc + request.price;
-  }, 2500);
+  }, roomDetailFromDB.roomPrice);
 
   useEffect(() => {
     filterUserRequest();
@@ -60,7 +63,7 @@ export default function BookingDetail({ requestCheckboxValue }) {
               Check-in
             </p>
             <p className="text-white font-inter">
-              After 2:00 PM
+              {requestCheckboxValue.earlyCheckIn === true ? "After 12.00AM" : "After 2:00PM"}
             </p>
           </div>
           <div className="mx-4 mb-6">
@@ -68,13 +71,13 @@ export default function BookingDetail({ requestCheckboxValue }) {
               Check-out
             </p>
             <p className="text-white font-inter">
-              Before 12:00 PM
+            {requestCheckboxValue.lateCheckOut === true ? "Before  2.00PM" : "Before 12:00PM"}
             </p>
           </div>
         </div>
         <div className="mx-4 mb-6">
           <p className="text-white font-inter">
-            Th, 19 Oct 2022 - Fri, 20 Oct 2022
+            {`${dateFormat(searchInput.checkIn)} - ${dateFormat(searchInput.checkOut)}`}
           </p>
           <p className="text-white font-inter">
             2 Guests
@@ -85,7 +88,9 @@ export default function BookingDetail({ requestCheckboxValue }) {
             <p className="text-white font-inter">
               {roomDetailFromDB.roomTypeName}
             </p>
-            <p className="text-white font-inter font-semibold">2,500.00</p>
+            <p className="text-white font-inter font-semibold">
+              {roomDetailFromDB.roomPrice}
+            </p>
           </div>
           {userRequestEl}
           <hr className="mb-8" />

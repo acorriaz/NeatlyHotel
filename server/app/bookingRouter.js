@@ -66,6 +66,8 @@ bookingRouter.get("/recent-booking/:userId", async (req, res) => {
   }
 });
 
+// TODO : Error handling for transaction
+// Making Booking detail from PaymentPage
 bookingRouter.post("/reserve-room", async (req, res) => {
   const { 
     userId, 
@@ -119,13 +121,17 @@ bookingRouter.post("/reserve-room", async (req, res) => {
       }
       
       console.log("---Random room---")
+
       const roomToBook = availableRooms[Math.floor(Math.random() * availableRooms.length)]
+
       console.log("Booked room:", roomToBook)
 
       console.log("---Fetch roomType from db---")
+
       const roomTypeData = await tx.roomType.findUnique({
         where: { roomTypeId },
       })
+
       console.log("Room Type Data: ", roomTypeData)
 
       let totalPrice = roomTypeData.roomPrice
@@ -146,6 +152,7 @@ bookingRouter.post("/reserve-room", async (req, res) => {
 
       if (guestRequest && Object.keys(guestRequest).length > 0) {
         console.log("---Start calculated total price with request---")
+        
         for (const requestKey of Object.keys(guestRequest)) {
           const requestId = requestMapping[requestKey]
           if (requestId) {

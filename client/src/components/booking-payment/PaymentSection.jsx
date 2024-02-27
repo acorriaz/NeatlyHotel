@@ -1,13 +1,14 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSearchInput } from "../context/searchInputContext";
 import { useAuth } from "../hooks/useAuth";
 import { useRoomDetail } from "../../pages/PaymentPage";
+
 import PaymentBasicInfo from "./PaymentBasicInfo";
 import BookingDetail from "./BookingDetail";
 import PaymentSpecialReq from "./PaymentSpecialReq";
 import PaymentMethod from "./PaymentMethod";
-import axios from "axios";
 
 export default function PaymentSection({ currentSection, handleSectionChange }) {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ export default function PaymentSection({ currentSection, handleSectionChange }) 
       checkOut: searchInput.checkOut,
       userId: userData.userId,
       roomTypeId: roomDetailFromDB.roomTypeId, 
-      paymentMethod: "credit"
+      paymentMethod: "Credit Card"
     }
     
     const filterUserRequest = Object.keys(requestCheckboxValue).reduce((acc, key) => {
@@ -60,7 +61,10 @@ export default function PaymentSection({ currentSection, handleSectionChange }) 
 
     try {
       const response = await axios.post("http://localhost:4000/booking/reserve-room", dataToSend)
-      // navigate("/")
+      navigate({
+        pathname: "/users/payment-result", 
+        state: response.data.userId
+      })
       console.log(response)
     } catch (err) {
       console.error(err)

@@ -13,7 +13,7 @@ export default function PaymentSpecialReq({
           </p>
         </div>
         <div className="flex flex-col gap-4">
-          <label className="flex gap-4">
+          <label className="b-contain flex gap-4">
             <input
               type="checkbox"
               name="earlyCheckIn"
@@ -22,8 +22,9 @@ export default function PaymentSpecialReq({
               onChange={(e) => handleCheckboxChange(e)}
             />
             Early check-in
+            <div className="b-input"></div>
           </label>
-          <label className="flex gap-4">
+          <label className="b-contain flex gap-4">
             <input
               type="checkbox"
               name="lateCheckOut"
@@ -32,8 +33,9 @@ export default function PaymentSpecialReq({
               onChange={(e) => handleCheckboxChange(e)}
             />
             Late check-out
+            <div className="b-input"></div>
           </label>
-          <label className="flex gap-4">
+          <label className="b-contain flex gap-4">
             <input
               type="checkbox"
               name="nonSmokeRoom"
@@ -42,8 +44,9 @@ export default function PaymentSpecialReq({
               onChange={(e) => handleCheckboxChange(e)}
             />
             Non-smoking room
+            <div className="b-input"></div>
           </label>
-          <label className="flex gap-4">
+          <label className="b-contain flex gap-4">
             <input
               type="checkbox"
               name="highFloor"
@@ -52,8 +55,9 @@ export default function PaymentSpecialReq({
               onChange={(e) => handleCheckboxChange(e)}
             />
             A room on the high floor
+            <div className="b-input"></div>
           </label>
-          <label className="flex gap-4">
+          <label className="b-contain flex gap-4">
             <input
               type="checkbox"
               name="quietRoom"
@@ -62,6 +66,7 @@ export default function PaymentSpecialReq({
               onChange={(e) => handleCheckboxChange(e)}
             />
             A quiet room
+            <div className="b-input"></div>
           </label>
         </div>
         <div className="flex flex-col gap-4">
@@ -74,7 +79,7 @@ export default function PaymentSpecialReq({
             </p>
           </div>
           <div className="flex flex-col gap-4">
-            <label className="flex gap-4">
+            <label className="b-contain flex gap-4">
               <input
                 type="checkbox"
                 name="babyCot"
@@ -83,8 +88,9 @@ export default function PaymentSpecialReq({
                 onChange={(e) => handleCheckboxChange(e)}
               />
               Baby cot (+THB 400)
+              <div className="b-input"></div>
             </label>
-            <label className="flex gap-4">
+            <label className="b-contain flex gap-4">
               <input
                 type="checkbox"
                 name="airportTransfer"
@@ -93,8 +99,9 @@ export default function PaymentSpecialReq({
                 onChange={(e) => handleCheckboxChange(e)}
               />
               Airport transfer (+THB 200)
+              <div className="b-input"></div>
             </label>
-            <label className="flex gap-4">
+            <label className="b-contain flex gap-4">
               <input
                 type="checkbox"
                 name="extraBed"
@@ -103,8 +110,9 @@ export default function PaymentSpecialReq({
                 onChange={(e) => handleCheckboxChange(e)}
               />
               Extra bed (+THB 500)
+              <div className="b-input"></div>
             </label>
-            <label className="flex gap-4">
+            <label className="b-contain flex gap-4">
               <input
                 type="checkbox"
                 name="extraPillow"
@@ -113,8 +121,9 @@ export default function PaymentSpecialReq({
                 onChange={(e) => handleCheckboxChange(e)}
               />
               Extra pillows (+THB 100)
+              <div className="b-input"></div>
             </label>
-            <label className="flex gap-4">
+            <label className="b-contain flex gap-4">
               <input
                 type="checkbox"
                 name="phoneCharger"
@@ -123,8 +132,9 @@ export default function PaymentSpecialReq({
                 onChange={(e) => handleCheckboxChange(e)}
               />
               Phone chargers and adapters (+THB 100)
+              <div className="b-input"></div>
             </label>
-            <label className="flex gap-4">
+            <label className="b-contain flex gap-4">
               <input
                 type="checkbox"
                 name="breakfast"
@@ -133,6 +143,7 @@ export default function PaymentSpecialReq({
                 onChange={(e) => handleCheckboxChange(e)}
               />
               Breakfast (+THB 150)
+              <div className="b-input"></div>
             </label>
           </div>
         </div>
