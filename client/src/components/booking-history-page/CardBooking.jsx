@@ -51,12 +51,12 @@ function CardBooking(props) {
   
     return (
       <>
-        <div className="py-10 bg-gray300">
+        <div className="py-10 bg-gray100">
           <div className="flex gap-12">
             <div className="w-[500px] h-[200px]">
               <img
                 src={props.data.room.roomType.roomImage[0].imageUrl}
-                alt=""
+                alt={props.data.room.roomType.roomTypeName}
                 className="w-full h-full rounded-md"
               />
             </div>
@@ -92,49 +92,54 @@ function CardBooking(props) {
               <div className="collapse collapse-arrow bg-gray200 text-orange500 font-sans font-fontWeight6">
                 <input type="radio" name="roomDetail" />
                 <div className="collapse-title">
-                  <p className="text-gray900 my-2 mx-4">Booking Detail</p>
+                  <p className="text-gray900 my-2">Booking Detail</p>
                 </div>
                 <div className="collapse-content text-gray700 font-inter font-fontWeight4">
-                  <p className="flex justify-between w-full pb-6">
-                    {props.data.room.roomType.guestCapacity} Guests (1 Night)
-                    <span>
-                      Payment success via
-                      <span className="pl-2 font-fontWeight6">
-                        {props.data.paymentMethod}
-                      </span>
-                    </span>
-                  </p>
-                  <p className="flex justify-between w-full py-2">
-                    {props.data.room.roomType.roomTypeName}
-                    <span className="pl-2 text-gray900 font-fontWeight6">
-                      {props.data.room.roomType.roomPrice}
-                    </span>
-                  </p>
-                  {props.data.guestRequest.map((req, index) => {
-                    return (
-                      <p
-                        key={index}
-                        className="flex justify-between w-full py-2 "
-                      >
-                        {req.request.requestName}
-                        <span className="pl-2 text-gray900 font-fontWeight6">
-                          {req.request.requestPrice}
+                  <div>
+                    <div className="pb-5">
+                      <p className="flex justify-between w-full pb-6">
+                        {props.data.room.roomType.guestCapacity} Guests (1
+                        Night)
+                        <span>
+                          Payment success via
+                          <span className="pl-2 font-fontWeight6">
+                            {props.data.paymentMethod}
+                          </span>
                         </span>
                       </p>
-                    );
-                  })}
-                  <p className="flex justify-between w-full py-2">
-                    Promotion Code
-                    <span className="pl-2 text-gray900 font-fontWeight6"></span>
-                  </p>
-                  <p className="flex justify-between w-full py-2">
-                    Total
-                    <span className="headline5 pl-2 text-gray900 font-fontWeight6">
-                      THB {props.data.totalPrice}
-                    </span>
-                  </p>
-                  <div className="py-4 px-6">
-                    <p className=" text-gray900 font-fontWeight6">
+                      <p className="flex justify-between w-full py-2">
+                        {props.data.room.roomType.roomTypeName}
+                        <span className="pl-2 text-gray900 font-fontWeight6">
+                          {props.data.room.roomType.roomPrice}
+                        </span>
+                      </p>
+                      {props.data.guestRequest.map((req, index) => {
+                        return (
+                          <p
+                            key={index}
+                            className="flex justify-between w-full py-2 "
+                          >
+                            {req.request.requestName}
+                            <span className="pl-2 text-gray900 font-fontWeight6">
+                              {req.request.requestPrice}
+                            </span>
+                          </p>
+                        );
+                      })}
+                      <p className="flex justify-between w-full py-2">
+                        Promotion Code
+                        <span className="pl-2 text-gray900 font-fontWeight6"></span>
+                      </p>
+                    </div>
+                    <p className="flex justify-between w-full py-10 border border-gray200 border-t-gray400">
+                      Total
+                      <span className="headline5 pl-2 text-gray900 font-fontWeight6">
+                        THB {props.data.totalPrice}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="py-4 bg-gray300">
+                    <p className="text-gray900 font-fontWeight6">
                       Additional Request
                     </p>
                     <p className="font-fontWeight4"></p>

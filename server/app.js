@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import morgan from "morgan";
-
+import adminRouter from "./app/adminRouter.js"
 import usersRouter from "./app/usersRouter.js";
 import hotelRouter from "./app/hotelRouter.js";
 import roomRouter from "./app/roomDetailRouter.js";
@@ -23,6 +23,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(morgan("tiny"));
 
+app.use("/admin", adminRouter);
 app.use("/users", usersRouter);
 app.use("/hotel", hotelRouter);
 app.use("/roomdetail", roomRouter);
