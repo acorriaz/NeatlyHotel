@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import dafaultProfilePic from "../../assets/defaultImage/dafaultProfilePic.png";
 
 export default function NavigationBarAuth() {
   const { userData, logout } = useAuth();
@@ -48,7 +49,9 @@ export default function NavigationBarAuth() {
         >
           <div className="w-12 rounded-full">
             {/* TODO : add user image URL in database */}
-            <img src={userData?.userProfile?.profilePicUrl} />
+            <img
+              src={userData?.userProfile?.profilePicUrl || dafaultProfilePic}
+            />
           </div>
         </div>
         <ul
