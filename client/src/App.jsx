@@ -48,7 +48,10 @@ function App() {
         <Route path="/users/login" element={<UserLoginPage />} />
         <Route path="/users/register" element={<RegisterPage />} />
         <Route path="/users/payment" element={<PaymentPage />} />
-        <Route path="/users/update-profile" element={<UserUpdateProfilePage />} />
+        <Route
+          path="/users/update-profile/:userId"
+          element={<UserUpdateProfilePage />}
+        />
         <Route path="/hotel" element={<SearchResultPage />} />
         <Route path="/hotel/detail/:roomTypeId" element={<RoomDetail />} />
         <Route

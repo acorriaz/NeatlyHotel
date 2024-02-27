@@ -47,6 +47,20 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  async function refreshUserData() {
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/users/${auth.currentUser.uid}`
+      );
+      setUserData({
+        ...response.data,
+        token: auth.currentUser.stsTokenManager,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const logout = async () => {
     try {
       const response = await auth.signOut();
@@ -59,7 +73,13 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, userData, handleIsAuthenticated, logout }}
+      value={{
+        isAuthenticated,
+        userData,
+        handleIsAuthenticated,
+        logout,
+        refreshUserData,
+      }}
     >
       {children}
     </AuthContext.Provider>
@@ -67,7 +87,18 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => {
-  const { isAuthenticated, userData, handleIsAuthenticated, logout } =
-    useContext(AuthContext);
-  return { isAuthenticated, userData, handleIsAuthenticated, logout };
+  const {
+    isAuthenticated,
+    userData,
+    handleIsAuthenticated,
+    logout,
+    refreshUserData,
+  } = useContext(AuthContext);
+  return {
+    isAuthenticated,
+    userData,
+    handleIsAuthenticated,
+    logout,
+    refreshUserData,
+  };
 };
