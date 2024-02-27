@@ -116,20 +116,41 @@ hotelRouter.get("/rooms/:guests", async (req, res) => {
 });
 
 hotelRouter.get("/room/:roomTypeId", async (req, res) => {
-  const roomTypeIdFromReq = parseInt(req.params.roomTypeId)
+  const roomTypeIdFromReq = parseInt(req.params.roomTypeId);
 
-  console.log(roomTypeIdFromReq)
+  console.log(roomTypeIdFromReq);
 
   try {
     const response = await prisma.roomType.findUnique({
-      where: { roomTypeId: roomTypeIdFromReq }
-    })
-    res.status(200).json(response)
+      where: { roomTypeId: roomTypeIdFromReq },
+    });
+    res.status(200).json(response);
   } catch (err) {
-    res.status(404).json({message: "Room type not found"})
+    res.status(404).json({ message: "Room type not found" });
   }
+});
+hotelRouter.put("/:roomTypeId", async (req, res) => {
+  const { roomTypeId } = req.params;
+  const { roomPrice } = req.body;
+  try {
+    const updateRoomTypePrice = await prisma.roomType.update({
+      where: { roomTypeId: parseInt(roomTypeId, 10) },
+      data: {
+        roomPrice,
+      },
+    });
 
-})
+    return res.status(200).json({
+      message: "Update price successfully.",
+      updateRoomTypePrice,
+    });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json("Sorry, something went wrong. Please try again later.");
+  }
+});
 
 export default hotelRouter;
 

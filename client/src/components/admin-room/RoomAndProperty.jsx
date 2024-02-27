@@ -3,10 +3,23 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import searchVector from "../../assets/admin/searchVector.svg";
 import SideBar from "../admin/SideBar";
+import EditPriceModal from "./EditModal";
 
 const RoomAndProperty = () => {
   const [rooms, setRooms] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [promotionPrices, setPromotionPrices] = useState({});
+
+  const [selectedRoom, setSelectedRoom] = useState(null); // Add state to track the selected room
+
+  // Function to handle showing the edit modal for a room
+  const handleOpenModal = (room) => {
+    const initialPromotionPrice =
+      promotionPrices[room.roomTypeId] ?? room.roomPrice;
+    setSelectedRoom({ ...room, currentPromotionPrice: initialPromotionPrice }); // Incorporate the initial promotion price into the selected room object
+    setShowModal(true);
+  };
 
   const getRoom = async () => {
     try {
@@ -21,6 +34,10 @@ const RoomAndProperty = () => {
   useEffect(() => {
     getRoom();
   }, []);
+
+  useEffect(() => {
+    console.log("Promotion Prices updated:", promotionPrices);
+  }, [promotionPrices]);
 
   // Filter rooms based on search keyword before rendering
   const filteredRooms = rooms.filter(
@@ -92,17 +109,25 @@ const RoomAndProperty = () => {
                       />
                     </td>
                     <td className="p-4">{room.roomTypeName}</td>
-                    <td className="p-4">
+                    <td className="p-4" onClick={() => handleOpenModal(room)}>
                       {discount.toLocaleString("en-US", {
                         style: "currency",
                         currency: "USD",
                       })}
                     </td>
-                    <td className="p-4">
-                      {room.roomPrice.toLocaleString("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      })}
+                    <td className="p-4" onClick={() => handleOpenModal(room)}>
+                      {promotionPrices[room.roomTypeId] !== undefined
+                        ? promotionPrices[room.roomTypeId].toLocaleString(
+                            "en-US",
+                            {
+                              style: "currency",
+                              currency: "USD",
+                            }
+                          )
+                        : room.roomPrice.toLocaleString("en-US", {
+                            style: "currency",
+                            currency: "USD",
+                          })}
                     </td>
                     <td className="p-4">{room.guestCapacity}</td>
                     <td className="p-4">{room.bedType.bedTypeName}</td>
@@ -113,6 +138,34 @@ const RoomAndProperty = () => {
             </tbody>
           </table>
         </section>
+        {showModal && selectedRoom && (
+          <EditPriceModal
+            visible={showModal}
+            onClose={() => {
+              setShowModal(false);
+              setSelectedRoom(null);
+            }}
+            room={selectedRoom}
+            updateRoomState={getRoom}
+            currentPromotionPrice={
+              // ถ้ายังไม่มีค่า promotionPrices ให้ใช้ ค่า roomPrice แสดงก่อน
+              promotionPrices[selectedRoom.roomTypeId] ?? selectedRoom.roomPrice
+            }
+            updatePromotionPrice={(roomId, newPrice) => {
+              console.log(
+                `Updating promotion price for room ${roomId} to ${newPrice}`
+              );
+              const changeNewPriceToNum = Number(newPrice);
+              setPromotionPrices((prev) => {
+                const updatedPromotions = {
+                  ...prev,
+                  [roomId]: changeNewPriceToNum,
+                };
+                return updatedPromotions;
+              });
+            }}
+          />
+        )}
       </main>
     </div>
   );

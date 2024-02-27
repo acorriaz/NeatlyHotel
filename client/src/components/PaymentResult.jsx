@@ -90,7 +90,7 @@ function PaymentResult() {
   function checkPaymentMethod() {
     if (paymentMethod === "Cash") {
       return "Cash";
-    } else if (paymentMethod === "Credit Card") {
+    } else if (paymentMethod === "Credit Card" || paymentMethod === "credit") {
       const creditCardNumber = userData?.userProfile?.cardNumber;
       const lastThreeDigits = creditCardNumber.slice(-3);
       return `Credit Card - *${lastThreeDigits}`;
