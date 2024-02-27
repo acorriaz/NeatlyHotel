@@ -177,14 +177,15 @@ bookingRouter.post("/reserve-room", async (req, res) => {
       if (guestRequest && Object.keys(guestRequest).length > 0) {
         console.log("---Insert Guest Request to DB---")
         const guestRequestPromises = Object.keys(guestRequest).map(async (request) => {
+          const requestId = requestMapping[request]
           const requestDetails = await tx.request.findUnique({
-            where: { requestName: request }
+            where: { requestId: requestId }
           })
           if (requestDetails) {
             return tx.guestRequest.create({
               data: {
-                bookingDetailId: bookingDetail.id,
-                requestId: requestDetails.id
+                bookingDetailId: bookingDetail.bookingDetailId,
+                requestId: requestDetails.requestId,
               }
             })
           }

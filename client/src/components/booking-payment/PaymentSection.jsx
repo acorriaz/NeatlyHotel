@@ -61,6 +61,7 @@ export default function PaymentSection({ currentSection, handleSectionChange }) 
     try {
       const response = await axios.post("http://localhost:4000/booking/reserve-room", dataToSend)
       // navigate("/")
+      console.log(response)
     } catch (err) {
       console.error(err)
     }
