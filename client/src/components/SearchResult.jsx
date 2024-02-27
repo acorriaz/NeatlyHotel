@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SearchBar from "./utils/SearchBar.jsx";
 import { useAuth } from "../components/hooks/useAuth.jsx";
 import { useSearchInput } from "../components/context/searchInputContext.jsx";
@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import axios from "axios";
 
 function SearchResult() {
+  const navigate = useNavigate()
   const { isAuthenticated, userData } = useAuth();
   const {
     searchInput,
@@ -14,6 +15,12 @@ function SearchResult() {
     rooms,
     setRooms,
   } = useSearchInput();
+
+  function handlePaymentButtonClick(roomTypeId) {
+    if ( roomTypeId ) {
+      navigate("/users/payment", { state: { idFromSearch: roomTypeId}})
+    }
+  }
 
   const searchRoom = async () => {
     try {
@@ -360,9 +367,12 @@ function SearchResult() {
                   </dialog>
                   {/* end of room detail pop-up button */}
                 </div>
-                <button className="py-3 px-8 rounded font-sans font-semibold text-white bg-orange-600">
-                  <Link to="/hotel/payment-result">Book Now</Link>
-                </button>
+                  <button 
+                    className="py-3 px-8 rounded font-sans font-semibold text-white bg-orange-600"
+                    onClick={() => handlePaymentButtonClick(room.roomTypeId)}
+                  >
+                      Book Now
+                  </button>
               </div>
             </div>
           </div>

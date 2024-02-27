@@ -1,34 +1,33 @@
 import { useState, useEffect } from "react";
+import dateFormat from "../../utils/dateFormat";
+import { useSearchInput } from "../context/searchInputContext";
+import { useRoomDetail } from "../../pages/PaymentPage";
 
-export default function BookingDetail({ requestCheckboxValue }) {
+export default function BookingDetail({ requestCheckboxValue }) {  
   const [userSelectedRequest, setUserSelectedRequest] = useState([]);
+  const { roomDetailFromDB } = useRoomDetail()
+  const { searchInput } = useSearchInput() 
 
   const requestLabels = {
-    standard: {
       earlyCheckIn: { title: "Early check-in", price: 0 },
       lateCheckOut: { title: "Late check-out", price: 0 },
       nonSmokeRoom: { title: "Non-smoking room", price: 0 },
       highFloor: { title: "A room on the high floor", price: 0 },
       quietRoom: { title: "A quiet room", price: 0 },
-    },
-    special: {
       babyCot: { title: "Baby cot", price: 400 },
       airportTransfer: { title: "Airport transfer", price: 200 },
       extraBed: { title: "Extra bed", price: 500 },
       extraPillow: { title: "Extra pillow", price: 100 },
       phoneCharger: { title: "Phone charger", price: 100 },
       breakfast: { title: "Breakfast", price: 150 },
-    },
   };
 
   function filterUserRequest() {
     const selectedRequest = [];
-    for (const category in requestCheckboxValue) {
-      for (const key in requestCheckboxValue[category]) {
-        if (requestCheckboxValue[category][key] === true) {
-          const requestDetail = requestLabels[category][key];
-          selectedRequest.push(requestDetail);
-        }
+    for (const key in requestCheckboxValue) {
+      if (requestCheckboxValue[key] === true) {
+        const requestDetail = requestLabels[key];
+        selectedRequest.push(requestDetail);
       }
     }
     setUserSelectedRequest(selectedRequest);
@@ -45,7 +44,7 @@ export default function BookingDetail({ requestCheckboxValue }) {
 
   const totalPrice = userSelectedRequest.reduce((acc, request) => {
     return acc + request.price;
-  }, 2500);
+  }, roomDetailFromDB.roomPrice);
 
   useEffect(() => {
     filterUserRequest();
@@ -57,26 +56,41 @@ export default function BookingDetail({ requestCheckboxValue }) {
         <h3 className="p-4 bg-[#323D36] text-white text-[1.125rem] font-semibold rounded-t-md">
           Booking Detail
         </h3>
+        {/* TODO : change check in time when early check in or check out value change */}
         <div className="flex justify-between gap-4">
           <div className="mx-4 mb-6">
-            <p className="text-white font-inter font-semibold">Check-in</p>
-            <p className="text-white font-inter">After 2:00 PM</p>
+            <p className="text-white font-inter font-semibold">
+              Check-in
+            </p>
+            <p className="text-white font-inter">
+              {requestCheckboxValue.earlyCheckIn === true ? "After 12.00AM" : "After 2:00PM"}
+            </p>
           </div>
           <div className="mx-4 mb-6">
-            <p className="text-white font-inter font-semibold">Check-out</p>
-            <p className="text-white font-inter">Before 12:00 PM</p>
+            <p className="text-white font-inter font-semibold">
+              Check-out
+            </p>
+            <p className="text-white font-inter">
+            {requestCheckboxValue.lateCheckOut === true ? "Before  2.00PM" : "Before 12:00PM"}
+            </p>
           </div>
         </div>
         <div className="mx-4 mb-6">
           <p className="text-white font-inter">
-            Th, 19 Oct 2022 - Fri, 20 Oct 2022
+            {`${dateFormat(searchInput.checkIn)} - ${dateFormat(searchInput.checkOut)}`}
           </p>
-          <p className="text-white font-inter">2 Guests</p>
+          <p className="text-white font-inter">
+            2 Guests
+          </p>
         </div>
         <div className="mx-4">
           <div className="mb-6 flex justify-between">
-            <p className="text-white font-inter">Superior Garden View Room</p>
-            <p className="text-white font-inter font-semibold">2,500.00</p>
+            <p className="text-white font-inter">
+              {roomDetailFromDB.roomTypeName}
+            </p>
+            <p className="text-white font-inter font-semibold">
+              {roomDetailFromDB.roomPrice}
+            </p>
           </div>
           {userRequestEl}
           <hr className="mb-8" />

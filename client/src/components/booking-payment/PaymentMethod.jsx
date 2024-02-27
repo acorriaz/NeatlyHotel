@@ -1,10 +1,9 @@
-import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
+import { useRoomDetail } from "../../pages/PaymentPage";
 
 export default function PaymentMethod() {
-  const [expiryDate, setExpiryDate] = useState("");
-  const [cvc, setCvc] = useState("");
   const { userData } = useAuth();
+  const { userPaymentDetail, handleUserPaymentDetail } = useRoomDetail()
 
   return (
     <div className="flex flex-col gap-8">
@@ -24,9 +23,10 @@ export default function PaymentMethod() {
           <label htmlFor="creditCardNum">Card Number</label>
           <input
             type="text"
-            id="creditCardNum"
-            name="creditCardNum"
-            value={userData.card.cardNumber}
+            id="cardNumber"
+            name="cardNumber"
+            value={userPaymentDetail.cardNumber}
+            onChange={(e) => handleUserPaymentDetail(e)}
             className="max-w-full h-12 p-3 border-[1px] border-gray300 rounded-md"
             required
           />
@@ -37,8 +37,8 @@ export default function PaymentMethod() {
             type="text"
             id="cardOwner"
             name="cardOwner"
-            value={userData.fullName}
-            readOnly={true}
+            value={userPaymentDetail.cardOwner}
+            onChange={(e) => handleUserPaymentDetail(e)}
             className="max-w-full h-12 p-3 border-[1px] border-gray300 rounded-"
             required
           />
@@ -50,26 +50,26 @@ export default function PaymentMethod() {
               type="text"
               id="expDate"
               name="expDate"
-              value={expiryDate}
+              value={userPaymentDetail.cardExpiry}
               placeholder="MM/YY"
               pattern="[0-9]{2}/[0-9]{2}"
               maxLength={5}
-              onChange={(e) => setExpiryDate(e.target.value)}
+              onChange={(e) => handleUserPaymentDetail(e)}
               className="max-w-full h-12 p-3 border-[1px] border-gray300 rounded-"
               required
             />
           </div>
           <div className="flex flex-col flex-1 gap-1">
-            <label htmlFor="cvv">CVC/CVV</label>
+            <label htmlFor="cvc">CVC/CVV</label>
             <input
               type="text"
-              id="cvv"
-              name="cvv"
-              value={cvc}
+              id="cvc"
+              name="cvc"
+              value={userPaymentDetail.cvc}
               placeholder="123"
               pattern="[0-9]{3}"
+              onChange={(e) => handleUserPaymentDetail(e)}
               maxLength="3"
-              onChange={(e) => setCvc(e.target.value)}
               className="max-w-full h-12 p-3 border-[1px] border-gray300 rounded-"
               required
             />

@@ -7,7 +7,7 @@ function PaymentResult() {
   const navigate = useNavigate();
   const { isAuthenticated, userData } = useAuth();
   const [Loading, setLoading] = useState(false);
-  const [bookingDetail, setbookingDetail] = useState({});
+  const [bookingDetail, setBookingDetail] = useState({});
   const [simplifiedRequests, setSimplifiedRequests] = useState([]);
 
   console.log(userData);
@@ -30,7 +30,7 @@ function PaymentResult() {
 
       const bookingDetail = result.data;
 
-      setbookingDetail(result.data);
+      setBookingDetail(result.data);
       console.log(bookingDetail);
 
       const newSimplifiedRequests = bookingDetail.guestRequest.map(
@@ -101,23 +101,6 @@ function PaymentResult() {
 
   // check payment method part ^^^
 
-  // sum total vvv
-
-  function sumTotal(roomPrice, simplifiedRequests) {
-    let totalCost = roomPrice;
-
-    simplifiedRequests.forEach((request) => {
-      totalCost += request.price;
-    });
-
-    return totalCost;
-  }
-
-  const roomPrice = bookingDetail?.room?.roomType?.roomPrice;
-  const totalCost = sumTotal(roomPrice, simplifiedRequests);
-
-  // sum total ^^^
-
   return (
     <>
       <main className="flex justify-center items-center pt-12 bg-gray300">
@@ -136,7 +119,7 @@ function PaymentResult() {
               <article>
                 <p className="font-fontWeight6">{formattedDate}</p>
                 <p className="font-fontWeight4">
-                  {bookingDetail?.room?.roomType.guestCapacity}
+                  {`${bookingDetail?.room?.roomType.guestCapacity} Guests`}
                 </p>
               </article>
 
@@ -176,7 +159,7 @@ function PaymentResult() {
               <hr></hr>
               <div className="flex justify-between mt-5">
                 <p className="body1 text-green300">Total</p>
-                <p className="headline text-utilWhite">{totalCost}</p>
+                <p className="headline text-utilWhite">{bookingDetail.totalPrice}</p>
               </div>
             </div>
           </section>

@@ -1,31 +1,32 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSearchInput } from "../context/searchInputContext";
+import { useAuth } from "../hooks/useAuth";
+import { useRoomDetail } from "../../pages/PaymentPage";
+
 import PaymentBasicInfo from "./PaymentBasicInfo";
 import BookingDetail from "./BookingDetail";
 import PaymentSpecialReq from "./PaymentSpecialReq";
 import PaymentMethod from "./PaymentMethod";
 
-export default function PaymentSection({
-  currentSection,
-  handleSectionChange,
-}) {
+export default function PaymentSection({ currentSection, handleSectionChange }) {
   const navigate = useNavigate();
+  const { searchInput } = useSearchInput()
+  const { userData } = useAuth()
+  const { roomDetailFromDB } = useRoomDetail()
   const [requestCheckboxValue, setRequestCheckboxValue] = useState({
-    standard: {
       earlyCheckIn: false,
       lateCheckOut: false,
       nonSmokeRoom: false,
       highFloor: false,
       quietRoom: false,
-    },
-    special: {
       babyCot: false,
       airportTransfer: false,
       extraBed: false,
       extraPillow: false,
       phoneCharger: false,
       breakfast: false,
-    },
   });
 
   function handleCheckboxChange(event, type) {
@@ -33,12 +34,41 @@ export default function PaymentSection({
     setRequestCheckboxValue((prevRequest) => {
       return {
         ...prevRequest,
-        [type]: {
-          ...prevRequest[type],
-          [name]: checked,
-        },
+        [name]: checked,
       };
     });
+  }
+
+  async function handleSubmit() {
+    const dataToSend = {
+      checkIn: searchInput.checkIn,
+      checkOut: searchInput.checkOut,
+      userId: userData.userId,
+      roomTypeId: roomDetailFromDB.roomTypeId, 
+      paymentMethod: "Credit Card"
+    }
+    
+    const filterUserRequest = Object.keys(requestCheckboxValue).reduce((acc, key) => {
+      if (requestCheckboxValue[key]) {
+        acc[key] = requestCheckboxValue[key]
+      }
+      return acc
+    }, {})
+
+    if ( Object.keys(filterUserRequest).length > 0 ) {
+      dataToSend.guestRequest = filterUserRequest
+    }
+
+    try {
+      const response = await axios.post("http://localhost:4000/booking/reserve-room", dataToSend)
+      navigate({
+        pathname: "/users/payment-result", 
+        state: response.data.userId
+      })
+      console.log(response)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   return (
@@ -79,7 +109,7 @@ export default function PaymentSection({
             <button
               className="px-8 py-2 font-sans font-semibold text-white bg-orange500 rounded-md"
               // TODO : add payment gateway and confirm booking
-              onClick={() => navigate("/users/payment-result")}
+              onClick={() => handleSubmit()}
             >
               Confirm Booking
             </button>
