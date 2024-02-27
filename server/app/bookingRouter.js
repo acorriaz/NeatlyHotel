@@ -67,7 +67,15 @@ bookingRouter.get("/recent-booking/:userId", async (req, res) => {
 });
 
 bookingRouter.post("/reserve-room", async (req, res) => {
-  const requiredKeys = ["userId", "checkIn", "checkOut", "paymentMethod", "roomTypeId"]  
+  const { 
+    userId, 
+    checkIn, 
+    checkOut, 
+    paymentMethod, 
+    roomTypeId, 
+    guestRequest 
+  } = req.body;
+  const requiredKeys = ["userId", "checkIn", "checkOut", "paymentMethod", "roomTypeId"]
   const missingKeys = requiredKeys.filter(key => !req.body.hasOwnProperty(key))
 
   console.log("Request body: ", req.body)
@@ -80,11 +88,119 @@ bookingRouter.post("/reserve-room", async (req, res) => {
   }
 
   try {
-    const response = await prisma.$transaction({
+    const response = await prisma.$transaction(async (tx) => {
+      console.log("---Start transaction---")
+      console.log("---Fetching available room...---")
+      const availableRooms = await tx.room.findMany({
+        where: {
+          roomTypeId: roomTypeId,
+          bookingDetail: {
+            none: {
+              OR: [
+                {
+                  checkIn: {
+                    lt: checkOut,
+                  },
+                  checkOut: {
+                    gt: checkIn,
+                  }
+                }
+              ]
+            }
+          }
+        }
+      })
 
+      console.log("---Fetch success---", availableRooms)
+
+      if (availableRooms.length === 0) {
+        console.log("---No rooms---")
+        return res.status(500).json({ message: "No room available"})
+      }
+      
+      console.log("---Random room---")
+      const roomToBook = availableRooms[Math.floor(Math.random() * availableRooms.length)]
+      console.log("Booked room:", roomToBook)
+
+      console.log("---Fetch roomType from db---")
+      const roomTypeData = await tx.roomType.findUnique({
+        where: { roomTypeId },
+      })
+      console.log("Room Type Data: ", roomTypeData)
+
+      let totalPrice = roomTypeData.roomPrice
+
+      const requestMapping = {
+        earlyCheckIn: 1,
+        lateCheckOut: 2,
+        nonSmokeRoom: 3,
+        highFloor: 4,
+        quietRoom: 5,
+        babyCot: 6,
+        airportTransfer: 7,
+        extraBed: 8,
+        extraPillow: 9,
+        phoneCharger: 10,
+        breakfast: 11,
+      }
+
+      if (guestRequest && Object.keys(guestRequest).length > 0) {
+        console.log("---Start calculated total price with request---")
+        for (const requestKey of Object.keys(guestRequest)) {
+          const requestId = requestMapping[requestKey]
+          if (requestId) {
+            const guestRequestDetails = await tx.request.findUnique({
+              where: { requestId: requestId }
+            })
+            if (guestRequestDetails) {
+              totalPrice += guestRequestDetails.requestPrice
+            }
+          }
+        }
+      }
+
+      console.log("Total Price: ", totalPrice)
+
+      console.log("---Creating booking detail---")
+      const bookingDetail = await tx.bookingDetail.create({
+        data: {
+          userId,
+          roomId: roomToBook.roomId,
+          totalPrice,
+          checkIn,
+          checkOut,
+          paymentMethod,
+        }
+      })
+      console.log("Booking Detail: ", bookingDetail)
+      
+      if (guestRequest && Object.keys(guestRequest).length > 0) {
+        console.log("---Insert Guest Request to DB---")
+        const guestRequestPromises = Object.keys(guestRequest).map(async (request) => {
+          const requestDetails = await tx.request.findUnique({
+            where: { requestName: request }
+          })
+          if (requestDetails) {
+            return tx.guestRequest.create({
+              data: {
+                bookingDetailId: bookingDetail.id,
+                requestId: requestDetails.id
+              }
+            })
+          }
+        })
+        await Promise.all(guestRequestPromises)
+        console.log("Guest Request: ", guestRequestPromises)
+      }
+
+      console.log(bookingDetail)
+      return bookingDetail
     })
+
+    res.status(200).json(response)
   } catch (err) {
-    return res.status(500).json({ error: "SOMETHING WENT WRONG"})
+    console.log(err)
+    return res.status(500).json({ error: err})
   }
 })
 
