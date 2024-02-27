@@ -66,6 +66,28 @@ bookingRouter.get("/recent-booking/:userId", async (req, res) => {
   }
 });
 
+bookingRouter.post("/reserve-room", async (req, res) => {
+  const requiredKeys = ["userId", "checkIn", "checkOut", "paymentMethod", "roomTypeId"]  
+  const missingKeys = requiredKeys.filter(key => !req.body.hasOwnProperty(key))
+
+  console.log("Request body: ", req.body)
+  
+  if (missingKeys.length > 0) {
+    console.log("Missing Keys: ", missingKeys)
+    return res.status(400).json({ 
+      error: `Missing required fields: ${missingKeys.join(", ")}` 
+    })
+  }
+
+  try {
+    const response = await prisma.$transaction({
+
+    })
+  } catch (err) {
+    return res.status(500).json({ error: "SOMETHING WENT WRONG"})
+  }
+})
+
 bookingRouter.post("/", async (req, res) => {
   const { userId, roomId, checkIn, checkOut, paymentMethod, totalPrice } =
     req.body;

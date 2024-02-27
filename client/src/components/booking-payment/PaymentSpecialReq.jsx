@@ -1,6 +1,5 @@
-export default function PaymentSpecialReq({
-  requestCheckboxValue,
-  handleCheckboxChange,
+export default function PaymentSpecialReq({ 
+  requestCheckboxValue, handleCheckboxChange, 
 }) {
   return (
     <div className="flex flex-col gap-2">
@@ -18,9 +17,9 @@ export default function PaymentSpecialReq({
             <input
               type="checkbox"
               name="earlyCheckIn"
-              checked={requestCheckboxValue.standard.earlyCheckIn}
+              checked={requestCheckboxValue.earlyCheckIn}
               className="w-6 h-6 rounded-md"
-              onChange={(e) => handleCheckboxChange(e, "standard")}
+              onChange={(e) => handleCheckboxChange(e)}
             />
             Early check-in
           </label>
@@ -28,9 +27,9 @@ export default function PaymentSpecialReq({
             <input
               type="checkbox"
               name="lateCheckOut"
-              checked={requestCheckboxValue.standard.lateCheckOut}
+              checked={requestCheckboxValue.lateCheckOut}
               className="w-6 h-6 rounded-md"
-              onChange={(e) => handleCheckboxChange(e, "standard")}
+              onChange={(e) => handleCheckboxChange(e)}
             />
             Late check-out
           </label>
@@ -38,9 +37,9 @@ export default function PaymentSpecialReq({
             <input
               type="checkbox"
               name="nonSmokeRoom"
-              checked={requestCheckboxValue.standard.nonSmokeRoom}
+              checked={requestCheckboxValue.nonSmokeRoom}
               className="w-6 h-6 rounded-md"
-              onChange={(e) => handleCheckboxChange(e, "standard")}
+              onChange={(e) => handleCheckboxChange(e)}
             />
             Non-smoking room
           </label>
@@ -48,9 +47,9 @@ export default function PaymentSpecialReq({
             <input
               type="checkbox"
               name="highFloor"
-              checked={requestCheckboxValue.standard.highFloor}
+              checked={requestCheckboxValue.highFloor}
               className="w-6 h-6 rounded-md"
-              onChange={(e) => handleCheckboxChange(e, "standard")}
+              onChange={(e) => handleCheckboxChange(e)}
             />
             A room on the high floor
           </label>
@@ -58,9 +57,9 @@ export default function PaymentSpecialReq({
             <input
               type="checkbox"
               name="quietRoom"
-              checked={requestCheckboxValue.standard.quietRoom}
+              checked={requestCheckboxValue.quietRoom}
               className="w-6 h-6 rounded-md"
-              onChange={(e) => handleCheckboxChange(e, "standard")}
+              onChange={(e) => handleCheckboxChange(e)}
             />
             A quiet room
           </label>
@@ -79,9 +78,9 @@ export default function PaymentSpecialReq({
               <input
                 type="checkbox"
                 name="babyCot"
-                checked={requestCheckboxValue.special.babyCot}
+                checked={requestCheckboxValue.babyCot}
                 className="w-6 h-6 rounded-md"
-                onChange={(e) => handleCheckboxChange(e, "special")}
+                onChange={(e) => handleCheckboxChange(e)}
               />
               Baby cot (+THB 400)
             </label>
@@ -89,9 +88,9 @@ export default function PaymentSpecialReq({
               <input
                 type="checkbox"
                 name="airportTransfer"
-                checked={requestCheckboxValue.special.airportTransfer}
+                checked={requestCheckboxValue.airportTransfer}
                 className="w-6 h-6 rounded-md"
-                onChange={(e) => handleCheckboxChange(e, "special")}
+                onChange={(e) => handleCheckboxChange(e)}
               />
               Airport transfer (+THB 200)
             </label>
@@ -99,9 +98,9 @@ export default function PaymentSpecialReq({
               <input
                 type="checkbox"
                 name="extraBed"
-                checked={requestCheckboxValue.special.extraBed}
+                checked={requestCheckboxValue.extraBed}
                 className="w-6 h-6 rounded-md"
-                onChange={(e) => handleCheckboxChange(e, "special")}
+                onChange={(e) => handleCheckboxChange(e)}
               />
               Extra bed (+THB 500)
             </label>
@@ -109,9 +108,9 @@ export default function PaymentSpecialReq({
               <input
                 type="checkbox"
                 name="extraPillow"
-                checked={requestCheckboxValue.special.extraPillow}
+                checked={requestCheckboxValue.extraPillow}
                 className="w-6 h-6 rounded-md"
-                onChange={(e) => handleCheckboxChange(e, "special")}
+                onChange={(e) => handleCheckboxChange(e)}
               />
               Extra pillows (+THB 100)
             </label>
@@ -119,9 +118,9 @@ export default function PaymentSpecialReq({
               <input
                 type="checkbox"
                 name="phoneCharger"
-                checked={requestCheckboxValue.special.phoneCharger}
+                checked={requestCheckboxValue.phoneCharger}
                 className="w-6 h-6 rounded-md"
-                onChange={(e) => handleCheckboxChange(e, "special")}
+                onChange={(e) => handleCheckboxChange(e)}
               />
               Phone chargers and adapters (+THB 100)
             </label>
@@ -129,9 +128,9 @@ export default function PaymentSpecialReq({
               <input
                 type="checkbox"
                 name="breakfast"
-                checked={requestCheckboxValue.special.breakfast}
+                checked={requestCheckboxValue.breakfast}
                 className="w-6 h-6 rounded-md"
-                onChange={(e) => handleCheckboxChange(e, "special")}
+                onChange={(e) => handleCheckboxChange(e)}
               />
               Breakfast (+THB 150)
             </label>
