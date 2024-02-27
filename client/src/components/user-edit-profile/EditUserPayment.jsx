@@ -9,7 +9,7 @@ import axios from "axios";
 import NavigationBar from "../navigation-bar/NavigationBar.jsx";
 
 function EditUserPayment() {
-  const { isAuthenticated, userData } = useAuth();
+  const { isAuthenticated, userData, refreshUserData } = useAuth();
 
   const {
     register,
@@ -37,9 +37,9 @@ function EditUserPayment() {
           cardExpiry: data.cardExpiry,
         }
       );
+      refreshUserData();
       alert("Update payment method successfully!", updatePaymentMethod);
-      console.log(updatePaymentMethod);
-      window.location.reload();
+      console.log(userData);
     } catch (error) {
       console.error(error);
       alert(error.message);
@@ -55,7 +55,7 @@ function EditUserPayment() {
         cardExpiry: userData?.userProfile?.cardExpiry || "",
       });
     }
-  }, [isAuthenticated, userData, reset]);
+  }, [userData]);
 
   return (
     <>

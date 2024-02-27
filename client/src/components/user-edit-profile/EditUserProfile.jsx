@@ -11,7 +11,7 @@ import { auth } from "../../config/firebase-config.js";
 import NavigationBar from "../navigation-bar/NavigationBar.jsx";
 
 function EditUserProfile() {
-  const { isAuthenticated, userData } = useAuth();
+  const { isAuthenticated, userData, refreshUserData } = useAuth();
 
   const {
     register,
@@ -92,9 +92,9 @@ function EditUserProfile() {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
+      refreshUserData();
       alert("Update profile successfully!", updateUser);
-      console.log(updateUser);
-      window.location.reload();
+      console.log(userData);
     } catch (error) {
       console.error(error);
       alert(error.message);
