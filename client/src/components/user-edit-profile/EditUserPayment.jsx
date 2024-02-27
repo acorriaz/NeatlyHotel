@@ -6,6 +6,7 @@ import {
   inputErrorIcon,
 } from "../utils/InputErrorStyles.jsx";
 import axios from "axios";
+import NavigationBar from "../navigation-bar/NavigationBar.jsx";
 
 function EditUserPayment() {
   const { isAuthenticated, userData } = useAuth();
@@ -37,6 +38,8 @@ function EditUserPayment() {
         }
       );
       alert("Update payment method successfully!", updatePaymentMethod);
+      console.log(updatePaymentMethod);
+      window.location.reload();
     } catch (error) {
       console.error(error);
       alert(error.message);
@@ -57,7 +60,7 @@ function EditUserPayment() {
   return (
     <>
       <main className="flex justify-center h-screen bg-utilBG">
-        <section className="bg-utilBG w-8/12 mt-36 mb-10 text-left">
+        <section className="bg-utilBG w-8/12 mt-10 mb-10 text-left">
           <form onSubmit={handleSubmit(onSubmit)}>
             <section className="flex justify-between items-center">
               <h1 className="headline2 text-green800">Payment Method</h1>

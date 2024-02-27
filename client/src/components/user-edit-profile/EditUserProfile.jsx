@@ -7,6 +7,8 @@ import {
   inputErrorIcon,
 } from "../utils/InputErrorStyles.jsx";
 import axios from "axios";
+import { auth } from "../../config/firebase-config.js";
+import NavigationBar from "../navigation-bar/NavigationBar.jsx";
 
 function EditUserProfile() {
   const { isAuthenticated, userData } = useAuth();
@@ -27,24 +29,32 @@ function EditUserProfile() {
       country: "",
     },
   });
-  const [selectedFileState, setSelectedFileState] = useState(null);
+  const [profilePic, setProfilePic] = useState(
+    userData?.userProfile?.profilePicUrl || null
+  );
   console.log(userData);
 
   const handleFileChange = (file) => {
-    setSelectedFileState(file);
+    setProfilePic(file);
   };
 
   const fileInputRef = useRef(null);
 
-  const handleRemoveImage = () => {
-    setSelectedFileState(null);
+  const handleRemoveImage = (e) => {
+    // e.preventDefault();
+    // e.stopPropagation();
+    setProfilePic(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+    console.log(profilePic);
   };
 
   const onSubmit = async (data) => {
     //Age > 18
+    const formData = new FormData();
+    // let newFormData = data;
+
     const ageOver18 = (dob) => {
       const birthday = new Date(dob);
       const today = new Date();
@@ -62,34 +72,29 @@ function EditUserProfile() {
       return;
     }
 
-    try {
-      const usersFromDB = await axios.get(
-        `http://localhost:4000/users/user-check/profile-update`,
-        {
-          params: {
-            username: data.username,
-            idNumber: data.idNumber,
-          },
-        }
-      );
-    } catch (error) {
-      console.error(error.message);
-      alert("Username or ID Number already exists.");
-      return;
+    Object.keys(data).forEach((key) => {
+      if (key === "dob") {
+        formData.append("dateOfBirth", data[key]);
+      } else if (key !== "profilePicUrl") {
+        formData.append(key, data[key]);
+      }
+    });
+
+    if (profilePic) {
+      formData.append("profilePic", profilePic);
     }
 
     try {
       const updateUser = await axios.put(
-        `http://localhost:4000/users/profile-update/${userData.userId}`,
+        `http://localhost:4000/users/update-user/${auth.currentUser.uid}`,
+        formData,
         {
-          fullName: data.fullName,
-          username: data.username,
-          idNumber: data.idNumber,
-          dateOfBirth: data.dob,
-          country: data.country,
+          headers: { "Content-Type": "multipart/form-data" },
         }
       );
       alert("Update profile successfully!", updateUser);
+      console.log(updateUser);
+      window.location.reload();
     } catch (error) {
       console.error(error);
       alert(error.message);
@@ -107,16 +112,25 @@ function EditUserProfile() {
         country: userData?.userProfile?.country || "",
       });
     }
-  }, [isAuthenticated, userData, reset]);
+  }, [userData]);
+
+  useEffect(() => {
+    if (userData?.userProfile?.profilePicUrl) {
+      setProfilePic(userData.userProfile.profilePicUrl);
+    }
+  }, [userData?.userProfile?.profilePicUrl]);
 
   useEffect(() => {
     return () => {
-      if (selectedFileState) {
+      if (profilePic) {
         // เอาไฟล์ที่อัปโหลดก่อนหน้านี้ออก เป็นขั้นตอนสำคัญในการบริหารทรัพยากรให้มีประสิทธิภาพ
-        URL.revokeObjectURL(selectedFileState);
+        URL.revokeObjectURL(profilePic);
       }
     };
-  }, [selectedFileState]);
+  }, [profilePic]);
+
+  const profilePicSrc =
+    profilePic instanceof File ? URL.createObjectURL(profilePic) : profilePic;
 
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
@@ -125,7 +139,7 @@ function EditUserProfile() {
   return (
     <>
       <main className="flex justify-center items-center bg-utilBG">
-        <section className="bg-utilBG w-7/12 h-full mt-36 mb-10 text-left">
+        <section className="bg-utilBG w-7/12 h-full mt-10 mb-10 text-left">
           <form onSubmit={handleSubmit(onSubmit)}>
             <section className="flex justify-between items-center">
               <h1 className="headline2 text-green800">Profile</h1>
@@ -500,16 +514,17 @@ function EditUserProfile() {
               Profile Picture
             </label>
             <br></br>
-            {selectedFileState ? (
+            {profilePic ? (
               <div className="relative">
                 <img
-                  src={URL.createObjectURL(selectedFileState)}
+                  src={profilePicSrc}
                   alt="Profile Picture"
                   className="size-40 rounded object-cover mt-5"
                   onClick={() => fileInputRef.current.click()}
                 />
                 <button
-                  onClick={() => handleRemoveImage()}
+                  type="button"
+                  onClick={handleRemoveImage}
                   className="absolute inset-x-0 bottom-[140px] left-[140px] text-utilRed size-fit"
                 >
                   <IoCloseCircle size="1.8em" />
@@ -527,13 +542,13 @@ function EditUserProfile() {
               </div>
             )}
             <Controller
-              name="avatar"
+              name="profilePicUrl"
               control={control}
               defaultValue={[]}
               render={({ field: { onChange, onBlur, name, ref } }) => (
                 <input
                   type="file"
-                  id="profilePicture"
+                  id="profilePicUrl"
                   className="hidden"
                   name={name}
                   ref={(e) => {
@@ -544,8 +559,7 @@ function EditUserProfile() {
                   onChange={(e) => {
                     const file = e.target.files[0];
                     if (file) {
-                      handleFileChange(file);
-                      onChange(file);
+                      setProfilePic(file);
                     }
                   }}
                 />

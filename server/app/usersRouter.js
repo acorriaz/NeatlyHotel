@@ -1,7 +1,7 @@
 import { Router } from "express";
 import prisma from "../utils/db.js";
 import multer from "multer";
-import handleUpload from "../utils/cloudinary.js"
+import handleUpload from "../utils/cloudinary.js";
 
 const storage = new multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -49,67 +49,87 @@ usersRouter.get("/user-email/:username", async (req, res) => {
 });
 
 // PUT : Update userprofile
-usersRouter.put("/update-user/:uid", upload.single("profilePic"), async (req, res) => {
-  if (!req.body) {
-    res.status(400).json({message: "No request body"})
-  }
+usersRouter.put(
+  "/update-user/:uid",
+  upload.single("profilePic"),
+  async (req, res) => {
+    if (!req.body) {
+      res.status(400).json({ message: "No request body" });
+    }
 
-  const formData = req.body
+    const formData = req.body;
+    console.log(req.file);
 
-  let profilePicUrlResponse = ""
+    let profilePicUrlResponse = "";
 
-  if (req.file && req.file.mimetype.startsWith("image/")) {
-    console.log("---Uploading to Cloudinary---")
+    if (req.file && req.file.mimetype.startsWith("image/")) {
+      console.log("---Uploading to Cloudinary---");
+      try {
+        const b64 = Buffer.from(req.file.buffer).toString("base64");
+        let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+        const uploadResult = await handleUpload(dataURI);
+        profilePicUrlResponse = uploadResult.url;
+        console.log("---Upload successfully---");
+        console.log("response from cloud: ", uploadResult);
+        console.log("Profile pic URL: ", profilePicUrlResponse);
+      } catch (err) {
+        res
+          .status(500)
+          .json({ message: "Error uploading image to cloudinary", error: err });
+      }
+    }
+    // TODO : else condition
+
     try {
-      const b64 = Buffer.from(req.file.buffer).toString("base64");
-      let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
-      const uploadResult = await handleUpload(dataURI);
-      profilePicUrlResponse = uploadResult.url
-      console.log("---Upload successfully---")
-      console.log("response from cloud: ", uploadResult)
-      console.log("Profile pic URL: ", profilePicUrlResponse)
+      console.log("---split full name---");
+      const newFirstName = formData.fullName.split(" ")[0];
+      const newLastName = formData.fullName.split(" ")[1];
+
+      let updateData = {
+        username: formData.username,
+        userProfile: {
+          update: {
+            fullName: formData.fullName,
+            firstName: newFirstName,
+            lastName: newLastName,
+            idNumber: formData.idNumber,
+            dateOfBirth: formData.dateOfBirth,
+            country: formData.country,
+          },
+        },
+      };
+
+      console.log(updateData);
+
+      console.log("--- construct ---");
+
+      if (profilePicUrlResponse) {
+        console.log("---profilePicUrl---");
+        updateData.userProfile.update.profilePicUrl = profilePicUrlResponse;
+      }
+
+      console.log(profilePicUrlResponse);
+
+      console.log("---Send Request to DB---");
+
+      const responseDB = await prisma.user.update({
+        where: { userId: req.params.uid },
+        data: updateData,
+        include: {
+          userProfile: true,
+        },
+      });
+
+      res.json({
+        message: "User profile updated successfully",
+        data: responseDB,
+      });
     } catch (err) {
-      res.status(500).json({message: "Error uploading image to cloudinary", error: err})
+      console.error(err);
+      res.status(500).json({ message: "Error update user profile in DB" });
     }
   }
-
-  try {
-    console.log("---split full name---")
-    const newFirstName = formData.fullName.split(" ")[0];
-    const newLastName = formData.fullName.split(" ")[1];
-
-    let updateData = {
-      fullName: formData.fullName,
-      firstName: newFirstName,
-      lastName: newLastName,
-      idNumber: formData.idNumber,
-      dateOfBirth: formData.dateOfBirth,
-      country: formData.country,
-    }
-
-    console.log(updateData)
-
-    console.log("--- construct ---")
-
-    if (profilePicUrlResponse) {
-      console.log("---profilePicUrl---")
-      updateData.profilePicUrl = profilePicUrlResponse
-    }
-
-    console.log(profilePicUrlResponse)
-
-    console.log("---Send Request to DB---")
-
-    const responseDB = await prisma.userProfile.update({
-      where: { userId: req.params.uid },
-      data: updateData
-    })
-
-    res.json({ message: "User profile updated successfully", data: responseDB})
-  } catch (err) {
-    res.status(500).json({message: "Error update user profile in DB"})
-  }
-});
+);
 
 usersRouter.get("/user-check", async (req, res) => {
   const { username, email, idNumber } = req.params;

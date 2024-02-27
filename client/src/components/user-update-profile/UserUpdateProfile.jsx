@@ -11,10 +11,9 @@ export default function UserUpdateProfile() {
     dateOfBirth: "",
     idNumber: "",
     country: "",
-  })
+  });
   const [profilePic, setProfilePic] = useState(null);
   const { userData } = useAuth();
-
 
   useEffect(() => {
     setUserDataInput({
@@ -31,21 +30,25 @@ export default function UserUpdateProfile() {
 
     Object.keys(userDataInput).forEach((key) => {
       formData.append(key, userDataInput[key]);
-    })
+    });
 
     if (profilePic) {
       formData.append("profilePic", profilePic);
     }
 
     try {
-      const response = await axios.put(`http://localhost:4000/users/update-user/${auth.currentUser.uid}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
+      const response = await axios.put(
+        `http://localhost:4000/users/update-user/${auth.currentUser.uid}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-      })
-      console.log(response)
+      );
+      console.log(response);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -78,24 +81,50 @@ export default function UserUpdateProfile() {
         <h2>Basic Information</h2>
         <div>
           <label htmlFor="fullName">Full Name</label>
-          <input type="text" id="fullName" name="fullName" onChange={(e) => handleInputChange(e)} value={userDataInput.fullName} />
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            onChange={(e) => handleInputChange(e)}
+            value={userDataInput.fullName}
+          />
         </div>
         <div>
           <label htmlFor="idNumber">ID Number</label>
-          <input type="text" id="idNumber" name="idNumber" onChange={(e) => handleInputChange(e)} value={userDataInput.idNumber} />
+          <input
+            type="text"
+            id="idNumber"
+            name="idNumber"
+            onChange={(e) => handleInputChange(e)}
+            value={userDataInput.idNumber}
+          />
         </div>
         <div>
           <label htmlFor="dateOfBirth">Date of Birth</label>
-          <input type="date" id="dateOfBirth" name="dateOfBirth" onChange={(e) => handleInputChange(e)} value={userDataInput.dateOfBirth} />
+          <input
+            type="date"
+            id="dateOfBirth"
+            name="dateOfBirth"
+            onChange={(e) => handleInputChange(e)}
+            value={userDataInput.dateOfBirth}
+          />
         </div>
         <div>
           <label htmlFor="country">Country</label>
-          <CountrySelectOption selectedCountry={userDataInput.country} handleInputChange={handleInputChange} />
+          <CountrySelectOption
+            selectedCountry={userDataInput.country}
+            handleInputChange={handleInputChange}
+          />
         </div>
       </div>
       <hr />
       <div>
-        <input type="file" id="profilePicUrl" name="profilePicUrl" onChange={(e) => handleFileChange(e)} />
+        <input
+          type="file"
+          id="profilePicUrl"
+          name="profilePicUrl"
+          onChange={(e) => handleFileChange(e)}
+        />
       </div>
     </form>
   );
