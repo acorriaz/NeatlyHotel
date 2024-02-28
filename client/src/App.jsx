@@ -20,6 +20,8 @@ import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminCustomerBookingPage from "./pages/AdminCustumerBookingPage";
 import AdminBookingDetailPage from "./pages/AdminBookingDetailPage";
 import AdminCreateRoomTypePage from "./pages/AdminCreateRoomTypePage";
+import RoomManagementPage from "./pages/RoomManagementPage";
+import RoomAndPropertyPage from "./pages/RoomAndPropertyPage";
 
 function App() {
   const [token, setToken] = useState(false);
@@ -49,16 +51,48 @@ function App() {
         />
         <Route path="/hotel" element={<SearchResultPage />} />
         <Route path="/hotel/detail/:roomTypeId" element={<RoomDetail />} />
-        <Route path="/users/booking-history/:userId" element={<BookingHistoryPage />}/>
-        <Route path="/users/booking-history/change-date" element={<BookingChangeDatePage />}/>
-        <Route path="/users/booking-history/refund" element={<BookingRefundPage />}/>
-        <Route path="/users/booking-history/refund-success"element={<BookingRefundSuccessPage />}/>
-        <Route path="/users/booking-history/cancel" element={<BookingCancelPage />}/>
-        <Route path="/users/booking-history/cancel-success" element={<BookingCancelSuccessPage />}/>
+        <Route
+          path="/users/booking-history/:userId"
+          element={<BookingHistoryPage />}
+        />
+        <Route
+          path="/users/booking-history/change-date"
+          element={<BookingChangeDatePage />}
+        />
+        <Route
+          path="/users/booking-history/refund"
+          element={<BookingRefundPage />}
+        />
+        <Route
+          path="/users/booking-history/refund-success"
+          element={<BookingRefundSuccessPage />}
+        />
+        <Route
+          path="/users/booking-history/cancel"
+          element={<BookingCancelPage />}
+        />
+        <Route
+          path="/users/booking-history/cancel-success"
+          element={<BookingCancelSuccessPage />}
+        />
         <Route path="/admin/login" element={<AdminLoginPage />} />
-        <Route path="/admin/customer-booking" element={<AdminCustomerBookingPage />}/>
-        <Route path="/admin/customer-booking/:bookingId" element={<AdminBookingDetailPage />}/>
-        <Route path="/admin/room-and-property/create-room-type" element={<AdminCreateRoomTypePage />} />
+        <Route
+          path="/admin/customer-booking"
+          element={<AdminCustomerBookingPage />}
+        />
+        <Route
+          path="/admin/customer-booking/:bookingId"
+          element={<AdminBookingDetailPage />}
+        />
+        <Route
+          path="/admin/room-and-property"
+          element={<RoomAndPropertyPage />}
+        />
+        <Route
+          path="/admin/room-and-property/create-room-type"
+          element={<AdminCreateRoomTypePage />}
+        />
+        <Route path="/admin/room-management" element={<RoomManagementPage />} />
       </Routes>
     </div>
   );
