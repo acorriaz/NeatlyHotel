@@ -72,7 +72,7 @@ function EditPriceModal({
           onClick={(e) => e.stopPropagation()}
           className="bg-utilWhite p-10 rounded relative"
         >
-          <button
+          {/* <button
             className="absolute top-2 right-2 text-utilRed"
             onClick={(e) => {
               e.stopPropagation(); // Also stop propagation when closing the modal via the button
@@ -80,7 +80,7 @@ function EditPriceModal({
             }}
           >
             <IoCloseCircle size="1.5em" />
-          </button>
+          </button> */}
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-y-3">
               <div className="relative">
@@ -90,7 +90,8 @@ function EditPriceModal({
                   <input
                     name="roomPrice"
                     id="roomPrice"
-                    type="number"
+                    type="text"
+                    pattern="\d*"
                     value={roomPrice}
                     className={inputErrorBorder(errors, "roomPrice")}
                     onChange={(e) => setRoomPrice(Number(e.target.value))}
@@ -105,7 +106,8 @@ function EditPriceModal({
                   <input
                     name="roomPromotionPrice"
                     id="roomPromotionPrice"
-                    type="number"
+                    type="text"
+                    pattern="\d*"
                     value={promotionPrice}
                     className={inputErrorBorder(errors, "roomPromotionPrice")}
                     onChange={(e) => setPromotionPrice(e.target.value)}
@@ -115,12 +117,19 @@ function EditPriceModal({
               </div>
             </div>
 
-            <div className="flex justify-center">
+            <div className="flex justify-around">
               <button
                 type="submit"
                 className="btn bg-orange600 hover:bg-orange500 active:bg-orange700 text-body1 text-utilWhite font-fontWeight6 mt-5"
               >
                 Update Price
+              </button>
+              <button
+                type="button"
+                onClick={() => onClose()}
+                className="btn bg-gray200 hover:bg-gray500 hover:text-gray200 active:bg-gray700 active:text-gray200 text-body1 text-gray600 font-fontWeight6 mt-5"
+              >
+                Cancel
               </button>
             </div>
           </form>

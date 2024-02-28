@@ -10,23 +10,26 @@ import BookingDetail from "./BookingDetail";
 import PaymentSpecialReq from "./PaymentSpecialReq";
 import PaymentMethod from "./PaymentMethod";
 
-export default function PaymentSection({ currentSection, handleSectionChange }) {
+export default function PaymentSection({
+  currentSection,
+  handleSectionChange,
+}) {
   const navigate = useNavigate();
-  const { searchInput } = useSearchInput()
-  const { userData } = useAuth()
-  const { roomDetailFromDB } = useRoomDetail()
+  const { searchInput } = useSearchInput();
+  const { userData } = useAuth();
+  const { roomDetailFromDB } = useRoomDetail();
   const [requestCheckboxValue, setRequestCheckboxValue] = useState({
-      earlyCheckIn: false,
-      lateCheckOut: false,
-      nonSmokeRoom: false,
-      highFloor: false,
-      quietRoom: false,
-      babyCot: false,
-      airportTransfer: false,
-      extraBed: false,
-      extraPillow: false,
-      phoneCharger: false,
-      breakfast: false,
+    earlyCheckIn: false,
+    lateCheckOut: false,
+    nonSmokeRoom: false,
+    highFloor: false,
+    quietRoom: false,
+    babyCot: false,
+    airportTransfer: false,
+    extraBed: false,
+    extraPillow: false,
+    phoneCharger: false,
+    breakfast: false,
   });
 
   function handleCheckboxChange(event, type) {
@@ -44,30 +47,36 @@ export default function PaymentSection({ currentSection, handleSectionChange }) 
       checkIn: searchInput.checkIn,
       checkOut: searchInput.checkOut,
       userId: userData.userId,
-      roomTypeId: roomDetailFromDB.roomTypeId, 
-      paymentMethod: "Credit Card"
-    }
-    
-    const filterUserRequest = Object.keys(requestCheckboxValue).reduce((acc, key) => {
-      if (requestCheckboxValue[key]) {
-        acc[key] = requestCheckboxValue[key]
-      }
-      return acc
-    }, {})
+      roomTypeId: roomDetailFromDB.roomTypeId,
+      paymentMethod: "Credit Card",
+    };
 
-    if ( Object.keys(filterUserRequest).length > 0 ) {
-      dataToSend.guestRequest = filterUserRequest
+    const filterUserRequest = Object.keys(requestCheckboxValue).reduce(
+      (acc, key) => {
+        if (requestCheckboxValue[key]) {
+          acc[key] = requestCheckboxValue[key];
+        }
+        return acc;
+      },
+      {}
+    );
+
+    if (Object.keys(filterUserRequest).length > 0) {
+      dataToSend.guestRequest = filterUserRequest;
     }
 
     try {
-      const response = await axios.post("http://localhost:4000/booking/reserve-room", dataToSend)
+      const response = await axios.post(
+        "http://localhost:4000/booking/reserve-room",
+        dataToSend
+      );
       navigate({
-        pathname: "/users/payment-result", 
-        state: response.data.userId
-      })
-      console.log(response)
+        pathname: "/users/payment-result",
+        state: response.data.userId,
+      });
+      console.log(response);
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
   }
 

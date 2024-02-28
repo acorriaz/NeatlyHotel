@@ -16,12 +16,13 @@ import BookingRefundSuccessPage from "./pages/BookingRefundSuccessPage";
 import BookingCancelPage from "./pages/BookingCancelPage";
 import BookingCancelSuccessPage from "./pages/BookingCancelSuccessPage";
 import PaymentPage from "./pages/PaymentPage";
+import PaymentResultPage from "./pages/PaymentResultPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminCustomerBookingPage from "./pages/AdminCustumerBookingPage";
 import AdminBookingDetailPage from "./pages/AdminBookingDetailPage";
 import AdminCreateRoomTypePage from "./pages/AdminCreateRoomTypePage";
+import AdminRoomAndPropertyPage from "./pages/RoomAndPropertyPage";
 import RoomManagementPage from "./pages/RoomManagementPage";
-import RoomAndPropertyPage from "./pages/RoomAndPropertyPage";
 
 function App() {
   const [token, setToken] = useState(false);
@@ -45,6 +46,7 @@ function App() {
         <Route path="/users/login" element={<UserLoginPage />} />
         <Route path="/users/register" element={<RegisterPage />} />
         <Route path="/users/payment" element={<PaymentPage />} />
+        <Route path="/users/payment-result" element={<PaymentResultPage />} />
         <Route
           path="/users/update-profile/:userId"
           element={<UserUpdateProfilePage />}
@@ -86,13 +88,12 @@ function App() {
         />
         <Route
           path="/admin/room-and-property"
-          element={<RoomAndPropertyPage />}
+          element={<AdminRoomAndPropertyPage />}
         />
         <Route
           path="/admin/room-and-property/create-room-type"
           element={<AdminCreateRoomTypePage />}
         />
-        <Route path="/admin/room-management" element={<RoomManagementPage />} />
       </Routes>
     </div>
   );

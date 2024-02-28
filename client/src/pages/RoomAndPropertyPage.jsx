@@ -1,6 +1,6 @@
 import RoomAndProperty from "../components/admin-room/RoomAndProperty";
 
-function RoomAndPropertyPage() {
+function AdminRoomAndPropertyPage() {
   return (
     <>
       <RoomAndProperty />
@@ -8,7 +8,7 @@ function RoomAndPropertyPage() {
   );
 }
 
-export default RoomAndPropertyPage;
+export default AdminRoomAndPropertyPage;
 
 // import React, { useEffect, useState } from "react";
 // import SideBarAdmin from "../components/SideBarAdmin";

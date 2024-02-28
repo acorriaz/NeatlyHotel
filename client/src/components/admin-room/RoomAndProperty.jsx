@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import searchVector from "../../assets/admin/searchVector.svg";
 import SideBar from "../admin/SideBar";
-import EditPriceModal from "./EditModal";
+import EditPriceModal from "./EditPriceModal";
 
 const RoomAndProperty = () => {
   const [rooms, setRooms] = useState([]);
