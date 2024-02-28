@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
+import { useAuth } from "./components/hooks/useAuth";
 
 import ScrollToTop from "./components/utils/ScrollToTop";
 import RoomDetail from "./pages/RoomDetailPage";
@@ -25,19 +26,9 @@ import RoomAndPropertyPage from "./pages/RoomAndPropertyPage";
 import EditRoomPage from "./pages/AdminEditRoomPage";
 
 function App() {
-  const [token, setToken] = useState(false);
-
-  if (token) {
-    sessionStorage.setItem("token", JSON.stringify(token));
-  }
-
-  useEffect(() => {
-    if (sessionStorage.getItem("token")) {
-      let data = JSON.parse(sessionStorage.getItem("token"));
-      setToken(data);
-    }
-  }, []);
-
+  // เรียกข้อมูล user or admin 
+  const {userData, isAuthenticated} = useAuth();
+  
   return (
     <div className="App">
       <ScrollToTop />
@@ -45,6 +36,8 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/users/login" element={<UserLoginPage />} />
         <Route path="/users/register" element={<RegisterPage />} />
+        <Route path="/hotel" element={<SearchResultPage />} />
+        <Route path="/hotel/detail/:roomTypeId" element={<RoomDetail />} />
         <Route path="/users/payment" element={<PaymentPage />} />
         <Route path="/users/update-profile/:userId" element={<UserUpdateProfilePage />} />
         <Route path="/hotel" element={<SearchResultPage />} />

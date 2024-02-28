@@ -75,12 +75,12 @@ export default function NavigationBarAuth() {
             </Link>
           </li>
           <li>
-            <a
-              href="/users/booking-history/iWHb6OezMpUeZUiNALqr6wKncTh1"
+            <Link
+              to={"/users/booking-history/" + userData.userId}
               className="font-sans text-sm text-gray700"
             >
               Booking History
-            </a>
+            </Link>
           </li>
           <hr className="my-1" />
           <li>

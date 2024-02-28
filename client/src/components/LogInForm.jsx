@@ -26,21 +26,6 @@ async function getEmailFromUsername(username) {
   }
 }
 
-// หา email จาก admin username
-async function getEmailFromAdminUsername(username) {
-  try {
-    const userEmail = await axios.get(
-      `http://localhost:4000/admin/admin-email/${username}`
-    );
-    return userEmail.data.email;
-  } catch (error) {
-    console.error("Error fetching email", error);
-    return null;
-  }
-}
-
-
-
 // --login ของ user--
 export function UserLoginForm() {
   const navigate = useNavigate();
@@ -154,40 +139,28 @@ export function UserLoginForm() {
 
 // --login ของ admin--
 export function AdminLoginForm() {
+  const navigate = useNavigate();
+
   const [adminUsernameOrEmail, setAdminUsernameOrEmail] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
+  const { handleIsAuthenticated } = useAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const emailCheck = isEmail(adminUsernameOrEmail);
-    let adminLogin = adminUsernameOrEmail;
-
-    if (!emailCheck) {
-      try {
-        const fetchedEmail = await getEmailFromAdminUsername(
-          adminUsernameOrEmail
-        );
-        adminLogin = fetchedEmail;
-      } catch (error) {
-        alert("Login failed: Username or Email not found");
-      }
-    }
-
+    //post username,password ไป ถ้าผ่าน นำ token ใส่ไปที่ handleIsAuthenticated 
     try {
-      const response = await signInWithEmailAndPassword(
-        auth,
-        adminLogin,
-        adminPassword
-      );
-      console.log("response from firebase", response);
-      await handleIsAuthenticated();
+      const response = await axios.post("http://localhost:4000/admin/login", {
+        username: adminUsernameOrEmail,
+        password: adminPassword,
+      });
+      console.log("response from database", response);
+      const token = response.data.token;
+      await handleIsAuthenticated(token);
       navigate("/admin/customer-booking");
     } catch (error) {
       console.error("Error signing in", error);
-    }    
-
-
+    }
   };
 
   return (
@@ -201,7 +174,9 @@ export function AdminLoginForm() {
         {/* login container div */}
         <div className="flex justify-center items-center w-2/4 pl-12 pr-40 pt-15 pb-30">
           <div className="flex-col bg-utilBG w-screen h-fit text-left">
-            <h1 className="headline2 w-full mb-60 text-green800">Log In</h1>
+            <h1 className="headline2 w-full mb-60 text-green800">
+              Admin Log In
+            </h1>
             <div className="w-full">
               {/* form start here */}
               <form className="adminLoginForm" onSubmit={handleSubmit}>
