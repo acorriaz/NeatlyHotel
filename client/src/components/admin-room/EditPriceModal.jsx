@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { IoCloseCircle } from "react-icons/io5";
 import { inputErrorBorder, inputErrorIcon } from "../utils/InputErrorStyles";
 
 function EditPriceModal({
@@ -72,15 +71,6 @@ function EditPriceModal({
           onClick={(e) => e.stopPropagation()}
           className="bg-utilWhite p-10 rounded relative"
         >
-          {/* <button
-            className="absolute top-2 right-2 text-utilRed"
-            onClick={(e) => {
-              e.stopPropagation(); // Also stop propagation when closing the modal via the button
-              onClose();
-            }}
-          >
-            <IoCloseCircle size="1.5em" />
-          </button> */}
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-y-3">
               <div className="relative">

@@ -94,6 +94,7 @@ function App() {
           path="/admin/room-and-property/create-room-type"
           element={<AdminCreateRoomTypePage />}
         />
+        <Route path="/admin/room-management" element={<RoomManagementPage />} />
       </Routes>
     </div>
   );
