@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import SideBarAdmin from "../SideBarAdmin";
 import searchVector from "../../assets/admin/searchVector.svg";
+import SideBar from "../admin/SideBar";
 
 const RoomManagement = () => {
   const [rooms, setRooms] = useState([]);
@@ -9,6 +9,7 @@ const RoomManagement = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectedRoomId, setSelectedRoomId] = useState(null);
   const [status, setStatus] = useState("");
+  const [searchStatus, setSearchStatus] = useState("");
 
   const getRoomNumber = async () => {
     try {
@@ -22,30 +23,51 @@ const RoomManagement = () => {
     }
   };
 
-  const getStatusButtonColor = (statusName) => {
-    const colorMap = {
-      Vacant: "text-green-700 bg-gray-200",
-      Occupied: "text-red-700 bg-red-100",
-      "Assign Clean": "text-green-700 bg-blue-200",
-      "Assign Dirty": "text-red-700 bg-red-200",
-      "Vacant Clean": "text-green-700 bg-green-100",
-      "Vacant Clean Inspected": "text-green-700 bg-yellow-100",
-      "Vacant Clean Pick Up": "text-green-700 bg-yellow-200",
-      "Occupied Clean": "text-red-700 bg-green-200",
-      "Occupied Clean Inspected": "text-red-700 bg-yellow-100",
-      "Occupied Dirty": "text-red-700 bg-red-200",
-      "Out of Order": "text-gray-700 bg-gray-200",
-      "Out of Service": "text-gray-700 bg-gray-100",
-      "Out of Inventory": "text-gray-700 bg-gray-200",
-    };
+  const colorMap = {
+    Vacant: "text-green-700 bg-gray-200",
+    Occupied: "text-red-700 bg-red-100",
+    "Assign Clean": "text-green-700 bg-blue-200",
+    "Assign Dirty": "text-red-700 bg-red-200",
+    "Vacant Clean": "text-green-700 bg-green-100",
+    "Vacant Clean Inspected": "text-green-700 bg-yellow-100",
+    "Vacant Clean Pick Up": "text-green-700 bg-yellow-200",
+    "Occupied Clean": "text-red-700 bg-green-200",
+    "Occupied Clean Inspected": "text-red-700 bg-yellow-100",
+    "Occupied Dirty": "text-red-700 bg-red-200",
+    "Out of Order": "text-gray-700 bg-gray-200",
+    "Out of Service": "text-gray-700 bg-gray-100",
+    "Out of Inventory": "text-gray-700 bg-gray-200",
+  };
 
+  const getStatusButtonColor = (statusName) => {
     return colorMap[statusName] || "gray";
+  };
+
+  const statusMap = {
+    Vacant: 1,
+    Occupied: 2,
+    "Assign Clean": 3,
+    "Assign Dirty": 4,
+    "Vacant Clean": 5,
+    "Vacant Clean Inspected": 6,
+    "Vacant Clean Pick Up": 7,
+    "Occupied Clean": 8,
+    "Occupied Clean Inspected": 9,
+    "Occupied Dirty": 10,
+    "Out of Order": 11,
+    "Out of Service": 12,
+    "Out of Inventory": 13,
+  };
+
+  const getStatusIdByName = (statusName) => {
+    return statusMap[statusName] || null;
   };
 
   const handleStatusChange = async (roomId, statusName) => {
     try {
+      const statusId = getStatusIdByName(statusName);
       await axios.put(`http://localhost:4000/status/rooms/${roomId}`, {
-        statusName: statusName,
+        statusId: statusId,
       });
       setRooms((prevRooms) =>
         prevRooms.map((room) =>
@@ -77,9 +99,13 @@ const RoomManagement = () => {
         .includes(searchKeyword.toLowerCase())
   );
 
+  const filteredStatusNames = Object.keys(colorMap).filter((statusName) =>
+    statusName.toLowerCase().includes(searchStatus.toLowerCase())
+  );
+
   return (
     <div className="bg-white room-and-property-page flex h-full">
-      <SideBarAdmin />
+      <SideBar />
       <main className="flex flex-col bg-gray-100 w-[1400px]">
         <div className="flex justify-between items-center px-[60px] py-[3px] bg-white w-full h-[90px]">
           <h1 className="text-lg font-semibold">Room & Property</h1>
@@ -100,6 +126,7 @@ const RoomManagement = () => {
             </div>
           </div>
         </div>
+
         {/* room type list */}
         <section className="room-listing px-[60px] py-[50px] border-t-2 ">
           <table className="w-full text-left bg-white">
@@ -121,7 +148,7 @@ const RoomManagement = () => {
                     <td className="p-4">{room.roomNumber}</td>
                     <td className="p-4">{room.roomType.roomTypeName}</td>
                     <td className="p-4">{room.roomType.bedType.bedTypeName}</td>
-                    <td className="p-4">
+                    <td className="p-4 relative">
                       <button
                         onClick={() =>
                           setIsOpen((prev) => ({
@@ -129,32 +156,40 @@ const RoomManagement = () => {
                             [room.roomId]: !prev[room.roomId],
                           }))
                         }
+                        className={`${getStatusButtonColor(
+                          room.roomStatus.statusName
+                        )} w-fit mt-[8px] rounded-[5px] px-[12px] py-[4px] font-semibold`}
                       >
                         {room.roomStatus.statusName}
+
                         {/* status pick part */}
                         {isOpen[room.roomId] && (
-                          <div className="relative">
+                          <div
+                            className="absolute left-4 mt-2 w-[215px] h-[245px] z-10 bg-white shadow-lg overflow-y-auto font-semibold"
+                            onClick={(e) => e.stopPropagation()}
+                          >
                             <input
                               type="text"
-                              className="w-[212px] h-[45px] px-[16px] py-[12px] border-1 border-gray-200 focus:border-gray-500 outline-none transition"
+                              className="w-max h-[45px] px-[16px] py-[12px] border-1 border-gray-200 focus:border-gray-500 outline-none transition"
                               placeholder="Search Status..."
+                              onChange={(e) => setSearchStatus(e.target.value)}
                             />
-                            <div className="absolute mt-1 w-full p-2 bg-white shadow-lg max-h-36 overflow-y-auto font-semibold">
+                            <div className=" p-2 bg-white shadow-lg overflow-y-auto font-semibold">
                               <ul>
-                                {rooms.map((room) => (
+                                {filteredStatusNames.map((statusName) => (
                                   <li
-                                    key={room.roomId}
+                                    key={statusName}
                                     onClick={() =>
                                       handleStatusChange(
                                         room.roomId,
-                                        room.roomStatus.statusName
+                                        statusName
                                       )
                                     }
                                     className={`${getStatusButtonColor(
-                                      room.roomStatus.statusName
+                                      statusName
                                     )} w-fit mt-[8px] rounded-[5px] px-[12px] py-[4px] `}
                                   >
-                                    {room.roomStatus.statusName}
+                                    {statusName}
                                   </li>
                                 ))}
                               </ul>
