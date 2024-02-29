@@ -1,7 +1,9 @@
 import Search from "../../assets/admin/icon/search.png";
 import { useState, useEffect } from "react"; 
+import { Link, useNavigate } from "react-router-dom";
 
 function NavBarAdmin(props){
+  const navigate = useNavigate()
   const [Input, setInput] = useState("");
 
   if (props.showSearchInput) {
@@ -37,13 +39,17 @@ function NavBarAdmin(props){
         ) : (
           <>
             <h1 className="w-full flex items-center">
-              <a
-                href="/admin/customer-booking"
+              <button
+                onClick={() => {
+                  navigate(-1);
+                }}
                 className="mr-4 font-fontWeight6 text-gray600 text-2xl"
               >
                 &#129120;
-              </a>
-              <span className="headline5 font-fontWeight6 mr-4">{props.pageName.username}</span>
+              </button>
+              <span className="headline5 font-fontWeight6 mr-4">
+                {props.pageName.username}
+              </span>
               <span className="w-full">{props.pageName.roomType}</span>
             </h1>
           </>
