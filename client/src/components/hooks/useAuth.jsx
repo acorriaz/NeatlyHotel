@@ -1,7 +1,6 @@
 import { useState, createContext, useContext, useEffect } from "react";
 import { auth } from "../../config/firebase-config";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext({
   isAuthenticated: false,
@@ -44,22 +43,7 @@ export const AuthProvider = ({ children }) => {
         console.log(err);
         alert("Login Fail");
       }
-    }
-    // ถ้า Login ด้วย admin จะเข้าเงื่อนไขนี้ พร้อม token, เก็บ token ไว้ใน localStorage กำหนด role เป็น admin
-    else if (token) {
-      try {
-        localStorage.setItem("token", token);
-        const userDataFromToken = jwtDecode(token);
-        setIsAuthenticated(Boolean(localStorage.getItem("token")));
-        setUserData({
-          role: "admin",
-          token: userDataFromToken,
-        });
-      } catch (err) {
-        console.log(err);
-        alert("Login Fail");
-      }
-    } else {
+    }else {
       setIsAuthenticated(false);
     }
   }

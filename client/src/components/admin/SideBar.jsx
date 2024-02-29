@@ -5,12 +5,12 @@ import Manage from "../../assets/admin/icon/manage.png";
 import Room from "../../assets/admin/icon/room.png";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useAuth } from "../hooks/useAuth";
+import { useAdminAuth } from "../hooks/useAuthAdmin";
 import { useNavigate, Link } from "react-router-dom";
 
 function SideBar() {
   const [activePage, setActivePage] = useState("customer-booking"); // State to store active page
-  const { logout } = useAuth();
+  const { logout } = useAdminAuth();
   const navigate = useNavigate();
 
   // Function to handle click on a link and set activePage state

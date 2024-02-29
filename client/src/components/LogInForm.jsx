@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
+import { useAdminAuth } from "./hooks/useAuthAdmin"
 import axios from "axios";
 import chairBesidePool from "../assets/loginPageImage/chairBesidePool.jpg";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -57,7 +58,7 @@ export function UserLoginForm() {
         userPassword
       );
       console.log("response from firebase", response);
-      await handleIsAuthenticated();
+      handleIsAuthenticated();
       navigate("/");
     } catch (error) {
       console.error("Error signing in", error);
@@ -122,7 +123,7 @@ export function UserLoginForm() {
               </form>
               <span className="text-gray700 text-body1">
                 Don’t have an account yet?
-              </span>{" "}
+              </span>
               <Link
                 to="/users/register"
                 className="text-body1 font-fontWeight6 text-orange-500"
@@ -140,24 +141,20 @@ export function UserLoginForm() {
 // --login ของ admin--
 export function AdminLoginForm() {
   const navigate = useNavigate();
-
   const [adminUsernameOrEmail, setAdminUsernameOrEmail] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
-  const { handleIsAuthenticated } = useAuth();
+  const { login } = useAdminAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    //post username,password ไป ถ้าผ่าน นำ token ใส่ไปที่ handleIsAuthenticated 
     try {
-      const response = await axios.post("http://localhost:4000/admin/login", {
-        username: adminUsernameOrEmail,
-        password: adminPassword,
+      await login({
+        username:adminUsernameOrEmail,
+        password:adminPassword
       });
-      console.log("response from database", response);
-      const token = response.data.token;
-      await handleIsAuthenticated(token);
       navigate("/admin/customer-booking");
+      console.log("Admin login successfully");
     } catch (error) {
       console.error("Error signing in", error);
     }

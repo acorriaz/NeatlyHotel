@@ -10,6 +10,7 @@ import roomRouter from "./app/roomDetailRouter.js";
 import bookingRouter from "./app/bookingRouter.js";
 import bookingHistory from "./app/bookingHistoryRouter.js";
 import statusRouter from "./app/statusRouter.js";
+import adminAuthRouter from "./app/adminAuthRouter.js";
 import prisma from "./utils/db.js";
 
 const app = express();
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(morgan("tiny"));
 
+app.use("/auth/admin", adminAuthRouter);
 app.use("/admin", adminRouter);
 app.use("/users", usersRouter);
 app.use("/hotel", hotelRouter);
