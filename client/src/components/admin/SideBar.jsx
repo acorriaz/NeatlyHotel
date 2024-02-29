@@ -1,9 +1,9 @@
 import LogoNeatly from "../../assets/admin/logo.png";
 import Booking from "../../assets/admin/icon/booking.png";
-import Hotel from "../../assets/admin/icon/hotel.png";
 import Logout from "../../assets/admin/icon/logout.png";
 import Manage from "../../assets/admin/icon/manage.png";
 import Room from "../../assets/admin/icon/room.png";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 
 function SideBar() {
@@ -31,65 +31,51 @@ function SideBar() {
                   activePage === "customer-booking" ? "bg-green600" : ""
                 }`}
               >
-                <a
-                  href="/admin/customer-booking"
+                <Link
+                  to="/admin/customer-booking"
                   className="flex gap-4"
                   onClick={() => handlePageClick("customer-booking")}
                 >
                   <img src={Booking} alt="" width={24} />
                   Customer Booking
-                </a>
+                </Link>
               </li>
               <li
                 className={`p-6 ${
                   activePage === "room-management" ? "bg-green600" : ""
                 }`}
               >
-                <a
-                  href="#"
+                <Link
+                  to="/admin/room-management"
                   className="flex gap-4"
                   onClick={() => handlePageClick("room-management")}
                 >
                   <img src={Manage} alt="" width={24} />
                   Room Management
-                </a>
-              </li>
-              <li
-                className={`p-6 ${
-                  activePage === "hotel-information" ? "bg-green600" : ""
-                }`}
-              >
-                <a
-                  href="#"
-                  className="flex gap-4"
-                  onClick={() => handlePageClick("hotel-information")}
-                >
-                  <img src={Hotel} alt="" width={24} />
-                  Hotel Information
-                </a>
+                </Link>
               </li>
               <li
                 className={`p-6 ${
                   activePage === "room-Property" ? "bg-green600" : ""
                 }`}
               >
-                <a
-                  href="#"
+                <Link
+                  to="/admin/room-and-property"
                   className="flex gap-4"
                   onClick={() => handlePageClick("room-Property")}
                 >
                   <img src={Room} alt="" width={24} />
                   Room & Property
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>
         </div>
         <div className="p-6 hover:bg-green600 border border-green800 border-t-green700 text-green100">
-          <a href="#" className="flex gap-4">
+          <button className="flex gap-4">
             <img src={Logout} alt="" width={24} />
             Logout
-          </a>
+          </button>
         </div>
       </div>
     </div>

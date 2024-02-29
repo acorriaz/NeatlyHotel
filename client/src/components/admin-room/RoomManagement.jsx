@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import searchVector from "../../assets/admin/searchVector.svg";
 import SideBar from "../admin/SideBar";
+import { useNavigate } from "react-router";
 
 const RoomManagement = () => {
   const [rooms, setRooms] = useState([]);
@@ -10,6 +11,8 @@ const RoomManagement = () => {
   const [selectedRoomId, setSelectedRoomId] = useState(null);
   const [status, setStatus] = useState("");
   const [searchStatus, setSearchStatus] = useState("");
+
+  const navigate = useNavigate();
 
   const getRoomNumber = async () => {
     try {
@@ -21,6 +24,12 @@ const RoomManagement = () => {
     } catch (error) {
       console.error("Error searching rooms:", error);
     }
+  };
+  
+  const handleOnClick = (room) => {
+    navigate(`/admin/room-management/edit-room/${room.roomId}`, {
+      state: { room: room },
+    });
   };
 
   const colorMap = {
@@ -145,7 +154,12 @@ const RoomManagement = () => {
                     className="border-b w-full h-[77px] py-[15px] hover:bg-gray-100"
                     key={room.roomId}
                   >
-                    <td className="p-4">{room.roomNumber}</td>
+                    <td
+                      onClick={() => handleOnClick(room)}
+                      className="p-4 cursor-pointer"
+                    >
+                      {room.roomNumber}
+                    </td>
                     <td className="p-4">{room.roomType.roomTypeName}</td>
                     <td className="p-4">{room.roomType.bedType.bedTypeName}</td>
                     <td className="p-4 relative">
@@ -165,7 +179,7 @@ const RoomManagement = () => {
                         {/* status pick part */}
                         {isOpen[room.roomId] && (
                           <div
-                            className="absolute left-4 mt-2 w-[215px] h-[245px] z-10 bg-white shadow-lg overflow-y-auto font-semibold"
+                            className="absolute left-4 mt-2 w-[300px] h-[350px] z-10 bg-white shadow-lg overflow-y-auto font-semibold"
                             onClick={(e) => e.stopPropagation()}
                           >
                             <input
