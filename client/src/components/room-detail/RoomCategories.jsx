@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function RoomCategories(props) {
   const [roomDetail, setRoomDetail] = useState(props.room);
-  
+
   const roomData = roomDetail.filter(
     (room) => room.roomTypeId === Number(props.param)
   );
@@ -26,7 +26,11 @@ function RoomCategories(props) {
             </div>
             <div className="w-2/5 flex flex-col items-end gap-14 mt-20 text-gray700">
               <div>
+<<<<<<< HEAD
                 <p className="line-through"> THB - </p>
+=======
+                <p className="line-through"> THB 7,000.00 </p>
+>>>>>>> d278fbd (refactor: Link and navigate some pages, change picture in landing page to match with figma)
                 <p> THB {roomData[0].roomPrice} </p>
               </div>
               <Link to="/hotel">

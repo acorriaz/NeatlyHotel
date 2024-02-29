@@ -1,7 +1,7 @@
-import { useState , useEffect} from "react";
+import { useState, useEffect } from "react";
 
 function ImageSlideRoom(props) {
-  const [page,setPage] = useState(0);
+  const [page, setPage] = useState(0);
 
   const imageRoom = props.image.map((img, index) => {
     return {
@@ -23,22 +23,17 @@ function ImageSlideRoom(props) {
       handleNext();
     }, 3000);
     return () => clearInterval(interval);
-  }, [page]); 
+  }, [page]);
   //
   return (
     <header className="relative w-full h-fit mt-20 bg-gray300">
       {/* Carousel content */}
       <div className="carousel carousel-center w-full p-4 space-x-4">
         {imageRoom.map((item, index) => (
-
-          <div
-            id={item.id}
-            key={index}
-            className="carousel-item w-4/5"
-          >
+          <div id={item.id} key={index} className="carousel-item w-4/5">
             <img
               src={item.image}
-              className="w-full h-[580px]"
+              className="w-full h-[580px] object-cover"
               alt={`Image ${item.id}`}
             />
           </div>

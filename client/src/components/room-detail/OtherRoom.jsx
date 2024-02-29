@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-function OtherRoom (props) {
+function OtherRoom(props) {
   const [roomDetail, setRoomDetail] = useState(props.room);
-  
+
   const roomData = roomDetail.filter(
     (room) => room.roomTypeId !== Number(props.param)
   );
 
   const getRandomInt = (max) => {
     return Math.floor(Math.random() * max);
-  }
+  };
 
   return (
     <section className="w-full h-[660px] flex justify-center content-center p-24  bg-green200">
@@ -25,7 +25,11 @@ function OtherRoom (props) {
                   <img
                     src={otherRoom.roomImage[0].imageUrl}
                     alt="image"
+<<<<<<< HEAD
                     className="w-full h-[340px]"
+=======
+                    className="w-full h-[340px] brightness-75"
+>>>>>>> d278fbd (refactor: Link and navigate some pages, change picture in landing page to match with figma)
                   />
                   <div className="absolute bottom-10 left-12 text-utilWhite">
                     <p className="headline3 text-utilWhite mb-6">
@@ -45,7 +49,6 @@ function OtherRoom (props) {
       </div>
     </section>
   );
-   
 }
 
 export default OtherRoom;

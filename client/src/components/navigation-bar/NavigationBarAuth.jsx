@@ -2,6 +2,7 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import dafaultProfilePic from "../../assets/defaultImage/dafaultProfilePic.png";
+import { auth } from "../../config/firebase-config";
 
 export default function NavigationBarAuth() {
   const { userData, logout } = useAuth();
@@ -76,7 +77,7 @@ export default function NavigationBarAuth() {
           </li>
           <li>
             <Link
-              to={"/users/booking-history/" + userData.userId}
+              to={`/users/booking-history/${auth.currentUser.uid}`}
               className="font-sans text-sm text-gray700"
             >
               Booking History
