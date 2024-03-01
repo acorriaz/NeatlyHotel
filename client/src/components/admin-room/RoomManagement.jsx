@@ -114,7 +114,7 @@ const RoomManagement = () => {
 
   return (
     <div className="bg-white room-and-property-page flex h-full">
-      <SideBar />
+      <SideBar pageName="room-management" />
       <main className="flex flex-col bg-gray-100 w-[1400px]">
         <div className="flex justify-between items-center px-[60px] py-[3px] bg-white w-full h-[90px]">
           <h1 className="text-lg font-semibold">Room & Property</h1>

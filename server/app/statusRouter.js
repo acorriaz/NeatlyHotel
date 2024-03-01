@@ -1,7 +1,10 @@
 import { Router } from "express";
 import prisma from "../utils/db.js";
+import { protect } from "../middlewares/protect.js";
 
 const statusRouter = Router();
+
+statusRouter.use(protect);
 
 statusRouter.put("/update-room/:roomId", async function (req, res) {
   const { roomId } = req.params;

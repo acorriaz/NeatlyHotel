@@ -53,7 +53,6 @@ function BookingHistory() {
   }, []);
 
   {
-    if (booking) {
       return (
         <>
           <div className="p-20 mt-16 bg-gray100">
@@ -101,6 +100,5 @@ function BookingHistory() {
       );
     }
   }
-}
 
 export default BookingHistory;

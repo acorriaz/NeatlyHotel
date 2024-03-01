@@ -48,7 +48,7 @@ const RoomAndProperty = () => {
 
   return (
     <div className="bg-white room-and-property-page flex h-full">
-      <SideBar />
+      <SideBar pageName="room-Property" />
       <main className="flex flex-col bg-gray-100 w-[1400px]">
         <div className="flex justify-between items-center px-[60px] py-[3px] bg-white w-full h-[90px]">
           <h1 className="text-lg font-semibold">Room & Property</h1>
@@ -69,7 +69,7 @@ const RoomAndProperty = () => {
             </div>
             <button
               onClick={() => {
-                handleUpdateNavigate()
+                handleUpdateNavigate();
               }}
               className=" border rounded-[4px] bg-orange-500 text-white cursor-pointer w-[180px] h-[50px]"
             >
@@ -100,29 +100,29 @@ const RoomAndProperty = () => {
                     key={room.roomTypeId}
                     onClick={() => handleUpdateNavigate(room.roomTypeId)}
                   >
-                      <td className="p-4">
-                        <img
-                          src={room.roomImage[0].imageUrl}
-                          alt={room.roomTypeName}
-                          className="w-[120px] h-[72px] rounded-[5px] object-cover"
-                        />
-                      </td>
-                      <td className="p-4">{room.roomTypeName}</td>
-                      <td className="p-4">
-                        {discount.toLocaleString("en-US", {
-                          style: "currency",
-                          currency: "USD",
-                        })}
-                      </td>
-                      <td className="p-4">
-                        {room.roomPrice.toLocaleString("en-US", {
-                          style: "currency",
-                          currency: "USD",
-                        })}
-                      </td>
-                      <td className="p-4">{room.guestCapacity}</td>
-                      <td className="p-4">{room.bedType.bedTypeName}</td>
-                      <td className="p-4">{`${room.roomSize} sqm`}</td>
+                    <td className="p-4">
+                      <img
+                        src={room.roomImage[0].imageUrl}
+                        alt={room.roomTypeName}
+                        className="w-[120px] h-[72px] rounded-[5px] object-cover"
+                      />
+                    </td>
+                    <td className="p-4">{room.roomTypeName}</td>
+                    <td className="p-4">
+                      {discount.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      })}
+                    </td>
+                    <td className="p-4">
+                      {room.roomPrice.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      })}
+                    </td>
+                    <td className="p-4">{room.guestCapacity}</td>
+                    <td className="p-4">{room.bedType.bedTypeName}</td>
+                    <td className="p-4">{`${room.roomSize} sqm`}</td>
                   </tr>
                 );
               })}
