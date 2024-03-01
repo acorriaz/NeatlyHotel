@@ -20,7 +20,9 @@ function SearchResult() {
   const [modalImageIndex, setModalImageIndex] = useState(0);
 
   function handlePaymentButtonClick(roomTypeId) {
-    if (roomTypeId) {
+    if (isAuthenticated === false) {
+      navigate("/users/login");
+    } else if (roomTypeId) {
       navigate("/users/payment", { state: { idFromSearch: roomTypeId } });
     }
   }

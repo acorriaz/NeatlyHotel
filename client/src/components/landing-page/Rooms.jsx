@@ -5,7 +5,7 @@ export default function Rooms({ src, alt, title, height, width }) {
         src={src}
         alt={alt}
         style={{ height: height ? height : "100%" }}
-        className={`m-auto w-full relative object-cover`}
+        className={`m-auto w-full relative object-cover brightness-75`}
       />
       <div className="absolute bottom-20 left-16">
         <h2 className="text-[2.75rem] text-white font-noto-serif">{title}</h2>

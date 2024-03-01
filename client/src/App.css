@@ -38,7 +38,7 @@
   width: 1.5rem;
   background: transparent;
   transition: background 250ms;
-  border: 1px solid #D6D9E4;
+  border: 1px solid #d6d9e4;
   border-radius: 0.25rem;
 }
 
@@ -50,7 +50,7 @@
   width: 1.5rem;
   background: transparent;
   transition: background 250ms;
-  border: 1px solid #D6D9E4;
+  border: 1px solid #d6d9e4;
   border-radius: 3rem;
 }
 
@@ -92,7 +92,7 @@
 .b-contain:hover input[type="checkbox"]:not([disabled]) ~ .b-input,
 .b-contain input[type="checkbox"]:focus ~ .b-input {
   background: transparent;
-  border-color: #E76B39;
+  border-color: #e76b39;
 }
 
 .b-contain:hover input[type="radio"]:not([disabled]) ~ .b-input,
@@ -106,8 +106,8 @@
 }
 
 .b-contain input[type="checkbox"]:checked ~ .b-input {
-  background: #E76B39;
-  border-color: #D6D9E4;
+  background: #e76b39;
+  border-color: #d6d9e4;
 }
 
 .b-contain input[type="radio"]:checked ~ .b-input {
@@ -127,8 +127,8 @@
 
 .b-contain:hover input[type="checkbox"]:not([disabled]):checked ~ .b-input,
 .b-contain input[type="checkbox"]:checked:focus ~ .b-input {
-  background: #E76B39;
-  border-color: #D6D9E4;
+  background: #e76b39;
+  border-color: #d6d9e4;
 }
 
 .b-contain:hover input[type="radio"]:not([disabled]):checked ~ .b-input,

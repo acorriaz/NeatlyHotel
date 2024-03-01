@@ -22,14 +22,13 @@ function BookingChangeDate() {
         {
           checkIn: checkIn,
           checkOut: checkOut,
-        });    
-        navigate(
-          `/users/booking-history/${location.state.data.userId}`
-        );
+        }
+      );
+      navigate(`/users/booking-history/${location.state.data.userId}`);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   //แสดงวันที่แบบ ชื่อวัน วันที่ ชื่อเดือน และปี
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -65,12 +64,12 @@ function BookingChangeDate() {
   //เมื่อกดเปลี่ยนวัน checkin วัน checkOut จะเปลี่ยนตามระยะห่างของวันจองเดิม
   const changeDateFunc = (checkIn) => {
     let difDate = differenceDate();
-    let newDate = new Date(checkIn)
+    let newDate = new Date(checkIn);
     newDate.setDate(newDate.getDate() + difDate);
     let formattedDate = newDate.toISOString().split("T")[0];
     setCheckOut(formattedDate);
   };
-  
+
   if (booking) {
     return (
       <>

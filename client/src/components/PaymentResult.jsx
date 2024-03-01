@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../components/hooks/useAuth";
+import dateFormat from "../utils/dateFormat";
+import { auth } from "../config/firebase-config";
 
 function PaymentResult() {
   const navigate = useNavigate();
@@ -57,27 +59,8 @@ function PaymentResult() {
 
   // format date part vvv
 
-  const checkIn = bookingDetail.checkIn;
-  const checkOut = bookingDetail.checkOut;
-
-  function dateFormat(dateString) {
-    const date = new Date(dateString);
-    if (isNaN(date)) return "Loading...";
-    const optionsDayWeek = { weekday: "short" };
-    const optionsMonth = { month: "short" };
-    const optionsDay = { day: "numeric" };
-    const optionsYear = { year: "numeric" };
-
-    const dayWeek = date.toLocaleDateString("en-US", optionsDayWeek);
-    const month = date.toLocaleDateString("en-US", optionsMonth);
-    const day = date.toLocaleDateString("en-US", optionsDay);
-    const year = date.toLocaleDateString("en-US", optionsYear);
-
-    return `${dayWeek}, ${month} ${day} ${year}`;
-  }
-
-  const formattedCheckIn = dateFormat(checkIn);
-  const formattedCheckOut = dateFormat(checkOut);
+  const formattedCheckIn = dateFormat(bookingDetail.checkIn);
+  const formattedCheckOut = dateFormat(bookingDetail.checkOut);
   const formattedDate = `${formattedCheckIn} - ${formattedCheckOut}`;
 
   // format date part ^^^
@@ -159,7 +142,9 @@ function PaymentResult() {
               <hr></hr>
               <div className="flex justify-between mt-5">
                 <p className="body1 text-green300">Total</p>
-                <p className="headline text-utilWhite">{bookingDetail.totalPrice}</p>
+                <p className="headline text-utilWhite">
+                  {bookingDetail.totalPrice}
+                </p>
               </div>
             </div>
           </section>
@@ -167,7 +152,9 @@ function PaymentResult() {
           <section className="flex justify-center mt-10 gap-x-10">
             <button
               className="text-body1 font-fontWeight6 text-orange500 pb-4 cursor-pointer"
-              onClick={() => navigate("/users/booking-history/:userId")}
+              onClick={() =>
+                navigate(`/users/booking-history/${auth.currentUser.uid}`)
+              }
             >
               Check Booking Detail
             </button>

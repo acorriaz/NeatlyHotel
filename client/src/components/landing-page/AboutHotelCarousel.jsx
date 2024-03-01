@@ -1,9 +1,10 @@
-import superiorImg from "../../assets/landing-page-images/superior.jpg";
-import deluxeImg from "../../assets/landing-page-images/deluxe.jpg";
-import suiteImg from "../../assets/landing-page-images/suite.jpg";
-import supremeImg from "../../assets/landing-page-images/supreme.jpg";
-import superiorGardenImg from "../../assets/landing-page-images/superior-garden-view.jpg";
-import premierImg from "../../assets/landing-page-images/premier-sea-view.jpg";
+import superiorImg from "../../assets/landing-page-images/superior1.jpg";
+import deluxeImg from "../../assets/landing-page-images/deluxe1.jpg";
+import suiteImg from "../../assets/landing-page-images/suite1.jpg";
+import supremeImg from "../../assets/landing-page-images/supreme1.jpg";
+import superiorGardenImg from "../../assets/landing-page-images/superior-garden-view1.jpg";
+import premierImg from "../../assets/landing-page-images/premier-sea-view1.jpg";
+import landingPageImg from "../../assets/landing-page-images/landingPageImg.jpg";
 import { GoArrowRight, GoArrowLeft } from "react-icons/go";
 
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
@@ -17,6 +18,7 @@ export default () => {
   const items = [
     { img: superiorImg, title: "Superior Room" },
     { img: deluxeImg, title: "Deluxe Room" },
+    { img: landingPageImg, title: "Pool Area" },
     { img: suiteImg, title: "Suite Room" },
     { img: supremeImg, title: "Supreme Room" },
     { img: superiorGardenImg, title: "Superior Garden View" },

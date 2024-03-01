@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { forwardRef } from "react";
-import superiorGardenImg from "../../assets/landing-page-images/superior-garden-view.jpg";
-import superior from "../../assets/landing-page-images/superior.jpg";
-import deluxeImg from "../../assets/landing-page-images/deluxe.jpg";
-import suiteImg from "../../assets/landing-page-images/suite.jpg";
-import premierImg from "../../assets/landing-page-images/premier-sea-view.jpg";
-import supremeImg from "../../assets/landing-page-images/supreme.jpg";
+import superiorGardenImg from "../../assets/landing-page-images/superior-garden-view1.jpg";
+import superior from "../../assets/landing-page-images/superior1.jpg";
+import deluxeImg from "../../assets/landing-page-images/deluxe1.jpg";
+import suiteImg from "../../assets/landing-page-images/suite1.jpg";
+import premierImg from "../../assets/landing-page-images/premier-sea-view1.jpg";
+import supremeImg from "../../assets/landing-page-images/supreme1.jpg";
 import Rooms from "./Rooms";
 
 const RoomsAndSuits = forwardRef((props, ref) => {
