@@ -44,6 +44,7 @@ function CardBooking(props) {
       .showModal();
     sendBackBooking();
   };
+  
   //ส่งข้อมูล booking ที่เลือกกลับไปยัง parrant component booking history
   const sendBackBooking = () => {
     props.sendBooking(props.data);
@@ -53,7 +54,7 @@ function CardBooking(props) {
     <>
       <div className="py-10 bg-gray100">
         <div className="flex gap-12">
-          <div className="w-[500px] h-[200px]">
+          <div className="w-[500px] h-[215px]">
             <img
               src={props.data.room.roomType.roomImage[0].imageUrl}
               alt={props.data.room.roomType.roomTypeName}
@@ -146,7 +147,7 @@ function CardBooking(props) {
             </div>
           </div>
         </div>
-        {!props.data.cancelledAt && (
+        {!props.data.cancelledAt && isShowsWithDate(props.data.checkIn) >= 0 && (
           <div className="w-full flex justify-between font-sans font-fontWeight6">
             <button className="text-orange500 px-2" onClick={showModal}>
               Cancel Booking

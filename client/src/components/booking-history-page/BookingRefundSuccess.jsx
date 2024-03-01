@@ -32,7 +32,7 @@ function BookingRefundSuccess () {
 
     return (
       <>
-        <div className="w-full p-20 mt-16 flex justify-center items-center">
+        <div className="w-full h-screen p-20 mt-24 flex justify-center bg-gray300">
           <div className="w-1/2 flex flex-col">
             <div className="w-6/7 h-[190px] text-center bg-green800 rounded-t-md">
               <h1 className="headline3 text-5xl text-utilWhite font-['noto-serif'] mx-6 mt-10 mb-2">

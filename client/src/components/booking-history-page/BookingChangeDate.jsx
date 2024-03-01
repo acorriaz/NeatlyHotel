@@ -73,12 +73,12 @@ function BookingChangeDate() {
   if (booking) {
     return (
       <>
-        <div className="p-20 mt-16">
-          <h1 className="headline2 text-utilBlack font-['noto-serif'] w-1/2 mx-44">
+        <div className="h-screen flex flex-col p-20 mt-24  bg-gray300">
+          <h1 className="headline2 text-utilBlack font-['noto-serif'] mx-44">
             Change Check-in <br /> and Check-out Date
           </h1>
           <div
-            className="w-3/4 h-[450px] mt-16 mx-44 bg-gray300 font-inter"
+            className="h-[450px] mt-16 mx-44 border border-b-gray500 bg-gray300 font-inter"
             onSubmit={putBooking}
           >
             <div className="flex justify-between gap-12">
@@ -90,7 +90,7 @@ function BookingChangeDate() {
               </div>
               <div className="w-full flex flex-col">
                 <div className="flex justify-between">
-                  <p className="headline4 text-utilBlack font-fontWeight6">
+                  <p className="headline4 text-utilBlack">
                     {booking.room.roomType.roomTypeName}
                   </p>
                   <p className="text-gray600 font-fontWeight4">
@@ -107,7 +107,7 @@ function BookingChangeDate() {
                     {formatDate(booking.checkOut)}
                   </span>
                 </div>
-                <div>
+                <div className="bg-utilWhite rounded">
                   <p className="text-gray800 font-fontWeight6 mx-6 mt-6">
                     Change Date
                   </p>
