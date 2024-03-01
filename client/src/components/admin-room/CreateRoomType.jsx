@@ -51,7 +51,7 @@ function CreateRoomType (props) {
       if (roomTypeFromDb && roomTypeFromDb.roomImage && roomTypeFromDb.roomImage.length > 0) {
         return (
           <div 
-            className="bg-gray200 w-60 h-60 rounded flex justify-center items-center"
+            className="bg-gray200 w-60 h-60 rounded flex justify-center items-center m-2"
             style={{
               backgroundImage: roomTypeFromDb
                 ? `url(${roomTypeFromDb.roomImage[0].imageUrl})`
@@ -225,6 +225,7 @@ function CreateRoomType (props) {
           </h1>
           <label className="flex flex-col gap-2">
             Main Image *
+            <div className="w-full flex flex-wrap gap-6">
             {roomTypeFromDb && mainImageEl()}
             <div className="bg-gray200 w-60 h-60 rounded flex justify-center items-center m-2">
                 <label className="text-center text-orange500 cursor-pointer">
@@ -232,6 +233,7 @@ function CreateRoomType (props) {
                   <p className="text-2xl">+</p>
                   <p>Upload photo</p>
                 </label>
+              </div>
             </div>
           </label>
           <label className="flex flex-col gap-2">
