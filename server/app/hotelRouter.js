@@ -118,11 +118,13 @@ hotelRouter.get("/rooms/:guests", async (req, res) => {
 hotelRouter.get("/room/:roomTypeId", async (req, res) => {
   const roomTypeIdFromReq = parseInt(req.params.roomTypeId)
 
-  console.log(roomTypeIdFromReq)
-
   try {
     const response = await prisma.roomType.findUnique({
-      where: { roomTypeId: roomTypeIdFromReq }
+      where: { roomTypeId: roomTypeIdFromReq },
+      include: { 
+        roomImage: true,
+        roomAmenitie: true,
+      }
     })
     res.status(200).json(response)
   } catch (err) {
