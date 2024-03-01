@@ -1,26 +1,29 @@
-import { useState, createContext, useContext, useEffect} from "react";
+import { useState, createContext, useContext, useEffect } from "react";
 import axios from "axios";
-import { jwtDecode } from "/node_modules/.vite/deps/jwt-decode.js?v=cb1a5f30";
+import { jwtDecode } from "jwt-decode";
 
 const AdminAuthContext = createContext();
 
 export const AdminAuthProvider = ({ children }) => {
   const [admin, setAdmin] = useState(null);
 
-  useEffect(()=>{
-    if(localStorage.getItem("token")){
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
       const token = localStorage.getItem("token");
       const adminDataFromToken = jwtDecode(token);
       setAdmin(adminDataFromToken);
-    }else{
+    } else {
       setAdmin(null);
     }
-  },[])
-  
+  }, []);
+
   console.log(admin);
 
   const login = async (adminData) => {
-    const result = await axios.post("http://localhost:4000/auth/admin/login",adminData);
+    const result = await axios.post(
+      "http://localhost:4000/auth/admin/login",
+      adminData
+    );
     const token = result.data.token;
     localStorage.setItem("token", token);
     const adminDataFromToken = jwtDecode(token);
@@ -41,7 +44,6 @@ export const AdminAuthProvider = ({ children }) => {
       {children}
     </AdminAuthContext.Provider>
   );
-
 };
 
 export const useAdminAuth = () => useContext(AdminAuthContext);

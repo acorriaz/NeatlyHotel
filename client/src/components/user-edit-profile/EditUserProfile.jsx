@@ -1,7 +1,7 @@
 import { useForm, Controller } from "react-hook-form";
 import { useAuth } from "../hooks/useAuth.jsx";
 import { useEffect, useState, useRef } from "react";
-import { IoCloseCircle, IoAdd } from "react-icons/io5";
+import { IoCloseCircle, IoArrowForward, IoAdd } from "react-icons/io5";
 import {
   inputErrorBorder,
   inputErrorIcon,
@@ -10,7 +10,7 @@ import axios from "axios";
 import { auth } from "../../config/firebase-config.js";
 import NavigationBar from "../navigation-bar/NavigationBar.jsx";
 
-function EditUserProfile() {
+function EditUserProfile({ onSectionChange }) {
   const { isAuthenticated, userData, refreshUserData } = useAuth();
 
   const {
@@ -139,16 +139,29 @@ function EditUserProfile() {
   return (
     <>
       <main className="flex justify-center items-center bg-utilBG">
-        <section className="bg-utilBG w-7/12 h-full mt-10 mb-10 text-left">
+        <section className="bg-utilBG w-7/12 h-full mt-40 mb-10 text-left">
           <form onSubmit={handleSubmit(onSubmit)}>
             <section className="flex justify-between items-center">
               <h1 className="headline2 text-green800">Profile</h1>
-              <button
-                type="submit"
-                className="btn w-1/4 border-none  bg-orange600 hover:bg-orange500 active:bg-orange700 text-body1 text-utilWhite font-fontWeight6 cursor-pointer"
-              >
-                Update Profile
-              </button>
+              <section className="flex justify-center items-center gap-x-2">
+                <div>
+                  <button
+                    className="btn text-body1 px-8 font-fontWeight6 border-2 rounded bg-transparent text-orange500 hover:text-orange400 hover:border-orange400 hover:bg-transparent active:text-orange600 active:border-orange600 focus:text-orange600 border-orange500"
+                    onClick={() => onSectionChange("payment")}
+                  >
+                    Edit Payment
+                  </button>
+                </div>
+
+                <div>
+                  <button
+                    type="submit"
+                    className="btn text-body1 px-8 font-fontWeight6 rounded bg-orange600 hover:bg-orange500 active:bg-orange700 text-white cursor-pointer"
+                  >
+                    Update Profile
+                  </button>
+                </div>
+              </section>
             </section>
             <h2 className="headline5 text-gray600 mt-10">Basic Information</h2>
             <div className="flex flex-col mt-10">
