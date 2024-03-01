@@ -3,11 +3,14 @@ import Booking from "../../assets/admin/icon/booking.png";
 import Logout from "../../assets/admin/icon/logout.png";
 import Manage from "../../assets/admin/icon/manage.png";
 import Room from "../../assets/admin/icon/room.png";
-import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useAdminAuth } from "../hooks/useAuthAdmin";
+import { useNavigate, Link } from "react-router-dom";
 
 function SideBar() {
   const [activePage, setActivePage] = useState("customer-booking"); // State to store active page
+  const { logout } = useAdminAuth();
+  const navigate = useNavigate();
 
   // Function to handle click on a link and set activePage state
   const handlePageClick = (pageName) => {
@@ -72,7 +75,13 @@ function SideBar() {
           </nav>
         </div>
         <div className="p-6 hover:bg-green600 border border-green800 border-t-green700 text-green100">
-          <button className="flex gap-4">
+          <button
+            className="flex gap-4"
+            onClick={() => {
+              logout();
+              navigate("/admin/login");
+            }}
+          >
             <img src={Logout} alt="" width={24} />
             Logout
           </button>

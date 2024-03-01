@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
+import { useAdminAuth } from "./hooks/useAuthAdmin"
 import axios from "axios";
 import chairBesidePool from "../assets/loginPageImage/chairBesidePool.jpg";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -25,21 +26,6 @@ async function getEmailFromUsername(username) {
     return null;
   }
 }
-
-// หา email จาก admin username
-async function getEmailFromAdminUsername(username) {
-  try {
-    const userEmail = await axios.get(
-      `http://localhost:4000/admin/admin-email/${username}`
-    );
-    return userEmail.data.email;
-  } catch (error) {
-    console.error("Error fetching email", error);
-    return null;
-  }
-}
-
-
 
 // --login ของ user--
 export function UserLoginForm() {
@@ -72,7 +58,7 @@ export function UserLoginForm() {
         userPassword
       );
       console.log("response from firebase", response);
-      await handleIsAuthenticated();
+      handleIsAuthenticated();
       navigate("/");
     } catch (error) {
       console.error("Error signing in", error);
@@ -137,7 +123,7 @@ export function UserLoginForm() {
               </form>
               <span className="text-gray700 text-body1">
                 Don’t have an account yet?
-              </span>{" "}
+              </span>
               <Link
                 to="/users/register"
                 className="text-body1 font-fontWeight6 text-orange-500"
@@ -154,40 +140,24 @@ export function UserLoginForm() {
 
 // --login ของ admin--
 export function AdminLoginForm() {
+  const navigate = useNavigate();
   const [adminUsernameOrEmail, setAdminUsernameOrEmail] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
+  const { login } = useAdminAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const emailCheck = isEmail(adminUsernameOrEmail);
-    let adminLogin = adminUsernameOrEmail;
-
-    if (!emailCheck) {
-      try {
-        const fetchedEmail = await getEmailFromAdminUsername(
-          adminUsernameOrEmail
-        );
-        adminLogin = fetchedEmail;
-      } catch (error) {
-        alert("Login failed: Username or Email not found");
-      }
-    }
-
     try {
-      const response = await signInWithEmailAndPassword(
-        auth,
-        adminLogin,
-        adminPassword
-      );
-      console.log("response from firebase", response);
-      await handleIsAuthenticated();
+      await login({
+        username:adminUsernameOrEmail,
+        password:adminPassword
+      });
       navigate("/admin/customer-booking");
+      console.log("Admin login successfully");
     } catch (error) {
       console.error("Error signing in", error);
-    }    
-
-
+    }
   };
 
   return (
@@ -201,7 +171,9 @@ export function AdminLoginForm() {
         {/* login container div */}
         <div className="flex justify-center items-center w-2/4 pl-12 pr-40 pt-15 pb-30">
           <div className="flex-col bg-utilBG w-screen h-fit text-left">
-            <h1 className="headline2 w-full mb-60 text-green800">Log In</h1>
+            <h1 className="headline2 w-full mb-60 text-green800">
+              Admin Log In
+            </h1>
             <div className="w-full">
               {/* form start here */}
               <form className="adminLoginForm" onSubmit={handleSubmit}>

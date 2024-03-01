@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
     return () => unsubscribe(); // Cleanup subscription on unmount
   }, []);
 
-  async function handleIsAuthenticated() {
+  async function handleIsAuthenticated(token) {
     if (auth.currentUser) {
       try {
         const response = await axios.get(
@@ -35,6 +35,7 @@ export const AuthProvider = ({ children }) => {
         );
         setUserData({
           ...response.data,
+          role: "user",
           token: auth.currentUser.stsTokenManager,
         });
         setIsAuthenticated(true);
@@ -42,7 +43,7 @@ export const AuthProvider = ({ children }) => {
         console.log(err);
         alert("Login Fail");
       }
-    } else {
+    }else {
       setIsAuthenticated(false);
     }
   }
@@ -65,6 +66,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await auth.signOut();
       setIsAuthenticated(false);
+      localStorage.removeItem("token");
       setUserData(null);
     } catch (error) {
       console.error("Error signing out", error);

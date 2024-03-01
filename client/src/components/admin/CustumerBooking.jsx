@@ -56,7 +56,7 @@ function CustomerBooking(){
 
   if (booking) {
   return (
-    <div className="w-full h-screen bg-gray100">
+    <div className="w-full h-full bg-gray100 flex flex-col">
       <NavBarAdmin
         pageName="Customer Booking"
         getBackBooking={getBooking}

@@ -9,7 +9,6 @@ function EditRoom () {
     const [room, setRoom] = useState(location.state.room);
 
     const [isOpen, setIsOpen] = useState({});
-    const [status, setStatus] = useState("");
     const [searchStatus, setSearchStatus] = useState("");   
     
     const [isOpenRoomType, setIsOpenRoomType] = useState({});

@@ -9,8 +9,8 @@ function RoomCategories(props) {
   );
   console.log(roomDetail);
   return (
-    <main className="w-full h-[900px] flex justify-center content-center mt-20">
-      <div className="w-3/5 h-[630px] flex flex-col justify-between">
+    <main className="w-full h-[900px] flex justify-center content-center bg-gray300">
+      <div className="w-3/5 h-[630px] flex flex-col justify-between mt-20">
         <div>
           <h1 className="headline2 text-green800">
             {roomData[0].roomTypeName}
@@ -26,10 +26,10 @@ function RoomCategories(props) {
             </div>
             <div className="w-2/5 flex flex-col items-end gap-14 mt-20 text-gray700">
               <div>
-                <p className="line-through"> THB 7,000.00 </p>
-                <p> THB {roomData[0].roomSrice} </p>
+                <p className="line-through"> THB - </p>
+                <p> THB {roomData[0].roomPrice} </p>
               </div>
-              <Link to="/hotel/payment-result">
+              <Link to="/hotel">
                 <button
                   className="w-[143px] h-[48px] btn btn-active text-utilWhite bg-orange600 
                 hover:text-orange500
