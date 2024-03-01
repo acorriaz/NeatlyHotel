@@ -38,8 +38,8 @@ export default function SearchBar() {
       onSubmit={handleSubmit}
       className="relative p-11 w-[1200px] bg-white rounded-md flex justify-evenly items-end gap-4"
     >
+      {/* input date */}
       <div className=" flex w-[536px] h-[76px] justify-between items-center">
-        {/* input date */}
         <div className="w-[240px] flex flex-col justify-center gap-2">
           <label htmlFor="check_in" className="text-sm text-gray-900">
             Check In
@@ -73,8 +73,9 @@ export default function SearchBar() {
             required
           />
         </div>
-        {/* room and guest selection */}
       </div>
+
+      {/* room and guest selection */}
       <div className="relative flex flex-col justify-between w-[240px] h-[76px] rounded-lg">
         <p className="text-sm text-gray-900">Rooms & Guests</p>
         <button
