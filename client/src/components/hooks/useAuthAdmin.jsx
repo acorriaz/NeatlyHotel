@@ -1,6 +1,6 @@
 import { useState, createContext, useContext, useEffect} from "react";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "/node_modules/.vite/deps/jwt-decode.js?v=cb1a5f30";
 
 const AdminAuthContext = createContext();
 
