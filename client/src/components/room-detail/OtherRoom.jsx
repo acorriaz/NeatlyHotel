@@ -25,11 +25,7 @@ function OtherRoom(props) {
                   <img
                     src={otherRoom.roomImage[0].imageUrl}
                     alt="image"
-<<<<<<< HEAD
-                    className="w-full h-[340px]"
-=======
                     className="w-full h-[340px] brightness-75"
->>>>>>> d278fbd (refactor: Link and navigate some pages, change picture in landing page to match with figma)
                   />
                   <div className="absolute bottom-10 left-12 text-utilWhite">
                     <p className="headline3 text-utilWhite mb-6">
