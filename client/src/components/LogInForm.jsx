@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
-import { useAdminAuth } from "./hooks/useAuthAdmin"
+import { useAdminAuth } from "./hooks/useAuthAdmin";
 import axios from "axios";
 import chairBesidePool from "../assets/loginPageImage/chairBesidePool.jpg";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -123,7 +123,7 @@ export function UserLoginForm() {
               </form>
               <span className="text-gray700 text-body1">
                 Don’t have an account yet?
-              </span>
+              </span>{" "}
               <Link
                 to="/users/register"
                 className="text-body1 font-fontWeight6 text-orange-500"
@@ -150,8 +150,8 @@ export function AdminLoginForm() {
 
     try {
       await login({
-        username:adminUsernameOrEmail,
-        password:adminPassword
+        username: adminUsernameOrEmail,
+        password: adminPassword,
       });
       navigate("/admin/customer-booking");
       console.log("Admin login successfully");
