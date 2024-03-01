@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import searchVector from "../../assets/admin/searchVector.svg";
 import SideBar from "../admin/SideBar";
 
 const RoomAndProperty = () => {
+  const navigate = useNavigate()
   const [rooms, setRooms] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
 
@@ -31,6 +32,20 @@ const RoomAndProperty = () => {
         .includes(searchKeyword.toLowerCase())
   );
 
+  function handleUpdateNavigate(roomTypeId) {
+    if (roomTypeId) {
+      navigate(
+        "/admin/room-and-property/create-room-type",
+        { state: { mode: "update", roomTypeId }},
+      )
+    } else {
+      navigate(
+        "/admin/room-and-property/create-room-type",
+        { state: { mode: "create" }}
+      )
+    }
+  }
+
   return (
     <div className="bg-white room-and-property-page flex h-full">
       <SideBar />
@@ -54,11 +69,11 @@ const RoomAndProperty = () => {
             </div>
             <button
               onClick={() => {
-                /* Implement room creation logic here */
+                handleUpdateNavigate()
               }}
               className=" border rounded-[4px] bg-orange-500 text-white cursor-pointer w-[180px] h-[50px]"
             >
-              <Link to="/create-room-form">+ Create Room</Link>
+              + Create Room
             </button>
           </div>
         </div>
@@ -83,30 +98,31 @@ const RoomAndProperty = () => {
                   <tr
                     className="border-b w-full h-[120px] py-[15px] hover:bg-gray-100 cursor-pointer"
                     key={room.roomTypeId}
+                    onClick={() => handleUpdateNavigate(room.roomTypeId)}
                   >
-                    <td className="p-4">
-                      <img
-                        src={room.roomImage[0].imageUrl}
-                        alt={room.roomTypeName}
-                        className="w-[120px] h-[72px] rounded-[5px] object-cover"
-                      />
-                    </td>
-                    <td className="p-4">{room.roomTypeName}</td>
-                    <td className="p-4">
-                      {discount.toLocaleString("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      })}
-                    </td>
-                    <td className="p-4">
-                      {room.roomPrice.toLocaleString("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      })}
-                    </td>
-                    <td className="p-4">{room.guestCapacity}</td>
-                    <td className="p-4">{room.bedType.bedTypeName}</td>
-                    <td className="p-4">{`${room.roomSize} sqm`}</td>
+                      <td className="p-4">
+                        <img
+                          src={room.roomImage[0].imageUrl}
+                          alt={room.roomTypeName}
+                          className="w-[120px] h-[72px] rounded-[5px] object-cover"
+                        />
+                      </td>
+                      <td className="p-4">{room.roomTypeName}</td>
+                      <td className="p-4">
+                        {discount.toLocaleString("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                        })}
+                      </td>
+                      <td className="p-4">
+                        {room.roomPrice.toLocaleString("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                        })}
+                      </td>
+                      <td className="p-4">{room.guestCapacity}</td>
+                      <td className="p-4">{room.bedType.bedTypeName}</td>
+                      <td className="p-4">{`${room.roomSize} sqm`}</td>
                   </tr>
                 );
               })}
