@@ -1,11 +1,14 @@
 import { Router } from "express";
 import prisma from "../utils/db.js";
+import { protect } from "../middlewares/protect.js";
 
 const statusRouter = Router();
 
+statusRouter.use(protect);
+
 statusRouter.put("/update-room/:roomId", async function (req, res) {
   const { roomId } = req.params;
-  const { roomTypeId , statusId } = req.body;
+  const { roomTypeId, statusId } = req.body;
   try {
     const newStatus = await prisma.room.update({
       where: {
@@ -13,7 +16,7 @@ statusRouter.put("/update-room/:roomId", async function (req, res) {
       },
       data: {
         statusId: statusId,
-        roomTypeId: roomTypeId
+        roomTypeId: roomTypeId,
       },
     });
     res.status(200).json({ message: "Room updated successfully", newStatus });

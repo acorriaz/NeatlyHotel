@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useSearchInput } from "../context/searchInputContext";
 import { getCheckInDate } from "../../utils/getInputDate";
 import axios from "axios";
+import DatePickerComponent from "./DatePicker";
 
 import PlusCircleIcon from "@heroicons/react/24/outline/PlusCircleIcon";
 import MinusCircleIcon from "@heroicons/react/24/outline/MinusCircleIcon";
@@ -31,7 +32,11 @@ export default function SearchBar() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    searchRoom();
   };
+
+  console.log(searchInput.checkIn);
+  console.log(searchInput.checkOut);
 
   return (
     <form
@@ -39,21 +44,17 @@ export default function SearchBar() {
       className="relative p-11 w-[1200px] bg-white rounded-md flex justify-evenly items-end gap-4"
     >
       {/* input date */}
-      <div className=" flex w-[536px] h-[76px] justify-between items-center">
+
+      <div className="flex w-[536px] h-[76px] justify-between items-center">
         <div className="w-[240px] flex flex-col justify-center gap-2">
           <label htmlFor="check_in" className="text-sm text-gray-900">
             Check In
           </label>
-          <input
-            type="date"
-            min={getCheckInDate()}
-            onChange={(e) => handleInputDateChange(e)}
-            value={searchInput.checkIn}
-            id="checkIn"
+          <DatePickerComponent
             name="checkIn"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
-            placeholder="John"
-            required
+            value={searchInput.checkIn}
+            minDate={getCheckInDate()}
+            onChange={(e) => handleInputDateChange(e)}
           />
         </div>
         <p className="items-center">-</p>
@@ -61,16 +62,11 @@ export default function SearchBar() {
           <label htmlFor="checkOut" className="text-sm text-gray-900">
             Check Out
           </label>
-          <input
-            type="date"
-            min={searchInput.minCheckOut}
-            onChange={(e) => handleInputDateChange(e)}
-            value={searchInput.checkOut}
-            id="checkOut"
+          <DatePickerComponent
             name="checkOut"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
-            placeholder="John"
-            required
+            value={searchInput.checkOut}
+            minDate={searchInput.minCheckOut}
+            onChange={(e) => handleInputDateChange(e)}
           />
         </div>
       </div>
@@ -82,7 +78,7 @@ export default function SearchBar() {
           onClick={() => {
             setIsOpen((prev) => !prev);
           }}
-          className="flex justify-between w-full h-[45px] items-center px-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg active:border-black duration-300"
+          className="flex justify-between w-full h-[50px] items-center px-[15px] bg-white border border-gray-300 text-gray-900 text-sm rounded-[3px] active:border-orange-500 duration-300 hover:border-orange-500"
         >
           {`${searchInput.room} room, ${searchInput.guest} guest`}
           {!isOpen ? (
@@ -130,11 +126,49 @@ export default function SearchBar() {
       <Link to="/hotel">
         <button
           onClick={() => searchRoom()}
-          className="w-[144px] h-max px-8 py-3 rounded font-sans font-semibold text-orange-500 bg-base-100 border border-orange-500"
+          className="w-[144px] h-[max] px-8 py-3 rounded font-sans font-semibold text-orange-500 bg-base-100 border border-orange-500"
         >
           Search
         </button>
       </Link>
     </form>
   );
+}
+
+{
+  /* <div className=" flex w-[536px] h-[76px] justify-between items-center">
+        <div className="w-[240px] flex flex-col justify-center gap-2">
+          <label htmlFor="check_in" className="text-sm text-gray-900">
+            Check In
+          </label>
+          <input
+            type="date"
+            min={getCheckInDate()}
+            onChange={(e) => handleInputDateChange(e)}
+            value={searchInput.checkIn}
+            id="checkIn"
+            name="checkIn"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
+            placeholder="John"
+            required
+          />
+        </div>
+        <p className="items-center">-</p>
+        <div className="w-[240px] flex flex-col justify-center gap-2">
+          <label htmlFor="checkOut" className="text-sm text-gray-900">
+            Check Out
+          </label>
+          <input
+            type="date"
+            min={searchInput.minCheckOut}
+            onChange={(e) => handleInputDateChange(e)}
+            value={searchInput.checkOut}
+            id="checkOut"
+            name="checkOut"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
+            placeholder="John"
+            required
+          />
+        </div>
+      </div> */
 }
