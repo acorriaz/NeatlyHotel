@@ -25,6 +25,7 @@ function CardBooking(props) {
     const formattedDate = `${dayName}, ${day} ${monthNames[monthIndex]} ${year}`;
     return formattedDate;
   };
+
   //แปลงวันเวลาเป็น milliseconds
   const isShowsWithDate = (checkIn) => {
     let toDay = new Date();
@@ -33,6 +34,7 @@ function CardBooking(props) {
     result = Math.round(result / 3600000 + 7); //แปลง milliseconds เป็นชั่วโมง
     return result;
   };
+
   //โชว์โมเดลเมื่อทำการกดปุ่ม cancel booking
   const showModal = () => {
     document

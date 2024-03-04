@@ -16,8 +16,10 @@ adminRouter.get("/customer-booking", async (req, res) => {
         OR: [
           {
             user: {
-              username: {
-                contains: keywords,
+              userProfile: {
+                fullName: {
+                  contains: keywords,
+                },
               },
             },
           },
@@ -33,7 +35,11 @@ adminRouter.get("/customer-booking", async (req, res) => {
         ],
       },
       include: {
-        user: true,
+        user: {
+          include: {
+            userProfile: true,
+          },
+        },
         room: {
           include: {
             roomType: {
@@ -54,6 +60,9 @@ adminRouter.get("/customer-booking", async (req, res) => {
             },
           },
         },
+      },
+      orderBy: {
+        checkIn: "asc", // 'asc' for ascending order, 'desc' for descending order
       },
     });
 
