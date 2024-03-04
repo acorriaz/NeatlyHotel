@@ -67,7 +67,7 @@ function BookingRefundSuccess () {
               <div className="w-6/7 h-[55px] mx-8 mb-14 flex justify-between items-end">
                 <span className="text-green300">Total Refund</span>
                 <span className="headline5 text-utilWhite">
-                  THB {booking.data.totalPrice}
+                  THB {booking.data.totalPrice.toLocaleString()}
                 </span>
               </div>
             </div>
