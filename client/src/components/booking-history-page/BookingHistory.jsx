@@ -10,20 +10,20 @@ function BookingHistory() {
   const [bookingOnClick, setBookingOnClick] = useState(null);
   const params = useParams();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const resultBooking = await axios.get(
-          `http://localhost:4000/bookinghistory/${params.userId}`
-        );
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      const resultBooking = await axios.get(
+        `http://localhost:4000/bookinghistory/${params.userId}`
+      );
         setBooking(resultBooking.data);
       } catch (error) {
         console.log(error);
       }
-      setIsLoading(false);
-    };
+    setIsLoading(false);
+  };
 
+  useEffect(() => {
     fetchData();
   }, [params.userId]);
 
@@ -39,16 +39,15 @@ function BookingHistory() {
     return result;
   };
 
-  const bookingNotAvailable = (booking) => {
-    return booking.filter((item) => {
-      return item.cancelledAt || isShowsWithDate(item.checkIn) <= 0;
-    });
-  };
-
-  //function รับ arrayBooking และหา booking ที่ ไม่โดน canceled และ ยังไม่เลยวันที่ checkin
   const bookingAvailable = (booking) => {
     return booking.filter((item) => {
       return isShowsWithDate(item.checkIn) > 0 && !item.cancelledAt;
+    });
+  };
+
+  const bookingNotAvailable = (booking) => {
+    return booking.filter((item) => {
+      return item.cancelledAt || isShowsWithDate(item.checkIn) <= 0;
     });
   };
 
