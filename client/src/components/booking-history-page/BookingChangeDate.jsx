@@ -2,6 +2,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import DatePickerComponent from "../utils/DatePicker";
 
 function BookingChangeDate() {
   const location = useLocation();
@@ -74,6 +75,12 @@ function BookingChangeDate() {
     setCheckOut(formattedDate);
   };
 
+  const setdate = (e) => {
+    if(e){
+      setCheckIn(e.format("YYYY-MM-DD"));
+    }
+  }
+
   if (booking) {
     return (
       <>
@@ -118,26 +125,16 @@ function BookingChangeDate() {
                   <div className="flex items-center gap-12 my-4 mx-6 text-gray900">
                     <div className="w-1/2">
                       <p className="font-fontWeight4">Check-in</p>
-                      <input
-                        type="date"
-                        className="font-fontWeight4 bg-utilWhite w-full border border-gray400 py-3 px-4 rounded"
+                      <DatePickerComponent
                         value={checkIn}
-                        min={location.state.data.checkIn}
-                        onChange={(event) => {
-                          setCheckIn(event.target.value);
-                        }}
+                        minDate={location.state.data.checkIn}
+                        onChange={(e) => setdate(e.target.value)}
                       />
                     </div>
                     <span>-</span>
                     <div className="w-1/2">
                       <p className="font-fontWeight4">Check-out</p>
-                      <input
-                        type="date"
-                        className="font-fontWeight4 bg-utilWhite w-full border border-gray400 py-3 px-4 rounded"
-                        value={checkOut}
-                        min={checkOut}
-                        max={checkOut}
-                      />
+                      <DatePickerComponent value={checkOut} />
                     </div>
                   </div>
                 </div>
@@ -184,7 +181,11 @@ function BookingChangeDate() {
                   className="py-4 px-2 w-2/5 bg-orange500 rounded-md text-white "
                   onClick={putBooking}
                 >
-                  {isLoading ? <span className="loading loading-spinner"></span>:"Yes, I want to change"}
+                  {isLoading ? (
+                    <span className="loading loading-spinner"></span>
+                  ) : (
+                    "Yes, I want to change"
+                  )}
                 </button>
               </div>
             </div>

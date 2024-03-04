@@ -7,7 +7,7 @@ const bookingHistory = Router();
 bookingHistory.get("/:userId", async function (req, res) {
   const user_Id = req.params.userId;
   try {
-    const bookings = await prisma.BookingDetail.findMany({
+    const bookings = await prisma.bookingDetail.findMany({
       where: {
         userId: user_Id,
       },

@@ -87,7 +87,7 @@ function BookingRefund() {
                 <div className="my-10">
                   <p className="text-gray900 font-fontWeight4">Total Refund</p>
                   <p className="headline5 text-gray900">
-                    THB {booking.totalPrice}
+                    THB {booking.totalPrice.toLocaleString()}
                   </p>
                 </div>
               </div>
@@ -109,7 +109,11 @@ function BookingRefund() {
                 onClick={putBooking}
               >
                 <button className="py-4 px-8 bg-orange600 text-utilWhite rounded-md">
-                  {isLoading ? <span class="loading loading-spinner"></span> : "Cancel and Refund this Booking"}
+                  {isLoading ? (
+                    <span class="loading loading-spinner"></span>
+                  ) : (
+                    "Cancel and Refund this Booking"
+                  )}
                 </button>
               </Link>
             </div>

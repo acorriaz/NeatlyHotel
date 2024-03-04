@@ -111,7 +111,7 @@ function CardBooking(props) {
                     <p className="flex justify-between w-full py-2">
                       {props.data.room.roomType.roomTypeName}
                       <span className="pl-2 text-gray900 font-fontWeight6">
-                        {props.data.room.roomType.roomPrice}
+                        {props.data.room.roomType.roomPrice.toLocaleString()}
                       </span>
                     </p>
                     {props.data.guestRequest.map((req, index) => {
@@ -122,7 +122,7 @@ function CardBooking(props) {
                         >
                           {req.request.requestName}
                           <span className="pl-2 text-gray900 font-fontWeight6">
-                            {req.request.requestPrice}
+                            {req.request.requestPrice.toLocaleString()}
                           </span>
                         </p>
                       );
@@ -135,12 +135,12 @@ function CardBooking(props) {
                   <p className="flex justify-between w-full py-10 border border-gray200 border-t-gray400">
                     Total
                     <span className="headline5 pl-2 text-gray900 font-fontWeight6">
-                      THB {props.data.totalPrice}
+                      THB {props.data.totalPrice.toLocaleString()}
                     </span>
                   </p>
                 </div>
-                <div className="py-4 bg-gray300">
-                  <p className="text-gray900 font-fontWeight6">
+                <div className="p-4 bg-gray300">
+                  <p className="text-gray900 font-fontWeight6 rounded">
                     Additional Request
                   </p>
                   <p className="font-fontWeight4"></p>
@@ -149,30 +149,33 @@ function CardBooking(props) {
             </div>
           </div>
         </div>
-        {!props.data.cancelledAt && isShowsWithDate(props.data.checkIn) >= 0 && (
-          <div className="w-full flex justify-between font-sans font-fontWeight6">
-            <button className="text-orange500 px-2" onClick={showModal}>
-              Cancel Booking
-            </button>
-            <div>
-              <Link to={`/hotel/detail/${props.data.room.roomType.roomTypeId}`}>
-                <button className="py-4 px-8 text-orange500">
-                  Room Detail
-                </button>
-              </Link>
-              {isShowsWithDate(props.data.checkIn) >= 24 && (
+        {!props.data.cancelledAt &&
+          isShowsWithDate(props.data.checkIn) >= 0 && (
+            <div className="w-full flex justify-between font-sans font-fontWeight6">
+              <button className="text-orange500 px-2" onClick={showModal}>
+                Cancel Booking
+              </button>
+              <div>
                 <Link
-                  to="/users/booking-history/change-date"
-                  state={{ data: props.data }}
+                  to={`/hotel/detail/${props.data.room.roomType.roomTypeId}`}
                 >
-                  <button className="py-4 px-8 bg-orange600 text-utilWhite rounded-md">
-                    Change Date
+                  <button className="py-4 px-8 text-orange500">
+                    Room Detail
                   </button>
                 </Link>
-              )}
+                {isShowsWithDate(props.data.checkIn) >= 24 && (
+                  <Link
+                    to="/users/booking-history/change-date"
+                    state={{ data: props.data }}
+                  >
+                    <button className="py-4 px-8 bg-orange600 text-utilWhite rounded-md">
+                      Change Date
+                    </button>
+                  </Link>
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
       </div>
     </>
   );
