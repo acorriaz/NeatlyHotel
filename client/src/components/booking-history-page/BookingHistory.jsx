@@ -45,6 +45,7 @@ function BookingHistory() {
     });
   };
 
+  //function รับ arrayBooking และหา booking ที่ ไม่โดน canceled และ ยังไม่เลยวันที่ checkin
   const bookingAvailable = (booking) => {
     return booking.filter((item) => {
       return isShowsWithDate(item.checkIn) > 0 && !item.cancelledAt;
@@ -57,46 +58,66 @@ function BookingHistory() {
     ));
   };
 
-  return (
-    <div className="p-20 mt-16 bg-gray100">
-      <h1 className="headline2 text-utilBlack font-['noto-serif'] mx-44">
-        Booking History
-      </h1>
-      <div className="mt-16 mx-44">
-        {isLoading ? (
-          <div className="py-10 bg-gray100 flex justify-center gap-2 text-3xl">
-            Loading
-            <span className="loading loading-dots loading-sm"></span>
+  {
+    if (booking && booking.length > 0) {
+      return (
+        <>
+          <div className="p-20 mt-16 bg-gray100">
+            <h1 className="headline2 text-utilBlack font-['noto-serif'] mx-44">
+              Booking History
+            </h1>
+            <div className="mt-16 mx-44">
+              {bookingAvailable(booking).map((item, index) => {
+                return (
+                  <CardBooking
+                    key={index}
+                    data={item}
+                    sendBooking={sendBookingComeBack}
+                  />
+                );
+              })}
+              {bookingNotAvailable(booking).map((item, index) => {
+                return (
+                  <CardBooking
+                    key={index}
+                    data={item}
+                    sendBooking={sendBookingComeBack}
+                  />
+                );
+              })}
+            </div>
+            <ModelPopUp
+              id={"modelCancelAndRefund"}
+              body={"Are you sure you would like to cancel this booking?"}
+              confirm={"Yes, I want to cancel and request refund"}
+              cancel={"No, Don’t Cancel"}
+              link={"/users/booking-history/refund"}
+              state={bookingOnClick}
+            />
+            <ModelPopUp
+              id={"modelCancel"}
+              body={"Are you sure you would like to cancel this booking?"}
+              confirm={"Yes, I want to cancel"}
+              cancel={"No, Don’t Cancel"}
+              link={"/users/booking-history/cancel"}
+              state={bookingOnClick}
+            />
           </div>
-        ) : booking && booking.length > 0 ? (
-          <>
-            {renderBookingCards(bookingAvailable(booking))}
-            {renderBookingCards(bookingNotAvailable(booking))}
-          </>
-        ) : (
-          <div className="py-10 bg-gray100 flex justify-center items-center text-3xl">
-            You don’t have booking data.
+        </>
+      );
+    } else {
+      return (
+        <div className="p-20 mt-16 bg-gray100">
+          <h1 className="headline2 text-utilBlack font-['noto-serif'] mx-44">
+            Booking History
+          </h1>
+          <div className="flex h-[300px] justify-center items-center">
+            <h2 className="text-2xl">You have no booking history</h2>
           </div>
-        )}
-      </div>
-      <ModelPopUp
-        id={"modelCancelAndRefund"}
-        body={"Are you sure you would like to cancel this booking?"}
-        confirm={"Yes, I want to cancel and request refund"}
-        cancel={"No, Don’t Cancel"}
-        link={"/users/booking-history/refund"}
-        state={bookingOnClick}
-      />
-      <ModelPopUp
-        id={"modelCancel"}
-        body={"Are you sure you would like to cancel this booking?"}
-        confirm={"Yes, I want to cancel"}
-        cancel={"No, Don’t Cancel"}
-        link={"/users/booking-history/cancel"}
-        state={bookingOnClick}
-      />
-    </div>
-  );
+        </div>
+      );
+    }
+  }
 }
 
 export default BookingHistory;

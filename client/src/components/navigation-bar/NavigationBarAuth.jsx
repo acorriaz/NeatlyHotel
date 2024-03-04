@@ -26,18 +26,27 @@ export default function NavigationBarAuth() {
                 d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
               />
             </svg>
-            <span className="badge badge-sm indicator-item">8</span>
+            <span className="badge badge-sm indicator-item bg-red-500 w-[20px] h-[20px] text-white">
+              2
+            </span>
           </div>
         </div>
         <div
           tabIndex={0}
-          className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow"
+          className="mt-3 z-[1] card card-compact dropdown-content w-[370px] bg-base-100 shadow relative"
         >
-          <div className="card-body">
-            <span className="font-bold text-lg">8 Items</span>
-            <span className="text-info">Subtotal: $999</span>
-            <div className="card-actions">
-              <button className="btn btn-primary btn-block">View cart</button>
+          <div className="card-body flex flex-col w-[370px] h-fit absolute right-0 top-5 bg-white rounded-md shadow-md">
+            <div className="flex w-full h-[90px] justify-center items-center">
+              <p>
+                Tomorrow is your check-in date with Super Premier View Room ‘Th,
+                19 Oct 2022’ We will wait for your arrival!
+              </p>
+            </div>
+            <div className="flex w-full h-[90px] justify-center items-center">
+              <p>
+                We recieve your refund request You will recieve an email with a
+                detail and refund within 48 hours.
+              </p>
             </div>
           </div>
         </div>
@@ -57,22 +66,24 @@ export default function NavigationBarAuth() {
         </div>
         <ul
           tabIndex={0}
-          className="menu menu-sm dropdown-content mt-[200px] z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+          className="menu menu-sm dropdown-content mt-[200px] z-[1] p-2 shadow-md bg-base-100 rounded-md w-52"
         >
           <li>
             <Link
               to="/users/update-profile/:userId"
               state={{ section: "profile" }}
+              className="font-sans text-sm text-gray700"
             >
-              <a className="font-sans text-sm text-gray700">Profile</a>
+              Profile
             </Link>
           </li>
           <li>
             <Link
               to="/users/update-profile/:userId"
               state={{ section: "payment" }}
+              className="font-sans text-sm text-gray700"
             >
-              <a className="font-sans text-sm text-gray700">Payment Method</a>
+              Payment Method
             </Link>
           </li>
           <li>
