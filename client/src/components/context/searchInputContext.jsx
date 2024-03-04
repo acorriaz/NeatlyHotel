@@ -36,6 +36,7 @@ export function SearchInputContextProvider({ children }) {
   function handleInputDateChange(e) {
     const { name, value } = e.target;
     setSearchInput((prev) => {
+      console.log(value);
       if (name === "checkIn") {
         return {
           ...prev,

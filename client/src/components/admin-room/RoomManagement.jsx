@@ -11,6 +11,10 @@ const RoomManagement = () => {
   const [selectedRoomId, setSelectedRoomId] = useState(null);
   const [status, setStatus] = useState("");
   const [searchStatus, setSearchStatus] = useState("");
+  // pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [roomPerPage, setRoomPerPage] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
 
   const navigate = useNavigate();
 
@@ -25,7 +29,7 @@ const RoomManagement = () => {
       console.error("Error searching rooms:", error);
     }
   };
-  
+
   const handleOnClick = (room) => {
     navigate(`/admin/room-management/edit-room/${room.roomId}`, {
       state: { room: room },
@@ -94,16 +98,15 @@ const RoomManagement = () => {
     }
   };
 
-  useEffect(() => {
-    getRoomNumber();
-  }, []);
-
   const filteredRooms = rooms.filter(
     (room) =>
       room.roomType.roomTypeName
         .toLowerCase()
         .includes(searchKeyword.toLowerCase()) ||
       room.roomType.bedType.bedTypeName
+        .toLowerCase()
+        .includes(searchKeyword.toLowerCase()) ||
+      room.roomStatus.statusName
         .toLowerCase()
         .includes(searchKeyword.toLowerCase())
   );
@@ -112,10 +115,43 @@ const RoomManagement = () => {
     statusName.toLowerCase().includes(searchStatus.toLowerCase())
   );
 
+  const firstRoomIndex = (currentPage - 1) * roomPerPage;
+  const lastRoomIndex = Math.min(
+    firstRoomIndex + roomPerPage,
+    filteredRooms.length
+  );
+  const currentRoom = filteredRooms.slice(firstRoomIndex, lastRoomIndex);
+
+  const goToPreviousPage = () => {
+    setCurrentPage((prevPage) => {
+      const newPage = Math.max(prevPage - 1, 1);
+      console.log("Previous Page:", newPage);
+      return newPage;
+    });
+  };
+
+  const goToNextPage = () => {
+    setCurrentPage((prevPage) => {
+      const newPage = Math.min(prevPage + 1, totalPages);
+      console.log("Next Page:", newPage);
+      return newPage;
+    });
+  };
+
+  useEffect(() => {
+    getRoomNumber();
+  }, []);
+
+  useEffect(() => {
+    const total = Math.ceil(filteredRooms.length / roomPerPage);
+    console.log("Total Pages:", total);
+    setTotalPages(total);
+  }, [filteredRooms, roomPerPage]);
+
   return (
     <div className="bg-white room-and-property-page flex h-full">
       <SideBar />
-      <main className="flex flex-col bg-gray-100 w-[1400px]">
+      <main className="flex flex-col bg-gray-100 w-full">
         <div className="flex justify-between items-center px-[60px] py-[3px] bg-white w-full h-[90px]">
           <h1 className="text-lg font-semibold">Room & Property</h1>
           <div className="flex justify-end items-center p-[8px] w-[540px]">
@@ -148,7 +184,7 @@ const RoomManagement = () => {
               </tr>
             </thead>
             <tbody className="w-full">
-              {filteredRooms.map((room, roomId) => {
+              {currentRoom.map((room) => {
                 return (
                   <tr
                     className="border-b w-full h-[77px] py-[15px] hover:bg-gray-100"
@@ -179,7 +215,7 @@ const RoomManagement = () => {
                         {/* status pick part */}
                         {isOpen[room.roomId] && (
                           <div
-                            className="absolute left-4 mt-2 w-[300px] h-[350px] z-10 bg-white shadow-lg overflow-y-auto font-semibold"
+                            className="absolute left-4 mt-2 w-[300px] max-h-[350px] z-10 bg-white shadow-lg overflow-y-auto font-semibold"
                             onClick={(e) => e.stopPropagation()}
                           >
                             <input
@@ -217,6 +253,24 @@ const RoomManagement = () => {
               })}
             </tbody>
           </table>
+          <div className="flex justify-center items-center w-full h-[100px]">
+            <div className=" flex justify-between w-full h-fit">
+              <button
+                onClick={goToPreviousPage}
+                className="border rounded-[4px] bg-orange-500 text-white cursor-pointer w-[180px] h-[50px] hover:bg-orange-600 disabled:bg-gray-300 disabled:text-gray-600"
+                disabled={currentPage === 1}
+              >
+                Previous Page
+              </button>
+              <button
+                onClick={goToNextPage}
+                className="border rounded-[4px] bg-orange-500 text-white cursor-pointer w-[180px] h-[50px] hover:bg-orange-600 disabled:bg-gray-300 disabled:text-gray-600"
+                disabled={currentPage === totalPages}
+              >
+                Next Page
+              </button>
+            </div>
+          </div>
         </section>
       </main>
     </div>
