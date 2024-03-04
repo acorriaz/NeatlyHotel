@@ -9,7 +9,9 @@ import {
 import axios from "axios";
 import { auth } from "../../config/firebase-config.js";
 import { ageOver18, checkIfFullName } from "../../utils/userValidate.js";
+import dayjs from "dayjs";
 import CountrySelectOption from "../utils/CountrySelectOption.jsx";
+import DatePickerComponent from "../utils/DatePicker.jsx";
 
 function EditUserProfile({ onSectionChange }) {
   const { isAuthenticated, userData, refreshUserData } = useAuth();
@@ -54,6 +56,10 @@ function EditUserProfile({ onSectionChange }) {
       return;
     }
 
+    const formatSingleDate = (inputDate) => {
+      return dayjs(inputDate).format("YYYY-MM-DD");
+    };
+
     // validate age
     if (!ageOver18(data.dob)) {
       console.error("You must be at least 18 years old.");
@@ -63,7 +69,7 @@ function EditUserProfile({ onSectionChange }) {
 
     Object.keys(data).forEach((key) => {
       if (key === "dob") {
-        formData.append("dateOfBirth", data[key]);
+        formData.append("dateOfBirth", formatSingleDate(data[key]));
       } else if (key !== "profilePicUrl") {
         formData.append(key, data[key]);
       }
@@ -129,9 +135,7 @@ function EditUserProfile({ onSectionChange }) {
   const profilePicSrc =
     profilePic instanceof File ? URL.createObjectURL(profilePic) : profilePic;
 
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  const maxDate = yesterday.toISOString().split("T")[0];
+  const yesterday = dayjs().subtract(1, "day").toISOString();
 
   return (
     <>
@@ -227,15 +231,30 @@ function EditUserProfile({ onSectionChange }) {
                   Date of Birth
                 </label>
                 <br></br>
-                <input
-                  id="dob"
+                <Controller
                   name="dob"
-                  type="date"
-                  max={maxDate}
-                  className={inputErrorBorder(errors, "dob")}
-                  {...register("dob", {
-                    required: "Date of Birth is required",
-                  })}
+                  control={control}
+                  rules={{ required: true }}
+                  render={({
+                    field: { onChange, onBlur, value, name, ref },
+                    fieldState: { errors },
+                  }) => (
+                    <DatePickerComponent
+                      name={name}
+                      value={value ? dayjs(value).toISOString() : ""}
+                      onChange={(newValue) => {
+                        console.log(newValue); // Log to inspect the structure
+                        const dateValue = newValue.target.value;
+                        if (dateValue && dateValue.$isDayjsObject) {
+                          onChange(dateValue.toISOString());
+                        } else {
+                          onChange("");
+                        }
+                      }}
+                      onBlur={onBlur}
+                      maxDate={yesterday}
+                    />
+                  )}
                 />
                 {inputErrorIcon(errors, "dob")}
               </div>

@@ -8,6 +8,7 @@ export default function DatePickerComponent({
   name,
   value,
   minDate,
+  maxDate,
   onChange,
 }) {
   return (
@@ -19,6 +20,7 @@ export default function DatePickerComponent({
           format="dd, DD MMMM YYYY"
           value={value ? dayjs(value) : null}
           minDate={minDate ? dayjs(minDate) : null}
+          maxDate={maxDate ? dayjs(maxDate) : null}
           onChange={(newValue) => {
             onChange({ target: { name, value: newValue } });
           }}

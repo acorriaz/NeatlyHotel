@@ -11,6 +11,8 @@ import {
   inputErrorIcon,
 } from "../components/utils/InputErrorStyles";
 import CountrySelectOption from "./utils/CountrySelectOption";
+import DatePickerComponent from "./utils/DatePicker";
+import dayjs from "dayjs";
 import axios from "axios";
 
 function RegistrationForm() {
@@ -33,8 +35,12 @@ function RegistrationForm() {
       return;
     }
 
+    const formatSingleDate = (inputDate) => {
+      return dayjs(inputDate).format("YYYY-MM-DD");
+    };
+
     // validate age
-    if (!ageOver18(data.dateOfBirth)) {
+    if (!ageOver18(data.dob)) {
       console.error("You must be at least 18 years old.");
       alert("You must be at least 18 years old.");
       return;
@@ -56,15 +62,22 @@ function RegistrationForm() {
 
       const formData = new FormData();
 
-      Object.keys(data).forEach((key) => {
-        if (key !== "profilePicUrl") {
-          formData.append(key, data[key]);
-        }
-      });
+      if (data.dob) {
+        const formattedDOB = formatSingleDate(data.dob);
+        console.log("Appending formattedDOB:", formattedDOB); // Debugging
+        formData.append("dateOfBirth", formattedDOB);
+      }
 
       if (profilePic) {
         formData.append("profilePic", profilePic);
       }
+
+      Object.keys(data).forEach((key) => {
+        if (!["dob", "profilePicUrl", "dateOfBirth"].includes(key)) {
+          console.log(`Appending ${key}:`, data[key]); // Debugging
+          formData.append(key, data[key]);
+        }
+      });
 
       formData.append("uId", user.uid);
 
@@ -120,9 +133,7 @@ function RegistrationForm() {
   const fileInputRef = useRef(null);
 
   // กำหนดไม่ให้เลือกวันนี้กับหลังจากนี้
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  const maxDate = yesterday.toISOString().split("T")[0];
+  const yesterday = dayjs().subtract(1, "day").toISOString();
 
   useEffect(() => {
     return () => {
@@ -244,20 +255,35 @@ function RegistrationForm() {
               </div>
               <div className="grid grid-cols-2 gap-10 mt-5">
                 <div className="relative">
-                  <label htmlFor="dateOfBirth" className="body2">
+                  <label htmlFor="dob" className="body2">
                     Date of Birth
                   </label>
                   <br></br>
-                  <input
-                    {...register("dateOfBirth", {
-                      required: true,
-                    })}
-                    id="dateOfBirth"
-                    name="dateOfBirth"
-                    type="date"
-                    placeholder="Pick your date of birth"
-                    className={inputErrorBorder(errors, "dateOfBirth")}
-                    max={maxDate}
+                  <Controller
+                    name="dob"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({
+                      field: { onChange, onBlur, value, name, ref },
+                      fieldState: { errors },
+                    }) => (
+                      <DatePickerComponent
+                        name={name}
+                        value={value ? dayjs(value).toISOString() : ""}
+                        onChange={(newValue) => {
+                          console.log(newValue); // Log to inspect the structure
+                          // Directly using the Dayjs object from newValue.target.value
+                          const dateValue = newValue.target.value;
+                          if (dateValue && dateValue.$isDayjsObject) {
+                            onChange(dateValue.toISOString()); // Convert to ISO string for consistency
+                          } else {
+                            onChange(""); // Reset or handle as needed
+                          }
+                        }}
+                        onBlur={onBlur}
+                        maxDate={yesterday}
+                      />
+                    )}
                   />
                   {inputErrorIcon(errors, "dateOfBirth")}
                 </div>
