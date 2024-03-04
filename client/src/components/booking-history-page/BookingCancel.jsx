@@ -48,11 +48,11 @@ function BookingCancel() {
   
   return (
     <>
-      <div className="p-20 mt-16">
-        <h1 className="headline2 text-utilBlack font-['noto-serif'] w-1/2 mx-44">
+      <div className="h-screen flex flex-col p-20 mt-24 bg-gray300">
+        <h1 className="headline2 text-utilBlack font-['noto-serif'] mx-44">
           Cancel Booking
         </h1>
-        <div className="w-3/4 h-[400px] mt-16 mx-44 font-inter">
+        <div className="h-[450px] mt-16 mx-44 border border-b-gray500 bg-gray300 font-inter">
           <div className="flex justify-between gap-12">
             <div className="w-[500px] h-[200px]">
               <img

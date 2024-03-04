@@ -13,7 +13,7 @@ function OtherRoom(props) {
   };
 
   return (
-    <section className="w-full h-[660px] flex justify-center content-center p-24  bg-green200">
+    <section className="w-full h-[665px] flex justify-center content-center p-24  bg-green200">
       <div className="w-3/5 h-[455px] flex flex-col justify-between">
         <h1 className="headline3 text-utilBlack text-center">Other Room</h1>
         <div className="w-full h-[340px] flex gap-6">

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function ImageSlideRoom(props) {
   const [page, setPage] = useState(0);
@@ -17,18 +18,11 @@ function ImageSlideRoom(props) {
   const handleNext = () => {
     setPage((prevPage) => (prevPage < imageRoom.length - 1 ? prevPage + 1 : 0));
   };
-  //เหลือเก็บ optional ให้รูปเลื่อนเองโดยอัตโนมัติ
-  useEffect(() => {
-    const interval = setInterval(() => {
-      handleNext();
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [page]);
-  //
+  
   return (
-    <header className="relative w-full h-fit mt-20 bg-gray300">
+    <header className="relative w-full h-fit bg-gray300 mt-24">
       {/* Carousel content */}
-      <div className="carousel carousel-center w-full p-4 space-x-4">
+      <div className="carousel carousel-center w-full p-16 space-x-4">
         {imageRoom.map((item, index) => (
           <div id={item.id} key={index} className="carousel-item w-4/5">
             <img
@@ -44,8 +38,7 @@ function ImageSlideRoom(props) {
       <div className="absolute flex justify-between transform -translate-y-1/2 left-20 right-20 top-1/2">
         <a
           href={"#" + (page + 1)}
-          onClick={(e) => {
-            // e.preventDefault();
+          onClick={() => {
             handlePrev();
           }}
           className="btn btn-ghost rounded-full text-utilWhite border border-utilWhite bg-none"
@@ -54,8 +47,7 @@ function ImageSlideRoom(props) {
         </a>
         <a
           href={"#" + (page + 1)}
-          onClick={(e) => {
-            // e.preventDefault();
+          onClick={() => {
             handleNext();
           }}
           className="btn btn-ghost rounded-full text-utilWhite border border-utilWhite bg-none"
@@ -65,7 +57,7 @@ function ImageSlideRoom(props) {
       </div>
 
       {/* Navigation dots */}
-      <div className="absolute flex justify-center w-full py-2 gap-2 bottom-7">
+      <div className="absolute flex justify-center w-full py-2 gap-2 bottom-20">
         {imageRoom.map((item, index) => (
           <a
             href={"#" + (page + 1)}
@@ -73,8 +65,7 @@ function ImageSlideRoom(props) {
             className={`w-2 h-2 border rounded-full ${
               page === index ? "bg-utilWhite" : "bg-gray500"
             }`}
-            onClick={(e) => {
-              // e.preventDefault();
+            onClick={() => {
               setPage(index);
             }}
           ></a>

@@ -48,13 +48,16 @@ bookingHistory.get("/:userId", async function (req, res) {
           },
         },
       },
+      orderBy: {
+        checkIn: "asc", // เรียงลำดับตามวันที่สร้างข้อมูล (createdAt) จากใหม่สุดไปยังเก่าที่สุด
+      },
     });
 
     res.json(bookings);
   } catch (error) {
     res.status(400).json({ error: "data not found" });
   }
-});
+}); 
 
 //API booking history change date
 bookingHistory.put("/:booking_id", async function (req, res) {
