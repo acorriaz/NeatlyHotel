@@ -33,21 +33,20 @@ export function SearchInputContextProvider({ children }) {
     });
   }
 
-  function handleInputDateChange(e) {
-    const { name, value } = e.target;
+  function handleInputDateChange(newValue, name) {
     setSearchInput((prev) => {
-      console.log(value);
+      console.log(name)
       if (name === "checkIn") {
         return {
           ...prev,
-          checkIn: value,
-          minCheckOut: addOneDayToCheckInDate(value),
+          checkIn: newValue,
+          minCheckOut: addOneDayToCheckInDate(newValue),
           checkOut: isMoreThanOneDay(searchInput.checkIn, searchInput.checkOut)
             ? searchInput.checkOut
-            : addOneDayToCheckInDate(value),
+            : addOneDayToCheckInDate(newValue),
         };
       } else {
-        return { ...prev, checkOut: value };
+        return { ...prev, checkOut: newValue };
       }
     });
   }
