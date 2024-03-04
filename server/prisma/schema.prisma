@@ -7,17 +7,134 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
+model User {
+  userId        String          @id @default(uuid())
+  username      String          @unique
+  email         String          @unique
+  userProfile   UserProfile?
+  bookingDetail BookingDetail[]
+}
+
+model UserProfile {
+  userProfileId Int      @id @default(autoincrement())
+  user          User     @relation(fields: [userId], references: [userId])
+  userId        String   @unique
+  firstName     String
+  lastName      String
+  fullName      String
+  idNumber      String   @unique
+  dateOfBirth   String
+  country       String
+  cardNumber    String
+  cardOwner     String
+  cardExpiry    String
+  profilePicUrl String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Agent {
+  agentId      Int           @id @default(autoincrement())
+  username     String        @unique
+  email        String        @unique
+  password     String
+  agentProfile AgentProfile?
+}
+
+model AgentProfile {
+  agentProfileId Int    @id @default(autoincrement())
+  agent          Agent  @relation(fields: [agentId], references: [agentId])
+  agentId        Int    @unique
+  firstName      String
+  lastName       String
+  dateOfBirth    String
+  phoneNumber    Int    @unique
+}
+
+model RoomType {
+  roomTypeId    Int            @id @default(autoincrement())
+  roomTypeName  String         @unique
+  bedType       BedType        @relation(fields: [bedTypeId], references: [bedTypeId])
+  bedTypeId     Int
+  description   String
+  guestCapacity Int
+  roomSize      Int
+  roomPrice     Int
+  roomAmenitie  RoomAmenitie[]
+  roomImage     RoomImage[]
+  room          Room[]
+}
+
+model RoomImage {
+  roomImageId Int      @id @default(autoincrement())
+  roomType    RoomType @relation(fields: [roomTypeId], references: [roomTypeId])
+  roomTypeId  Int
+  imageUrl    String
+}
+
+model BedType {
+  bedTypeId   Int        @id @default(autoincrement())
+  bedTypeName String     @unique
+  roomType    RoomType[]
+}
+
 model Room {
-  id Int @id @default(autoincrement())
-  name String
-  detail String[]
-  description String
-  price Int
-  discount_price Int
-  price_detail Int
+  roomId        Int             @id @default(autoincrement())
+  roomType      RoomType        @relation(fields: [roomTypeId], references: [roomTypeId])
+  roomTypeId    Int
+  roomNumber    Int             @unique
+  roomStatus    RoomStatus      @relation(fields: [statusId], references: [statusId])
+  statusId      Int
+  updatedAt     DateTime?       @updatedAt
+  bookingDetail BookingDetail[]
+}
+
+model RoomStatus {
+  statusId   Int    @id @default(autoincrement())
+  statusName String
+  room       Room[]
+}
+
+model BookingDetail {
+  bookingDetailId Int            @id @default(autoincrement())
+  user            User           @relation(fields: [userId], references: [userId])
+  userId          String
+  room            Room           @relation(fields: [roomId], references: [roomId])
+  roomId          Int
+  paymentMethod   String
+  totalPrice      Int
+  checkIn         String
+  checkOut        String
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  cancelledAt     DateTime?
+  guestRequest    GuestRequest[]
+}
+
+model GuestRequest {
+  guestRequestId  Int           @id @default(autoincrement())
+  bookingDetail   BookingDetail @relation(fields: [bookingDetailId], references: [bookingDetailId])
+  bookingDetailId Int
+  request         Request       @relation(fields: [requestId], references: [requestId])
+  requestId       Int
+}
+
+model Request {
+  requestId    Int            @id @default(autoincrement())
+  requestType  String
+  requestName  String
+  requestPrice Int
+  guestRequest GuestRequest[]
+}
+
+model RoomAmenitie {
+  roomAmenitieId   Int      @id @default(autoincrement())
+  roomAmenitieName String
+  roomType         RoomType @relation(fields: [roomTypeId], references: [roomTypeId])
+  roomTypeId       Int
 }

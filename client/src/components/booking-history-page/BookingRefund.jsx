@@ -7,17 +7,21 @@ function BookingRefund() {
   const location = useLocation();
   const [booking, setBooking] = useState(location.state);
   const [cancelRefundDate, setCancelRefundDate] = useState(new Date());
+  const [isLoading,setIsLoading] = useState(false);
 
   const putBooking = async () => {
     try {
+      setIsLoading(true)
       await axios.put(
-        "http://localhost:4000/bookingHistory/" + booking.booking_detail_id,
+        "http://localhost:4000/bookingHistory/" + booking.bookingDetailId,
         {
-          canceled_at: cancelRefundDate,
+          cancelledAt: cancelRefundDate,
         }
       );
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
   //แสดงวันที่แบบ ชื่อย่อวัน วันที่ ชื่อย่อเดือน ปี
@@ -47,15 +51,15 @@ function BookingRefund() {
 
   return (
     <>
-      <div className="p-20 mt-16">
-        <h1 className="headline2 text-utilBlack font-['noto-serif'] w-1/2 mx-44">
+      <div className="h-screen flex flex-col p-20 mt-24 bg-gray300">
+        <h1 className="headline2 text-utilBlack font-['noto-serif'] mx-44">
           Request a Refund
         </h1>
-        <div className="w-3/4 h-[400px] mt-16 mx-44 font-inter">
+        <div className="h-[450px] mt-16 mx-44 border border-b-gray500 bg-gray300 font-inter">
           <div className="flex justify-between gap-12">
             <div className="w-[500px] h-[200px]">
               <img
-                src={booking.room_id.room_type_id.room_image_url}
+                src={booking.room.roomType.roomImage[0].imageUrl}
                 alt=""
                 className="w-full h-full rounded-md"
               />
@@ -63,27 +67,27 @@ function BookingRefund() {
             <div className="w-full flex flex-col">
               <div className="flex justify-between">
                 <span className="headline4 text-utilBlack font-fontWeight6">
-                  {booking.room_id.room_type_id.room_type}
+                  {booking.room.roomType.roomTypeName}
                 </span>
                 <span className="text-gray600 font-fontWeight4">
-                  Booking date: {formatDate(booking.created_at)}
+                  Booking date: {formatDate(booking.createdAt)}
                 </span>
               </div>
               <div className="flex justify-between">
                 <div className="my-10">
                   <span className="text-gray700 font-fontWeight4">
-                    {formatDate(booking.check_in)}
+                    {formatDate(booking.checkIn)}
                   </span>
                   <span> - </span>
                   <span className="text-gray700 font-fontWeight4">
-                    {formatDate(booking.check_out)} <br />
-                    {booking.room_id.room_type_id.guest_number} Guests
+                    {formatDate(booking.checkOut)} <br />
+                    {booking.room.roomType.guestCapacity} Guests
                   </span>
                 </div>
                 <div className="my-10">
                   <p className="text-gray900 font-fontWeight4">Total Refund</p>
-                  <p className="text-gray900 font-fontWeight6">
-                    THB {booking.total_price}
+                  <p className="headline5 text-gray900">
+                    THB {booking.totalPrice}
                   </p>
                 </div>
               </div>
@@ -91,7 +95,7 @@ function BookingRefund() {
           </div>
           <div className="w-full flex justify-between font-sans font-fontWeight6 mt-20">
             <Link
-              to={`/users/booking-history/${booking.user_id.user_id}`}
+              to={`/users/booking-history/${booking.userId}`}
               className="text-orange500 px-2"
             >
               Cancel
@@ -105,7 +109,7 @@ function BookingRefund() {
                 onClick={putBooking}
               >
                 <button className="py-4 px-8 bg-orange600 text-utilWhite rounded-md">
-                  Cancel and Refund this Booking
+                  {isLoading ? <span class="loading loading-spinner"></span> : "Cancel and Refund this Booking"}
                 </button>
               </Link>
             </div>

@@ -1,8 +1,11 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import dafaultProfilePic from "../../assets/defaultImage/dafaultProfilePic.png";
+import { auth } from "../../config/firebase-config";
 
 export default function NavigationBarAuth() {
-  const { logout } = useAuth();
+  const { userData, logout } = useAuth();
 
   return (
     <div className="flex-none">
@@ -47,7 +50,9 @@ export default function NavigationBarAuth() {
         >
           <div className="w-12 rounded-full">
             {/* TODO : add user image URL in database */}
-            <img src="https://xsgames.co/randomusers/avatar.php?g=female" />
+            <img
+              src={userData?.userProfile?.profilePicUrl || dafaultProfilePic}
+            />
           </div>
         </div>
         <ul
@@ -55,14 +60,28 @@ export default function NavigationBarAuth() {
           className="menu menu-sm dropdown-content mt-[200px] z-[1] p-2 shadow bg-base-100 rounded-box w-52"
         >
           <li>
-            <a className="font-sans text-sm text-gray700">Profile</a>
+            <Link
+              to="/users/update-profile/:userId"
+              state={{ section: "profile" }}
+            >
+              <a className="font-sans text-sm text-gray700">Profile</a>
+            </Link>
           </li>
           <li>
-            <a className="font-sans text-sm text-gray700">Payment Method</a>
+            <Link
+              to="/users/update-profile/:userId"
+              state={{ section: "payment" }}
+            >
+              <a className="font-sans text-sm text-gray700">Payment Method</a>
+            </Link>
           </li>
           <li>
-            <a href="/users/booking-history/480082ce-4044-4a16-a39d-8a605547d0ec" 
-            className="font-sans text-sm text-gray700">Booking History</a>
+            <Link
+              to={`/users/booking-history/${auth.currentUser.uid}`}
+              className="font-sans text-sm text-gray700"
+            >
+              Booking History
+            </Link>
           </li>
           <hr className="my-1" />
           <li>

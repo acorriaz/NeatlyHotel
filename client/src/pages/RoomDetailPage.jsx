@@ -2,7 +2,7 @@ import ImageSlideRoom from "../components/room-detail/ImageSlideRoom";
 import RoomCategories from "../components/room-detail/RoomCategories";
 import OtherRoom from "../components/room-detail/OtherRoom";
 import NavigationBar from "../components/navigation-bar/NavigationBar";
-import Footer from "../components/Footer"
+import Footer from "../components/Footer";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -14,7 +14,7 @@ function RoomDetail() {
   const getRoomDetail = async () => {
     try {
       const roomType = await axios.get("http://localhost:4000/roomdetail");
-      setRoomType(roomType.data.data);
+      setRoomType(roomType.data);
     } catch (error) {
       console.log(error);
     }
@@ -36,4 +36,5 @@ function RoomDetail() {
     );
   }
 }
+
 export default RoomDetail;

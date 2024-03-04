@@ -8,13 +8,14 @@ function BookingHistory() {
   const [booking, setBooking] = useState();
   const [bookingOnClick, setBookingOnClick] = useState();
   const params = useParams();
+  console.log(booking);
 
   const getBooking = async () => {
     try {
       const resultBooking = await axios.get(
         "http://localhost:4000/bookinghistory/" + params.userId
       );
-      setBooking(resultBooking.data.data);
+      setBooking(resultBooking.data);
     } catch (error) {
       console.log(error);
     }
@@ -22,22 +23,53 @@ function BookingHistory() {
   //ส่ง function เพื่อไปรับข้อมูล booking ที่เลือกจาก child component card booking
   const sendBookingComeBack = (data) => {
     setBookingOnClick(data);
-  }
+  };
+
+  //แปลงวันเวลาเป็น milliseconds
+  const isShowsWithDate = (checkIn) => {
+    let toDay = new Date();
+    let checkInDay = new Date(checkIn);
+    let result = checkInDay.getTime() - toDay.getTime();
+    result = Math.round(result / 3600000 + 7); //แปลง milliseconds เป็นชั่วโมง
+    return result;
+  };
+
+  //function รับ arrayBooking และหา booking ที่ canceled , เลยวันที่ checkin ไปแล้ว
+  const bookingNotAvailable = (booking) => {
+    return booking.filter((booking) => {
+      return booking.cancelledAt || isShowsWithDate(booking.checkIn) <= 0;
+    });
+  };
+
+  //function รับ arrayBooking และหา booking ที่ ไม่โดน canceled และ ยังไม่เลยวันที่ checkin 
+  const bookingAvailable = (booking) => {
+    return booking.filter((booking) => {
+      return isShowsWithDate(booking.checkIn) > 0 && !booking.cancelledAt;
+    });
+  };
 
   useEffect(() => {
     getBooking();
   }, []);
 
   {
-    if (booking) {
       return (
         <>
-          <div className="p-20 mt-16">
+          <div className="p-20 mt-16 bg-gray100">
             <h1 className="headline2 text-utilBlack font-['noto-serif'] mx-44">
               Booking History
             </h1>
-            <div className="border mt-16 mx-44">
-              {booking.map((item, index) => {
+            <div className="mt-16 mx-44">
+              {bookingAvailable(booking).map((item, index) => {
+                return (
+                  <CardBooking
+                    key={index}
+                    data={item}
+                    sendBooking={sendBookingComeBack}
+                  />
+                );
+              })}
+              {bookingNotAvailable(booking).map((item, index) => {
                 return (
                   <CardBooking
                     key={index}
@@ -68,6 +100,5 @@ function BookingHistory() {
       );
     }
   }
-}
 
 export default BookingHistory;

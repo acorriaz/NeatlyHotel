@@ -1,53 +1,89 @@
 import { Router } from "express";
-import supabase from "../utils/db.js";
+import prisma from "../utils/db.js";
 
 const bookingHistory = Router();
 
 //API booking history page
 bookingHistory.get("/:userId", async function (req, res) {
-  const userId = req.params.userId;
+  const user_Id = req.params.userId;
   try {
-    const bookings = await supabase
-      .from("booking_detail")
-      .select("*, room_id(*, room_type_id(*)), user_id(*)")
-      .eq("user_id", userId);
-
-//ดึงข้อมูล request ทั้งหมดของแต่ละ booking detail
-    const request = bookings.data.map(async (booking) => {
-      const request = await supabase
-        .from("guest_request")
-        .select("*, request_id(*)")
-        .eq("booking_detail_id", booking.booking_detail_id);
-      return request.data;
-    });
-
-//รอให้การดึงข้อมูล request เสร็จทั้งหมด
-    const requestResults = await Promise.all(request);
-
-//กำหนดค่าข้อมูล request ให้กับแต่ละ booking detail
-    bookings.data.map((booking, index) => {
-      booking.request = requestResults[index];
+    const bookings = await prisma.BookingDetail.findMany({
+      where: {
+        userId: user_Id,
+      },
+      include: {
+        user: {
+          include: {
+            userProfile: {
+              select: { cardNumber: true, cardOwner: true, cardExpiry: true },
+            },
+          },
+        },
+        room: {
+          include: {
+            roomType: {
+              include: {
+                roomAmenitie: {
+                  select: { roomAmenitieName: true },
+                },
+                bedType: {
+                  select: { bedTypeName: true },
+                },
+                roomImage: {
+                  select: { imageUrl: true },
+                },
+              },
+            },
+          },
+        },
+        guestRequest: {
+          include: {
+            request: {
+              select: {
+                requestType: true,
+                requestName: true,
+                requestPrice: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        checkIn: "asc", // เรียงลำดับตามวันที่สร้างข้อมูล (createdAt) จากใหม่สุดไปยังเก่าที่สุด
+      },
     });
 
     res.json(bookings);
   } catch (error) {
     res.status(400).json({ error: "data not found" });
   }
-});
+}); 
 
 //API booking history change date
 bookingHistory.put("/:booking_id", async function (req, res) {
-  const bookingId = req.params.booking_id;
-  const updateData = {...req.body}
-  try {
-    await supabase
-      .from("booking_detail")
-      .update(updateData)
-      .eq("booking_detail_id", bookingId);
+  const bookingId = Number(req.params.booking_id);
+  const updateData = {
+    ...req.body
+  };
 
-    res.status(200).json({ message: "data update successfully!" });
+  try {
+    if (!updateData) {
+      return res.status(400).json({ error: "Invalid data provided" });
+    }
+
+    const updatedBooking = await prisma.bookingDetail.update({
+      where: {
+        bookingDetailId: bookingId,
+      },
+      data: {
+        ...updateData,
+      },
+    });
+    res
+      .status(200)
+      .json({ message: "Data updated successfully", updatedBooking });
   } catch (error) {
-    res.status(400).json({ error: "data not found" });
+    res.status(400).json({ error: "Failed to update data", details: error });
   }
 });
 

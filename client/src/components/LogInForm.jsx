@@ -1,66 +1,76 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import supabase from "../supabaseClient.js";
-import chairBesidePool from "../assets/loginPageImage/chairBesidePool.jpg";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
+import { useAdminAuth } from "./hooks/useAuthAdmin";
+import axios from "axios";
+import chairBesidePool from "../assets/loginPageImage/chairBesidePool.jpg";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../config/firebase-config";
 
 // check ว่าเป็น email ไหม
 function isEmail(input) {
+  console.log("input: ", input);
   return input.includes("@");
 }
 
 // หา email จาก username
 async function getEmailFromUsername(username) {
-  const { data, error } = await supabase
-    .from("users")
-    .select("email")
-    .eq("username", username)
-    .single();
+  try {
+    const userEmail = await axios.get(
+      `http://localhost:4000/users/user-email/${username}`
+    );
 
-  if (error) {
+    return userEmail.data.email;
+  } catch (error) {
     console.error("Error fetching email", error);
     return null;
   }
-
-  return data?.email;
 }
 
 // --login ของ user--
 export function UserLoginForm() {
+  const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(false);
   const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
-  const navigate = useNavigate();
-  const { isLogin } = useAuth();
+
+  const { handleIsAuthenticated } = useAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
+    const emailCheck = isEmail(usernameOrEmail);
+    let userLogin = usernameOrEmail;
 
-    if (!isEmail(usernameOrEmail)) {
+    if (!emailCheck) {
       try {
         const fetchedEmail = await getEmailFromUsername(usernameOrEmail);
-        setUsernameOrEmail(fetchedEmail);
-      } catch {
+        userLogin = fetchedEmail;
+      } catch (error) {
         alert("Login failed: Username or Email not found");
       }
     }
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: usernameOrEmail,
-        password: userPassword,
-      });
-      if (error) throw error;
-      isLogin();
+      const response = await signInWithEmailAndPassword(
+        auth,
+        userLogin,
+        userPassword
+      );
+      console.log("response from firebase", response);
+      handleIsAuthenticated();
+      setIsLoading(false);
       navigate("/");
     } catch (error) {
-      alert(`Login failed: ${error.message}`);
+      setIsLoading(false);
+      console.error("Error signing in", error);
     }
   };
 
   return (
     <>
-      <section className="flex h-screen bg-utilBG">
+      <section className="flex h-screen bg-utilBG mt-[100px]">
         {/* img div */}
         <div className="w-2/4">
           <img src={chairBesidePool} className="object-cover h-screen w-full" />
@@ -111,7 +121,7 @@ export function UserLoginForm() {
                   type="submit"
                   className="btn btn-block bg-orange600 hover:bg-orange500 active:bg-orange700 text-body1 text-utilWhite font-fontWeight6 mb-4"
                 >
-                  Log In
+                  {isLoading ? <span className="loading loading-spinner"></span> : "Log In"}
                 </button>
               </form>
               <span className="text-gray700 text-body1">
@@ -133,26 +143,44 @@ export function UserLoginForm() {
 
 // --login ของ admin--
 export function AdminLoginForm() {
+  const navigate = useNavigate();
   const [adminUsernameOrEmail, setAdminUsernameOrEmail] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
+  const [isLoading, setIsLoading]=useState(false)
+  const { login } = useAdminAuth();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    //login auth area ...
+
+    try {
+      setIsLoading(true)
+      await login({
+        username: adminUsernameOrEmail,
+        password: adminPassword,
+      });
+      setIsLoading(false);
+      navigate("/admin/customer-booking");
+      console.log("Admin login successfully");
+    } catch (error) {
+      console.error("Error signing in", error);
+      setIsLoading(false);
+    }
   };
 
   return (
     <>
-      <section className="flex h-screen bg-utilBG">
+      <section className="flex mix-h-screen bg-utilBG w-full">
         {/* img div */}
-        <div className="w-2/4">
+        <div className="flex-1">
           <img src={chairBesidePool} className="object-cover h-screen w-full" />
         </div>
 
         {/* login container div */}
-        <div className="flex justify-center items-center w-2/4 pl-12 pr-40 pt-15 pb-30">
-          <div className="flex-col bg-utilBG w-screen h-fit text-left">
-            <h1 className="headline2 w-full mb-60 text-green800">Log In</h1>
+        <div className="flex-1 flex justify-center items-center bg-utilBG">
+          <div className="flex-col  w-full h-fit text-left px-12">
+            <h1 className="headline2 w-full mb-60 text-green800">
+              Admin Log In
+            </h1>
             <div className="w-full">
               {/* form start here */}
               <form className="adminLoginForm" onSubmit={handleSubmit}>
@@ -194,12 +222,16 @@ export function AdminLoginForm() {
                   type="submit"
                   className="btn btn-block bg-orange600 hover:bg-orange500 active:bg-orange700 text-body1 text-utilWhite font-fontWeight6 mb-4"
                 >
-                  Log In
+                  {isLoading ? (
+                    <span className="loading loading-spinner"></span>
+                  ) : (
+                    "Log In"
+                  )}
                 </button>
               </form>
               <span className="text-gray700 text-body1">
                 Don’t have an account yet?
-              </span>{" "}
+              </span>
               <Link
                 to="#"
                 className="text-body1 font-fontWeight6 text-orange-500"

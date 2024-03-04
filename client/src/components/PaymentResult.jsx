@@ -2,22 +2,22 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../components/hooks/useAuth";
+import dateFormat from "../utils/dateFormat";
+import { auth } from "../config/firebase-config";
 
 function PaymentResult() {
   const navigate = useNavigate();
   const { isAuthenticated, userData } = useAuth();
   const [Loading, setLoading] = useState(false);
-  const [bookingInfo, setBookingInfo] = useState({
-    room: {},
-  });
+  const [bookingDetail, setBookingDetail] = useState({});
   const [simplifiedRequests, setSimplifiedRequests] = useState([]);
 
   console.log(userData);
-  console.log(bookingInfo);
+  console.log(bookingDetail);
   console.log(simplifiedRequests);
 
   useEffect(() => {
-    if (userData && bookingInfo) {
+    if (userData) {
       getRecentBooking();
     }
   }, [userData]);
@@ -26,29 +26,28 @@ function PaymentResult() {
     try {
       setLoading(true);
       const result = await axios.get(
-        `http://localhost:4000/booking/recent-booking/${userData.id}`
+        `http://localhost:4000/booking/recent-booking/${userData.userId}`
       );
       // console.log(result.data);
 
-      const { bookingDetail, roomInfo, requests } = result.data;
+      const bookingDetail = result.data;
 
-      setBookingInfo({
-        ...bookingDetail,
-        room: { ...roomInfo },
-      });
-      console.log(bookingInfo);
+      setBookingDetail(result.data);
+      console.log(bookingDetail);
 
-      const newSimplifiedRequests = requests.map((request) => {
-        return {
-          name: request.request_name,
-          price: request.request_price,
-          type: request.request_type,
-        };
-      });
+      const newSimplifiedRequests = bookingDetail.guestRequest.map(
+        (request) => {
+          return {
+            name: request.request.requestName,
+            price: request.request.requestPrice,
+            type: request.request.requestType,
+          };
+        }
+      );
 
       setSimplifiedRequests(newSimplifiedRequests);
 
-      if (!bookingInfo) {
+      if (!bookingDetail) {
         return <div>Loading</div>;
       }
     } catch (error) {
@@ -60,39 +59,22 @@ function PaymentResult() {
 
   // format date part vvv
 
-  const checkIn = bookingInfo.check_in;
-  const checkOut = bookingInfo.check_out;
-
-  function dateFormat(dateString) {
-    const date = new Date(dateString);
-    if (isNaN(date)) return "Loading...";
-    const optionsDayWeek = { weekday: "short" };
-    const optionsMonth = { month: "short" };
-    const optionsDay = { day: "numeric" };
-    const optionsYear = { year: "numeric" };
-
-    const dayWeek = date.toLocaleDateString("en-US", optionsDayWeek);
-    const month = date.toLocaleDateString("en-US", optionsMonth);
-    const day = date.toLocaleDateString("en-US", optionsDay);
-    const year = date.toLocaleDateString("en-US", optionsYear);
-
-    return `${dayWeek}, ${month} ${day} ${year}`;
-  }
-
-  const formattedCheckIn = dateFormat(checkIn);
-  const formattedCheckOut = dateFormat(checkOut);
+  const formattedCheckIn = dateFormat(bookingDetail.checkIn);
+  const formattedCheckOut = dateFormat(bookingDetail.checkOut);
   const formattedDate = `${formattedCheckIn} - ${formattedCheckOut}`;
 
   // format date part ^^^
 
   // check payment method part vvv
 
-  const paymentMethod = bookingInfo.payment_method;
+  const paymentMethod = bookingDetail.paymentMethod;
+  console.log(paymentMethod);
+
   function checkPaymentMethod() {
     if (paymentMethod === "Cash") {
       return "Cash";
-    } else if (paymentMethod === "Credit card") {
-      const creditCardNumber = userData.card.cardNumber;
+    } else if (paymentMethod === "Credit Card") {
+      const creditCardNumber = userData?.userProfile?.cardNumber;
       const lastThreeDigits = creditCardNumber.slice(-3);
       return `Credit Card - *${lastThreeDigits}`;
     }
@@ -100,24 +82,7 @@ function PaymentResult() {
   const paymentMethodDisplay = checkPaymentMethod(paymentMethod);
   console.log(paymentMethodDisplay);
 
-  // check payment method part vvv
-
-  // sum total vvv
-
-  function sumTotal(roomPrice, simplifiedRequests) {
-    let totalCost = roomPrice;
-
-    simplifiedRequests.forEach((request) => {
-      totalCost += request.price;
-    });
-
-    return totalCost;
-  }
-
-  const roomPrice = bookingInfo.room.roomPrice;
-  const totalCost = sumTotal(roomPrice, simplifiedRequests);
-
-  // sum total ^^^
+  // check payment method part ^^^
 
   return (
     <>
@@ -137,7 +102,7 @@ function PaymentResult() {
               <article>
                 <p className="font-fontWeight6">{formattedDate}</p>
                 <p className="font-fontWeight4">
-                  {bookingInfo?.room?.guestNumber}
+                  {`${bookingDetail?.room?.roomType.guestCapacity} Guests`}
                 </p>
               </article>
 
@@ -161,10 +126,10 @@ function PaymentResult() {
             <div>
               <div className="flex justify-between mb-5">
                 <p className="body1 text-green300">
-                  {bookingInfo.room.roomType}
+                  {bookingDetail?.room?.roomType?.roomTypeName}
                 </p>
                 <p className="text-body1 text-utilWhite">
-                  {bookingInfo.room.roomPrice}
+                  {bookingDetail?.room?.roomType?.roomPrice}
                 </p>
               </div>
               {simplifiedRequests.length > 0 &&
@@ -177,7 +142,9 @@ function PaymentResult() {
               <hr></hr>
               <div className="flex justify-between mt-5">
                 <p className="body1 text-green300">Total</p>
-                <p className="headline text-utilWhite">{totalCost}</p>
+                <p className="headline text-utilWhite">
+                  {bookingDetail.totalPrice}
+                </p>
               </div>
             </div>
           </section>
@@ -185,7 +152,9 @@ function PaymentResult() {
           <section className="flex justify-center mt-10 gap-x-10">
             <button
               className="text-body1 font-fontWeight6 text-orange500 pb-4 cursor-pointer"
-              onClick={() => navigate(`/users/booking-history/${userData.id}`)}
+              onClick={() =>
+                navigate(`/users/booking-history/${auth.currentUser.uid}`)
+              }
             >
               Check Booking Detail
             </button>
