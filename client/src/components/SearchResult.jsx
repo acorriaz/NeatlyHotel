@@ -332,7 +332,7 @@ function SearchResult() {
     return (
       <div className="flex flex-col justify-start items-center pt-[100px] bg-gray-100">
         {/* search result main container */}
-        <div className="flex justify-center items-center h-fit w-full bg-white border-t-2 shadow-lg z-50">
+        <div className="flex justify-center items-center h-fit w-full bg-white border-t-2 shadow-lg z-30">
           <SearchBar />
         </div>
         <div className=" flex flex-col justify-start items-center mb-[200px] w-full bg-gray-100 mt-[100px]">

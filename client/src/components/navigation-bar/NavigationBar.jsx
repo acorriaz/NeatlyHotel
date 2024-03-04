@@ -48,7 +48,7 @@ export default function NavigationBar() {
   }
 
   return (
-    <div className="w-screen h-[100px] m-auto p-0 bg-base-100 flex justify-center items-center fixed top-0 z-10">
+    <div className="w-screen h-[100px] m-auto p-0 bg-base-100 flex justify-center items-center fixed top-0 z-50">
       <div className="navbar max-w-[1200px] h-[100px] justify-center items-center">
         <div className="flex-1">
           <Link to="/">
