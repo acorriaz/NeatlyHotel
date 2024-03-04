@@ -47,7 +47,7 @@ export default function SearchBar() {
 
       <div className="flex w-[536px] h-[76px] justify-between items-center">
         <div className="w-[240px] flex flex-col justify-center gap-2">
-          <label htmlFor="check_in" className="text-sm text-gray-900">
+          <label htmlFor="check_in" className="text-base text-gray-900">
             Check In
           </label>
           <DatePickerComponent
@@ -59,7 +59,7 @@ export default function SearchBar() {
         </div>
         <p className="items-center">-</p>
         <div className="w-[240px] flex flex-col justify-center gap-2">
-          <label htmlFor="checkOut" className="text-sm text-gray-900">
+          <label htmlFor="checkOut" className="text-base text-gray-900">
             Check Out
           </label>
           <DatePickerComponent
@@ -72,13 +72,13 @@ export default function SearchBar() {
       </div>
 
       {/* room and guest selection */}
-      <div className="relative flex flex-col justify-between w-[240px] h-[76px] rounded-lg">
-        <p className="text-sm text-gray-900">Rooms & Guests</p>
+      <div className="relative flex flex-col justify-between w-[240px] h-[81px] rounded-lg">
+        <p className="text-base text-gray-900">Rooms & Guests</p>
         <button
           onClick={() => {
             setIsOpen((prev) => !prev);
           }}
-          className="flex justify-between w-full h-[50px] items-center px-[15px] bg-white border border-gray-300 text-gray-900 text-sm rounded-[3px] active:border-orange-500 duration-300 hover:border-orange-500"
+          className="flex justify-between w-full h-[50px] items-center px-[15px] bg-white border border-gray-300 text-gray-900 text-base rounded-[3px] active:border-orange-500 duration-300 hover:border-orange-500"
         >
           {`${searchInput.room} room, ${searchInput.guest} guest`}
           {!isOpen ? (
@@ -90,7 +90,7 @@ export default function SearchBar() {
         {isOpen && (
           <div className="bg-gray-50 absolute top-20 flex flex-col items-start rounded-lg p-2 w-full">
             <div className="flex justify-between w-full h-[40px] p-[8px]">
-              <p className="text-gray-900 text-sm">Room</p>
+              <p className="text-gray-900 text-base">Room</p>
               <div className="w-[78px] h-[24px] flex justify-between">
                 <button
                   onClick={() => handleRoomAndGuestCount("minus", "room")}
@@ -104,7 +104,7 @@ export default function SearchBar() {
               </div>
             </div>
             <div className="flex justify-between w-full h-[40px] p-[8px]">
-              <p className="text-gray-900 text-sm">Guest</p>
+              <p className="text-gray-900 text-base">Guest</p>
               <div className="w-[78px] h-[24px] flex justify-between">
                 <button
                   onClick={() => handleRoomAndGuestCount("minus", "guest")}
