@@ -96,13 +96,13 @@ function SearchResult() {
                 className="modal"
                 onClose={() => setModalImageIndex(0)}
               >
-                <div className="modal-box w-12/12 max-w-[1000px] h-[1024px] bg-black rounded-none px-0">
+                <div className="modal-box relative w-11/12 max-w-full h-screen bg-black rounded-none px-0">
                   <form method="dialog">
-                    <button className="btn btn-sm btn-square btn-ghost text-2xl absolute right-2 top-2 text-gray-200">
+                    <button className="btn btn-md btn-square btn-ghost text-2xl absolute right-1 top-1 text-gray-200 p-0">
                       ✕
                     </button>
                   </form>
-                  <div className="carousel carousel-center w-full h-[580px] flex justify-center items-center relative">
+                  <div className="carousel carousel-center w-full h-full flex justify-center items-center relative">
                     {room.roomImage.map((image, index) => (
                       <div
                         key={index}
@@ -112,50 +112,41 @@ function SearchResult() {
                       >
                         <img
                           src={image.imageUrl}
-                          className="w-[500px] h-[380px] rounded-md"
+                          className="w-[700px] h-[500px] rounded-md"
                           alt=""
                         />
+                        <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                          <button
+                            onClick={showPreviousImage}
+                            className="btn btn-circle bg-transparent text-white"
+                          >
+                            ❮
+                          </button>
+                          <button
+                            onClick={showNextImage}
+                            className="btn btn-circle bg-transparent text-white"
+                          >
+                            ❯
+                          </button>
+                        </div>
+                        <div className="absolute flex justify-center w-full py-2 gap-2 bottom-12 left-1/2 transform -translate-x-1/2">
+                          {room.roomImage.map((_, index) => (
+                            <a
+                              href={`#${index + 1}`}
+                              key={index}
+                              className={`w-2 h-2 border rounded-full ${
+                                modalImageIndex === index
+                                  ? "bg-utilWhite"
+                                  : "bg-gray500"
+                              }`}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setModalImageIndex(index);
+                              }}
+                            ></a>
+                          ))}
+                        </div>
                       </div>
-                    ))}
-                  </div>
-                  <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                    <button
-                      onClick={() =>
-                        setModalImageIndex(
-                          (modalImageIndex - 1 + room.roomImage.length) %
-                            room.roomImage.length
-                        )
-                      }
-                      className="btn btn-circle bg-transparent text-white"
-                    >
-                      ❮
-                    </button>
-                    <button
-                      onClick={() =>
-                        setModalImageIndex(
-                          (modalImageIndex + 1) % room.roomImage.length
-                        )
-                      }
-                      className="btn btn-circle bg-transparent text-white"
-                    >
-                      ❯
-                    </button>
-                  </div>
-                  <div className="absolute flex justify-center w-full py-2 gap-2 bottom-12 left-1/2 transform -translate-x-1/2">
-                    {room.roomImage.map((_, index) => (
-                      <a
-                        href={`#${index + 1}`}
-                        key={index}
-                        className={`w-2 h-2 border rounded-full ${
-                          modalImageIndex === index
-                            ? "bg-utilWhite"
-                            : "bg-gray500"
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setModalImageIndex(index);
-                        }}
-                      ></a>
                     ))}
                   </div>
                 </div>
@@ -341,7 +332,7 @@ function SearchResult() {
     return (
       <div className="flex flex-col justify-start items-center pt-[100px] bg-gray-100">
         {/* search result main container */}
-        <div className="flex justify-center items-center h-fit w-full bg-white border-t-2 shadow-lg">
+        <div className="flex justify-center items-center h-fit w-full bg-white border-t-2 shadow-lg z-50">
           <SearchBar />
         </div>
         <div className=" flex flex-col justify-start items-center mb-[200px] w-full bg-gray-100 mt-[100px]">
@@ -365,53 +356,3 @@ function SearchResult() {
 }
 
 export default SearchResult;
-
-{
-  /* <div className="carousel carousel-center w-full h-[580px] flex justify-center items-center relative">
-                    {room.roomImage.map((image, index) => (
-                      <div
-                        key={index}
-                        className={`carousel-item ${
-                          index === modalImageIndex ? "" : "hidden"
-                        }`}
-                      >
-                        <img
-                          src={image.imageUrl}
-                          className="w-[500px] h-[380px] rounded-md"
-                          alt=""
-                        />
-                        <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                          <button
-                            onClick={showPreviousImage}
-                            className="btn btn-circle bg-transparent text-white"
-                          >
-                            ❮
-                          </button>
-                          <button
-                            onClick={showNextImage}
-                            className="btn btn-circle bg-transparent text-white"
-                          >
-                            ❯
-                          </button>
-                        </div>
-                        <div className="absolute flex justify-center w-full py-2 gap-2 bottom-12 left-1/2 transform -translate-x-1/2">
-                          {room.roomImage.map((_, index) => (
-                            <a
-                              href={`#${index + 1}`}
-                              key={index}
-                              className={`w-2 h-2 border rounded-full ${
-                                modalImageIndex === index
-                                  ? "bg-utilWhite"
-                                  : "bg-gray500"
-                              }`}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setModalImageIndex(index);
-                              }}
-                            ></a>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div> */
-}

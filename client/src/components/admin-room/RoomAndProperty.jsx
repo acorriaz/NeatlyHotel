@@ -5,7 +5,7 @@ import searchVector from "../../assets/admin/searchVector.svg";
 import SideBar from "../admin/SideBar";
 
 const RoomAndProperty = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [rooms, setRooms] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
 
@@ -34,22 +34,20 @@ const RoomAndProperty = () => {
 
   function handleUpdateNavigate(roomTypeId) {
     if (roomTypeId) {
-      navigate(
-        "/admin/room-and-property/create-room-type",
-        { state: { mode: "update", roomTypeId }},
-      )
+      navigate("/admin/room-and-property/create-room-type", {
+        state: { mode: "update", roomTypeId },
+      });
     } else {
-      navigate(
-        "/admin/room-and-property/create-room-type",
-        { state: { mode: "create" }}
-      )
+      navigate("/admin/room-and-property/create-room-type", {
+        state: { mode: "create" },
+      });
     }
   }
 
   return (
     <div className="bg-white room-and-property-page flex h-full">
       <SideBar pageName="room-Property" />
-      <main className="flex flex-col bg-gray-100 w-[1400px]">
+      <main className="flex flex-col bg-gray-100 w-full">
         <div className="flex justify-between items-center px-[60px] py-[3px] bg-white w-full h-[90px]">
           <h1 className="text-lg font-semibold">Room & Property</h1>
           <div className="flex justify-between items-center p-[8px] w-[540px]">
