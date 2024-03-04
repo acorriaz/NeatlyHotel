@@ -4,7 +4,7 @@ import CreateRoomType from "../components/admin-room/CreateRoomType";
 function AdminCreateRoomTypePage() {
   return (
     <div className="flex">
-      <SideBar />
+      <SideBar pageName="room-Property" />
       <CreateRoomType />
     </div>
   );

@@ -7,15 +7,14 @@ import { useState } from "react";
 import { useAdminAuth } from "../hooks/useAuthAdmin";
 import { useNavigate, Link } from "react-router-dom";
 
-function SideBar() {
-  const [activePage, setActivePage] = useState("customer-booking"); // State to store active page
+function SideBar(props) {
+  const [activePage, setActivePage] = useState(props.pageName); // State to store active page
   const { logout } = useAdminAuth();
   const navigate = useNavigate();
 
+  console.log(activePage);
+
   // Function to handle click on a link and set activePage state
-  const handlePageClick = (pageName) => {
-    setActivePage(pageName);
-  };
     
   return (
     <div className="bg-green800 z-10">
@@ -37,9 +36,8 @@ function SideBar() {
                 <Link
                   to="/admin/customer-booking"
                   className="flex gap-4"
-                  onClick={() => handlePageClick("customer-booking")}
                 >
-                  <img src={Booking} alt="" width={24} />
+                  <img src={Booking} width={24} />
                   Customer Booking
                 </Link>
               </li>
@@ -51,7 +49,6 @@ function SideBar() {
                 <Link
                   to="/admin/room-management"
                   className="flex gap-4"
-                  onClick={() => handlePageClick("room-management")}
                 >
                   <img src={Manage} alt="" width={24} />
                   Room Management
@@ -65,7 +62,6 @@ function SideBar() {
                 <Link
                   to="/admin/room-and-property"
                   className="flex gap-4"
-                  onClick={() => handlePageClick("room-Property")}
                 >
                   <img src={Room} alt="" width={24} />
                   Room & Property

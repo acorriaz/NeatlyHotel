@@ -9,6 +9,7 @@ function BookingChangeDate() {
   const [booking, setBooking] = useState(location.state.data);
   const [checkIn, setCheckIn] = useState(location.state.data.checkIn);
   const [checkOut, setCheckOut] = useState(location.state.data.checkOut);
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     changeDateFunc(checkIn);
@@ -17,6 +18,7 @@ function BookingChangeDate() {
   const putBooking = async (event) => {
     event.preventDefault();
     try {
+      setIsLoading(true)
       await axios.put(
         "http://localhost:4000/bookingHistory/" + booking.bookingDetailId,
         {
@@ -24,8 +26,10 @@ function BookingChangeDate() {
           checkOut: checkOut,
         }
       );
+      setIsLoading(false);
       navigate(`/users/booking-history/${location.state.data.userId}`);
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
     }
   };
@@ -180,7 +184,7 @@ function BookingChangeDate() {
                   className="py-4 px-2 w-2/5 bg-orange500 rounded-md text-white "
                   onClick={putBooking}
                 >
-                  Yes, I want to change
+                  {isLoading ? <span className="loading loading-spinner"></span>:"Yes, I want to change"}
                 </button>
               </div>
             </div>

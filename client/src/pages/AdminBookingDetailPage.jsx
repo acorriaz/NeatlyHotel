@@ -4,8 +4,8 @@ import BookingDetail from "../components/admin/Bookingdetail";
 function AdminBookingDetailPage() {
   return (
     <div className="flex">
-      <SideBar />
-      <BookingDetail/>
+      <SideBar pageName="customer-booking" />
+      <BookingDetail />
     </div>
   );
 }

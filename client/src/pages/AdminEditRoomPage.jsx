@@ -4,7 +4,7 @@ import EditRoom from "../components/admin-room/EditRoom";
 function AdminEditRoomPage() {
   return (
     <div className="flex">
-      <SideBar />
+      <SideBar pageName="room-management" />
       <EditRoom />
     </div>
   );

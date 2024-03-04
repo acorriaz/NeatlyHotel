@@ -31,6 +31,7 @@ async function getEmailFromUsername(username) {
 export function UserLoginForm() {
   const navigate = useNavigate();
 
+  const [isLoading, setIsLoading] = useState(false);
   const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
@@ -38,7 +39,7 @@ export function UserLoginForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    setIsLoading(true);
     const emailCheck = isEmail(usernameOrEmail);
     let userLogin = usernameOrEmail;
 
@@ -59,8 +60,10 @@ export function UserLoginForm() {
       );
       console.log("response from firebase", response);
       handleIsAuthenticated();
+      setIsLoading(false);
       navigate("/");
     } catch (error) {
+      setIsLoading(false);
       console.error("Error signing in", error);
     }
   };
@@ -118,7 +121,7 @@ export function UserLoginForm() {
                   type="submit"
                   className="btn btn-block bg-orange600 hover:bg-orange500 active:bg-orange700 text-body1 text-utilWhite font-fontWeight6 mb-4"
                 >
-                  Log In
+                  {isLoading ? <span className="loading loading-spinner"></span> : "Log In"}
                 </button>
               </form>
               <span className="text-gray700 text-body1">
@@ -143,34 +146,38 @@ export function AdminLoginForm() {
   const navigate = useNavigate();
   const [adminUsernameOrEmail, setAdminUsernameOrEmail] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
+  const [isLoading, setIsLoading]=useState(false)
   const { login } = useAdminAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
+      setIsLoading(true)
       await login({
         username: adminUsernameOrEmail,
         password: adminPassword,
       });
+      setIsLoading(false);
       navigate("/admin/customer-booking");
       console.log("Admin login successfully");
     } catch (error) {
       console.error("Error signing in", error);
+      setIsLoading(false);
     }
   };
 
   return (
     <>
-      <section className="flex h-screen bg-utilBG mt-[100px]">
+      <section className="flex mix-h-screen bg-utilBG w-full">
         {/* img div */}
-        <div className="w-2/4">
-          <img src={chairBesidePool} className="object-cover h-full w-full" />
+        <div className="flex-1">
+          <img src={chairBesidePool} className="object-cover h-screen w-full" />
         </div>
 
         {/* login container div */}
-        <div className="flex justify-center items-center w-2/4 pl-12 pr-40 pt-15 pb-30">
-          <div className="flex-col bg-utilBG w-screen h-fit text-left">
+        <div className="flex-1 flex justify-center items-center bg-utilBG">
+          <div className="flex-col  w-full h-fit text-left px-12">
             <h1 className="headline2 w-full mb-60 text-green800">
               Admin Log In
             </h1>
@@ -215,7 +222,11 @@ export function AdminLoginForm() {
                   type="submit"
                   className="btn btn-block bg-orange600 hover:bg-orange500 active:bg-orange700 text-body1 text-utilWhite font-fontWeight6 mb-4"
                 >
-                  Log In
+                  {isLoading ? (
+                    <span className="loading loading-spinner"></span>
+                  ) : (
+                    "Log In"
+                  )}
                 </button>
               </form>
               <span className="text-gray700 text-body1">

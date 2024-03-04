@@ -5,6 +5,7 @@ import { useState } from "react";
 function BookingDetail() {
   const location = useLocation();
   const [booking, setBooking] = useState(location.state.booking);
+  console.log(booking)
   
   //แสดงวันที่แบบ ชื่อวัน วันที่ ชื่อเดือน และปี
   const formatDate = (dateString) => {

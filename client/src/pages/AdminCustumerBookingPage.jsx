@@ -3,7 +3,7 @@ import CustomerBooking from "../components/admin/CustumerBooking";
 function AdminCustomerBookingPage () {
     return (
       <div className="flex">
-        <SideBar />
+        <SideBar pageName="customer-booking" />
         <CustomerBooking />
       </div>
     );

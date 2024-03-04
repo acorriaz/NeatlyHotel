@@ -7,17 +7,21 @@ function BookingRefund() {
   const location = useLocation();
   const [booking, setBooking] = useState(location.state);
   const [cancelRefundDate, setCancelRefundDate] = useState(new Date());
+  const [isLoading,setIsLoading] = useState(false);
 
   const putBooking = async () => {
     try {
+      setIsLoading(true)
       await axios.put(
         "http://localhost:4000/bookingHistory/" + booking.bookingDetailId,
         {
           cancelledAt: cancelRefundDate,
         }
       );
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
   //แสดงวันที่แบบ ชื่อย่อวัน วันที่ ชื่อย่อเดือน ปี
@@ -105,7 +109,7 @@ function BookingRefund() {
                 onClick={putBooking}
               >
                 <button className="py-4 px-8 bg-orange600 text-utilWhite rounded-md">
-                  Cancel and Refund this Booking
+                  {isLoading ? <span class="loading loading-spinner"></span> : "Cancel and Refund this Booking"}
                 </button>
               </Link>
             </div>

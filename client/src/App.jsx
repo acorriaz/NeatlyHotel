@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
-import { useAuth } from "./components/hooks/useAuth";
+import { useAdminAuth } from "./components/hooks/useAuthAdmin";
 
 import ScrollToTop from "./components/utils/ScrollToTop";
 import RoomDetail from "./pages/RoomDetailPage";
@@ -28,7 +28,7 @@ import PaymentResultPage from "./pages/PaymentResultPage";
 
 function App() {
   // เรียกข้อมูล user or admin 
-  const {userData, isAuthenticated} = useAuth();
+  const { isAdminAuthenticated } = useAdminAuth();
   
   return (
     <div className="App">
@@ -71,28 +71,35 @@ function App() {
           path="/users/booking-history/cancel-success"
           element={<BookingCancelSuccessPage />}
         />
-        <Route path="/admin/login" element={<AdminLoginPage />} />
-        <Route
-          path="/admin/customer-booking"
-          element={<AdminCustomerBookingPage />}
-        />
-        <Route
-          path="/admin/customer-booking/:bookingId"
-          element={<AdminBookingDetailPage />}
-        />
-        <Route
-          path="/admin/room-and-property"
-          element={<RoomAndPropertyPage />}
-        />
-        <Route
-          path="/admin/room-and-property/create-room-type"
-          element={<AdminCreateRoomTypePage />}
-        />
-        <Route path="/admin/room-management" element={<RoomManagementPage />} />
-        <Route
-          path="/admin/room-management/edit-room/:roomId"
-          element={<EditRoomPage />}
-        />
+        <Route path="/admin/*" element={<AdminLoginPage />} />
+        {isAdminAuthenticated && (
+          <>
+            <Route
+              path="/admin/customer-booking"
+              element={<AdminCustomerBookingPage />}
+            />
+            <Route
+              path="/admin/customer-booking/:bookingId"
+              element={<AdminBookingDetailPage />}
+            />
+            <Route
+              path="/admin/room-and-property"
+              element={<RoomAndPropertyPage />}
+            />
+            <Route
+              path="/admin/room-and-property/create-room-type"
+              element={<AdminCreateRoomTypePage />}
+            />
+            <Route
+              path="/admin/room-management"
+              element={<RoomManagementPage />}
+            />
+            <Route
+              path="/admin/room-management/edit-room/:roomId"
+              element={<EditRoomPage />}
+            />
+          </>
+        )}
       </Routes>
     </div>
   );

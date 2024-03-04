@@ -7,6 +7,7 @@ function CustomerBooking(){
   const navigate = useNavigate();
   const [booking, setBooking] = useState();
   const [searchInput, setSearchInput] = useState("");
+  const [onActive, setOnActive] = useState(true);
 
   const bookingSearch = async () => {
     const result = await axios.get(
@@ -45,27 +46,49 @@ function CustomerBooking(){
       state: { booking: item },
     });
   };
+
+  const countDate = (date) => {
+    const today = new Date().getTime()
+    const checkIn = new Date(date).getTime()
+    let differenceInTime = today - checkIn;
+    let differenceInDays = Math.round(differenceInTime / (1000 * 3600 * 24));
+    return differenceInDays;
+  }
   
   const getBooking = (data) => {
-      setSearchInput(data);
-    };
+    setSearchInput(data);
+  };
 
   useEffect(() => {
     bookingSearch();
   }, [searchInput]); 
 
-  if (booking) {
+
   return (
-    <div className="w-full h-full bg-gray100 flex flex-col">
+    <div className="w-full h-full min-h-screen bg-gray100 flex flex-col">
       <NavBarAdmin
         pageName="Customer Booking"
         getBackBooking={getBooking}
         showSearchInput={true}
       />
       <div className=" py-[48px] px-[60px]">
+        <div className="w-full flex justify-end">
+          <label className="flex items-center">
+            <input
+              type="checkbox"
+              className="checkbox checkbox-warning checkbox-sm cursor-pointer m-4"
+              onChange={() => {
+                setOnActive(!onActive);
+              }}
+              defaultChecked
+            />
+            Active bookings
+          </label>
+        </div>
+
         <table className="bg-gray300 rounded-t-xl w-full">
           <thead>
-            <tr className="body2 text-gray800 font-fontWeight5">
+            <tr className="headline5 text-gray800 font-fontWeight5">
               <th className=" py-[10px] px-4 text-start">Customer name</th>
               <th className=" py-[10px] px-4 text-start">Guest(s)</th>
               <th className=" py-[10px] px-4 text-start">Room type</th>
@@ -76,34 +99,59 @@ function CustomerBooking(){
             </tr>
           </thead>
           <tbody className="body1 text-utilBlack text-fontWeight4 bg-utilWhite">
-            {booking.map((item, index) => {
-              return (
-                <tr
-                  className="border border-gray300 hover:cursor-pointer hover:bg-gray100"
-                  key={index}
-                  onClick={() => handleOnClick(item)}
+            {booking ? (
+              (onActive
+                ? booking.filter(
+                    (booking) =>
+                      countDate(booking.checkIn) <= 0 && !booking.cancelledAt
+                  )
+                : booking.filter(
+                    (booking) =>
+                      (countDate(booking.checkIn) >= 0 &&
+                        booking.cancelledAt) ||
+                      countDate(booking.checkIn) >= 0
+                  )
+              ).map((item, index) => {
+                return (
+                  <tr
+                    className="border border-gray300 hover:cursor-pointer hover:bg-gray100"
+                    key={index}
+                    onClick={() => handleOnClick(item)}
+                  >
+                    <td className="py-6 px-4">
+                      {item.user.userProfile.fullName}
+                    </td>
+                    <td className="py-6 px-4">
+                      {item.room.roomType.guestCapacity}
+                    </td>
+                    <td className="py-6 px-4">
+                      {item.room.roomType.roomTypeName}
+                    </td>
+                    <td className="py-6 px-4">1</td>
+                    <td className="py-6 px-4">
+                      {item.room.roomType.bedType.bedTypeName}
+                    </td>
+                    <td className="py-6 px-4">{formatDate(item.checkIn)}</td>
+                    <td className="py-6 px-4">{formatDate(item.checkOut)}</td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td
+                  colspan="7"
+                  className="text-center h-screen text-4xl text-gray800"
                 >
-                  <td className="py-6 px-4">{item.user.username}</td>
-                  <td className="py-6 px-4">
-                    {item.room.roomType.guestCapacity}
-                  </td>
-                  <td className="py-6 px-4">
-                    {item.room.roomType.roomTypeName}
-                  </td>
-                  <td className="py-6 px-4">1</td>
-                  <td className="py-6 px-4">
-                    {item.room.roomType.bedType.bedTypeName}
-                  </td>
-                  <td className="py-6 px-4">{formatDate(item.checkIn)}</td>
-                  <td className="py-6 px-4">{formatDate(item.checkOut)}</td>
-                </tr>
-              );
-            })}
+                  Loading
+                  <span className="loading loading-dots loading-md ml-2 text-gray800"></span>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
     </div>
   );
  }
-}
+
 export default CustomerBooking
