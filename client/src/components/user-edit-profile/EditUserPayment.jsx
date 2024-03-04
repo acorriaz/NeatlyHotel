@@ -8,7 +8,7 @@ import {
 import axios from "axios";
 import NavigationBar from "../navigation-bar/NavigationBar.jsx";
 
-function EditUserPayment() {
+function EditUserPayment({ onSectionChange }) {
   const { isAuthenticated, userData, refreshUserData } = useAuth();
 
   const {
@@ -60,16 +60,29 @@ function EditUserPayment() {
   return (
     <>
       <main className="flex justify-center h-screen bg-utilBG">
-        <section className="bg-utilBG w-8/12 mt-10 mb-10 text-left">
+        <section className="bg-utilBG w-8/12 mt-40 mb-10 text-left">
           <form onSubmit={handleSubmit(onSubmit)}>
             <section className="flex justify-between items-center">
               <h1 className="headline2 text-green800">Payment Method</h1>
-              <button
-                type="submit"
-                className="btn w-fit px-10 border-none  bg-orange600 hover:bg-orange500 active:bg-orange700 text-body1 text-utilWhite font-fontWeight6 cursor-pointer"
-              >
-                Update Payment Method
-              </button>
+              <section className="flex justify-center items-center gap-x-2">
+                <div>
+                  <button
+                    className="btn text-body1 px-8 font-fontWeight6 border-2 rounded bg-transparent text-orange500 hover:text-orange400 hover:border-orange400 hover:bg-transparent active:text-orange600 active:border-orange600 focus:text-orange600 border-orange500"
+                    onClick={() => onSectionChange("profile")}
+                  >
+                    Edit Profile
+                  </button>
+                </div>
+
+                <div>
+                  <button
+                    type="submit"
+                    className="btn text-body1 px-8 font-fontWeight6 rounded bg-orange600 hover:bg-orange500 active:bg-orange700 text-white cursor-pointer"
+                  >
+                    Update Payment Method
+                  </button>
+                </div>
+              </section>
             </section>
             <h2 className="headline5 text-gray600 mt-20">Credit Card</h2>
 

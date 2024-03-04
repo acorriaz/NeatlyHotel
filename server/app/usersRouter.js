@@ -2,6 +2,7 @@ import { Router } from "express";
 import prisma from "../utils/db.js";
 import multer from "multer";
 import handleUpload from "../utils/cloudinary.js";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library.js";
 
 const storage = new multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -126,6 +127,15 @@ usersRouter.put(
       });
     } catch (err) {
       console.error(err);
+      if (err instanceof PrismaClientKnownRequestError) {
+        if (err.code === "P2002") {
+          let message = "An error occurred.";
+          if (err.meta && err.meta.target.includes("username")) {
+            message = "Username already taken.";
+          }
+          return res.status(400).json({ message });
+        }
+      }
       res.status(500).json({ message: "Error update user profile in DB" });
     }
   }
@@ -238,8 +248,8 @@ usersRouter.put("/payment-update/:userId", async (req, res) => {
   }
 });
 
-usersRouter.post("/register", async (req, res) => {
-  console.log("run");
+usersRouter.post("/register", upload.single("profilePic"), async (req, res) => {
+  console.log("---run---");
   const {
     uId,
     username,
@@ -252,32 +262,121 @@ usersRouter.post("/register", async (req, res) => {
     cardOwner,
     cardExpiry,
   } = req.body;
+  const profilePic = req.file;
 
-  const firstName = fullName.split(" ")[0];
-  const lastName = fullName.split(" ")[1];
+  let profilePicUrl = "";
 
-  const user = await prisma.user.create({
-    data: {
-      userId: uId,
-      username,
-      email,
-      userProfile: {
-        create: {
-          firstName,
-          lastName,
-          fullName,
-          dateOfBirth,
-          idNumber,
-          cardExpiry,
-          cardNumber,
-          cardOwner,
-          country,
-          fullName,
+  if (profilePic && req.file.mimetype.startsWith("image/")) {
+    console.log("---Uploading to Cloudinary---");
+    try {
+      const b64 = Buffer.from(profilePic.buffer).toString("base64");
+      let dataURI = "data:" + profilePic.mimetype + ";base64," + b64;
+      const uploadResult = await handleUpload(dataURI);
+      profilePicUrl = uploadResult.url;
+      console.log("---Upload successfully---");
+      console.log("response from cloud: ", uploadResult);
+      console.log("Profile pic URL: ", profilePicUrl);
+    } catch (err) {
+      res
+        .status(500)
+        .json({ message: "Error uploading image to cloudinary", error: err });
+    }
+  }
+
+  if (profilePic) {
+    console.log("---profilePicUrl---");
+  }
+
+  console.log(profilePicUrl);
+
+  try {
+    const firstName = fullName.split(" ")[0];
+    const lastName = fullName.split(" ")[1];
+
+    const user = await prisma.user.create({
+      data: {
+        userId: uId,
+        username,
+        email,
+        userProfile: {
+          create: {
+            firstName,
+            lastName,
+            fullName,
+            dateOfBirth,
+            idNumber,
+            cardExpiry,
+            cardNumber,
+            cardOwner,
+            country,
+            fullName,
+            profilePicUrl,
+          },
         },
       },
-    },
-  });
-  return res.json(user);
+    });
+    return res.status(200).json({
+      message: "Register successful.",
+      data: user,
+    });
+  } catch (error) {
+    console.error(error);
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        let message = "An error occurred.";
+        if (error.meta && error.meta.target.includes("username")) {
+          message = "Username already taken.";
+        } else if (error.meta && error.meta.target.includes("email")) {
+          message = "Email already in use.";
+        }
+        return res.status(400).json({ message });
+      }
+    }
+
+    return res.status(500).json("Something went wrong. Please try again later");
+  }
 });
+
+// usersRouter.post("/register", async (req, res) => {
+//   console.log("run");
+//   const {
+//     uId,
+//     username,
+//     email,
+//     idNumber,
+//     fullName,
+//     dateOfBirth,
+//     country,
+//     cardNumber,
+//     cardOwner,
+//     cardExpiry,
+//   } = req.body;
+
+//   const firstName = fullName.split(" ")[0];
+//   const lastName = fullName.split(" ")[1];
+
+//   const user = await prisma.user.create({
+//     data: {
+//       userId: uId,
+//       username,
+//       email,
+//       userProfile: {
+//         create: {
+//           firstName,
+//           lastName,
+//           fullName,
+//           dateOfBirth,
+//           idNumber,
+//           cardExpiry,
+//           cardNumber,
+//           cardOwner,
+//           country,
+//           fullName,
+//         },
+//       },
+//     },
+//   });
+//   return res.json(user);
+// });
 
 export default usersRouter;

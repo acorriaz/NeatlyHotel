@@ -23,22 +23,12 @@ export default function UserUpdateProfilePage() {
     <>
       <NavigationBar />
       <div className="bg-utilBG">
-        <div className="flex justify-center gap-16 mt-24 py-5 bg-utilBG headline5 text-orange500">
-          <button
-            className="flex items-center hover:text-orange400 active:text-orange600 focus:text-orange600"
-            onClick={() => handleSectionChange("profile")}
-          >
-            Profile <IoArrowForward />
-          </button>
-          <button
-            className="flex items-center hover:text-orange400 active:text-orange600 focus:text-orange600"
-            onClick={() => handleSectionChange("payment")}
-          >
-            Payment <IoArrowForward />
-          </button>
-        </div>
-        {currentSection === "profile" && <EditUserProfile />}
-        {currentSection === "payment" && <EditUserPayment />}
+        {currentSection === "profile" && (
+          <EditUserProfile onSectionChange={handleSectionChange} />
+        )}
+        {currentSection === "payment" && (
+          <EditUserPayment onSectionChange={handleSectionChange} />
+        )}
       </div>
     </>
   );
