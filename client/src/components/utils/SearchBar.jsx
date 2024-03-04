@@ -14,7 +14,6 @@ export default function SearchBar() {
   const {
     searchInput,
     handleRoomAndGuestCount,
-    handleInputDateChange,
     setRooms,
   } = useSearchInput();
 
@@ -35,9 +34,6 @@ export default function SearchBar() {
     searchRoom();
   };
 
-  console.log(searchInput.checkIn);
-  console.log(searchInput.checkOut);
-
   return (
     <form
       onSubmit={handleSubmit}
@@ -54,7 +50,6 @@ export default function SearchBar() {
             name="checkIn"
             value={searchInput.checkIn}
             minDate={getCheckInDate()}
-            onChange={(e) => handleInputDateChange(e)}
           />
         </div>
         <p className="items-center">-</p>
@@ -66,7 +61,6 @@ export default function SearchBar() {
             name="checkOut"
             value={searchInput.checkOut}
             minDate={searchInput.minCheckOut}
-            onChange={(e) => handleInputDateChange(e)}
           />
         </div>
       </div>

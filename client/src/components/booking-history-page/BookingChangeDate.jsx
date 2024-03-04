@@ -75,9 +75,9 @@ function BookingChangeDate() {
     setCheckOut(formattedDate);
   };
 
-  const setdate = (e) => {
-    if(e){
-      setCheckIn(e.format("YYYY-MM-DD"));
+  const setdate = (newValue) => {
+    if(newValue){
+      setCheckIn(newValue.format("YYYY-MM-DD"));
     }
   }
 
@@ -126,9 +126,10 @@ function BookingChangeDate() {
                     <div className="w-1/2">
                       <p className="font-fontWeight4">Check-in</p>
                       <DatePickerComponent
+                        name="checkInEdit"
                         value={checkIn}
                         minDate={location.state.data.checkIn}
-                        onChange={(e) => setdate(e.target.value)}
+                        func={setdate}
                       />
                     </div>
                     <span>-</span>
@@ -168,8 +169,7 @@ function BookingChangeDate() {
               </form>
               <h3 className="headline5 text-utilBlack">Change Date</h3>
               <p className="py-4 body2">
-                Are you sure you want to change your check-in and check-out
-                date?
+                Are you sure you want to change your check-in and check-out date?
               </p>
               <div className="flex justify-end gap-4 body3 w-full font-sans">
                 <form method="dialog" className="w-1/4">
