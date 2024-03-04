@@ -71,6 +71,7 @@ function App() {
           path="/users/booking-history/cancel-success"
           element={<BookingCancelSuccessPage />}
         />
+
         <Route path="/admin/*" element={<AdminLoginPage />} />
         {isAdminAuthenticated && (
           <>
