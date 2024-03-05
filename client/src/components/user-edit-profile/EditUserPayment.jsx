@@ -59,7 +59,7 @@ function EditUserPayment({ onSectionChange }) {
 
   return (
     <>
-      <main className="flex justify-center h-screen bg-utilBG">
+      <main className="flex justify-center min-h-screen bg-utilBG">
         <section className="bg-utilBG w-8/12 mt-40 mb-10 text-left">
           <form onSubmit={handleSubmit(onSubmit)}>
             <section className="flex justify-between items-center">
