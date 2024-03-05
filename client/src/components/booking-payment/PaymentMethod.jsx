@@ -1,17 +1,22 @@
 import { useAuth } from "../hooks/useAuth";
 import { useRoomDetail } from "../../pages/PaymentPage";
+import bankVector from "../../assets/bookinghistory/bankVector.svg";
+import cashVector from "../../assets/bookinghistory/cashVector.svg";
 
 export default function PaymentMethod() {
   const { userData } = useAuth();
-  const { userPaymentDetail, handleUserPaymentDetail } = useRoomDetail()
+  const { userPaymentDetail, handleUserPaymentDetail } = useRoomDetail();
 
   return (
     <div className="flex flex-col gap-8">
       <div className="flex justify-between gap-4">
-        <h2 className="flex-1 py-6 text-center border-gray500 border-[1px] rounded-md">
+        <h2 className="flex flex-1 justify-center items-center gap-[5px] py-6 text-center border-gray500 border-[1px] rounded-md font-bold ">
+          <img src={bankVector} alt="" className="stroke-orange-500" />
           Credit Card
         </h2>
-        <h2 className="flex-1 py-6 text-center border-gray500 border-[1px] rounded-md">
+
+        <h2 className="flex flex-1 justify-center items-center gap-[5px] py-6 text-center border-gray500 border-[1px] rounded-md font-bold ">
+          <img src={cashVector} alt="" className="stroke-orange-500" />
           Cash
         </h2>
       </div>

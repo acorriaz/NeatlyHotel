@@ -13,7 +13,7 @@ const LandingBooking = forwardRef((props, ref) => {
         alt="superior-garden-view"
         className="absolute w-full h-full object-cover brightness-75"
       />
-      <h1 className="relative font-noto-serif text-white text-medium text-center text-[5rem] mb-20">
+      <h1 className="relative font-noto-serif text-white text-center text-[5rem] mb-20">
         A Best Place for Your <br />
         Neatly Experience
       </h1>

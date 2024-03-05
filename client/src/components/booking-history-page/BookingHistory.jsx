@@ -59,7 +59,7 @@ function BookingHistory() {
 
   return (
     <div className="p-20 mt-16 bg-gray100">
-      <h1 className="headline2 text-utilBlack font-['noto-serif'] mx-44">
+      <h1 className="headline2 text-utilBlack font-noto-serif mx-44">
         Booking History
       </h1>
       <div className="mt-16 mx-44">

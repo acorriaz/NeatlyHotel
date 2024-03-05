@@ -10,7 +10,7 @@ function BookingChangeDate() {
   const [booking, setBooking] = useState(location.state.data);
   const [checkIn, setCheckIn] = useState(location.state.data.checkIn);
   const [checkOut, setCheckOut] = useState(location.state.data.checkOut);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     changeDateFunc(checkIn);
@@ -19,7 +19,7 @@ function BookingChangeDate() {
   const putBooking = async (event) => {
     event.preventDefault();
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       await axios.put(
         "http://localhost:4000/bookingHistory/" + booking.bookingDetailId,
         {
@@ -76,20 +76,20 @@ function BookingChangeDate() {
   };
 
   const setdate = (newValue) => {
-    if(newValue){
+    if (newValue) {
       setCheckIn(newValue.format("YYYY-MM-DD"));
     }
-  }
+  };
 
   if (booking) {
     return (
       <>
-        <div className="h-screen flex flex-col p-20 mt-24  bg-gray300">
-          <h1 className="headline2 text-utilBlack font-['noto-serif'] mx-44">
+        <div className="h-screen flex flex-col p-20 mt-24  bg-utilBG">
+          <h1 className="headline2 text-utilBlack font-noto-serif mx-44">
             Change Check-in <br /> and Check-out Date
           </h1>
           <div
-            className="h-[450px] mt-16 mx-44 border border-b-gray500 bg-gray300 font-inter"
+            className="h-[450px] mt-16 mx-44 border border-b-gray500 bg-utilBG font-inter"
             onSubmit={putBooking}
           >
             <div className="flex justify-between gap-12">
@@ -169,7 +169,8 @@ function BookingChangeDate() {
               </form>
               <h3 className="headline5 text-utilBlack">Change Date</h3>
               <p className="py-4 body2">
-                Are you sure you want to change your check-in and check-out date?
+                Are you sure you want to change your check-in and check-out
+                date?
               </p>
               <div className="flex justify-end gap-4 body3 w-full font-sans">
                 <form method="dialog" className="w-1/4">

@@ -38,17 +38,17 @@ const RoomManagement = () => {
 
   const colorMap = {
     Vacant: "text-green-700 bg-gray-200",
-    Occupied: "text-red-700 bg-red-100",
-    "Assign Clean": "text-green-700 bg-blue-200",
-    "Assign Dirty": "text-red-700 bg-red-200",
+    Occupied: "text-blue-700 bg-blue-100",
+    "Assign Clean": "text-green-700 bg-green-100",
+    "Assign Dirty": "text-red-700 bg-red-100",
     "Vacant Clean": "text-green-700 bg-green-100",
-    "Vacant Clean Inspected": "text-green-700 bg-yellow-100",
-    "Vacant Clean Pick Up": "text-green-700 bg-yellow-200",
-    "Occupied Clean": "text-red-700 bg-green-200",
-    "Occupied Clean Inspected": "text-red-700 bg-yellow-100",
-    "Occupied Dirty": "text-red-700 bg-red-200",
+    "Vacant Clean Inspected": "text-yellow-700 bg-yellow-100",
+    "Vacant Clean Pick Up": "text-green-700 bg-green-100",
+    "Occupied Clean": "text-blue-700 bg-blue-100",
+    "Occupied Clean Inspected": "text-yellow-700 bg-yellow-100",
+    "Occupied Dirty": "text-red-700 bg-red-100",
     "Out of Order": "text-gray-700 bg-gray-200",
-    "Out of Service": "text-gray-700 bg-gray-100",
+    "Out of Service": "text-gray-700 bg-gray-200",
     "Out of Inventory": "text-gray-700 bg-gray-200",
   };
 
@@ -153,7 +153,7 @@ const RoomManagement = () => {
       <SideBar pageName="room-management" />
       <main className="flex flex-col bg-gray-100 w-full">
         <div className="flex justify-between items-center px-[60px] py-[3px] bg-white w-full h-[90px]">
-          <h1 className="text-lg font-semibold">Room & Property</h1>
+          <h1 className="text-lg font-semibold">Room Management</h1>
           <div className="flex justify-end items-center p-[8px] w-[540px]">
             <div className="relative">
               <input
