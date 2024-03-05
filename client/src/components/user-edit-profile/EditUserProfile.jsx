@@ -139,8 +139,8 @@ function EditUserProfile({ onSectionChange }) {
 
   return (
     <>
-      <main className="flex justify-center items-center bg-utilBG">
-        <section className="bg-utilBG w-7/12 h-full mt-40 mb-10 text-left">
+      <main className="flex justify-center items-center bg-utilBG min-h-screen">
+        <section className="bg-utilBG w-7/12 h-full pt-40 mb-10 text-left">
           <form onSubmit={handleSubmit(onSubmit)}>
             <section className="flex justify-between items-center">
               <h1 className="headline2 text-green800">Profile</h1>

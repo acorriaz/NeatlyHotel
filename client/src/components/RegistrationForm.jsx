@@ -146,8 +146,8 @@ function RegistrationForm() {
 
   return (
     <>
-      <section className="bg-register-bg flex justify-center items-center min-h-screen">
-        <div className="bg-utilBG max-w-fit px-20 py-10 my-20 text-left">
+      <section className="bg-register-bg bg-no-repeat bg-cover bg-center flex justify-center items-center min-h-screen">
+        <div className="bg-utilBG max-w-fit px-20 py-10 mb-20 mt-40 text-left">
           <form
             className="flex flex-col items-start justify-start"
             onSubmit={handleSubmit(onSubmit)}
@@ -322,11 +322,11 @@ function RegistrationForm() {
                   <img
                     src={URL.createObjectURL(profilePic)}
                     alt="Profile Picture"
-                    className="size-40 object-cover mt-5"
+                    className="size-40 rounded object-cover mt-5"
                     onClick={() => fileInputRef.current.click()}
                   />
                 ) : (
-                  <div className="size-40 bg-gray200 text-orange500 mt-5 relative">
+                  <div className="size-40 rounded bg-gray200 text-orange500 mt-5 relative">
                     <div
                       className="body2 flex flex-col justify-center items-center absolute right-9 top-12"
                       onClick={() => fileInputRef.current.click()}
