@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 function CardBooking(props) {
+  const [modalImageIndex, setModalImageIndex] = useState(0);
   //แสดงวันที่แบบ ชื่อย่อวัน วันที่ ชื่อย่อเดือน ปี
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -46,10 +48,18 @@ function CardBooking(props) {
       .showModal();
     sendBackBooking();
   };
-  
+
   //ส่งข้อมูล booking ที่เลือกกลับไปยัง parrant component booking history
   const sendBackBooking = () => {
     props.sendBooking(props.data);
+  };
+
+  const showPreviousImage = () => {
+    setModalImageIndex((prevIndex) => (prevIndex - 1 + 7) % 7);
+  };
+
+  const showNextImage = () => {
+    setModalImageIndex((prevIndex) => (prevIndex + 1) % 7);
   };
 
   return (
@@ -155,14 +165,127 @@ function CardBooking(props) {
               <button className="text-orange500 px-2" onClick={showModal}>
                 Cancel Booking
               </button>
-              <div>
-                <Link
-                  to={`/hotel/detail/${props.data.room.roomType.roomTypeId}`}
+              <div key={props.data.room.roomType.roomTypeId}>
+                <button
+                  className="py-4 px-8 text-orange500"
+                  onClick={() =>
+                    document
+                      .getElementById(
+                        `room_detail_${props.data.room.roomType.roomTypeId}`
+                      )
+                      .showModal()
+                  }
                 >
-                  <button className="py-4 px-8 text-orange500">
-                    Room Detail
-                  </button>
-                </Link>
+                  Room Detail
+                </button>
+                <dialog
+                  id={`room_detail_${props.data.room.roomType.roomTypeId}`}
+                  className="modal "
+                  onClose={() => setModalImageIndex(0)}
+                >
+                  <div className="modal-box w-10/12 max-w-5xl rounded-none pt-0">
+                    <form method="dialog">
+                      <div className=" h-[60px] flex items-center justify-between border-b-2 border-b-gray-200 ">
+                        <h3 className="font-bold text-xl pl-[100px]">
+                          {props.data.room.roomType.roomTypeName}
+                        </h3>
+                        <button className="btn btn-sm btn-square btn-ghost text-2xl">
+                          ✕
+                        </button>
+                      </div>
+                    </form>
+                    <div className="carousel carousel-center pt-[20px] w-full px-[100px]">
+                      {props.data.room.roomType.roomImage.map(
+                        (image, index) => (
+                          <div
+                            key={index}
+                            className={`carousel-item relative w-full justify-center ${
+                              index === modalImageIndex ? "" : "hidden"
+                            }`}
+                          >
+                            <img
+                              src={image.imageUrl}
+                              className="w-full h-[400px]"
+                              alt=""
+                            />
+                            <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                              <button
+                                onClick={showPreviousImage}
+                                className="btn btn-circle bg-transparent text-white"
+                              >
+                                ❮
+                              </button>
+                              <button
+                                onClick={showNextImage}
+                                className="btn btn-circle bg-transparent text-white"
+                              >
+                                ❯
+                              </button>
+                            </div>
+                            {/* Navigation dots */}
+                            <div className="absolute flex justify-center w-full py-2 gap-2 bottom-7">
+                              {props.data.room.roomType.roomImage.map(
+                                (_, index) => (
+                                  <a
+                                    href={`#${index + 1}`}
+                                    key={index}
+                                    className={`w-2 h-2 border rounded-full ${
+                                      modalImageIndex === index
+                                        ? "bg-utilWhite"
+                                        : "bg-gray500"
+                                    }`}
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      setModalImageIndex(index);
+                                    }}
+                                  ></a>
+                                )
+                              )}
+                            </div>
+                          </div>
+                        )
+                      )}
+                    </div>
+                    {/* room description */}
+                    <div className="px-[100px] my-[30px]">
+                      <div className="flex w-full h-[50px] gap-[14px] font-fontWeight4 text-gray700 text-body1">
+                        <p>{`${props.data.room.roomType.guestCapacity} Guests`}</p>
+                        <p>|</p>
+                        <p>{props.data.room.roomType.bedType.bedTypeName}</p>
+                        <p>|</p>
+                        <p>{`${props.data.room.roomType.roomSize} sqm`}</p>
+                      </div>
+                      <p className="w-full h-[72px] font-fontWeight4 text-gray700 text-body1 border-b-2 border-b-gray-200">
+                        {props.data.room.roomType.description}
+                      </p>
+                      <div className="pt-[20px]">
+                        <h2 className="headline5 text-utilBlack">
+                          Room Amenities
+                        </h2>
+                        <div className="flex gap-32 body1 text-gray700 mt-4">
+                          <ul>
+                            <li>Safe in Room </li>
+                            <li>Air Conditioning </li>
+                            <li>High speed internet connection </li>
+                            <li>Hairdryer </li>
+                            <li>Shower </li>
+                            <li>Bathroom amenities</li>
+                            <li>Lamp </li>
+                          </ul>
+                          <ul>
+                            <li>Minibar </li>
+                            <li>Telephone </li>
+                            <li>Ironing board </li>
+                            <li>A floor only accessible via a guest </li>
+                            <li>room key </li>
+                            <li>Alarm clock</li>
+                            <li>Bathrobe </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </dialog>
                 {isShowsWithDate(props.data.checkIn) >= 24 && (
                   <Link
                     to="/users/booking-history/change-date"

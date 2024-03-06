@@ -9,7 +9,7 @@ function RoomCategories(props) {
   );
   console.log(roomDetail);
   return (
-    <main className="w-full h-[935px] flex justify-center content-center bg-gray300">
+    <main className="w-full h-[935px] flex justify-center content-center bg-utilBG">
       <div className="w-3/5 h-[630px] flex flex-col justify-between mt-20">
         <div>
           <h1 className="headline2 text-green800">

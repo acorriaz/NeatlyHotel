@@ -17,7 +17,7 @@ function ImageSlideRoom(props) {
   const handleNext = () => {
     setPage((prevPage) => (prevPage < imageRoom.length - 1 ? prevPage + 1 : 0));
   };
-  
+
   return (
     <header className="relative w-full h-fit bg-gray300 mt-24">
       {/* Carousel content */}
