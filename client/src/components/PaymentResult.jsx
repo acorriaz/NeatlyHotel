@@ -86,7 +86,7 @@ function PaymentResult() {
 
   return (
     <>
-      <main className="flex justify-center items-center pt-12 bg-utilBG">
+      <main className="flex justify-center items-center pt-12 min-h-screen bg-utilBG">
         <section className="max-w-[738px]">
           <section className="text-center bg-green800 py-9 px-14">
             <h2 className="headline3 text-utilWhite">Thank you for booking</h2>
