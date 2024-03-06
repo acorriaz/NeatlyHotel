@@ -7,7 +7,6 @@ function RoomCategories(props) {
   const roomData = roomDetail.filter(
     (room) => room.roomTypeId === Number(props.param)
   );
-  console.log(roomDetail);
   return (
     <main className="w-full h-[935px] flex justify-center content-center bg-utilBG">
       <div className="w-3/5 h-[630px] flex flex-col justify-between mt-20">

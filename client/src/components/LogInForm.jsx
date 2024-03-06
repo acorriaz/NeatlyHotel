@@ -148,6 +148,7 @@ export function AdminLoginForm() {
   const [adminPassword, setAdminPassword] = useState("");
   const [isLoading, setIsLoading]=useState(false)
   const { login } = useAdminAuth();
+  const [errorMessage , setErrorMessage] = useState({})
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -162,7 +163,7 @@ export function AdminLoginForm() {
       navigate("/admin/customer-booking");
       console.log("Admin login successfully");
     } catch (error) {
-      console.error("Error signing in", error);
+      setErrorMessage(error.response)
       setIsLoading(false);
     }
   };
@@ -190,34 +191,43 @@ export function AdminLoginForm() {
                 >
                   Username or Email
                 </label>
-                <br></br>
-                <input
-                  id="adminUsernameOrEmail"
-                  name="adminUsernameOrEmail"
-                  type="text"
-                  placeholder="Enter your username or email"
-                  className="w-full mb-10 py-3 pl-3 pr-3 bg-utilWhite border rounded border-solid border-gray400 text-gray600 focus:border focus:border-orange500 invalid:border-utilRed"
-                  onChange={(event) => {
-                    setAdminUsernameOrEmail(event.target.value);
-                  }}
-                  value={adminUsernameOrEmail}
-                />
-                <br></br>
+                <div className="mb-10">
+                  <input
+                    required
+                    id="adminUsernameOrEmail"
+                    name="adminUsernameOrEmail"
+                    type="text"
+                    placeholder="Enter your username or email"
+                    className="w-full py-3 pl-3 pr-3 bg-utilWhite border rounded border-solid border-gray400 text-gray600 focus:border focus:border-orange500 invalid:border-utilRed"
+                    onChange={(event) => {
+                      setAdminUsernameOrEmail(event.target.value);
+                    }}
+                    value={adminUsernameOrEmail}
+                  />
+                  {errorMessage.status === 404 && (
+                    <p className="text-red-500">{errorMessage.data.message}</p>
+                  )}
+                </div>
                 <label htmlFor="adminPassword" className="body1 text-gray900">
                   Password
                 </label>
-                <br></br>
-                <input
-                  id="adminPassword"
-                  name="adminPassword"
-                  type="password"
-                  placeholder="Enter your password"
-                  className="w-full mb-10 py-3 pl-3 pr-3 bg-utilWhite border rounded border-solid border-gray400 text-gray600 focus:border focus:border-orange500 invalid:border-utilRed"
-                  onChange={(event) => {
-                    setAdminPassword(event.target.value);
-                  }}
-                  value={adminPassword}
-                />
+                <div className="mb-10">
+                  <input
+                    required
+                    id="adminPassword"
+                    name="adminPassword"
+                    type="password"
+                    placeholder="Enter your password"
+                    className="w-full py-3 pl-3 pr-3 bg-utilWhite border rounded border-solid border-gray400 text-gray600 focus:border focus:border-orange500 invalid:border-utilRed"
+                    onChange={(event) => {
+                      setAdminPassword(event.target.value);
+                    }}
+                    value={adminPassword}
+                  />
+                  {errorMessage.status === 400 && (
+                    <p className="text-red-500">{errorMessage.data.message}</p>
+                  )}
+                </div>
                 <button
                   type="submit"
                   className="btn btn-block bg-orange600 hover:bg-orange500 active:bg-orange700 text-body1 text-utilWhite font-fontWeight6 mb-4"
