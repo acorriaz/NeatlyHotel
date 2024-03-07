@@ -239,20 +239,15 @@ function EditUserProfile({ onSectionChange }) {
                     field: { onChange, onBlur, value, name, ref },
                     fieldState: { errors },
                   }) => (
-                    <DatePickerComponent
-                      name={name}
-                      value={value ? dayjs(value).toISOString() : ""}
-                      onChange={(newValue) => {
-                        console.log(newValue); // Log to inspect the structure
-                        const dateValue = newValue.target.value;
-                        if (dateValue && dateValue.$isDayjsObject) {
-                          onChange(dateValue.toISOString());
-                        } else {
-                          onChange("");
-                        }
-                      }}
-                      onBlur={onBlur}
-                      maxDate={yesterday}
+                    <input 
+                        {...register("dob", {
+                        require: true
+                      })}
+                      name="dob"
+                      id="dob"
+                      type="date"
+                      placeholder="EEEE, DD MMMM YYYY"
+                      className={inputErrorBorder(errors, "dob")}
                     />
                   )}
                 />

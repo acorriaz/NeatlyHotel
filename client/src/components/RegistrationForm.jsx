@@ -27,6 +27,7 @@ function RegistrationForm() {
   const [profilePic, setprofilePic] = useState(null);
 
   const onSubmit = async (data) => {
+    console.log("run")
     // validate full name
     if (!checkIfFullName(data.fullName)) {
       console.log(data.fullName);
@@ -267,21 +268,15 @@ function RegistrationForm() {
                       field: { onChange, onBlur, value, name, ref },
                       fieldState: { errors },
                     }) => (
-                      <DatePickerComponent
-                        name={name}
-                        value={value ? dayjs(value).toISOString() : ""}
-                        onChange={(newValue) => {
-                          console.log(newValue); // Log to inspect the structure
-                          // Directly using the Dayjs object from newValue.target.value
-                          const dateValue = newValue.target.value;
-                          if (dateValue && dateValue.$isDayjsObject) {
-                            onChange(dateValue.toISOString()); // Convert to ISO string for consistency
-                          } else {
-                            onChange(""); // Reset or handle as needed
-                          }
-                        }}
-                        onBlur={onBlur}
-                        maxDate={yesterday}
+                      <input 
+                        {...register("dob", {
+                        require: true
+                      })}
+                      name="dob"
+                      id="dob"
+                      type="date"
+                      placeholder="EEEE, DD MMMM YYYY"
+                      className={inputErrorBorder(errors, "dob")}
                       />
                     )}
                   />
