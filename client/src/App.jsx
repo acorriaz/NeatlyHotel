@@ -25,6 +25,7 @@ import RoomManagementPage from "./pages/RoomManagementPage";
 import RoomAndPropertyPage from "./pages/RoomAndPropertyPage";
 import EditRoomPage from "./pages/AdminEditRoomPage";
 import PaymentResultPage from "./pages/PaymentResultPage";
+import AdminUpdateRoomTypePage from "./pages/AdminUpdateRoomTypePage";
 
 function App() {
   // เรียกข้อมูล user or admin 
@@ -90,6 +91,10 @@ function App() {
             <Route
               path="/admin/room-and-property/create-room-type"
               element={<AdminCreateRoomTypePage />}
+            />
+            <Route
+              path="/admin/room-and-property/update-room-type/:roomTypeId"
+              element={<AdminUpdateRoomTypePage />}
             />
             <Route
               path="/admin/room-management"

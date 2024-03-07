@@ -1,33 +1,40 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom"
+import { useParams, useLocation } from "react-router-dom"
 import axios from "axios"
 
-function CreateRoomType (props) {
+function UpdateRoomType (props) {
   const location = useLocation()
-  const { state } = location
-  const [pageMode, setPageMode] = useState("update")
+  const { roomTypeId } = useParams()
   const [isPromotion, setIsPromotion] = useState(false);
   const [roomTypeFromDb, setRoomTypeFromDb] = useState({})
   const [roomTypeInput, setRoomTypeInput] = useState({roomAmenitie: []})
   const [newImages, setNewImages] = useState([]);
   const [newImagesPreviews, setNewImagesPreviews] = useState([]);
 
+  useEffect(() => {
+    if (roomTypeId) {
+      console.log(roomTypeId)
+      handleFetchRoomType(roomTypeId)
+      console.log(roomTypeInput)
+    }
+  }, [])
+
   async function handleSubmit(e) {
     e.preventDefault();
 
     const formData = new FormData();
     Object.entries(roomTypeInput).forEach(([key, value]) => {
-      if (key === 'roomAmenitie') {
-          formData.append(key, JSON.stringify(value));
-      } else {
-          formData.append(key, value);
-      }
+        formData.append(key, value);
     });
     
     if (newImages) {
         newImages.forEach((file, index) => {
           formData.append('newRoomImage', file);
         })
+    }
+
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
     }
 
     try {
@@ -43,21 +50,29 @@ function CreateRoomType (props) {
         // Handle error
     }
   };
+  
 
-  const bedTypes = [
-    { id: 1, name: "Single bed" },
-    { id: 2, name: "Double bed" },
-    { id: 3, name: "Double bed (King size)" },
-    { id: 4, name: "Twin bed" },
-  ];
+  async function handleFetchRoomType(roomTypeId) {
+      try {
+        const response = await axios.get(`http://localhost:4000/hotel/room/${roomTypeId}`)
+        if (response) {
+          let data = response.data
 
-  // Handler for bed type change (if needed)
-  function handleBedTypeChange(e) {
-    const { name, value } = e.target;
-    setRoomTypeInput((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+          if (data.roomAmenitie && data.roomAmenitie.length === 0) {
+            const newAmenity = {
+              roomAmenitieId: Date.now(),
+              roomAmenitieName: "",
+            }
+
+            data.roomAmenitie = [newAmenity]
+          }
+
+          setRoomTypeFromDb(data)
+          setRoomTypeInput(data)
+        }
+      } catch (err) {
+        console.error(err)
+      }
   }
 
   async function handleInputChange(e) {
@@ -256,18 +271,9 @@ function CreateRoomType (props) {
           <label className="flex flex-col gap-2 w-full">
             Bed type *
             <div className="border border-gray400 py-3 px-4 rounded">
-            <select 
-              className="w-full" 
-              name="bedTypeId"
-              value={roomTypeInput.bedTypeId}
-              onChange={handleBedTypeChange}
-            >
-              {bedTypes.map((type) => (
-                <option key={type.id} value={type.id}>
-                  {type.name}
-                </option>
-              ))}
-            </select>
+              <select className="w-full">
+                <option value="#">Double Bed</option>
+              </select>
             </div>
           </label>
         </div>
@@ -275,16 +281,8 @@ function CreateRoomType (props) {
           <label className="flex flex-col gap-2 w-full">
             Guest(s) *
             <div className="border border-gray400 py-3 px-4 rounded">
-              <select 
-                className="w-full" 
-                name="guestCapacity" 
-                value={roomTypeInput.guestCapacity}
-                onChange={handleInputChange}
-              >
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
+              <select className="w-full">
+                <option value="#">2</option>
               </select>
             </div>
           </label>
@@ -392,4 +390,4 @@ function CreateRoomType (props) {
   );
 }
 
-export default CreateRoomType
+export default UpdateRoomType

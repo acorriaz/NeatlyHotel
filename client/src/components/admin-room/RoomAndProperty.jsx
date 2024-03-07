@@ -5,7 +5,7 @@ import searchVector from "../../assets/admin/searchVector.svg";
 import SideBar from "../admin/SideBar";
 
 const RoomAndProperty = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const [rooms, setRooms] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
 
@@ -33,14 +33,14 @@ const RoomAndProperty = () => {
   );
 
   function handleUpdateNavigate(roomTypeId) {
+    console.log("handleNavigate",roomTypeId)
     if (roomTypeId) {
-      navigate("/admin/room-and-property/create-room-type", {
-        state: { mode: "update", roomTypeId },
-      });
+      navigate(`/admin/room-and-property/update-room-type/${roomTypeId}`)
     } else {
-      navigate("/admin/room-and-property/create-room-type", {
-        state: { mode: "create" },
-      });
+      navigate(
+        "/admin/room-and-property/create-room-type",
+        { state: { mode: "create" }}
+      )
     }
   }
 
@@ -67,7 +67,7 @@ const RoomAndProperty = () => {
             </div>
             <button
               onClick={() => {
-                handleUpdateNavigate();
+                handleUpdateNavigate()
               }}
               className=" border rounded-[4px] bg-orange-500 text-white cursor-pointer w-[180px] h-[50px]"
             >
@@ -98,29 +98,31 @@ const RoomAndProperty = () => {
                     key={room.roomTypeId}
                     onClick={() => handleUpdateNavigate(room.roomTypeId)}
                   >
-                    <td className="p-4">
-                      <img
-                        src={room.roomImage[0].imageUrl}
-                        alt={room.roomTypeName}
-                        className="w-[120px] h-[72px] rounded-[5px] object-cover"
-                      />
-                    </td>
-                    <td className="p-4">{room.roomTypeName}</td>
-                    <td className="p-4">
-                      {discount.toLocaleString("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      })}
-                    </td>
-                    <td className="p-4">
-                      {room.roomPrice.toLocaleString("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      })}
-                    </td>
-                    <td className="p-4">{room.guestCapacity}</td>
-                    <td className="p-4">{room.bedType.bedTypeName}</td>
-                    <td className="p-4">{`${room.roomSize} sqm`}</td>
+                      <td className="p-4">
+                        {room.roomImage.length > 0 && (
+                          <img
+                            src={room.roomImage[0].imageUrl}
+                            alt={room.roomTypeName}
+                            className="w-[120px] h-[72px] rounded-[5px] object-cover"
+                          />
+                          )}
+                        </td>
+                      <td className="p-4">{room.roomTypeName}</td>
+                      <td className="p-4">
+                        {discount.toLocaleString("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                        })}
+                      </td>
+                      <td className="p-4">
+                        {room.roomPrice.toLocaleString("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                        })}
+                      </td>
+                      <td className="p-4">{room.guestCapacity}</td>
+                      <td className="p-4">{room.bedType.bedTypeName}</td>
+                      <td className="p-4">{`${room.roomSize} sqm`}</td>
                   </tr>
                 );
               })}
