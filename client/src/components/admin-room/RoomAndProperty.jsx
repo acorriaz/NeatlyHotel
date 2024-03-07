@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import searchVector from "../../assets/admin/searchVector.svg";
 import SideBar from "../admin/SideBar";
 
