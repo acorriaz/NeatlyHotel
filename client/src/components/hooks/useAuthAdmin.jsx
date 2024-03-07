@@ -17,8 +17,6 @@ export const AdminAuthProvider = ({ children }) => {
     }
   }, []);
 
-  console.log(admin);
-
   const login = async (adminData) => {
     const result = await axios.post(
       "http://localhost:4000/auth/admin/login",

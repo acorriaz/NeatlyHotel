@@ -28,7 +28,7 @@ function RoomDetail() {
     return (
       <>
         <NavigationBar />
-        <ImageSlideRoom image={roomType} />
+        <ImageSlideRoom image={roomType} param={param.roomTypeId} />
         <RoomCategories room={roomType} param={param.roomTypeId} />
         <OtherRoom room={roomType} param={param.roomTypeId} />
         <Footer />

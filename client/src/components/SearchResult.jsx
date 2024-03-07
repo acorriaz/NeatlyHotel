@@ -96,9 +96,9 @@ function SearchResult() {
                 className="modal"
                 onClose={() => setModalImageIndex(0)}
               >
-                <div className="modal-box relative w-11/12 max-w-full h-screen bg-black rounded-none px-0">
+                <div className="relative w-11/12 max-w-[1200px] h-[800px] bg-transparent rounded-none px-0 object-cover">
                   <form method="dialog">
-                    <button className="btn btn-md btn-square btn-ghost text-2xl absolute right-1 top-1 text-gray-200 p-0">
+                    <button className="btn btn-md btn-square btn-ghost text-2xl absolute right-1 top-1 z-50 text-gray-200 p-0">
                       ✕
                     </button>
                   </form>
@@ -112,7 +112,7 @@ function SearchResult() {
                       >
                         <img
                           src={image.imageUrl}
-                          className="w-[700px] h-[500px] rounded-md"
+                          className="w-[1200px] h-[800px] rounded-md"
                           alt=""
                         />
                         <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
