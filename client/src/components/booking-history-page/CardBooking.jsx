@@ -64,7 +64,7 @@ function CardBooking(props) {
 
   return (
     <>
-      <div className="py-10 bg-gray100">
+      <div className="py-10 bg-utilBG">
         <div className="flex gap-12">
           <div className="w-[500px] h-[215px]">
             <img

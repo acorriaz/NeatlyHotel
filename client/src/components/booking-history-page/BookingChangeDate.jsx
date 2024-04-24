@@ -84,12 +84,12 @@ function BookingChangeDate() {
   if (booking) {
     return (
       <>
-        <div className="h-screen flex flex-col p-20 mt-24  bg-utilBG">
+        <div className="h-screen flex flex-col p-20 mt-24 bg-utilBG">
           <h1 className="headline2 text-utilBlack font-noto-serif mx-44">
             Change Check-in <br /> and Check-out Date
           </h1>
           <div
-            className="h-[450px] mt-16 mx-44 border border-b-gray500 bg-utilBG font-inter"
+            className="h-[450px] mt-16 mx-44 bg-utilBG font-inter"
             onSubmit={putBooking}
           >
             <div className="flex justify-between gap-12">

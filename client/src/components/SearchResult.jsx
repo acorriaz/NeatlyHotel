@@ -69,7 +69,7 @@ function SearchResult() {
       return (
         // result content
         <div
-          className=" flex flex-col justify-center items-center bg-gray-100"
+          className=" flex flex-col justify-center items-center bg-utilBG"
           key={room.roomTypeId}
         >
           {/* card-container */}

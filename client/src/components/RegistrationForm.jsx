@@ -3,8 +3,11 @@ import { useForm, Controller } from "react-hook-form";
 import { useEffect, useRef, useState } from "react";
 import { IoAdd } from "react-icons/io5";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../config/firebase-config";
 import { signOut, deleteUser } from "firebase/auth";
+import dayjs from "dayjs";
+import axios from "axios";
+
+import { auth } from "../config/firebase-config";
 import { ageOver18, checkIfFullName } from "../utils/userValidate";
 import {
   inputErrorBorder,
@@ -12,8 +15,6 @@ import {
 } from "../components/utils/InputErrorStyles";
 import CountrySelectOption from "./utils/CountrySelectOption";
 import DatePickerComponent from "./utils/DatePicker";
-import dayjs from "dayjs";
-import axios from "axios";
 
 function RegistrationForm() {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ function RegistrationForm() {
   const [profilePic, setprofilePic] = useState(null);
 
   const onSubmit = async (data) => {
-    console.log("run")
+    console.log("run");
     // validate full name
     if (!checkIfFullName(data.fullName)) {
       console.log(data.fullName);
@@ -268,15 +269,15 @@ function RegistrationForm() {
                       field: { onChange, onBlur, value, name, ref },
                       fieldState: { errors },
                     }) => (
-                      <input 
+                      <input
                         {...register("dob", {
-                        require: true
-                      })}
-                      name="dob"
-                      id="dob"
-                      type="date"
-                      placeholder="EEEE, DD MMMM YYYY"
-                      className={inputErrorBorder(errors, "dob")}
+                          require: true,
+                        })}
+                        name="dob"
+                        id="dob"
+                        type="date"
+                        placeholder="EEEE, DD MMMM YYYY"
+                        className={inputErrorBorder(errors, "dob")}
                       />
                     )}
                   />

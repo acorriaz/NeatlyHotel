@@ -1,13 +1,12 @@
 import { AdminLoginForm } from "../components/LogInForm";
 import NavigationBar from "../components/navigation-bar/NavigationBar";
 
-function AdminLoginPage(){
+function AdminLoginPage() {
   return (
     <>
-      <NavigationBar />
-      <AdminLoginForm /> 
+      <AdminLoginForm />
     </>
   );
 }
 
-export default AdminLoginPage
+export default AdminLoginPage;
