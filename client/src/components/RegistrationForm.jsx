@@ -26,9 +26,14 @@ function RegistrationForm() {
     formState: { errors },
   } = useForm();
   const [profilePic, setprofilePic] = useState(null);
+  const [dob, setDob] = useState(null);
 
   const onSubmit = async (data) => {
     console.log("run");
+    if (data) {
+      data.dateOfBirth = dob;
+    }
+    console.log(data);
     // validate full name
     if (!checkIfFullName(data.fullName)) {
       console.log(data.fullName);
@@ -42,7 +47,8 @@ function RegistrationForm() {
     };
 
     // validate age
-    if (!ageOver18(data.dob)) {
+    if (!ageOver18(data.dateOfBirth)) {
+      console.log(data.dateOfBirth);
       console.error("You must be at least 18 years old.");
       alert("You must be at least 18 years old.");
       return;
@@ -64,8 +70,8 @@ function RegistrationForm() {
 
       const formData = new FormData();
 
-      if (data.dob) {
-        const formattedDOB = formatSingleDate(data.dob);
+      if (data.dateOfBirth) {
+        const formattedDOB = formatSingleDate(data.dateOfBirth);
         console.log("Appending formattedDOB:", formattedDOB); // Debugging
         formData.append("dateOfBirth", formattedDOB);
       }
@@ -125,6 +131,13 @@ function RegistrationForm() {
       return;
     }
   };
+
+  const setDate = (newValue) => {
+    if (newValue) {
+      setDob(newValue);
+    }
+  };
+  console.log(dob);
 
   const handleFileChange = (file) => {
     setprofilePic(file);
@@ -261,25 +274,14 @@ function RegistrationForm() {
                     Date of Birth
                   </label>
                   <br></br>
-                  <Controller
-                    name="dob"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({
-                      field: { onChange, onBlur, value, name, ref },
-                      fieldState: { errors },
-                    }) => (
-                      <input
-                        {...register("dob", {
-                          require: true,
-                        })}
-                        name="dob"
-                        id="dob"
-                        type="date"
-                        placeholder="EEEE, DD MMMM YYYY"
-                        className={inputErrorBorder(errors, "dob")}
-                      />
-                    )}
+                  <DatePickerComponent
+                    {...register("dateOfBirth", {
+                      require: true,
+                    })}
+                    name="dateOfBirth"
+                    value={dob}
+                    func={setDate}
+                    maxDate={yesterday}
                   />
                   {inputErrorIcon(errors, "dateOfBirth")}
                 </div>
