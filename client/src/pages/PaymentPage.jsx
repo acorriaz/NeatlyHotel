@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { useEffect,createContext, useContext, useState } from "react";
+import { useEffect, createContext, useContext, useState } from "react";
 import { useAuth } from "../components/hooks/useAuth";
 import axios from "axios";
 
@@ -7,53 +7,54 @@ import NavigationBar from "../components/navigation-bar/NavigationBar";
 import BookingPaymentHeader from "../components/booking-payment/BookingPaymentHeader";
 import PaymentSection from "../components/booking-payment/PaymentSection";
 
-const RoomDetailContext = createContext()
+const RoomDetailContext = createContext();
 
-export const useRoomDetail = () => useContext(RoomDetailContext)
+export const useRoomDetail = () => useContext(RoomDetailContext);
 
 function PaymentPage() {
   const location = useLocation();
-  const { userData } = useAuth() 
+  const { userData } = useAuth();
   const [currentSection, setCurrentSection] = useState(1);
-  const [roomDetailFromDB, setRoomDetailFromDB] = useState({})
+  const [roomDetailFromDB, setRoomDetailFromDB] = useState({});
   const [userPaymentDetail, setUserPaymentDetail] = useState({
     cardNumber: "",
     cardOwner: "",
     cardExpiry: "",
     cvc: "",
-  })
+  });
 
-  
   useEffect(() => {
     setUserPaymentDetail((prev) => ({
       ...prev,
       cardNumber: userData.userProfile.cardNumber,
       cardExpiry: userData.userProfile.cardExpiry,
       cardOwner: userData.userProfile.cardOwner,
-    }))
-  }, [])
-  
+    }));
+  }, []);
+
   useEffect(() => {
     async function handleInitialFetch() {
       if (location.state?.idFromSearch) {
         try {
-          const response = await axios.get(`http://localhost:4000/hotel/room/${location.state.idFromSearch}`)
-          setRoomDetailFromDB(response.data)
+          const response = await axios.get(
+            `http://localhost:4000/hotel/room/${location.state.idFromSearch}`
+          );
+          setRoomDetailFromDB(response.data);
         } catch (err) {
-          console.error("error in handleFetchRoom: ",err)
+          console.error("error in handleFetchRoom: ", err);
         }
       }
     }
-    handleInitialFetch()
-  }, [location.state?.idFromSearch])
+    handleInitialFetch();
+  }, [location.state?.idFromSearch]);
 
   function handleUserPaymentDetail(e) {
-    console.log("run?")
-    const { name, value } = e.target
+    console.log("run?");
+    const { name, value } = e.target;
     setUserPaymentDetail((prev) => ({
       ...prev,
-      [name]: value
-    }))
+      [name]: value,
+    }));
   }
 
   function handleSectionChange(buttonType) {
@@ -70,17 +71,20 @@ function PaymentPage() {
   }
 
   return (
-    <RoomDetailContext.Provider value={{
-      roomDetailFromDB,
-      userPaymentDetail,
-      handleUserPaymentDetail,
-    }}>
+    <RoomDetailContext.Provider
+      value={{
+        roomDetailFromDB,
+        userPaymentDetail,
+        handleUserPaymentDetail,
+      }}
+    >
       <NavigationBar />
-      <div className="h-screen bg-[#F7F7FB] mt-[64px] ">
+      <div className="h-full bg-utilBG mt-[64px] ">
         <BookingPaymentHeader currentSection={currentSection} />
         <PaymentSection
           currentSection={currentSection}
-          handleSectionChange={handleSectionChange} />;
+          handleSectionChange={handleSectionChange}
+        />
       </div>
     </RoomDetailContext.Provider>
   );

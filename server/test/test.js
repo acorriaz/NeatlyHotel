@@ -6,6 +6,11 @@ async function main() {
       {
         roomTypeId: 1,
         imageUrl:
+          "https://res.cloudinary.com/df3vpzreu/image/upload/v1709187346/neatlyhotelimage/kz1cemdmr6cnnawqcixh.png",
+      },
+      {
+        roomTypeId: 1,
+        imageUrl:
           "https://res.cloudinary.com/df3vpzreu/image/upload/v1709187344/neatlyhotelimage/thpzuvtoeu6sf1ghcty1.jpg",
       },
       {
@@ -32,6 +37,11 @@ async function main() {
         roomTypeId: 1,
         imageUrl:
           "https://res.cloudinary.com/df3vpzreu/image/upload/v1709187344/neatlyhotelimage/fuiuu4pi4hvoqdt6ftq1.jpg",
+      },
+      {
+        roomTypeId: 2,
+        imageUrl:
+          "https://res.cloudinary.com/df3vpzreu/image/upload/v1709187342/neatlyhotelimage/urunrgwmdk4egn4ngk5f.jpg",
       },
       {
         roomTypeId: 2,
@@ -66,6 +76,11 @@ async function main() {
       {
         roomTypeId: 3,
         imageUrl:
+          "https://res.cloudinary.com/df3vpzreu/image/upload/v1709187341/neatlyhotelimage/twjtydxu6zkeyguvufnu.jpg",
+      },
+      {
+        roomTypeId: 3,
+        imageUrl:
           "https://res.cloudinary.com/df3vpzreu/image/upload/v1709187342/neatlyhotelimage/vgvmfdhb1i1liovnhpqh.png",
       },
       {
@@ -92,6 +107,11 @@ async function main() {
         roomTypeId: 3,
         imageUrl:
           "https://res.cloudinary.com/df3vpzreu/image/upload/v1709187339/neatlyhotelimage/qjbyyl5we6yifauatvhx.png",
+      },
+      {
+        roomTypeId: 4,
+        imageUrl:
+          "https://res.cloudinary.com/df3vpzreu/image/upload/v1709187345/neatlyhotelimage/cwwsipbxipmlfbglb7af.jpg",
       },
       {
         roomTypeId: 4,
@@ -126,6 +146,11 @@ async function main() {
       {
         roomTypeId: 5,
         imageUrl:
+          "https://res.cloudinary.com/df3vpzreu/image/upload/v1709187339/neatlyhotelimage/psd9lfozev5xviegij9f.jpg",
+      },
+      {
+        roomTypeId: 5,
+        imageUrl:
           "https://res.cloudinary.com/df3vpzreu/image/upload/v1709187339/neatlyhotelimage/xb8fujonobymhkanfaxy.jpg",
       },
       {
@@ -152,6 +177,11 @@ async function main() {
         roomTypeId: 5,
         imageUrl:
           "https://res.cloudinary.com/df3vpzreu/image/upload/v1709187341/neatlyhotelimage/bpqhxjkasqgiczvynnnz.jpg",
+      },
+      {
+        roomTypeId: 6,
+        imageUrl:
+          "https://res.cloudinary.com/df3vpzreu/image/upload/v1709187339/neatlyhotelimage/pl24y5amijjb3qriddbd.jpg",
       },
       {
         roomTypeId: 6,

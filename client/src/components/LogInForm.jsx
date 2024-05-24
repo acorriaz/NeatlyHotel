@@ -121,7 +121,11 @@ export function UserLoginForm() {
                   type="submit"
                   className="btn btn-block bg-orange600 hover:bg-orange500 active:bg-orange700 text-body1 text-utilWhite font-fontWeight6 mb-4"
                 >
-                  {isLoading ? <span className="loading loading-spinner"></span> : "Log In"}
+                  {isLoading ? (
+                    <span className="loading loading-spinner"></span>
+                  ) : (
+                    "Log In"
+                  )}
                 </button>
               </form>
               <span className="text-gray700 text-body1">
@@ -146,15 +150,15 @@ export function AdminLoginForm() {
   const navigate = useNavigate();
   const [adminUsernameOrEmail, setAdminUsernameOrEmail] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
-  const [isLoading, setIsLoading]=useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const { login } = useAdminAuth();
-  const [errorMessage , setErrorMessage] = useState({})
+  const [errorMessage, setErrorMessage] = useState({});
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       await login({
         username: adminUsernameOrEmail,
         password: adminPassword,
@@ -163,7 +167,7 @@ export function AdminLoginForm() {
       navigate("/admin/customer-booking");
       console.log("Admin login successfully");
     } catch (error) {
-      setErrorMessage(error.response)
+      setErrorMessage(error.response);
       setIsLoading(false);
     }
   };
@@ -178,7 +182,7 @@ export function AdminLoginForm() {
 
         {/* login container div */}
         <div className="flex-1 flex justify-center items-center bg-utilBG">
-          <div className="flex-col  w-full h-fit text-left px-12">
+          <div className="flex-col w-full h-fit text-left px-12">
             <h1 className="headline2 w-full mb-60 text-green800">
               Admin Log In
             </h1>
@@ -191,14 +195,14 @@ export function AdminLoginForm() {
                 >
                   Username or Email
                 </label>
-                <div className="mb-10">
+                <div className="mb-7">
                   <input
                     required
                     id="adminUsernameOrEmail"
                     name="adminUsernameOrEmail"
                     type="text"
                     placeholder="Enter your username or email"
-                    className="w-full py-3 pl-3 pr-3 bg-utilWhite border rounded border-solid border-gray400 text-gray600 focus:border focus:border-orange500 invalid:border-utilRed"
+                    className="w-full py-3 pl-3 pr-3 mt-2 bg-utilWhite border rounded border-solid border-gray400 text-gray600 focus:border focus:border-orange500 invalid:border-utilRed"
                     onChange={(event) => {
                       setAdminUsernameOrEmail(event.target.value);
                     }}
@@ -218,7 +222,7 @@ export function AdminLoginForm() {
                     name="adminPassword"
                     type="password"
                     placeholder="Enter your password"
-                    className="w-full py-3 pl-3 pr-3 bg-utilWhite border rounded border-solid border-gray400 text-gray600 focus:border focus:border-orange500 invalid:border-utilRed"
+                    className="w-full py-3 pl-3 pr-3 mt-2 bg-utilWhite border rounded border-solid border-gray400 text-gray600 focus:border focus:border-orange500 invalid:border-utilRed"
                     onChange={(event) => {
                       setAdminPassword(event.target.value);
                     }}
@@ -239,15 +243,6 @@ export function AdminLoginForm() {
                   )}
                 </button>
               </form>
-              <span className="text-gray700 text-body1">
-                Don’t have an account yet?
-              </span>
-              <Link
-                to="#"
-                className="text-body1 font-fontWeight6 text-orange-500"
-              >
-                Register
-              </Link>
             </div>
           </div>
         </div>

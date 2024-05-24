@@ -32,7 +32,7 @@ function BookingCancelSuccess() {
 
   return (
     <>
-      <div className="w-full h-screen p-20 mt-24 flex justify-center bg-utilBG">
+      <div className="w-full h-full p-20 mt-24 flex justify-center bg-utilBG">
         <div className="w-1/2 flex flex-col">
           <div className="w-6/7 h-[190px] text-center bg-green800 rounded-t-md">
             <h1 className="headline3 text-5xl text-utilWhite font-noto-serif mx-6 mt-10 mb-2">
@@ -66,7 +66,7 @@ function BookingCancelSuccess() {
               </div>
             </div>
           </div>
-          <div className="w-full flex justify-center items-center font-sans font-fontWeight6">
+          <div className="w-full flex justify-center items-center font-sans font-fontWeight6 bg-utilBG">
             <Link
               to={"/users/booking-history/" + booking.data.userId}
               className="w-44 h-14 bg-orange600 text-utilWhite rounded-md mt-16 py-4 px-8"

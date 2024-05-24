@@ -5,17 +5,14 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useSearchInput } from "../context/searchInputContext";
 
-
 export default function DatePickerComponent({
   name,
   value,
   minDate,
   maxDate,
-  func
+  func,
 }) {
-    const {
-      handleInputDateChange,
-    } = useSearchInput();
+  const { handleInputDateChange } = useSearchInput();
   return (
     <>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -27,11 +24,14 @@ export default function DatePickerComponent({
           minDate={minDate ? dayjs(minDate) : null}
           maxDate={maxDate ? dayjs(maxDate) : null}
           onChange={(newValue) => {
-            if( name === "checkInEdit"){
-              func(newValue);
-            }else{
-              handleInputDateChange(newValue.format("YYYY-MM-DD"), name);
-            }    
+            if (name === "checkInEdit") {
+              func(newValue ? newValue.format("YYYY-MM-DD") : "");
+            } else {
+              handleInputDateChange(
+                newValue ? newValue.format("YYYY-MM-DD") : "",
+                name
+              );
+            }
           }}
           InputLabelProps={{
             sx: { color: "red", "&.Mui-focused": { color: "green" } },

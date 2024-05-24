@@ -24,7 +24,7 @@ export default function BookingPaymentHeader({ currentSection }) {
   }
 
   return (
-    <div className="pt-[80px] m-auto max-w-[1120px]">
+    <div className="pt-[80px] m-auto max-w-[1120px] bg-utilBG">
       <h1 className="font-serif text-[4.25rem] text-black">Booking Room</h1>
       <div className="mt-[20px] pb-10 flex gap-[60px] border-b-2">
         <div className="flex items-center gap-4">

@@ -69,30 +69,32 @@ bookingRouter.get("/recent-booking/:userId", async (req, res) => {
 // TODO : Error handling for transaction
 // Making Booking detail from PaymentPage
 bookingRouter.post("/reserve-room", async (req, res) => {
-  const { 
-    userId, 
-    checkIn, 
-    checkOut, 
-    paymentMethod, 
-    roomTypeId, 
-    guestRequest 
-  } = req.body;
-  const requiredKeys = ["userId", "checkIn", "checkOut", "paymentMethod", "roomTypeId"]
-  const missingKeys = requiredKeys.filter(key => !req.body.hasOwnProperty(key))
+  const { userId, checkIn, checkOut, paymentMethod, roomTypeId, guestRequest } =
+    req.body;
+  const requiredKeys = [
+    "userId",
+    "checkIn",
+    "checkOut",
+    "paymentMethod",
+    "roomTypeId",
+  ];
+  const missingKeys = requiredKeys.filter(
+    (key) => !req.body.hasOwnProperty(key)
+  );
 
-  console.log("Request body: ", req.body)
-  
+  console.log("Request body: ", req.body);
+
   if (missingKeys.length > 0) {
-    console.log("Missing Keys: ", missingKeys)
-    return res.status(400).json({ 
-      error: `Missing required fields: ${missingKeys.join(", ")}` 
-    })
+    console.log("Missing Keys: ", missingKeys);
+    return res.status(400).json({
+      error: `Missing required fields: ${missingKeys.join(", ")}`,
+    });
   }
 
   try {
     const response = await prisma.$transaction(async (tx) => {
-      console.log("---Start transaction---")
-      console.log("---Fetching available room...---")
+      console.log("---Start transaction---");
+      console.log("---Fetching available room...---");
       const availableRooms = await tx.room.findMany({
         where: {
           roomTypeId: roomTypeId,
@@ -105,36 +107,37 @@ bookingRouter.post("/reserve-room", async (req, res) => {
                   },
                   checkOut: {
                     gt: checkIn,
-                  }
-                }
-              ]
-            }
-          }
-        }
-      })
+                  },
+                },
+              ],
+            },
+          },
+        },
+      });
 
-      console.log("---Fetch success---", availableRooms)
+      console.log("---Fetch success---", availableRooms);
 
       if (availableRooms.length === 0) {
-        console.log("---No rooms---")
-        return res.status(500).json({ message: "No room available"})
+        console.log("---No rooms---");
+        return res.status(500).json({ message: "No room available" });
       }
-      
-      console.log("---Random room---")
 
-      const roomToBook = availableRooms[Math.floor(Math.random() * availableRooms.length)]
+      console.log("---Random room---");
 
-      console.log("Booked room:", roomToBook)
+      const roomToBook =
+        availableRooms[Math.floor(Math.random() * availableRooms.length)];
 
-      console.log("---Fetch roomType from db---")
+      console.log("Booked room:", roomToBook);
+
+      console.log("---Fetch roomType from db---");
 
       const roomTypeData = await tx.roomType.findUnique({
         where: { roomTypeId },
-      })
+      });
 
-      console.log("Room Type Data: ", roomTypeData)
+      console.log("Room Type Data: ", roomTypeData);
 
-      let totalPrice = roomTypeData.roomPrice
+      let totalPrice = roomTypeData.roomPrice;
 
       const requestMapping = {
         earlyCheckIn: 1,
@@ -148,27 +151,27 @@ bookingRouter.post("/reserve-room", async (req, res) => {
         extraPillow: 9,
         phoneCharger: 10,
         breakfast: 11,
-      }
+      };
 
       if (guestRequest && Object.keys(guestRequest).length > 0) {
-        console.log("---Start calculated total price with request---")
-        
+        console.log("---Start calculated total price with request---");
+
         for (const requestKey of Object.keys(guestRequest)) {
-          const requestId = requestMapping[requestKey]
+          const requestId = requestMapping[requestKey];
           if (requestId) {
             const guestRequestDetails = await tx.request.findUnique({
-              where: { requestId: requestId }
-            })
+              where: { requestId: requestId },
+            });
             if (guestRequestDetails) {
-              totalPrice += guestRequestDetails.requestPrice
+              totalPrice += guestRequestDetails.requestPrice;
             }
           }
         }
       }
 
-      console.log("Total Price: ", totalPrice)
+      console.log("Total Price: ", totalPrice);
 
-      console.log("---Creating booking detail---")
+      console.log("---Creating booking detail---");
       const bookingDetail = await tx.bookingDetail.create({
         data: {
           userId,
@@ -177,40 +180,49 @@ bookingRouter.post("/reserve-room", async (req, res) => {
           checkIn,
           checkOut,
           paymentMethod,
-        }
-      })
-      console.log("Booking Detail: ", bookingDetail)
-      
+        },
+      });
+      console.log("Booking Detail: ", bookingDetail);
+
       if (guestRequest && Object.keys(guestRequest).length > 0) {
-        console.log("---Insert Guest Request to DB---")
-        const guestRequestPromises = Object.keys(guestRequest).map(async (request) => {
-          const requestId = requestMapping[request]
-          const requestDetails = await tx.request.findUnique({
-            where: { requestId: requestId }
-          })
-          if (requestDetails) {
-            return tx.guestRequest.create({
-              data: {
-                bookingDetailId: bookingDetail.bookingDetailId,
-                requestId: requestDetails.requestId,
-              }
-            })
+        console.log("---Insert Guest Request to DB---");
+        const guestRequestPromises = Object.keys(guestRequest).map(
+          async (request) => {
+            const requestId = requestMapping[request];
+            const requestDetails = await tx.request.findUnique({
+              where: { requestId: requestId },
+            });
+            if (requestDetails) {
+              return tx.guestRequest.create({
+                data: {
+                  bookingDetailId: bookingDetail.bookingDetailId,
+                  requestId: requestDetails.requestId,
+                },
+              });
+            }
           }
-        })
-        await Promise.all(guestRequestPromises)
-        console.log("Guest Request: ", guestRequestPromises)
+        );
+        await Promise.all(guestRequestPromises);
+        console.log("Guest Request: ", guestRequestPromises);
       }
 
-      console.log(bookingDetail)
-      return bookingDetail
-    })
+      // update room status to occupied
+      await tx.room.update({
+        where: { roomId: roomToBook.roomId },
+        data: { statusId: 2 },
+      });
+      console.log("Room status updated");
 
-    res.status(200).json(response)
+      console.log(bookingDetail);
+      return bookingDetail;
+    });
+
+    res.status(200).json(response);
   } catch (err) {
-    console.log(err)
-    return res.status(500).json({ error: err})
+    console.log(err);
+    return res.status(500).json({ error: err });
   }
-})
+});
 
 bookingRouter.post("/", async (req, res) => {
   const { userId, roomId, checkIn, checkOut, paymentMethod, totalPrice } =

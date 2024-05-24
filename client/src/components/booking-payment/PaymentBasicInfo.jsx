@@ -5,10 +5,10 @@ export default function PaymentBasicInfo() {
   const { userData } = useAuth();
   const authData = userData;
 
-  console.log(userData)
+  console.log(userData);
 
   return (
-    <div>
+    <div className="h-fit">
       <h2 className="mb-6 font-inter font-semibold text-xl text-gray600">
         Basic Information
       </h2>
