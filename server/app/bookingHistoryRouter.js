@@ -57,13 +57,13 @@ bookingHistory.get("/:userId", async function (req, res) {
   } catch (error) {
     res.status(400).json({ error: "data not found" });
   }
-}); 
+});
 
 //API booking history change date
 bookingHistory.put("/:booking_id", async function (req, res) {
   const bookingId = Number(req.params.booking_id);
   const updateData = {
-    ...req.body
+    ...req.body,
   };
 
   try {
@@ -79,6 +79,14 @@ bookingHistory.put("/:booking_id", async function (req, res) {
         ...updateData,
       },
     });
+
+    // update room status to occupied
+    await prisma.room.update({
+      where: { roomId: updatedBooking.roomId },
+      data: { statusId: 1 },
+    });
+    console.log("Room status updated");
+
     res
       .status(200)
       .json({ message: "Data updated successfully", updatedBooking });
